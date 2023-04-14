@@ -7,6 +7,9 @@ module.exports = {
         MainColor: "#9FA9D8",
       },
     },
+    fontFamily: {
+      noto: ["Noto Serif KR", "serif"],
+    },
   },
   plugins: [],
 };
