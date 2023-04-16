@@ -4,14 +4,17 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
+import { RecoilRoot } from "recoil";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RecoilRoot>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </RecoilRoot>
 );
 
 // If you want to start measuring performance in your app, pass a function
