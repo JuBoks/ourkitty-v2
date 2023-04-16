@@ -23,7 +23,12 @@ export default function KoreaMap() {
             return (
               <SouthKoreaItem
                 onClick={() => {
-                  setSido({ sidoCode: item.sidoCode, sidoName: item.name });
+                  setSido({
+                    sidoCode: item.sidoCode,
+                    sidoName: item.name,
+                    data1: item.data1,
+                    data2: item.data2,
+                  });
                 }}
                 key={item.sidoCode}
                 className={
