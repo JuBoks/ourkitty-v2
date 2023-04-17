@@ -5,11 +5,15 @@ import Landing3 from "../components/Landing3";
 import Landing4 from "../components/Landing4";
 import LandingMenu from "../components/LandingMenu";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import Arrow from "../assets/down-arrow.gif";
+import { useRecoilState } from "recoil";
+import { selectMenu } from "../recoil/landingState";
 
 export default function Landing() {
   const [clickMenu, setClickMenu] = useState(false);
   const wholePage = document.getElementsByClassName("slider");
   const totalPageNumber = 4;
+  const currentPage = useRecoilState(selectMenu)[0];
 
   const [currentInputs, setCurrentInputs] = useState({
     currentWindowHeight: window.innerHeight,
@@ -44,6 +48,9 @@ export default function Landing() {
     };
   });
 
+  useEffect(() => {
+    window.scrollTo(0, currentInputs.currentWindowHeight * currentPage);
+  }, [currentPage]);
   window.addEventListener("wheel", (e) => {
     // 마우스 휠을 내릴때
     if (e.deltaY > 0) {
@@ -76,11 +83,7 @@ export default function Landing() {
   return (
     <div className="lider w-screen h-screen transition ease-in-out duratioin-5000">
       {clickMenu ? (
-        <LandingMenu
-          setClickMenu={setClickMenu}
-          currentInputs={currentInputs}
-          setCurrentInputs={setCurrentInputs}
-        />
+        <LandingMenu setClickMenu={setClickMenu} />
       ) : (
         <div className="w-screen h-screen">
           <hr className="fixed w-screen top-[5vh] border-2 border-white z-10" />
@@ -96,9 +99,7 @@ export default function Landing() {
           <Landing3 />
           <Landing4 />
           <div className="w-screen fixed bottom-[6vh] text-center">
-            <KeyboardDoubleArrowDownIcon
-              sx={{ color: "white", fontSize: "10vh" }}
-            />
+            <img className="m-auto w-[100px] h-[100px]" src={Arrow} alt="" />
           </div>
           <hr className="fixed w-screen bottom-[5%] border-2 border-white" />
           <p className="fixed w-screen text-white ml-5 text-xl bottom-[1vh] font-noto">
