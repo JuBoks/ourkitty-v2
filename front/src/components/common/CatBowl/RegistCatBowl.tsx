@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import DefaultDiv from "../DefaultDiv";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
 import { darkModeState } from "../../../recoil/states/page";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CancelIcon from "@mui/icons-material/Cancel";
+import KakaoMapClick from "../KakaoMapClick";
 
 export default function RegistCatBowl() {
   const isDark = useRecoilState(darkModeState)[0];
+  const file1 = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const file2 = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [image1, setImage1] = useState("");
+  const [image2, setImage2] = useState("");
+
+  const imagePreview1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    setImage1(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const deleteImage1 = (e: any) => {
+    e.stopPropagation();
+    URL.revokeObjectURL(image1);
+    setImage1("");
+  };
+
+  const imagePreview2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    setImage2(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const deleteImage2 = (e: any) => {
+    e.stopPropagation();
+    URL.revokeObjectURL(image2);
+    setImage2("");
+  };
 
   const handleConfirmBtn = () => {
     Swal.fire({
@@ -60,11 +89,71 @@ export default function RegistCatBowl() {
               className="w-[620px] h-40 bg-LightGray outline-none pl-2 rounded-xl dark:bg-Gray"
             />
             <div className="flex flex-row gap-5 mt-2">
-              <div className="w-[300px] h-60 bg-LightGray rounded-xl dark:bg-Gray"></div>
-              <div className="w-[300px] h-60 bg-LightGray rounded-xl dark:bg-Gray"></div>
+              <div
+                className="relative w-[300px] h-60 bg-LightGray rounded-xl dark:bg-Gray"
+                onClick={() => file1.current.click()}
+              >
+                {image1 ? (
+                  <div
+                    className="absolute right-2 top-2"
+                    onClick={deleteImage1}
+                  >
+                    <CancelIcon sx={{ color: "white" }} />
+                  </div>
+                ) : (
+                  <div className="absolute top-[40%] right-[40%]">
+                    <AddPhotoAlternateIcon sx={{ fontSize: "50px" }} />
+                  </div>
+                )}
+                {image1 && (
+                  <img
+                    src={image1}
+                    alt="img1"
+                    className="w-full h-full rounded-xl"
+                  />
+                )}
+              </div>
+              <input
+                ref={file1}
+                className="hidden"
+                type="file"
+                accept="image/jpg,impge/png,image/jpeg,image/gif"
+                onChange={imagePreview1}
+              />
+              <div
+                className="relative w-[300px] h-60 bg-LightGray rounded-xl dark:bg-Gray"
+                onClick={() => file2.current.click()}
+              >
+                {image2 ? (
+                  <div
+                    className="absolute right-2 top-2"
+                    onClick={deleteImage2}
+                  >
+                    <CancelIcon sx={{ color: "white" }} />
+                  </div>
+                ) : (
+                  <div className="absolute top-[40%] right-[40%]">
+                    <AddPhotoAlternateIcon sx={{ fontSize: "50px" }} />
+                  </div>
+                )}
+                {image2 && (
+                  <img
+                    src={image2}
+                    alt="img2"
+                    className="w-full h-full rounded-xl"
+                  />
+                )}
+              </div>
+              <input
+                ref={file2}
+                className="hidden"
+                type="file"
+                accept="image/jpg,impge/png,image/jpeg,image/gif"
+                onChange={imagePreview2}
+              />
             </div>
-            <div className="w-[620px] h-[350px] bg-black rounded-xl">
-              카카오맵
+            <div className="w-[620px] h-[350px] rounded-xl">
+              <KakaoMapClick />
             </div>
           </div>
         </div>
