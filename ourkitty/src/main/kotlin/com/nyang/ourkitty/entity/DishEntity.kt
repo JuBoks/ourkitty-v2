@@ -8,15 +8,41 @@ class DishEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishId: Long? = null,
 
-    val dishName: String = "",
-    val dishProfileImagePath: String = "",
-    val dishLat: Double = 0.0,
-    val dishLong: Double = 0.0,
-    val dishAddress: String = "",
-    val locationCode: String = "",
+    var dishName: String = "",
+    var dishProfileImagePath: String = "",
+    var dishLat: Double = 0.0,
+    var dishLong: Double = 0.0,
+    var dishAddress: String = "",
+    var locationCode: String = "",
     val dishSerialNum: String = "",
-    val dishWeight: Double = 0.0,
-    val dishCatCount: Int = 0,
-    val dishTNRCount: Int = 0,
+    var dishWeight: Double = 0.0,
+    var dishCatCount: Int = 0,
+    var dishTnrCount: Int = 0,
 ) : BaseEntity() {
+
+    fun modify(param: DishEntity): DishEntity {
+        this.dishName = param.dishName
+        this.dishProfileImagePath = param.dishProfileImagePath
+        this.dishLat = param.dishLat
+        this.dishLong = param.dishLong
+        this.dishAddress = param.dishAddress
+        this.locationCode = param.locationCode
+
+        return this
+    }
+
+    fun update(param: DishEntity): DishEntity {
+        this.dishWeight = param.dishWeight
+        this.dishCatCount = param.dishCatCount
+        this.dishTnrCount = param.dishTnrCount
+
+        return this
+    }
+
+    fun delete(): DishEntity {
+        this.isDeleted = true
+        //TODO : 연관된 Entity 들에 대한 처리 필요
+
+        return this
+    }
 }
