@@ -1,4 +1,6 @@
 #include "esp_camera.h"
+#include <WiFi.h>
+#include <base64.h>
 
 // ===================
 // Select camera model
@@ -37,8 +39,32 @@
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 
+// ===========================
+// Enter your WiFi credentials
+// ===========================
+const char* ssid = "SSAFY_GUEST";
+const char* password = "ssafy123!";
+
 void startCameraServer();
 void setupLedFlash(int pin);
+
+void grabImage(){
+
+  camera_fb_t* fb = esp_camera_fb_get();
+  if(!fb || fb->format != PIXFORMAT_JPEG){
+  }else{
+    #if USE_TFT_ESPI
+      TJpgDec.drawJpg(-40, 0, (const uint8_t*)fb->buf, fb->len);
+    #else
+      delay(40);    
+    #endif
+    
+    String encoded = base64::encode(fb->buf, fb->len);
+    Serial.write(encoded.c_str(), encoded.length());    
+    Serial.println();
+  }
+}
+
 
 void setup() {
   Serial.begin(500000);
@@ -131,11 +157,27 @@ void setup() {
   setupLedFlash(LED_GPIO_NUM);
 #endif
 
+  // WiFi.begin(ssid, password);
+  // WiFi.setSleep(false);
+
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(500);
+  //   Serial.print(".");
+  // }
+  // Serial.println("");
+  // Serial.println("WiFi connected");
+
+  // startCameraServer();
+
+  // Serial.print("Camera Ready! Use 'http://");
+  // Serial.print(WiFi.localIP());
+  // Serial.println("' to connect");
 
 }
 
 void loop() {
   // Do nothing. Everything is done in another task by the web server
-  Serial.println("Test OK");
-  delay(10000);
+  // Serial.println("Test OK");
+  grabImage();
+  delay(1000);
 }
