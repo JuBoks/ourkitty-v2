@@ -6,7 +6,9 @@ module.exports = {
     extend: {
       colors: {
         WebMain: "#9FA9D8",
+        WebMain2: "#5D6DBE",
         WebDarkMain: "#29325B",
+        WebDarkMain2: "#5D689E",
         WebDarkBackground: "#262D33",
         WebDarkBackground2: "#585858",
         LightGray: "#F5F5F5",
