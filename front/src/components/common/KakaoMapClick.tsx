@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-export default function KakaoMap() {
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
+export default function KakaoMapClick({ pos }: any) {
+  const [position, setPosition] = useState(pos);
   const [state, setState] = useState({
-    center: {
-      lat: 0,
-      lng: 0,
-    },
+    lat: pos.lat,
+    lng: pos.lng,
   });
 
   useEffect(() => {
@@ -15,10 +13,16 @@ export default function KakaoMap() {
       navigator.geolocation.getCurrentPosition((position) => {
         setState((prev) => ({
           ...prev,
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
+
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+
+          isLoading: false,
+        }));
+        setPosition(() => ({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+
           isLoading: false,
         }));
       });
@@ -31,12 +35,17 @@ export default function KakaoMap() {
     }
   }, []);
 
+  useEffect(() => {
+    setPosition(pos);
+    setState(pos);
+  }, [pos]);
+
   return (
     <Map
       className="rounded-xl"
       center={{
-        lat: state.center.lat,
-        lng: state.center.lng,
+        lat: state.lat,
+        lng: state.lng,
       }}
       style={{
         // 지도의 크기
@@ -56,16 +65,11 @@ export default function KakaoMap() {
         image={{
           src: "https://ifh.cc/g/b7l4NQ.png", // 마커이미지의 주소입니다
           size: {
-            width: 54,
-            height: 54,
+            width: 35,
+            height: 35,
           }, // 마커이미지의 크기입니다
-          options: {
-            offset: {
-              x: 27,
-              y: 69,
-            }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-          },
         }}
+        draggable={true}
       />
     </Map>
   );
