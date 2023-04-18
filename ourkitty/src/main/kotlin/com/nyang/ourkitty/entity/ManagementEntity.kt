@@ -9,6 +9,10 @@ class ManagementEntity(
     val managementId: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dish_id")
+    val dish: DishEntity,
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
