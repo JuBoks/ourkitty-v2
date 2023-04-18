@@ -1,26 +1,7 @@
+server:
+  port: 8080
+
 spring:
-  # MySQL
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver # ${db.mysql.driver}
-    url: jdbc:mysql://localhost:3306/kotlin?characterEncoding=UTF-8&serverTimezone=UTC # ${db.mysql.url}
-    username: root # ${db.mysql.username}
-    password: 1234 # ${db.mysql.password}
-  jpa:
-    show-sql: true
-    hibernate.ddl-auto: create-drop # ${jpa.ddl.option}
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+  profiles:
+    active: dev
 
-  #sql:
-  #  init:
-  #    mode: ${sql.init.mode}
-  #    schema-locations: classpath:schema.sql
-  #    data-locations: classpath:data.sql
-
-logging:
-  level:
-    org.hibernate.type.descriptor.sql: trace # info

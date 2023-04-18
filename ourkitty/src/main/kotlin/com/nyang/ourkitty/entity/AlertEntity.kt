@@ -11,8 +11,18 @@ class AlertEntity(
     val alertCode: String,
     val alertContent: String,
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    val managementId:
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "management_id")
+    val management: ManagementEntity? = null,
 
-) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dish_id")
+    val dish: DishEntity? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id")
+    val report: ReportEntity? = null,
+
+    val alertState: String,
+) : BaseEntity() {
 }
