@@ -123,11 +123,18 @@ export default function RegistCatBowl() {
     }
   }, []);
 
-  const handleSerialNum = (e: any) => {};
+  const handleSerialNum = (e: any) => {
+    setSerialNum(e.target.value);
+  };
 
-  const handleName = (e: any) => {};
+  const handleName = (e: any) => {
+    setBowlName(e.target.value);
+  };
 
-  const handleContent = (e: any) => {};
+  const handleContent = (e: any) => {
+    setAddContent(e.target.value);
+  };
+
   return (
     <DefaultDiv>
       <div className="relative flex flex-col my-2 h-[98%] w-[950px] rounded-xl dark:bg-WebDarkBackground2">
