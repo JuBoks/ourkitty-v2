@@ -4,6 +4,8 @@ import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
 import com.nyang.ourkitty.entity.DishEntity
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,7 +19,9 @@ class DishService(
     fun getDishList(): List<DishResponseDto> {
         val dishList = dishRepository.findAll()
 
-        return dishList.map { DishResponseDto(it) }
+        return dishList
+            .filter { !it.isDeleted }
+            .map { DishResponseDto(it) }
     }
 
     @Transactional
@@ -30,8 +34,11 @@ class DishService(
     fun getDish(dishId: Long): DishResponseDto? {
         val dish: DishEntity? = dishRepository.findByIdOrNull(dishId)
 
-        return dish?.let { DishResponseDto(it) }
-        // dishRepository.findByIdOrNull(dishId)?.let { } ?: throw Exception
+        if (dish == null || dish.isDeleted) {
+            throw CustomException(ErrorCode.NOT_FOUND_DISH)
+        }
+
+        return DishResponseDto(dish)
     }
 
     @Transactional
