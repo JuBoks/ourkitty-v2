@@ -1,5 +1,6 @@
 package com.nyang.ourkitty.domain.dish.service
 
+import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
@@ -16,45 +17,65 @@ class DishService(
     private val dishRepository: DishRepository
 ) {
 
-    fun getDishList(): List<DishResponseDto> {
+    fun getDishList(): ResultDto<List<DishResponseDto>> {
         val dishList = dishRepository.findAll()
 
-        return dishList
+        val dishResponseDtoList = dishList
             .filter { !it.isDeleted }
             .map { DishResponseDto(it) }
+
+        return ResultDto(
+            data = dishResponseDtoList,
+            totalCount = dishResponseDtoList.size
+        )
     }
 
     @Transactional
-    fun createDish(dishRequestDto: DishRequestDto): DishResponseDto {
+    fun createDish(dishRequestDto: DishRequestDto): ResultDto<DishResponseDto> {
         val dish = dishRequestDto.toEntity()
+        //TODO : 중복검사
 
-        return DishResponseDto(dishRepository.save(dish))
+        return ResultDto(
+            data = DishResponseDto(dishRepository.save(dish))
+        )
     }
 
-    fun getDish(dishId: Long): DishResponseDto? {
+    fun getDish(dishId: Long): ResultDto<DishResponseDto> {
+        val dish = getDishById(dishId)
+
+        return ResultDto(
+            data = DishResponseDto(dish)
+        )
+    }
+
+    @Transactional
+    fun modifyDish(dishId: Long, dishRequestDto: DishRequestDto): ResultDto<DishResponseDto> {
+        val dish = getDishById(dishId)
+        val updateParam = dishRequestDto.toEntity()
+
+        return ResultDto(
+            data = DishResponseDto(dishRepository.save(dish.modify(updateParam)))
+        )
+    }
+
+    @Transactional
+    fun deleteDish(dishId: Long): ResultDto<Boolean> {
+        val dish = getDishById(dishId)
+        dishRepository.save(dish.delete())
+        //TODO : save 과정에서 문제가 발생했을 때 false 를 반환해야 함, Transaction 공부해보기
+
+        return ResultDto(
+            data = true
+        )
+    }
+
+    private fun getDishById(dishId: Long): DishEntity {
         val dish: DishEntity? = dishRepository.findByIdOrNull(dishId)
 
         if (dish == null || dish.isDeleted) {
             throw CustomException(ErrorCode.NOT_FOUND_DISH)
         }
-
-        return DishResponseDto(dish)
-    }
-
-    @Transactional
-    fun modifyDish(dishId: Long, dishRequestDto: DishRequestDto): DishResponseDto {
-        val dish: DishEntity = dishRepository.findByIdOrNull(dishId)!!
-        val updateParam = dishRequestDto.toEntity()
-
-        return DishResponseDto(dishRepository.save(dish.modify(updateParam)))
-    }
-
-    @Transactional
-    fun deleteDish(dishId: Long): Boolean {
-        val dish: DishEntity = dishRepository.findByIdOrNull(dishId)!!
-        dishRepository.save(dish.delete())
-        //TODO : save 과정에서 문제가 발생했을 때 false 를 반환해야 함, Transaction 공부해보기
-        return true
+        return dish
     }
 
 }
