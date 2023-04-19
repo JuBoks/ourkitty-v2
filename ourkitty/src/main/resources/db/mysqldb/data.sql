@@ -1,9 +1,12 @@
 INSERT INTO `client_table`
-VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', './default.png', 'address1', '0123', '0001', '0001', false,
+VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', './default.png', 'address1', '0123', '0001', '0001', now(),
+        false,
         now(), now()),
-       (2, 'test2@ssafy.com', 'pwd', 'name2', 'nickname2', './default.png', 'address2', '0123', '0002', '0001', false,
+       (2, 'test2@ssafy.com', 'pwd', 'name2', 'nickname2', './default.png', 'address2', '0123', '0002', '0001', now(),
+        false,
         now(), now()),
-       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', './default.png', 'address3', '0123', '0001', '0002', false,
+       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', './default.png', 'address3', '0123', '0001', '0002', now(),
+        false,
         now(), now());
 
 
@@ -46,8 +49,8 @@ VALUES (1, 1, '0001', '고양이 아파', '0001', false, now(), now()),
        (2, 2, '0001', '고양이 아파', '0002', false, now(), now()),
        (3, 2, '0002', '밥통 사라졌음', '0001', false, now(), now());
 
-INSERT INTO `report_comment_table`
-VALUES (1, 2, 2, '병원 데려갈게요', false, now(), now());
+# INSERT INTO `report_comment_table`
+# VALUES (1, 2, 2, '병원 데려갈게요', false, now(), now());
 
 INSERT INTO `report_image_table`
 VALUES (1, 1, './default.png', false, now(), now()),

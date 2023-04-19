@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `alert_table`;
 DROP TABLE IF EXISTS `report_image_table`;
-DROP TABLE IF EXISTS `report_comment_table`;
+-- DROP TABLE IF EXISTS `report_comment_table`;
 DROP TABLE IF EXISTS `report_table`;
 DROP TABLE IF EXISTS `management_image_table`;
 DROP TABLE IF EXISTS `management_comment_table`;
@@ -23,6 +23,7 @@ create table `client_table`
     `client_phone`              VARCHAR(50)  NOT NULL,
     `user_code`                 CHAR(10)     NOT NULL,
     `location_code`             CHAR(10)     NOT NULL,
+    `last_posting_date`         TIMESTAMP    NOT NULL,
     `is_deleted`                BOOLEAN      NOT NULL,
     `created_date`              TIMESTAMP    NOT NULL,
     `updated_date`              TIMESTAMP    NOT NULL,
@@ -150,21 +151,21 @@ create table `report_table`
         REFERENCES `client_table` (`client_id`)
 ) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-create table `report_comment_table`
-(
-    `report_comment_id`      BIGINT       NOT NULL auto_increment,
-    `report_id`              BIGINT       NOT NULL,
-    `client_id`              BIGINT       NOT NULL,
-    `report_comment_content` VARCHAR(255) NOT NULL,
-    `is_deleted`             BOOLEAN      NOT NULL,
-    `created_date`           datetime     NOT NULL,
-    `updated_date`           datetime     NOT NULL,
-    PRIMARY KEY (`report_comment_id`),
-    FOREIGN KEY (`report_id`)
-        REFERENCES `report_table` (`report_id`),
-    FOREIGN KEY (`client_id`)
-        REFERENCES `client_table` (`client_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+-- create table `report_comment_table`
+-- (
+--     `report_comment_id`      BIGINT       NOT NULL auto_increment,
+--     `report_id`              BIGINT       NOT NULL,
+--     `client_id`              BIGINT       NOT NULL,
+--     `report_comment_content` VARCHAR(255) NOT NULL,
+--     `is_deleted`             BOOLEAN      NOT NULL,
+--     `created_date`           datetime     NOT NULL,
+--     `updated_date`           datetime     NOT NULL,
+--     PRIMARY KEY (`report_comment_id`),
+--     FOREIGN KEY (`report_id`)
+--         REFERENCES `report_table` (`report_id`),
+--     FOREIGN KEY (`client_id`)
+--         REFERENCES `client_table` (`client_id`)
+-- ) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 create table `report_image_table`
 (
