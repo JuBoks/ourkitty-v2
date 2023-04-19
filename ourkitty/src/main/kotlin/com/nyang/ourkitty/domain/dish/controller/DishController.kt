@@ -1,5 +1,6 @@
 package com.nyang.ourkitty.domain.dish.controller
 
+import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.service.DishService
@@ -22,12 +23,7 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 목록 조회")
     @GetMapping
-    fun getDishList(): ResponseEntity<List<DishResponseDto>> {
-        val dishResponseDtoList = dishService.getDishList()
-        //TODO : ResultDto 생성 - Generic > 꼭 필요한가?
-        //TODO : 상황에 맞는 Custom Exception 생성 및 분기
-        return ResponseEntity.ok().body(dishResponseDtoList)
-    }
+    fun getDishList(): ResponseEntity<ResultDto<List<DishResponseDto>>> = ResponseEntity.ok(dishService.getDishList())
 
     /**
      * 입력받은 dishRequestDto 의 정보를 바탕으로 새로운 냥그릇을 생성한 뒤,
@@ -39,11 +35,7 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 생성")
     @PostMapping
-    fun createDish(@RequestBody dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
-        val dishResponseDto = dishService.createDish(dishRequestDto)
-
-        return ResponseEntity.ok().body(dishResponseDto)
-    }
+    fun createDish(@RequestBody dishRequestDto: DishRequestDto): ResponseEntity<ResultDto<DishResponseDto>> = ResponseEntity.ok(dishService.createDish(dishRequestDto))
 
     /**
      * 입력으로 들어온 dishId 값을 기준으로 냥그릇을 조회한 뒤 반환한다.
@@ -53,11 +45,7 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 조회")
     @GetMapping("/{dishId}")
-    fun getDish(@PathVariable("dishId") dishId: Long): ResponseEntity<DishResponseDto> {
-        val dishResponseDto = dishService.getDish(dishId)
-
-        return ResponseEntity.ok().body(dishResponseDto)
-    }
+    fun getDish(@PathVariable("dishId") dishId: Long): ResponseEntity<ResultDto<DishResponseDto>> = ResponseEntity.ok(dishService.getDish(dishId))
 
     /**
      * 입력으로 들어온 dishId 와 일치하는 id 를 가진 냥그릇의 정보를
@@ -70,11 +58,8 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 수정")
     @PutMapping("/{dishId}")
-    fun modifyDish(@PathVariable("dishId") dishId: Long, @RequestBody dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
-        val dishResponseDto = dishService.modifyDish(dishId, dishRequestDto)
-
-        return ResponseEntity.ok().body(dishResponseDto)
-    }
+    fun modifyDish(@PathVariable("dishId") dishId: Long, @RequestBody dishRequestDto: DishRequestDto): ResponseEntity<ResultDto<DishResponseDto>> =
+        ResponseEntity.ok(dishService.modifyDish(dishId, dishRequestDto))
 
     /**
      * 입력으로 들어온 dishId 와 일치하는 id 를 가진 냥그릇의 isDeleted 를 true 로 바꾼다.
@@ -84,11 +69,6 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 삭제")
     @DeleteMapping("/{dishId}")
-    fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<Boolean> {
-        dishService.deleteDish(dishId)
-        
-        return ResponseEntity.ok().body(true)
-    }
-
+    fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<ResultDto<Boolean>> = ResponseEntity.ok(dishService.deleteDish(dishId))
 
 }
