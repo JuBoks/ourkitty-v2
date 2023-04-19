@@ -1,14 +1,15 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import UserMainLayout from "../layouts/UserMainLayout";
+import MainLayout from "../layouts/MainLayout";
 import NotFound from "../components/common/NotFound";
-import UserMain from "../pages/User/UserMain";
+import Main from "../pages/Main";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <UserMainLayout />,
+    element: <MainLayout />,
     errorElement: <NotFound />,
-    children: [{ index: true, path: "", element: <UserMain /> }],
+    children: [{ index: true, path: "", element: <Main /> }],
   },
 ]);
 
