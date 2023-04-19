@@ -31,7 +31,7 @@ export default function CatChart() {
 
   return (
     <DefaultDiv>
-      <div className="relative flex flex-col gap-2 h-[98%] w-[950px] rounded-xl dark:bg-WebDarkBackground2 p-2">
+      <div className="relative flex flex-col gap-2 my-2 h-[98%] w-[950px] rounded-xl dark:bg-WebDarkBackground2 p-2">
         <h1 className="mx-5 my-2 text-[2rem] font-bold dark:text-white">
           개체 수 관리
         </h1>
