@@ -107,7 +107,7 @@ export default function KakaoMap() {
         width: "97%",
         height: "100%",
       }}
-      level={2}
+      level={3}
     >
       {positions.map((position, index) =>
         position.remain < 0.3 ? (
