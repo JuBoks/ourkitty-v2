@@ -5,7 +5,6 @@ import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.service.DishService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -40,7 +39,7 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 생성")
     @PostMapping
-    fun createDish(dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
+    fun createDish(@RequestBody dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
         val dishResponseDto = dishService.createDish(dishRequestDto)
 
         return ResponseEntity.ok().body(dishResponseDto)
@@ -55,7 +54,7 @@ class DishController(
     @ApiOperation(value = "냥그릇 조회")
     @GetMapping("/{dishId}")
     fun getDish(@PathVariable("dishId") dishId: Long): ResponseEntity<DishResponseDto> {
-        val dishResponseDto = dishService.getDish(dishId) ?: throw NotFoundException()
+        val dishResponseDto = dishService.getDish(dishId)
 
         return ResponseEntity.ok().body(dishResponseDto)
     }
@@ -71,7 +70,7 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 수정")
     @PutMapping("/{dishId}")
-    fun modifyDish(@PathVariable("dishId") dishId: Long, dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
+    fun modifyDish(@PathVariable("dishId") dishId: Long, @RequestBody dishRequestDto: DishRequestDto): ResponseEntity<DishResponseDto> {
         val dishResponseDto = dishService.modifyDish(dishId, dishRequestDto)
 
         return ResponseEntity.ok().body(dishResponseDto)
@@ -80,13 +79,14 @@ class DishController(
     /**
      * 입력으로 들어온 dishId 와 일치하는 id 를 가진 냥그릇의 isDeleted 를 true 로 바꾼다.
      *
-     * param    dishId: Long
-     * return   result: Boolean
+     * @param dishId Long
+     * @return ResponseEntity<Boolean>
      */
     @ApiOperation(value = "냥그릇 삭제")
     @DeleteMapping("/{dishId}")
     fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<Boolean> {
         dishService.deleteDish(dishId)
+        
         return ResponseEntity.ok().body(true)
     }
 
