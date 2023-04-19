@@ -1,11 +1,14 @@
 import os.path
 
+from fastapi import UploadFile
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
+from datetime import datetime
+import cv2
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata', 
@@ -43,9 +46,17 @@ def connect_to_google_drive():
         # TODO(developer) - Handle errors from drive API.
         print(f'An error occurred: {error}')
 
-def upload_photo(service):
-    # Upload a file
-    file_metadata = {'name': 'image.jpg', 'parents': [folder_id], 'uploadType': 'multipart'}
+async def upload_photo(service, imageFile: UploadFile or None = None):
+    # 이미지 파일 읽기
+    contents = await imageFile.read()
+
+    # 읽은 파일 서버에 저장
+    with open("static/img/image.png", 'wb') as f:
+        f.write(contents)
+
+    # Upload a file to google drive
+    file_name = datetime.today().strftime("%Y%m%d%H%M%S")  
+    file_metadata = {'name': file_name, 'parents': [folder_id], 'uploadType': 'multipart'}
     media = MediaFileUpload('static/img/image.png', mimetype='image/png')
     file = service.files().create(body=file_metadata, media_body=media, fields='id,webViewLink').execute()
     
