@@ -115,13 +115,13 @@ async def filter_cat(contents):
 async def send_image(img, ext, serial_number):
     return requests.post(SERVER_URL + serial_number, files={'imageFile': img}, data={'extension': ext})
 
-# Google Drive에 Upload
-@app.post("/upload-on-google/{serial_number}")
-async def upload_on_google(serial_number, imageFile: UploadFile or None = None):
-    pass
 
-@app.get("/")
-def test():
-    upload_photo(googleService)
+@app.post("/test/{serial_number}")
+async def create_upload_file(serial_number, imageFile: UploadFile or None = None):
+    await upload_photo(googleService, imageFile)
     return "google serivce is done"
 
+@app.get("/white-balance")
+def white_balance():
+    white_balance_photo("test")
+    return "white-balancing is done"
