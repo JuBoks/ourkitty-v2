@@ -19,7 +19,4 @@ enum class ErrorCode(
     NOT_FOUND_DISH(NOT_FOUND, "조회한 냥그릇이 존재하지 않습니다.")
     ;
 
-//    val status: HttpStatus = status
-//    val message: String = message
-
 }
