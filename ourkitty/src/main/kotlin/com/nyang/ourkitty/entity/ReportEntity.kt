@@ -12,6 +12,7 @@ class ReportEntity(
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
+    val reportTitle: String,
     val reportCategory: String,
     val reportContent: String,
     val reportState: String,

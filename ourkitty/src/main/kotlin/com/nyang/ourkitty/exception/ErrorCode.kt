@@ -16,7 +16,10 @@ enum class ErrorCode(
     NO_ACCESS(FORBIDDEN, "페이지에 대한 접근 권한이 없습니다."),
 
     /* 404 NOT_FOUND : 대상이 존재하지 않음 */
-    NOT_FOUND_DISH(NOT_FOUND, "조회한 냥그릇이 존재하지 않습니다.")
+    NOT_FOUND_DISH(NOT_FOUND, "존재하지 않는 냥그릇 입니다."),
+    NOT_FOUND_CLIENT(NOT_FOUND, "존재하지 않는 사용자 입니다."),
+
+
     ;
 
 }
