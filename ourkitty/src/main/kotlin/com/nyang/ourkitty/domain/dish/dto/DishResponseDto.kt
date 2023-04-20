@@ -41,4 +41,21 @@ data class DishResponseDto(
         updatedDate = dish.updatedDate
     )
 
+    constructor() : this(
+        1,
+        "baebug",
+        "./default.png",
+        11.1,
+        1.11,
+        "송정동",
+        "0030001",
+        "serial-5555-5555",
+        12.3,
+        7,
+        4,
+        false,
+        LocalDateTime.now(),
+        LocalDateTime.now()
+    )
+
 }

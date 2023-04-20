@@ -17,5 +17,6 @@ class ManagementEntity(
     val client: ClientEntity,
 
     val managementContent: String,
+    val dishState: String,
 ) : BaseEntity() {
 }
