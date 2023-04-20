@@ -1,5 +1,6 @@
 package com.nyang.ourkitty.domain.client.dto
 
+import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.entity.ClientEntity
 
 data class ClientRequestDto(
@@ -11,6 +12,7 @@ data class ClientRequestDto(
     val clientAddress: String,
     val clientPhone: String,
     val locationCode: String,
+    val dishList: List<DishRequestDto> = emptyList(),
 ) {
 
     fun toEntity(): ClientEntity {

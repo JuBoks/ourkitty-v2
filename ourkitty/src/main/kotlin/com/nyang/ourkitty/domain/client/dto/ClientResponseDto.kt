@@ -3,7 +3,7 @@ package com.nyang.ourkitty.domain.client.dto
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
-class ClientResponseDto(
+data class ClientResponseDto(
     val clientId: Long,
     val clientEmail: String,
     val clientName: String,
@@ -24,4 +24,20 @@ class ClientResponseDto(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val updatedDate: LocalDateTime,
 ) {
+
+    constructor() : this(
+        1,
+        "baebugEmail",
+        "baebug",
+        "baebug",
+        "./default.png",
+        "address",
+        "010101",
+        "0010001",
+        "0030001",
+        false,
+        LocalDateTime.now(),
+        LocalDateTime.now(),
+        LocalDateTime.now()
+    )
 }
