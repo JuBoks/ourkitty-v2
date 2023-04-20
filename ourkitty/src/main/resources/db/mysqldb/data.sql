@@ -45,9 +45,9 @@ VALUES (1, 1, './default.png', false, now(), now()),
        (4, 3, './default.png', false, now(), now());
 
 INSERT INTO `report_table`
-VALUES (1, 1, '0001', '고양이 아파', '0001', false, now(), now()),
-       (2, 2, '0001', '고양이 아파', '0002', false, now(), now()),
-       (3, 2, '0002', '밥통 사라졌음', '0001', false, now(), now());
+VALUES (1, 1, '신고1', '0001', '고양이 아파', '0001', false, now(), now()),
+       (2, 2, '신고2', '0001', '고양이 아파', '0002', false, now(), now()),
+       (3, 2, '신고3', '0002', '밥통 사라졌음', '0001', false, now(), now());
 
 # INSERT INTO `report_comment_table`
 # VALUES (1, 2, 2, '병원 데려갈게요', false, now(), now());

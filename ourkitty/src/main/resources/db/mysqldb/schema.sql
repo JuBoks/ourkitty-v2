@@ -140,6 +140,7 @@ create table `report_table`
 (
     `report_id`       BIGINT       NOT NULL auto_increment,
     `client_id`       BIGINT       NOT NULL,
+    `report_title`    VARCHAR(50)  NOT NULL,
     `report_category` CHAR(10)     NOT NULL,
     `report_content`  VARCHAR(255) NOT NULL,
     `report_state`    CHAR(10)     NOT NULL,
