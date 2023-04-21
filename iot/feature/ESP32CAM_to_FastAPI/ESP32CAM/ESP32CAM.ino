@@ -10,8 +10,8 @@
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid = "KPHONE"; // 와이파이 이름
-const char* password = "12348765"; // 와이파이 비밀번호
+const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
+const char* password = "55343033"; // 와이파이 비밀번호
 
 String serverName = "43.200.242.128";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
@@ -151,7 +151,7 @@ void setup() {
 void loop() {
   delay(2000);
   sendPhoto();
-  delay(18000);
+  delay(8000);
 }
 
 String sendPhoto() {
