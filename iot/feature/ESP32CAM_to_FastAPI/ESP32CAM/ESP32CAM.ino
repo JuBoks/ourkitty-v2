@@ -13,11 +13,11 @@
 const char* ssid = "KPHONE"; // 와이파이 이름
 const char* password = "12348765"; // 와이파이 비밀번호
 
-String serverName = "192.168.7.184";   // 아이피 주소 기입
+String serverName = "43.200.242.128";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
 
 String serialNumber = "2kXBPprXEcOdzPB";
-String serverPath = "/test";     // serverPath 기입
+String serverPath = "/upload-google";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
 
@@ -138,18 +138,20 @@ void setup() {
   s->set_dcw(s, 1);            // 0 = disable , 1 = enable
   s->set_colorbar(s, 0);       // 0 = disable , 1 = enable
 
-  sendPhoto(); 
+  // sendPhoto(); 
 
-  esp_sleep_enable_ext0_wakeup(GPIO_NUM_13, 1);
+  // esp_sleep_enable_ext0_wakeup(GPIO_NUM_13, 1);
 
-  Serial.println("Going to sleep now");
-  delay(1000);
-  esp_deep_sleep_start();
-  Serial.println("This will never be printed");
+  // Serial.println("Going to sleep now");
+  // delay(1000);
+  // esp_deep_sleep_start();
+  // Serial.println("This will never be printed");
 }
 
 void loop() {
-
+  delay(2000);
+  sendPhoto();
+  delay(18000);
 }
 
 String sendPhoto() {
