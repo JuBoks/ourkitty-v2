@@ -7,9 +7,11 @@ from fastapi.staticfiles import StaticFiles
 import requests
 import cv2
 import numpy as np
+from PIL import Image
 # Google
 from google_drive import connect_to_google_drive, upload_photo
 from dotenv import load_dotenv
+from detr import detect_cat
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -56,7 +58,7 @@ net.setInputSwapRB(True)
 
 
 @app.get("/")
-def index():
+async def index():
     return "Hello World!"
 
 @app.post("/upload-google/{serial_number}")
@@ -75,13 +77,16 @@ async def upload_google(serial_number, imageFile: UploadFile or None = None):
         # 이미지 파일 이름 설정
         commonFileName = os.environ[serial_number+"_NAME"]
         commonFileName = commonFileName
+        filepath = "static/img/"+commonFileName+".png"
 
-        # 읽은 파일 서버에 저장 (임시 추후 삭제)
+        # 읽은 파일 서버에 저장
         with open("./static/img/"+commonFileName+".png", 'wb') as f:
             f.write(contents)
 
+        # 이미지 파일을 detr로 고양이 사진 필터링
+        status, isDone = await detect_cat(filepath, commonFileName)
         # 이미지 파일을 openCV로 고양이 사진 필터링 
-        status, isDone = await filter_cat(contents, commonFileName)
+        # status, isDone = await filter_cat(contents, commonFileName)
 
         # 고양이사진 인 경우 spring 서버로 보내기
         if isDone is False:
