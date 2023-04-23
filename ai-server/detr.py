@@ -138,7 +138,7 @@ def detect(im, model, transform):
 def plot_results(pil_img, prob, boxes, commonFileName):
     status = -1
     flag = False
-    plt.figure(figsize=(16,10))
+    fig = plt.figure(figsize=(16,10))
     plt.imshow(pil_img)
     ax = plt.gca()
     for p, (xmin, ymin, xmax, ymax), c in zip(prob, boxes.tolist(), COLORS * 100):
@@ -156,6 +156,7 @@ def plot_results(pil_img, prob, boxes, commonFileName):
     fileName = "./static/img/" + commonFileName + "_output.png"
     plt.savefig(fileName)
     # plt.show()
+    plt.close(fig)
     return status, flag
 
 async def detect_cat(filepath, commonFileName):
