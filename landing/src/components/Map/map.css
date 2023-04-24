@@ -2,16 +2,16 @@
   margin: auto;
 }
 .land1 {
-  fill: #9fa9d8;
+  fill: #12071f00;
   stroke: white;
   stroke-width: 1px;
   cursor: pointer;
 }
 .land1.click {
-  fill: #6875b1;
+  fill: #7b4fb193;
 }
 .land1:hover {
-  fill: #6875b1;
+  fill: #7b4fb193;
 }
 .sido {
   font-size: 1.2rem;
