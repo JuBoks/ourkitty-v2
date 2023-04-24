@@ -32,10 +32,15 @@ export default function BowlChart() {
   const series = [
     {
       name: "0",
-      data: generateData(7, {
-        min: 0,
-        max: 90,
-      }),
+      data: [
+        { x: "0", y: 1 },
+        { x: "0", y: 2 },
+        { x: "0", y: 3 },
+        { x: "0", y: 4 },
+        { x: "0", y: 5 },
+        { x: "0", y: 6 },
+        { x: "0", y: 7 },
+      ],
     },
     {
       name: "2",
