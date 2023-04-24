@@ -7,12 +7,13 @@ import User from "./User";
 import CatBowl from "./CatBowl";
 import Report from "./Report";
 import Chart from "./Chart";
+import LockIcon from "@mui/icons-material/Lock";
 
 export default function Main() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
 
-  const isLogin = useRecoilState(isLoginState)[0];
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const currentCategory = useRecoilState(categoryState)[0];
 
   const handleUserId = (e: any) => {
@@ -23,6 +24,9 @@ export default function Main() {
     setUserPw(e.target.value);
   };
 
+  const handleLogin = () => {
+    setIsLogin(true);
+  };
   return (
     <>
       {isLogin ? (
@@ -39,11 +43,11 @@ export default function Main() {
         )
       ) : (
         <div className="flex flex-col gap-10 justify-center w-screen">
-          <div className="w-[80%] h-60 flex flex-col mx-auto rounded-xl max-w-[1000px] shadow-xl justify-center dark:bg-WebDarkBackground2">
-            <div className="flex flex-row gap-8">
+          <div className="relative w-[80%] h-72 flex flex-col mx-auto rounded-xl max-w-[1000px] shadow-xl justify-center dark:bg-WebDarkBackground2">
+            <div className="flex flex-row gap-8 mb-10">
               <div className="flex flex-col basis-1/5 text-right gap-[53px] mt-3 text-WebMain font-bold dark:text-white">
-                <span>ID</span>
-                <span>PW</span>
+                <span>아이디</span>
+                <span>패스워드</span>
               </div>
               <div className="flex flex-col basis-3/5 gap-10">
                 <input
@@ -57,8 +61,22 @@ export default function Main() {
                   onChange={handleUserPw}
                 />
               </div>
-              <div className="login-btn opacity-80 flex flex-col w-[130px] h-[120px] mr-16 justify-center text-center rounded-[50%] bg-WebMain text-white font-bold cursor-pointer hover:opacity-100 dark:bg-WebDarkMain dark:hover:opacity-100">
+              <div
+                className="login-btn opacity-80 flex flex-col w-[130px] h-[120px] mr-16 justify-center text-center rounded-[50%] bg-WebMain text-white font-bold cursor-pointer hover:opacity-100 dark:bg-WebDarkMain dark:hover:opacity-100"
+                onClick={handleLogin}
+              >
                 로그인
+              </div>
+            </div>
+            <div className="absolute flex flex-row  gap-5 bottom-5 right-5 h-6">
+              <div>
+                <LockIcon sx={{ color: "#B0B0B0" }} />
+              </div>
+              <div>
+                <button className="hover:border-b-4">아이디 찾기</button>
+              </div>
+              <div>
+                <button className="hover:border-b-4">비밀번호 찾기</button>
               </div>
             </div>
           </div>

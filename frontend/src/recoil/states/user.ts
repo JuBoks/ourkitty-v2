@@ -7,5 +7,5 @@ export const userInfoState = atom({
 
 export const isLoginState = atom({
   key: "recoilIsLogin",
-  default: true,
+  default: false,
 });
