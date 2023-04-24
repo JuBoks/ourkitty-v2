@@ -86,24 +86,23 @@ export default function Landing() {
         <LandingMenu setClickMenu={setClickMenu} />
       ) : (
         <div className="w-screen h-screen">
-          <hr className="fixed w-screen top-[5vh] border-2 border-white z-10" />
+          <hr className="fixed w-screen top-[5vh] border-2 border-Yellow z-20" />
           <div
-            className="fixed px-[50px] py-[62px] bg-white rounded-full right-[1vw] top-[2vh] z-20 font-bold text-[1rem] cursor-pointer rotate-45 transition ease-in-out duratioin-5000 hover:transform-none"
-            onClick={() => setClickMenu((cur: boolean) => !cur)}
+            className="fixed px-[50px] py-[62px] bg-Yellow rounded-full right-[1vw] top-[2vh] z-20 font-bold text-[1rem] cursor-pointer rotate-45 transition ease-in-out duratioin-5000 hover:transform-none"
+            onClick={() => setClickMenu((cur) => !cur)}
           >
             MENU
           </div>
-          <div className="fixed w-[10px] bg-white top-0 bottom-0 right-[4vh] my-[5vh] opacity-40 z-20"></div>
+          <div className="fixed w-[10px] bg-Yellow top-0 bottom-0 right-[4vh] my-[5vh] opacity-40 z-20"></div>
           <Landing1 />
           <Landing2 />
           <Landing3 />
           <Landing4 />
-          <div className="w-screen fixed bottom-[6vh] text-center">
+          <div className="w-screen fixed bottom-[6vh] text-center z-10">
             <img className="m-auto w-[100px] h-[100px]" src={Arrow} alt="" />
           </div>
-          <hr className="fixed w-screen bottom-[5%] border-2 border-white" />
-          <p className="fixed w-screen text-white ml-5 text-xl bottom-[1vh] font-noto">
-            Contact Us{" "}
+          <hr className="fixed w-screen bottom-[5%] border-2 border-Yellow z-20" />
+          <p className="fixed w-screen text-white text-xl bottom-[1vh] font-noto">
             <span className=" ml-4 font-bold">catbowl@gmail.com</span>
           </p>
         </div>
