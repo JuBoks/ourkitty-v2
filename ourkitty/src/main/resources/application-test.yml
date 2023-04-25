@@ -4,7 +4,7 @@ spring:
   # MySQL
   datasource:
     driver-class-name: ${db_mysql_driver}
-    url: jdbc:mysql://# ${db_mysql_url}:3306/kotlin?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${db_mysql_url}:3306/kotlin?characterEncoding=UTF-8&serverTimezone=UTC
     username: ${db_mysql_username}
     password: ${db_mysql_password}
   jpa:
