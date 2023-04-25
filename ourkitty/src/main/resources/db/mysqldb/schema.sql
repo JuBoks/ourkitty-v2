@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `alert_table`;
 DROP TABLE IF EXISTS `report_image_table`;
--- DROP TABLE IF EXISTS `report_comment_table`;
+DROP TABLE IF EXISTS `report_comment_table`;
 DROP TABLE IF EXISTS `report_table`;
 DROP TABLE IF EXISTS `management_image_table`;
 DROP TABLE IF EXISTS `management_comment_table`;
@@ -69,7 +69,7 @@ create table `dish_image_table`
 (
     `dish_image_id` BIGINT       NOT NULL auto_increment,
     `dish_id`       BIGINT       NOT NULL,
-    `image_path`    VARCHAR(255) NOT NULL,
+    `file_path`     VARCHAR(255) NOT NULL,
     `is_deleted`    BOOLEAN      NOT NULL,
     `created_date`  datetime     NOT NULL,
     `updated_date`  datetime     NOT NULL,

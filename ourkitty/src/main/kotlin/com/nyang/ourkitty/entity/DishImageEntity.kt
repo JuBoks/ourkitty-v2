@@ -12,6 +12,6 @@ class DishImageEntity(
     @JoinColumn(name = "dish_id")
     val dish: DishEntity,
 
-    val imagePath: String,
+    val filePath: String,
 ) : ImageEntity() {
 }

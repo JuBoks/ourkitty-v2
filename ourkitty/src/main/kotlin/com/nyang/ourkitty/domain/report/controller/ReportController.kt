@@ -28,7 +28,7 @@ class ReportController(
     }
 
     /**
-     * TODO : 신고 목록 조회
+     * TODO : 신고 목록 조회 - 장비 파손, 테러 위협 따로 List 전달
      * @return ResponseEntity<ResultDto<List<ReportResponseDto>>>
      */
     @ApiOperation(value = "신고 목록 조회")
