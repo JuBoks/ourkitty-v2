@@ -20,9 +20,11 @@ class DishEntity(
     var dishTnrCount: Int = 0,
 ) : BaseEntity() {
 
+    fun setProfileImage(imagePath: String) {
+        this.dishProfileImagePath = imagePath
+    }
     fun modify(param: DishEntity): DishEntity {
         this.dishName = param.dishName
-        this.dishProfileImagePath = param.dishProfileImagePath
         this.dishLat = param.dishLat
         this.dishLong = param.dishLong
         this.dishAddress = param.dishAddress

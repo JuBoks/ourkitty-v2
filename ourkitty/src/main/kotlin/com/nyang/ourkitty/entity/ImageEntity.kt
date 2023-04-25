@@ -1,3 +1,5 @@
 package com.nyang.ourkitty.entity
 
-class ImageEntity : BaseEntity()
+class ImageEntity(
+) : BaseEntity()
+

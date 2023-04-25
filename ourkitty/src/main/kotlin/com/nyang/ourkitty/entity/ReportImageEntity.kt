@@ -12,6 +12,7 @@ class ReportImageEntity(
     @JoinColumn(name = "report_id")
     val report: ReportEntity,
 
-    val imagePath: String,
+    val fileName: String,
+    val filePath: String,
 ) : ImageEntity() {
 }

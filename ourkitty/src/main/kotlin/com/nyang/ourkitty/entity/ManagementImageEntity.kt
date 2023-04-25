@@ -12,6 +12,7 @@ class ManagementImageEntity(
     @JoinColumn(name = "management_id")
     val management: ManagementEntity,
 
-    val imagePath: String,
+    val fileName: String,
+    val filePath: String,
 ) : ImageEntity() {
 }
