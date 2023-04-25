@@ -1,6 +1,6 @@
 import React from "react";
-import Equipment from "../components/common/Report/Equipment";
-import Threat from "../components/common/Report/Threat";
+import Equipment from "../components/Report/Equipment";
+import Threat from "../components/Report/Threat";
 
 export default function Report() {
   return (

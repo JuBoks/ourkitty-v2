@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import DefaultDiv from "../DefaultDiv";
+import DefaultDiv from "../common/DefaultDiv";
 import { Pagination } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../../../recoil/states/page";
-import Modal from "../Modal";
+import { darkModeState } from "../../recoil/states/page";
+import Modal from "../common/Modal";
 import ModalContent from "./ModalContent";
 
 export default function AdminLog() {
@@ -118,7 +118,7 @@ export default function AdminLog() {
                   if (index % 2 === 0) {
                     return (
                       <tr
-                        className="w-full flex flex-row justify-center"
+                        className="w-[880px] hover:bg-[#9FA9D8] m-auto flex flex-row justify-center"
                         key={item.id}
                         onClick={() => {
                           setLogId(item.id);
@@ -128,7 +128,7 @@ export default function AdminLog() {
                         <td className="w-40 py-2 border-x-2 border-white text-center dark:border-black dark:text-white">
                           {item.author}
                         </td>
-                        <td className="w-40 py-2 border-x-2 border-white text-center dark:border-black dark:text-white">
+                        <td className="w-40 py-2 border-x-2  border-white text-center dark:border-black dark:text-white">
                           {item.state === "좋음" ? (
                             <div className="w-5 h-5 bg-[green] m-auto rounded-[50%]"></div>
                           ) : item.state === "양호" ? (
@@ -148,7 +148,7 @@ export default function AdminLog() {
                   } else {
                     return (
                       <tr
-                        className="w-full flex flex-row justify-center"
+                        className="w-[880px] hover:bg-[#9FA9D8] flex flex-row m-auto justify-center"
                         key={item.id}
                         onClick={() => {
                           setLogId(item.id);

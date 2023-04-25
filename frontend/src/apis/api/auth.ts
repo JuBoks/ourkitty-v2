@@ -4,6 +4,10 @@ interface loginRequestDto {
   clientEmail: string;
   clientPassword: string;
 }
+/**
+ * 로그인
+ * @param loginRequestDto
+ */
 export const login = async (loginRequestDto: loginRequestDto) => {
   try {
     const res = await defaultInstance.post(`auth/signIn`, loginRequestDto, {
@@ -16,6 +20,9 @@ export const login = async (loginRequestDto: loginRequestDto) => {
   } catch (e) {}
 };
 
+/**
+ * 로그아웃
+ */
 // export const logout = async () => {
 //   const refresh = localStorage.getItem("refreshToken");
 //   const access = localStorage.getItem("accessToken");

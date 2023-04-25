@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DefaultDiv from "../DefaultDiv";
+import DefaultDiv from "../common/DefaultDiv";
 import { Pagination } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../../../recoil/states/page";
+import { darkModeState } from "../../recoil/states/page";
 import Swal from "sweetalert2";
 
 interface reportContent {
@@ -183,7 +183,7 @@ export default function Threat() {
                   if (index % 2 === 0) {
                     return (
                       <tr
-                        className="w-full flex flex-row justify-center w-[864px] m-auto hover:bg-[#5D6DBEAA] dark:text-white"
+                        className="w-[864px] hover:bg-[#9FA9D8] m-auto flex flex-row justify-center dark:text-white"
                         key={item.id}
                         onClick={() =>
                           item.state === "완료"
@@ -208,7 +208,7 @@ export default function Threat() {
                   } else {
                     return (
                       <tr
-                        className="w-full flex flex-row justify-center m-auto w-[864px] bg-[#9FA9D555] hover:bg-[#5D6DBEAA] dark:bg-[#29325B55] dark:text-white dark:hover:bg-[#5D6DBEAA]"
+                        className="w-[864px] hover:bg-[#9FA9D8] m-auto flex flex-row justify-center"
                         key={item.id}
                         onClick={() =>
                           item.state === "완료"
@@ -216,16 +216,16 @@ export default function Threat() {
                             : handleReport(item)
                         }
                       >
-                        <td className="w-40 py-2 border-x-2 border-white text-center  dark:border-black">
+                        <td className="w-40 py-2 border-x-2 border-white text-center bg-[#9FA9D555] dark:bg-[#29325B55] dark:text-white dark:border-black">
                           {item.author}
                         </td>
-                        <td className="w-[400px] py-2 px-2 border-x-2 border-white truncate  dark:border-black">
+                        <td className="w-[400px] py-2 px-2 border-x-2 border-white truncate bg-[#9FA9D555] dark:bg-[#29325B55] dark:text-white dark:border-black">
                           {item.title}
                         </td>
-                        <td className="w-40 py-2 border-x-2 border-white text-center  dark:border-black">
+                        <td className="w-40 py-2 border-x-2 border-white text-center bg-[#9FA9D555] dark:bg-[#29325B55] dark:text-white dark:border-black">
                           {item.date}
                         </td>
-                        <td className="w-36 py-2 border-x-2 border-white text-center dark:border-black">
+                        <td className="w-36 py-2 border-x-2 border-white text-center bg-[#9FA9D555] dark:bg-[#29325B55] dark:text-white dark:border-black">
                           {item.state}
                         </td>
                       </tr>

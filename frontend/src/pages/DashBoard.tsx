@@ -1,7 +1,7 @@
 import React from "react";
-import MyCatBowl from "../components/common/CatBowl/MyCatBowl";
-import AdminLog from "../components/common/CatBowl/AdminLog";
-import BowlChart from "../components/common/Chart/BowlChart";
+import MyCatBowl from "../components/CatBowl/MyCatBowl";
+import AdminLog from "../components/CatBowl/AdminLog";
+import BowlChart from "../components/Chart/BowlChart";
 
 export default function DashBoard() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
-import DefaultDiv from "../DefaultDiv";
-import KakaoMap from "../KakaoMap";
+import DefaultDiv from "../common/DefaultDiv";
+import KakaoMap from "../common/KakaoMap";
 
 export default function MyCatBowl() {
   return (

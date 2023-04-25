@@ -133,7 +133,7 @@ export default function Header() {
             )}
           </div>
           <div
-            className="fixed bottom-[20px] left-[250px]"
+            className="fixed bottom-[20px] left-[250px] cursor-pointer"
             onClick={() => setIsDark((cur: boolean) => !cur)}
           >
             {isDark ? (

@@ -1,7 +1,7 @@
 import React from "react";
-import RegistCatBowl from "../components/common/CatBowl/RegistCatBowl";
-import MyCatBowl from "../components/common/CatBowl/MyCatBowl";
-import AdminLog from "../components/common/CatBowl/AdminLog";
+import RegistCatBowl from "../components/CatBowl/RegistCatBowl";
+import MyCatBowl from "../components/CatBowl/MyCatBowl";
+import AdminLog from "../components/CatBowl/AdminLog";
 
 export default function CatBowl() {
   return (

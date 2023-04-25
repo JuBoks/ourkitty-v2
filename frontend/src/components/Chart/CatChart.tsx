@@ -1,8 +1,8 @@
 import React from "react";
-import DefaultDiv from "../DefaultDiv";
+import DefaultDiv from "../common/DefaultDiv";
 import ApexCharts from "react-apexcharts";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../../../recoil/states/page";
+import { darkModeState } from "../../recoil/states/page";
 export default function CatChart() {
   const isDark = useRecoilState(darkModeState)[0];
 

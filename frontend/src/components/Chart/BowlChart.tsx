@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import DefaultDiv from "../DefaultDiv";
+import DefaultDiv from "../common/DefaultDiv";
 import ApexCharts from "react-apexcharts";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../../../recoil/states/page";
-import Modal from "../Modal";
+import { darkModeState } from "../../recoil/states/page";
+import Modal from "../common/Modal";
 import ModalContent from "./ModalContent";
 
 export default function BowlChart() {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import DefaultDiv from "../DefaultDiv";
+import DefaultDiv from "../common/DefaultDiv";
 import Swal from "sweetalert2";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../../../recoil/states/page";
-import { catbowlInfo } from "../../../recoil/states/catbowl";
+import { darkModeState } from "../../recoil/states/page";
+import { catbowlInfo } from "../../recoil/states/catbowl";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CancelIcon from "@mui/icons-material/Cancel";
-import KakaoMapClick from "../KakaoMapClick";
+import KakaoMapClick from "../common/KakaoMapClick";
 
 export default function RegistCatBowl() {
   const isDark = useRecoilState(darkModeState)[0];
