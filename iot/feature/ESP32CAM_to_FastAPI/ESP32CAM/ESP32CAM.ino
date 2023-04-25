@@ -10,13 +10,13 @@
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
-const char* password = "55343033"; // 와이파이 비밀번호
+const char* ssid = "KPHONE"; // 와이파이 이름
+const char* password = "12348765"; // 와이파이 비밀번호
 
 String serverName = "43.200.242.128";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
 
-String serialNumber = "2kXBPprXEcOdzPB";
+String serialNumber = "LpnNFcE3YrQS490";
 String serverPath = "/upload-google";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
@@ -47,6 +47,8 @@ WiFiClient client;
 #define VSYNC_GPIO_NUM    25
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
+
+#define FLASH_PIN         4
 
 void startCameraServer();
 void setupLedFlash(int pin);
@@ -146,12 +148,17 @@ void setup() {
   // delay(1000);
   // esp_deep_sleep_start();
   // Serial.println("This will never be printed");
+  pinMode(FLASH_PIN, OUTPUT);
 }
 
 void loop() {
-  delay(2000);
+  digitalWrite(FLASH_PIN, HIGH);
+  esp_camera_fb_return(esp_camera_fb_get());
+  delay(10000);
+  digitalWrite(FLASH_PIN, LOW);
+  // delay(9000);
   sendPhoto();
-  delay(8000);
+  delay(10000);
 }
 
 String sendPhoto() {
@@ -165,7 +172,6 @@ String sendPhoto() {
     delay(1000);
     ESP.restart();
   }
-
   Serial.println("Connecting to server: " + serverName);
 
   if (client.connect(serverName.c_str(), serverPort)) {
@@ -195,7 +201,8 @@ String sendPhoto() {
         size_t remainder = fbLen%1024;
         client.write(fbBuf, remainder);
       }
-    }   
+    }
+    digitalWrite(FLASH_PIN, LOW);   
     client.print(tail);
     
     esp_camera_fb_return(fb);
