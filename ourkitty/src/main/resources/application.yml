@@ -6,14 +6,14 @@ server:
 spring:
   # MySQL
   datasource:
-    driver-class-name: ${db_mysql_driver}
-    url: jdbc:mysql://${db_mysql_url}:${db_mysql_port}/${db_mysql_database}?characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${db_mysql_username}
-    password: ${db_mysql_password}
+    driver-class-name: ${DB_MYSQL_DRIVER}
+    url: jdbc:mysql://${DB_MYSQL_URL}:${DB_MYSQL_PORT}/${DB_MYSQL_DATABASE}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_MYSQL_USERNAME}
+    password: ${DB_MYSQL_PASSWORD}
 
   jpa:
     show-sql: true
-    hibernate.ddl-auto: ${db_mysql_ddl}
+    hibernate.ddl-auto: ${DB_MYSQL_DDL}
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
@@ -23,7 +23,7 @@ spring:
 
   sql:
     init:
-      mode: ${db_mysql_init}
+      mode: ${DB_MYSQL_INIT}
       schema-locations: classpath*:db/schema.sql
       data-locations: classpath*:db/data.sql
 
@@ -40,12 +40,12 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey: ${aws_s3_accesskey}
-      secretKey: ${aws_s3_secretkey}
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
     s3:
-      bucket: ${aws_s3_bucket}
+      bucket: ${AWS_S3_BUCKET}
     region:
-      static: ${aws_s3_region}
+      static: ${AWS_S3_REGION}
     stack:
       auto: false
 
