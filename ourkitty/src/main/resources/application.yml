@@ -13,17 +13,17 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate.ddl-auto: ${DB_MYSQL_DDL}
+    hibernate.ddl-auto: ${JPA_DDL_AUTO}
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
-        show_sql: true
+        show_sql: ${JPA_SHOW_SQL}
         format_sql: true
 
   sql:
     init:
-      mode: ${DB_MYSQL_INIT}
+      mode: ${SQL_INIT_MODE}
       schema-locations: classpath*:db/schema.sql
       data-locations: classpath*:db/data.sql
 
