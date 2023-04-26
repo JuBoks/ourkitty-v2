@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity">
+    tools:context=".detailDish.tap1.DetailActivity">
 
-    <ImageView
-        android:scaleType="fitXY"
+    <TextView
+        android:background="@color/white"
+        android:id="@+id/titleView"
+        android:text="sub"
+        android:textSize="50sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/splash" />
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

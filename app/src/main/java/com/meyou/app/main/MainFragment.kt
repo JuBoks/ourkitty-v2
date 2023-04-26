@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
@@ -13,7 +12,6 @@ import com.meyou.app.R
 class MainFragment : Fragment() {
 
     private var dishList = mutableListOf<ContentsMyDishList>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,9 +51,9 @@ class MainFragment : Fragment() {
         val dishData = rootView.findViewById<RecyclerView>(R.id.rv)
         val dishAdapter = MyDishAdapter(requireContext(), dishList)
         dishData.adapter = dishAdapter
+
         dishData.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         return rootView
     }
-
 }

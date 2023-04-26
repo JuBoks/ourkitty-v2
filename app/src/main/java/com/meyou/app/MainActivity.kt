@@ -17,6 +17,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.title = ""
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         // 내비게이션 컨트롤러
