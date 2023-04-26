@@ -23,7 +23,7 @@ spring:
 
   sql:
     init:
-      mode: always
+      mode: ${db_mysql_init}
       schema: classpath*:db/schema.sql
       data: classpath*:db/data.sql
 
