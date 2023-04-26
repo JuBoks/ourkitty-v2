@@ -1,5 +1,7 @@
 package com.nyang.ourkitty.entity
 
+import com.nyang.ourkitty.common.LocationCode
+import com.nyang.ourkitty.common.UserCode
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -16,8 +18,8 @@ class ClientEntity(
     val clientProfileImagePath: String,
     val clientAddress: String,
     val clientPhone: String,
-    val userCode: String = "0010001",
-    val locationCode: String,
+    val userCode: UserCode = UserCode.캣맘,
+    val locationCode: LocationCode,
     val lastPostingDate: LocalDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0),
 ) : BaseEntity() {
 

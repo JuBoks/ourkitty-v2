@@ -1,5 +1,6 @@
 package com.nyang.ourkitty.domain.client.dto
 
+import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.entity.ClientEntity
 
@@ -11,7 +12,7 @@ data class ClientRequestDto(
     val clientProfileImagePath: String = "./default.png",
     val clientAddress: String,
     val clientPhone: String,
-    val locationCode: String,
+    val locationCode: LocationCode,
     val dishList: List<DishRequestDto> = emptyList(),
 ) {
 
