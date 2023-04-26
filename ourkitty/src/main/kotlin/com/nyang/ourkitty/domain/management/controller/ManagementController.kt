@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["관리일지 관련 API"])
 @RestController
 @RequestMapping("/management")
-@CrossOrigin("*")
+@CrossOrigin(origins = ["*"])
 class ManagementController(
     private val managementService: ManagementService
 ) {
