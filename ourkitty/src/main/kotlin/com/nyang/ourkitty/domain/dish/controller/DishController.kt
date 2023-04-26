@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 @Api(tags = ["냥그릇 관련 API"])
 @RestController
 @RequestMapping("/dish")
-@CrossOrigin("*")
+@CrossOrigin(origins = ["*"])
 class DishController(
     private val dishService: DishService
 ) {
