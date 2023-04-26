@@ -14,18 +14,7 @@ import { RecoilRoot } from "recoil";
 import router from "./routes";
 import Loading from "./components/common/Loading";
 
-const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      useErrorBoundary: true,
-    },
-    mutations: {
-      useErrorBoundary: true,
-    },
-  },
-});
+const client = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
