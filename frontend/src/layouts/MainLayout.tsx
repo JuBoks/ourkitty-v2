@@ -2,23 +2,19 @@ import React from "react";
 import Header from "../components/common/Header";
 import { Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../recoil/states/page";
+import { darkState } from "../recoil/dark";
 
-function MainLayout() {
-  const isDark = useRecoilState(darkModeState)[0];
-
+export default function MainLayout() {
+  const isDark = useRecoilState(darkState)[0];
+  console.log(isDark);
   return (
     <div
-      className={
-        isDark
-          ? "flex flex-row w-screen h-screen dark bg-WebDarkBackground"
-          : "flex flex-row w-screen h-screen"
-      }
+      className={`flex flex-row w-screen h-screen ${
+        isDark ? "dark bg-DarkBackground" : "bg-LightBackground"
+      }`}
     >
       <Header />
       <Outlet />
     </div>
   );
 }
-
-export default MainLayout;
