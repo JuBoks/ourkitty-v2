@@ -17,6 +17,7 @@ enum class ErrorCode(
 
     /* 404 NOT_FOUND : 대상이 존재하지 않음 */
     NOT_FOUND_DISH(NOT_FOUND, "존재하지 않는 냥그릇 입니다."),
+    NOT_FOUND_MANAGEMENT(NOT_FOUND, "존재하지 않는 관리일지 입니다."),
     NOT_FOUND_CLIENT(NOT_FOUND, "존재하지 않는 사용자 입니다."),
 
 
