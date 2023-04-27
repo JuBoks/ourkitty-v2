@@ -49,6 +49,7 @@ class DishService(
 
     @Transactional
     fun createDish(locationCode: String, dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
+        //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
         //TODO : 중복검사 serialNum 으로?
         dish.setDishLocationCode(locationCode)

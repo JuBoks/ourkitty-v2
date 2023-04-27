@@ -36,9 +36,9 @@ class ManagementController(
     @ApiOperation(value = "관리일지 목록 조회")
     @GetMapping
     fun getManagementList(
-        @RequestParam limit: Long, @RequestParam offset: Long, @RequestParam id: Long?
+        @RequestParam limit: Long, @RequestParam offset: Long, @RequestParam("id") dishId: Long?
     ): ResponseEntity<ResultDto<List<ManagementResponseDto>>> {
-        val managementList = managementService.getManagementList(testToken["locationCode"].toString(), limit, offset, id)
+        val managementList = managementService.getManagementList(testToken["locationCode"].toString(), limit, offset, dishId)
 
         return ResponseEntity.ok(managementList)
     }
@@ -51,6 +51,7 @@ class ManagementController(
     @ApiOperation(value = "관리일지 조회")
     @GetMapping("/{managementId}")
     fun getManagement(@PathVariable("managementId") managementId: Long): ResponseEntity<ResultDto<ManagementResponseDto>> {
+        managementService.getManagement(managementId)
         return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
     }
 
