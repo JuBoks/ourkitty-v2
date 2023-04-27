@@ -47,10 +47,9 @@ class DishEntity(
         return this
     }
 
-    fun delete(): DishEntity {
+    override fun delete() {
         this.isDeleted = true
         //TODO : 연관된 Entity 들에 대한 처리 필요
 
-        return this
     }
 }

@@ -1,7 +1,6 @@
 package com.nyang.ourkitty.domain.management.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.nyang.ourkitty.common.dto.ImageResponseDto
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.entity.ManagementEntity
@@ -13,7 +12,7 @@ data class ManagementResponseDto(
     val client: ClientResponseDto,
     val managementContent: String,
     val dishState: String,
-    val managementImageList: List<ImageResponseDto> = emptyList(),
+    var managementImageList: List<ManagementImageResponseDto> = emptyList(),
     val managementCommentList: List<ManagementCommentResponseDto> = emptyList(),
     val isDeleted: Boolean,
 
@@ -32,13 +31,17 @@ data class ManagementResponseDto(
                 client = ClientResponseDto.of(management.client),
                 managementContent = management.managementContent,
                 dishState = management.dishState,
-                //TODO : managementImageList
-                //TODO : managementCommentList
+                managementImageList = management.managementImageList.filter { !it.isDeleted }.map(ManagementImageResponseDto::of),
+                managementCommentList = management.managementCommentList.filter { !it.isDeleted }.map(ManagementCommentResponseDto::of),
                 isDeleted = management.isDeleted,
                 createdDate = management.createdDate,
                 updatedDate = management.updatedDate,
             )
         }
+    }
+
+    fun setImageList(managementImageList: List<ManagementImageResponseDto>) {
+        this.managementImageList = managementImageList
     }
 
     constructor() : this(

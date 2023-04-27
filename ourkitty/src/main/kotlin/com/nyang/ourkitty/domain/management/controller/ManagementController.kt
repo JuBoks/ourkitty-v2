@@ -11,6 +11,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @Api(tags = ["관리일지 관련 API"])
 @RestController
@@ -44,15 +45,13 @@ class ManagementController(
     }
 
     /**
-     * TODO : 관리일지 조회
      * @param managementId Long
      * @return ResponseEntity<ResultDto<ManagementResponseDto>>
      */
     @ApiOperation(value = "관리일지 조회")
     @GetMapping("/{managementId}")
     fun getManagement(@PathVariable("managementId") managementId: Long): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        managementService.getManagement(managementId)
-        return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
+        return ResponseEntity.ok(managementService.getManagement(managementId))
     }
 
     /**
@@ -62,24 +61,32 @@ class ManagementController(
      */
     @ApiOperation(value = "관리일지 작성")
     @PostMapping
-    fun createManagement(@RequestBody managementRequestDto: ManagementRequestDto): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
+    fun createManagement(
+        managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<MultipartFile>?
+    ): ResponseEntity<ResultDto<ManagementResponseDto>> {
+        val managementResponseDto = managementService.createManagement(testToken["locationCode"].toString(), managementRequestDto, files)
+
+        return ResponseEntity.ok(managementResponseDto)
     }
 
     /**
-     * TODO : 관리일지 수정
+     * TODO : 관리일지 수정 - 파일 추가/삭제를 어떻게 구별할 것인가? 프론트에서 어디까지 해줌?
      * @param managementId Long
      * @param managementRequestDto ManagementRequestDto
      * @return ResponseEntity<ResultDto<ManagementResponseDto>>
      */
     @ApiOperation(value = "관리일지 수정")
     @PutMapping("/{managementId}")
-    fun modifyManagement(@PathVariable("managementId") managementId: Long, @RequestBody managementRequestDto: ManagementRequestDto): ResponseEntity<ResultDto<ManagementResponseDto>> {
+    fun modifyManagement(
+        @PathVariable("managementId") managementId: Long,
+        @RequestBody managementRequestDto: ManagementRequestDto,
+        @RequestParam(required = false) files: List<MultipartFile>?
+    ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
     }
 
     /**
-     * TODO : 관리일지 삭제
+     * TODO : 관리일지 삭제 - Cascade 가 아니라 찾아다니면서 isDeleted 처리
      * @param managementId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
@@ -90,7 +97,6 @@ class ManagementController(
     }
 
     /**
-     * TODO : 관리일지에 댓글 등록
      * @param managementId Long
      * @param managementCommentRequestDto ManagementCommentRequestDto
      * @return ResponseEntity<ResultDto<ManagementResponseDto>>
@@ -99,13 +105,14 @@ class ManagementController(
     @PostMapping("/{managementId}/comment")
     fun createManagementComment(
         @PathVariable("managementId") managementId: Long,
-        @RequestBody managementCommentRequestDto: ManagementCommentRequestDto
+        managementCommentRequestDto: ManagementCommentRequestDto
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
+        val management = managementService.createManagementComment(managementId, managementCommentRequestDto)
+
+        return ResponseEntity.ok(management)
     }
 
     /**
-     * TODO : 관리일지의 댓글 삭제
      * @param managementId Long
      * @param managementCommentId Long
      * @return ResponseEntity<ResultDto<Boolean>>
@@ -113,7 +120,9 @@ class ManagementController(
     @ApiOperation(value = "관리일지 댓글 삭제")
     @DeleteMapping("/{managementId}/comment/{managementCommentId}")
     fun deleteManagementComment(@PathVariable("managementId") managementId: Long, @PathVariable("managementCommentId") managementCommentId: Long): ResponseEntity<ResultDto<Boolean>> {
-        return ResponseEntity.ok(ResultDto(true))
+        val result = managementService.deleteManagementComment(managementId, testToken["clientId"].toString().toLong(), managementCommentId)
+
+        return ResponseEntity.ok(result)
     }
 
     //TODO : 관리일지의 댓글 목록 조회

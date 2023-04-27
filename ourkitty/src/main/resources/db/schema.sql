@@ -75,7 +75,7 @@ create table `dish_image_table`
 (
     `dish_image_id` BIGINT       NOT NULL auto_increment,
     `dish_id`       BIGINT       NOT NULL,
-    `file_path`     VARCHAR(255) NOT NULL,
+    `image_path`    VARCHAR(255) NOT NULL,
     `is_deleted`    BOOLEAN      NOT NULL,
     `created_date`  datetime     NOT NULL,
     `updated_date`  datetime     NOT NULL,
