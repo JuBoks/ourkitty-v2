@@ -11,5 +11,7 @@
     <color name="pink">#FFAAC7</color>
     <color name="hotPink">#EC5E98</color>
     <color name="red">#ff0000</color>
+    <color name="gray">#B0B0B0</color>
+
 
 </resources>
