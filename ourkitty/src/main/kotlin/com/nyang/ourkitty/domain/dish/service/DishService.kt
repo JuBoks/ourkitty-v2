@@ -42,8 +42,8 @@ class DishService(
 
         return DishListResultDto(
             data = dishResponseDtoList,
-            centerLat = centerPos.first,
-            centerLong = centerPos.second,
+            centerLat = centerPos.lat!!,
+            centerLong = centerPos.long!!,
         )
     }
 

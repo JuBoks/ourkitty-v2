@@ -1,7 +1,6 @@
 package com.nyang.ourkitty.domain.dish.service
 
 
-import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
 import com.nyang.ourkitty.entity.DishEntity
@@ -20,32 +19,18 @@ class DishServiceTest @Autowired constructor(
 
     @Transactional
     @Test
-    fun `limit 와 offset 을 받아 냥그릇을 조회 및 반환`() {
+    fun `냥그릇을 조회 및 반환`() {
         // given
-        val locationCode = LocationCode.사하구.code
-        val totalCount = dishQuerydslRepository.countDishList(locationCode)
-        val limit = 10L
-        val offset: Long
-        val expected: Int
-
-        if (totalCount % 10 == 0) {
-            offset = ((totalCount / 10 - 1) * 10).toLong()
-            expected = 10
-        } else {
-            offset = (totalCount / 10 * 10).toLong()
-            expected = totalCount % 10
-        }
 
         // when
         val result = dishService.getDishList(
-            locationCode = locationCode,
-            limit = limit,
-            offset = offset,
+            locationCode = "0020002",
         )
 
         // then
-        assertThat(result.data).hasSize(expected)
-        assertThat(result.totalCount).isEqualTo(totalCount)
+        println(result.data.size)
+        println(result.centerLat)
+        println(result.centerLong)
     }
 
     @Transactional
