@@ -23,28 +23,29 @@ class MainFragment : Fragment() {
             ContentsMyDishList(
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUiNRqrAJKbWIZ-1Nl8tygN61EqmpRuveYzQ&usqp=CAU",
                 "장군이네",
-                "아이유정"
+                "아이유정",
+                1
             )
         )
         dishList.add(
             ContentsMyDishList(
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUiNRqrAJKbWIZ-1Nl8tygN61EqmpRuveYzQ&usqp=CAU",
                 "장군이네",
-                "아이유정"
+                "아이유정",2
             )
         )
         dishList.add(
             ContentsMyDishList(
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUiNRqrAJKbWIZ-1Nl8tygN61EqmpRuveYzQ&usqp=CAU",
                 "장군이네",
-                "아이유정"
+                "아이유정",3
             )
         )
         dishList.add(
             ContentsMyDishList(
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUiNRqrAJKbWIZ-1Nl8tygN61EqmpRuveYzQ&usqp=CAU",
                 "장군이네",
-                "아이유정"
+                "아이유정",4
             )
         )
 

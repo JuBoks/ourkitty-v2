@@ -37,7 +37,7 @@ class MyDishAdapter(val context: Context, val List : MutableList<ContentsMyDishL
                 .into(rv_img)
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("address", item.dishAddress)
+                intent.putExtra("dishId", item.dishId)
                 context.startActivity(intent)
             }
         }
