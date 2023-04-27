@@ -55,7 +55,6 @@ class ManagementController(
     }
 
     /**
-     * TODO : 관리일지 작성
      * @param managementRequestDto ManagementRequestDto
      * @return ResponseEntity<ResultDto<ManagementResponseDto>>
      */
@@ -70,7 +69,6 @@ class ManagementController(
     }
 
     /**
-     * TODO : 관리일지 수정 - 파일 추가/삭제를 어떻게 구별할 것인가? 프론트에서 어디까지 해줌?
      * @param managementId Long
      * @param managementRequestDto ManagementRequestDto
      * @return ResponseEntity<ResultDto<ManagementResponseDto>>
@@ -79,20 +77,24 @@ class ManagementController(
     @PutMapping("/{managementId}")
     fun modifyManagement(
         @PathVariable("managementId") managementId: Long,
-        @RequestBody managementRequestDto: ManagementRequestDto,
-        @RequestParam(required = false) files: List<MultipartFile>?
+        managementRequestDto: ManagementRequestDto,
+        @RequestParam(required = false) deleteList: List<Long>?,
+        @RequestParam(required = false) insertList: List<MultipartFile>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        return ResponseEntity.ok(ResultDto(ManagementResponseDto()))
+        val management = managementService.modifyManagement(managementId, managementRequestDto, deleteList, insertList)
+
+        return ResponseEntity.ok(management)
     }
 
     /**
-     * TODO : 관리일지 삭제 - Cascade 가 아니라 찾아다니면서 isDeleted 처리
      * @param managementId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
     @ApiOperation(value = "관리일지 삭제")
     @DeleteMapping("/{managementId}")
     fun deleteManagement(@PathVariable("managementId") managementId: Long): ResponseEntity<ResultDto<Boolean>> {
+        managementService.deleteManagement(managementId, testToken["clientId"].toString().toLong(), testToken["userCode"].toString(), testToken["locationCode"].toString())
+
         return ResponseEntity.ok(ResultDto(true))
     }
 
@@ -124,8 +126,5 @@ class ManagementController(
 
         return ResponseEntity.ok(result)
     }
-
-    //TODO : 관리일지의 댓글 목록 조회
-
 
 }
