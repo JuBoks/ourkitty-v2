@@ -2,6 +2,7 @@ package com.nyang.ourkitty.domain.management.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
+import com.nyang.ourkitty.entity.ManagementCommentEntity
 import java.time.LocalDateTime
 
 data class ManagementCommentResponseDto(
@@ -16,4 +17,17 @@ data class ManagementCommentResponseDto(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val updatedDate: LocalDateTime,
 ) {
+
+    companion object {
+        fun of(managementCommentEntity: ManagementCommentEntity): ManagementCommentResponseDto {
+            return ManagementCommentResponseDto(
+                managementCommentId = managementCommentEntity.managementCommentId!!,
+                client = ClientResponseDto.of(managementCommentEntity.client),
+                managementCommentContent = managementCommentEntity.managementCommentContent,
+                isDeleted = managementCommentEntity.isDeleted,
+                createdDate = managementCommentEntity.createdDate,
+                updatedDate = managementCommentEntity.updatedDate,
+            )
+        }
+    }
 }

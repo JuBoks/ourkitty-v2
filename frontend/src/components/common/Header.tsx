@@ -1,154 +1,129 @@
-import React, { useState } from "react";
+import React from "react";
+import Dash from "@mui/icons-material/Dashboard";
+import User from "@mui/icons-material/AccountCircle";
+import Dish from "@mui/icons-material/Pets";
+import Report from "@mui/icons-material/Campaign";
+import Chart from "@mui/icons-material/Leaderboard";
+import Logout from "@mui/icons-material/ExitToApp";
+import Light from "@mui/icons-material/WbSunny";
+import Dark from "@mui/icons-material/DarkMode";
+import LightLogo from "../../assets/logo_light.png";
+import DarkLogo from "../../assets/logo_dark.png";
 import { useRecoilState } from "recoil";
-import { isLoginState, userInfoState } from "../../recoil/states/user";
-import { categoryState, darkModeState } from "../../recoil/states/page";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AppsIcon from "@mui/icons-material/Apps";
-import PersonIcon from "@mui/icons-material/Person";
-import HomeIcon from "@mui/icons-material/Home";
-import CampaignIcon from "@mui/icons-material/Campaign";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import { darkState, categoryState } from "../../recoil/page";
 
 export default function Header() {
-  const [categories, setCategories] = useRecoilState(categoryState);
+  const [isDark, setIsDark] = useRecoilState(darkState);
+  const [category, setCategory] = useRecoilState(categoryState);
 
-  const isLogin = useRecoilState(isLoginState)[0];
-  const userInfo = useRecoilState(userInfoState)[0];
-  const [isDark, setIsDark] = useRecoilState(darkModeState);
+  const handleHeaderMenu = (num: number) => {
+    switch (num) {
+      case 0:
+        setCategory([true, false, false, false, false]);
+        break;
+      case 1:
+        setCategory([false, true, false, false, false]);
+        break;
+      case 2:
+        setCategory([false, false, true, false, false]);
+        break;
+      case 3:
+        setCategory([false, false, false, true, false]);
+        break;
+      case 4:
+        setCategory([false, false, false, false, true]);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
-    <div>
-      {isLogin ? (
-        <div className="flex flex-col gap-10 pt-10 pl-10 h-screen bg-WebMain w-80 dark:bg-WebDarkMain">
-          <div className="flex flex-row gap-4 cursor-pointer">
-            {categories[0] ? (
-              <>
-                <AppsIcon sx={{ color: "#5D6DBE", fontSize: "50px" }} />
-                <span className="text-[#5D6DBE] text-[32px] font-bold">
-                  대시보드
-                </span>
-              </>
-            ) : (
-              <>
-                <AppsIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-                <span
-                  className="text-white text-[32px] font-bold"
-                  onClick={() =>
-                    setCategories([true, false, false, false, false])
-                  }
-                >
-                  대시보드
-                </span>
-              </>
-            )}
-          </div>
-          <div className="flex flex-row gap-4 cursor-pointer">
-            {categories[1] ? (
-              <>
-                <PersonIcon sx={{ color: "#5D6DBE", fontSize: "50px" }} />
-                <span className="text-[#5D6DBE] text-[32px] font-bold">
-                  사용자 관리
-                </span>
-              </>
-            ) : (
-              <>
-                <PersonIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-                <span
-                  className="text-white text-[32px] font-bold"
-                  onClick={() =>
-                    setCategories([false, true, false, false, false])
-                  }
-                >
-                  사용자 관리
-                </span>
-              </>
-            )}
-          </div>
-          <div className="flex flex-row gap-4 cursor-pointer">
-            {categories[2] ? (
-              <>
-                <HomeIcon sx={{ color: "#5D6DBE", fontSize: "50px" }} />
-                <span className="text-[#5D6DBE] text-[32px] font-bold">
-                  냥그릇 관리
-                </span>
-              </>
-            ) : (
-              <>
-                <HomeIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-                <span
-                  className="text-white text-[32px] font-bold"
-                  onClick={() =>
-                    setCategories([false, false, true, false, false])
-                  }
-                >
-                  냥그릇 관리
-                </span>
-              </>
-            )}
-          </div>
-          <div className="flex flex-row gap-4 cursor-pointer">
-            {categories[3] ? (
-              <>
-                <CampaignIcon sx={{ color: "#5D6DBE", fontSize: "50px" }} />
-                <span className="text-[#5D6DBE] text-[32px] font-bold">
-                  민원 관리
-                </span>
-              </>
-            ) : (
-              <>
-                <CampaignIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-                <span
-                  className="text-white text-[32px] font-bold"
-                  onClick={() =>
-                    setCategories([false, false, false, true, false])
-                  }
-                >
-                  민원 관리
-                </span>
-              </>
-            )}
-          </div>
-          <div className="flex flex-row gap-4 cursor-pointer">
-            {categories[4] ? (
-              <>
-                <BarChartIcon sx={{ color: "#5D6DBE", fontSize: "50px" }} />
-                <span className="text-[#5D6DBE] text-[32px] font-bold">
-                  차트
-                </span>
-              </>
-            ) : (
-              <>
-                <BarChartIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-                <span
-                  className="text-white text-[32px] font-bold"
-                  onClick={() =>
-                    setCategories([false, false, false, false, true])
-                  }
-                >
-                  차트
-                </span>
-              </>
-            )}
-          </div>
-          <div
-            className="fixed bottom-[20px] left-[250px] cursor-pointer"
-            onClick={() => setIsDark((cur: boolean) => !cur)}
-          >
-            {isDark ? (
-              <LightModeIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-            ) : (
-              <DarkModeIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-            )}
-          </div>
+    <div className="w-[300px] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
+      <div className="w-full h-[100px] bg-LightMain flex flex-row dark:bg-DarkMain">
+        {isDark ? (
+          <img className="w-[100px] h-[100px]" src={DarkLogo} alt="" />
+        ) : (
+          <img className="w-[100px] h-[100px]" src={LightLogo} alt="" />
+        )}
+        <span className="text-[3rem] py-[10px] text-white font-bold">
+          냥그릇
+        </span>
+      </div>
+      <div
+        className={`${
+          category[0] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+        onClick={() => handleHeaderMenu(0)}
+      >
+        <Dash sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        <div className="h-[60px] text-[1.5rem] text-white mt-2">대시보드</div>
+      </div>
+      <div
+        className={`${
+          category[1] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+        onClick={() => handleHeaderMenu(1)}
+      >
+        <User sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        <div className="h-[60px] text-[1.5rem] text-white mt-2">
+          사용자 관리
         </div>
-      ) : (
-        <div className="flex flex-row gap-4 cursor-pointer pt-10 pl-10 h-screen bg-WebMain w-80 dark:bg-WebDarkMain">
-          <AccountCircleIcon sx={{ color: "#FFFFFF", fontSize: "50px" }} />
-          <span className="text-white text-[32px] font-bold">로그인</span>
+      </div>
+      <div
+        className={`${
+          category[2] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+        onClick={() => handleHeaderMenu(2)}
+      >
+        <Dish sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        <div className="h-[60px] text-[1.5rem] text-white mt-2">
+          냥그릇 관리
         </div>
-      )}
+      </div>
+      <div
+        className={`${
+          category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+        onClick={() => handleHeaderMenu(3)}
+      >
+        <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        <div className="h-[60px] text-[1.5rem] text-white mt-2">민원 관리</div>
+      </div>
+      <div
+        className={`${
+          category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+        onClick={() => handleHeaderMenu(4)}
+      >
+        <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
+      </div>
+      <div className="w-full h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
+        <div
+          title="로그아웃"
+          className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
+        >
+          <Logout sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+        </div>
+        <div className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1">
+          {isDark ? (
+            <div title="라이트모드">
+              <Light
+                sx={{ fontSize: "50px", color: "#FFFFFF" }}
+                onClick={() => setIsDark((cur: boolean) => !cur)}
+              />
+            </div>
+          ) : (
+            <div title="다크모드">
+              <Dark
+                sx={{ fontSize: "50px", color: "#FFFFFF" }}
+                onClick={() => setIsDark((cur: boolean) => !cur)}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

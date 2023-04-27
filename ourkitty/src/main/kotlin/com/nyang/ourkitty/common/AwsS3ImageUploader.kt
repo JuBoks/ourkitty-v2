@@ -10,7 +10,8 @@ import java.util.*
 @Component
 class AwsS3ImageUploader(
     private val amazonS3: AmazonS3,
-    @Value("\${cloud.aws.s3.bucket}") private val bucketName: String
+    @Value("\${cloud.aws.s3.bucket}") private val bucketName: String,
+    @Value("\${cloud.aws.region.static}") private val region: String,
 ) {
 
     fun uploadImage(file: MultipartFile): String {
@@ -22,7 +23,7 @@ class AwsS3ImageUploader(
         }
         val inputStream = file.inputStream
         amazonS3.putObject(bucketName, key, inputStream, metadata)
-        return key
+        return "https://$bucketName.s3.$region.amazonaws.com/$key"
     }
 
     fun uploadImageList(files: List<MultipartFile>): List<String> {

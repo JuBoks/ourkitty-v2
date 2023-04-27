@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.client.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.nyang.ourkitty.entity.ClientEntity
 import java.time.LocalDateTime
 
 data class ClientResponseDto(
@@ -25,6 +26,26 @@ data class ClientResponseDto(
     val updatedDate: LocalDateTime,
 ) {
 
+    companion object {
+        fun of(client: ClientEntity): ClientResponseDto {
+            return ClientResponseDto(
+                clientId = client.clientId!!,
+                clientEmail = client.clientEmail,
+                clientName = client.clientName,
+                clientNickname = client.clientNickname,
+                clientProfileImagePath = client.clientProfileImagePath,
+                clientAddress = client.clientAddress,
+                clientPhone = client.clientPhone,
+                userCode = client.userCode,
+                locationCode = client.locationCode,
+                isDeleted = client.isDeleted,
+                lastPostingDate = client.lastPostingDate,
+                createdDate = client.createdDate,
+                updatedDate = client.updatedDate
+            )
+        }
+    }
+
     constructor() : this(
         1,
         "baebugEmail",
@@ -40,4 +61,5 @@ data class ClientResponseDto(
         LocalDateTime.now(),
         LocalDateTime.now()
     )
+
 }

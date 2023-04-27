@@ -3,6 +3,7 @@ package com.nyang.ourkitty.domain.dish.controller
 import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.service.DishService
@@ -35,8 +36,8 @@ class DishController(
      */
     @ApiOperation(value = "냥그릇 목록 조회")
     @GetMapping
-    fun getDishList(@RequestParam limit: Long, @RequestParam offset: Long): ResponseEntity<ResultDto<List<DishResponseDto>>> {
-        val dishList = dishService.getDishList(testToken["locationCode"].toString(), limit, offset)
+    fun getDishList(): ResponseEntity<DishListResultDto> {
+        val dishList = dishService.getDishList(testToken["locationCode"].toString())
 
         return ResponseEntity.ok(dishList)
     }
@@ -71,7 +72,10 @@ class DishController(
             //TODO : 권한 없음
             throw CustomException(ErrorCode.NO_ACCESS)
         }
-        return ResponseEntity.ok(dishService.createDish(dishRequestDto, file))
+
+        val dishResponseDto = dishService.createDish(testToken["locationCode"].toString(), dishRequestDto, file)
+
+        return ResponseEntity.ok(dishResponseDto)
     }
 
     /**

@@ -9,7 +9,8 @@ class DishEntity(
     val dishId: Long? = null,
 
     var dishName: String = "",
-    var dishProfileImagePath: String = "",
+    //TODO : default 이미지 환경변수 처리 (url)
+    var dishProfileImagePath: String = "default.png",
     var dishLat: Double = 0.0,
     var dishLong: Double = 0.0,
     var dishAddress: String = "",
@@ -23,6 +24,11 @@ class DishEntity(
     fun setProfileImage(imagePath: String) {
         this.dishProfileImagePath = imagePath
     }
+
+    fun setDishLocationCode(locationCode: String) {
+        this.locationCode = locationCode
+    }
+
     fun modify(param: DishEntity): DishEntity {
         this.dishName = param.dishName
         this.dishLat = param.dishLat
@@ -41,10 +47,9 @@ class DishEntity(
         return this
     }
 
-    fun delete(): DishEntity {
+    override fun delete() {
         this.isDeleted = true
         //TODO : 연관된 Entity 들에 대한 처리 필요
 
-        return this
     }
 }

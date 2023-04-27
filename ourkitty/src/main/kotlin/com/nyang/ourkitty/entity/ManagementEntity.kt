@@ -16,7 +16,18 @@ class ManagementEntity(
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
+    @OneToMany(mappedBy = "management")
+    val managementImageList: MutableList<ManagementImageEntity> = mutableListOf(),
+
+    @OneToMany(mappedBy = "management")
+    val managementCommentList: MutableList<ManagementCommentEntity> = mutableListOf(),
+
     val managementContent: String,
     val dishState: String,
+    val locationCode: String,
 ) : BaseEntity() {
+
+    fun addComment(comment: ManagementCommentEntity) {
+        this.managementCommentList.add(comment)
+    }
 }
