@@ -97,11 +97,12 @@ class DishService(
     @Transactional
     fun deleteDish(dishId: Long): ResultDto<Boolean> {
         val dish = getDishById(dishId)
-        dishRepository.save(dish.delete())
+        dish.delete()
+        dishRepository.save(dish)
         //TODO : save 과정에서 문제가 발생했을 때 false 를 반환해야 함, Transaction 공부해보기
 
         return ResultDto(
-            data = true
+            data = true,
         )
     }
 
