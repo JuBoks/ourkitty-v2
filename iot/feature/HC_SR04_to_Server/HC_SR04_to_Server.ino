@@ -16,11 +16,11 @@
 const char* ssid = "KPHONE"; // 와이파이 이름
 const char* password = "12348765"; // 와이파이 비밀번호
 
-String serverName = "43.200.242.128";   // 아이피 주소 기입
+String serverName = "MY_BACKSERVER_IP";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
 
 String serialNumber = "LpnNFcE3YrQS490";
-String serverPath = "/upload-google";     // serverPath 기입
+String serverPath = "MY_BACKSERVER_PATH";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
 
@@ -78,9 +78,8 @@ void loop() {
     delay(200);
     count += 1;
   }
-  float avg = sum / 100;
 
-  sendData(avg);
+  sendData(sum / 100.0);
 
   delay(300000);
 }
