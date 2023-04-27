@@ -52,11 +52,12 @@ class DishService(
         //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
         //TODO : 중복검사 serialNum 으로?
-        dish.setDishLocationCode(locationCode)
+        dish.updateLocationCode(locationCode)
+        dish.updateDishWeight(100.0)
 
         if (file != null) {
             val imagePath = imageUploader.uploadImage(file)
-            dish.setProfileImage(imagePath)
+            dish.updateProfileImage(imagePath)
         }
 
         return ResultDto(
@@ -82,10 +83,10 @@ class DishService(
 
         if (file != null) {
             val imagePath = imageUploader.uploadImage(file)
-            dish.setProfileImage(imagePath)
+            dish.updateProfileImage(imagePath)
         }
 
-        dish.modify(updateParam)
+        dish.update(updateParam)
 
         return ResultDto(
             data = DishResponseDto.of(

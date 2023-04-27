@@ -58,7 +58,7 @@ class DishController(
      * 입력받은 dishRequestDto 의 정보를 바탕으로 새로운 냥그릇을 생성한 뒤,
      * exception 이 발생하지 않는다면 id 값을 return 한다.
      * swagger 에 @ApiParam 이라는 어노테이션도 존재
-     * TODO : @RequestBody
+     *
      * @param dishRequestDto DishRequestDto
      * @return ResponseEntity<DishResponseDto>
      */
@@ -69,7 +69,6 @@ class DishController(
     ): ResponseEntity<ResultDto<DishResponseDto>> {
 
         if (testToken["userCode"].toString() != UserCode.지자체.code) {
-            //TODO : 권한 없음
             throw CustomException(ErrorCode.NO_ACCESS)
         }
 
@@ -82,7 +81,7 @@ class DishController(
      * 입력으로 들어온 dishId 와 일치하는 id 를 가진 냥그릇의 정보를
      * dishRequestDto 의 정보로 update 한다.
      * 업데이트가 성공적으로 완료되면, id 값을 반환한다.
-     * TODO : @RequestBody
+     *
      * @param dishId Long
      * @param dishRequestDto DishRequestDto
      * @return ResponseEntity<DishResponseDto>
@@ -93,7 +92,6 @@ class DishController(
         @PathVariable("dishId") dishId: Long, dishRequestDto: DishRequestDto, @RequestParam(required = false) file: MultipartFile?
     ): ResponseEntity<ResultDto<DishResponseDto>> {
         if (testToken["userCode"].toString() != UserCode.지자체.code) {
-            //TODO : 권한 없음
             throw CustomException(ErrorCode.NO_ACCESS)
         }
         return ResponseEntity.ok(dishService.modifyDish(dishId, dishRequestDto, file))
@@ -109,7 +107,6 @@ class DishController(
     @DeleteMapping("/{dishId}")
     fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<ResultDto<Boolean>> {
         if (testToken["userCode"].toString() != UserCode.지자체.code) {
-            //TODO : 권한 없음
             throw CustomException(ErrorCode.NO_ACCESS)
         }
         return ResponseEntity.ok(dishService.deleteDish(dishId))

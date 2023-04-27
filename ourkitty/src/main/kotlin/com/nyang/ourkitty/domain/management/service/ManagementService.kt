@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.management.service
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
+import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
@@ -53,7 +54,7 @@ class ManagementService(
         return ResultDto(
             data = ManagementResponseDto.of(
                 getManagementById(managementId)
-            )
+            ),
         )
     }
 
@@ -90,7 +91,62 @@ class ManagementService(
         }
 
         return ResultDto(
-            data = managementResponseDto
+            data = managementResponseDto,
+        )
+    }
+
+    @Transactional
+    fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
+        val management = getManagementById(managementId)
+        management.update(
+            managementContent = managementRequestDto.managementContent,
+            dishState = managementRequestDto.dishState,
+        )
+
+        val managementResponseDto = ManagementResponseDto.of(managementRepository.save(management))
+
+        // 삭제된 이미지가 있으면 지운다.
+        deleteList?.forEach { management.deleteImage(it) }
+
+        // 추가된 이미지가 있으면 업데이트 한다.
+        if (insertList != null) {
+            val newImagePaths = imageUploader.uploadImageList(insertList)
+
+            val newImageList = newImagePaths
+                .map { imagePath ->
+                    ManagementImageEntity(
+                        management = management,
+                        imagePath = imagePath,
+                    )
+                }
+                .map(managementImageRepository::save)
+
+            management.addImages(newImageList)
+        }
+
+        val managementImageResponseDtoList = management.managementImageList
+            .filter { !it.isDeleted }
+            .map(ManagementImageResponseDto::of)
+
+        managementResponseDto.setImageList(managementImageResponseDtoList)
+
+        return ResultDto(
+            data = managementResponseDto,
+        )
+    }
+
+    @Transactional
+    fun deleteManagement(managementId: Long, clientId: Long, userCode: String, locationCode: String): ResultDto<Boolean> {
+        val management = getManagementById(managementId)
+
+        if (management.client.clientId != clientId || !(userCode == UserCode.지자체.code && management.locationCode == locationCode)) throw CustomException(ErrorCode.NO_ACCESS)
+
+        management.delete()
+
+        managementRepository.save(management)
+
+        return ResultDto(
+            data = true,
         )
     }
 
@@ -112,8 +168,6 @@ class ManagementService(
             management = management,
             client = client
         ).run(managementCommentRepository::save)
-
-//        management.addComment(comment)
 
         return ResultDto(
             data = ManagementResponseDto.of(management),
