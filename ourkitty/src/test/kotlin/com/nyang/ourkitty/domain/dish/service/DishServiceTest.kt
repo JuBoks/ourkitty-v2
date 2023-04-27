@@ -23,7 +23,7 @@ class DishServiceTest @Autowired constructor(
     fun `limit 와 offset 을 받아 냥그릇을 조회 및 반환`() {
         // given
         val locationCode = LocationCode.사하구.code
-        val totalCount = dishQuerydslRepository.countByLocationCode(locationCode)
+        val totalCount = dishQuerydslRepository.countDishList(locationCode)
         val limit = 10L
         val offset: Long
         val expected: Int

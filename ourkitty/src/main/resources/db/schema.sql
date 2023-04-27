@@ -28,7 +28,9 @@ create table `client_table`
     `created_date`              TIMESTAMP    NOT NULL,
     `updated_date`              TIMESTAMP    NOT NULL,
     PRIMARY KEY (`client_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 
 CREATE TABLE `dish_table`
@@ -48,7 +50,9 @@ CREATE TABLE `dish_table`
     `created_date`            TIMESTAMP    NOT NULL,
     `updated_date`            TIMESTAMP    NOT NULL,
     PRIMARY KEY (`dish_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `dish_client_table`
 (
@@ -63,7 +67,9 @@ create table `dish_client_table`
         REFERENCES `dish_table` (`dish_id`),
     FOREIGN KEY (`client_id`)
         REFERENCES `client_table` (`client_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `dish_image_table`
 (
@@ -76,7 +82,9 @@ create table `dish_image_table`
     PRIMARY KEY (`dish_image_id`),
     FOREIGN KEY (`dish_id`)
         REFERENCES `dish_table` (`dish_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `dish_weight_log_table`
 (
@@ -89,7 +97,9 @@ create table `dish_weight_log_table`
     PRIMARY KEY (`dish_weight_log_id`),
     FOREIGN KEY (`dish_id`)
         REFERENCES `dish_table` (`dish_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `management_table`
 (
@@ -97,6 +107,8 @@ create table `management_table`
     `dish_id`            BIGINT       NOT NULL,
     `client_id`          BIGINT       NOT NULL,
     `management_content` VARCHAR(255) NOT NULL,
+    `dish_state`         CHAR(10)     NOT NULL,
+    `location_code`      CHAR(10)     NOT NULL,
     `is_deleted`         BOOLEAN      NOT NULL,
     `created_date`       datetime     NOT NULL,
     `updated_date`       datetime     NOT NULL,
@@ -105,7 +117,9 @@ create table `management_table`
         REFERENCES `dish_table` (`dish_id`),
     FOREIGN KEY (`client_id`)
         REFERENCES `client_table` (`client_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `management_comment_table`
 (
@@ -121,7 +135,9 @@ create table `management_comment_table`
         REFERENCES `client_table` (`client_id`),
     FOREIGN KEY (`management_id`)
         REFERENCES `management_table` (`management_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `management_image_table`
 (
@@ -134,7 +150,9 @@ create table `management_image_table`
     PRIMARY KEY (`management_image_id`),
     FOREIGN KEY (`management_id`)
         REFERENCES `management_table` (`management_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `report_table`
 (
@@ -150,7 +168,9 @@ create table `report_table`
     PRIMARY KEY (`report_id`),
     FOREIGN KEY (`client_id`)
         REFERENCES `client_table` (`client_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 -- create table `report_comment_table`
 -- (
@@ -179,7 +199,9 @@ create table `report_image_table`
     PRIMARY KEY (`report_image_id`),
     FOREIGN KEY (`report_id`)
         REFERENCES `report_table` (`report_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `alert_table`
 (
@@ -200,4 +222,6 @@ create table `alert_table`
         REFERENCES `dish_table` (`dish_id`),
     FOREIGN KEY (`report_id`)
         REFERENCES `report_table` (`report_id`)
-) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;

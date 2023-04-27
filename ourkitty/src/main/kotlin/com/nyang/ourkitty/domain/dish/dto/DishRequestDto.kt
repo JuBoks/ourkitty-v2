@@ -7,8 +7,7 @@ data class DishRequestDto(
     val dishLat: Double,
     val dishLong: Double,
     val dishAddress: String,
-    val locationCode: String,
-    val dishSerialNum: String = "",
+    val dishSerialNum: String,
 ) {
 
     fun toEntity(): DishEntity {
@@ -17,7 +16,6 @@ data class DishRequestDto(
             dishLat = dishLat,
             dishLong = dishLong,
             dishAddress = dishAddress,
-            locationCode = locationCode,
             dishSerialNum = dishSerialNum,
         )
     }
