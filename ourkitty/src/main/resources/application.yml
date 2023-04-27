@@ -1,7 +1,61 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 spring:
-  profiles:
-    active: dev
+  # MySQL
+  datasource:
+    driver-class-name: ${DB_MYSQL_DRIVER}
+    url: jdbc:mysql://${DB_MYSQL_URL}:${DB_MYSQL_PORT}/${DB_MYSQL_DATABASE}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_MYSQL_USERNAME}
+    password: ${DB_MYSQL_PASSWORD}
 
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: ${JPA_DDL_AUTO}
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: ${JPA_SHOW_SQL}
+        format_sql: true
+
+  sql:
+    init:
+      mode: ${SQL_INIT_MODE}
+      schema-locations: classpath*:db/schema.sql
+      data-locations: classpath*:db/data.sql
+
+  # swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    region:
+      static: ${AWS_S3_REGION}
+    stack:
+      auto: false
+
+#logging:
+#  level:
+#    org.hibernate.type.descriptor.sql: debug # trace, info
+
+logging:
+  level:
+    org.springframework.web: debug
+    sql: error
+    jdbc: off
+    jdbc.sqlonly: debug

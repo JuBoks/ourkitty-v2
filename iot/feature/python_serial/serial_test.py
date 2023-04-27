@@ -5,7 +5,7 @@ import time
 import base64
 from PIL import Image
 
-PORT = "COM8"
+PORT = "COM7"
 baud = 500000
 
 ser = serial.Serial(PORT, baud, timeout=1)
@@ -29,6 +29,8 @@ def readthread(ser):  # 데이터 받는 함수
             while not ser.readable():
                 pass
             ser.readline()
+            read_first_line = False
+            pass
         if ser.readable():                                              # 값이 들어왔는지 확인
             raw_base64_string = bytes.decode(ser.readline())            # 값을 모두 받음(base64(byte)형식)
             print(raw_base64_string)
@@ -37,7 +39,7 @@ def readthread(ser):  # 데이터 받는 함수
             with open("./test_img.jpg", "wb") as f:
                 f.write(raw_byte_data)
 
-        time.sleep(10)
+        time.sleep(1)
     ser.close()
 
 

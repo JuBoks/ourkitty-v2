@@ -1,3 +1,5 @@
+import os.path
+
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, Request
@@ -5,9 +7,14 @@ from fastapi.staticfiles import StaticFiles
 import requests
 import cv2
 import numpy as np
+from PIL import Image
 # Google
-from google_drive import connect_to_google_drive
-from google_drive import upload_photo
+from google_drive import connect_to_google_drive, upload_photo
+from dotenv import load_dotenv
+from detr import detect_cat
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 app = FastAPI()
 
@@ -49,7 +56,52 @@ net.setInputScale(1.0/127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
 
-@app.post("/uploadfile/{serial_number}")
+
+@app.get("/")
+async def index():
+    return "Hello World!"
+
+@app.post("/upload-google/{serial_number}")
+async def upload_google(serial_number, imageFile: UploadFile or None = None):
+    if not imageFile:
+        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
+    else:
+        # 이미지 파일인지 식별하기
+        contentType, ext = imageFile.content_type.split('/')
+        if(contentType != 'image'):
+            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
+        
+        # 이미지 파일 읽기
+        contents = await imageFile.read()
+
+        # 이미지 파일 이름 설정
+        commonFileName = os.environ[serial_number+"_NAME"]
+        commonFileName = commonFileName
+        filepath = "static/img/"+commonFileName+".png"
+
+        # 읽은 파일 서버에 저장
+        with open("./static/img/"+commonFileName+".png", 'wb') as f:
+            f.write(contents)
+
+        # 이미지 파일을 detr로 고양이 사진 필터링
+        status, isDone = await detect_cat(filepath, commonFileName)
+        # 이미지 파일을 openCV로 고양이 사진 필터링 
+        # status, isDone = await filter_cat(contents, commonFileName)
+
+        # 고양이사진 인 경우 spring 서버로 보내기
+        if isDone is False:
+            if status == 0:
+                msg = '고양이 사진이 아닙니다.'
+            elif status == -1:
+                msg = '사물인식 중 에러 발생'
+            return {'status': 500, 'message': msg}
+        
+        # 구글에 사진 전송
+        await upload_photo(googleService, commonFileName, serial_number, imageFile)
+
+        return {'status': 200, 'message': "google serivce is done"}
+
+@app.post("/upload-s3/{serial_number}")
 async def create_upload_file(serial_number, imageFile: UploadFile or None = None):
     if not imageFile:
         return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
@@ -86,7 +138,7 @@ async def create_upload_file(serial_number, imageFile: UploadFile or None = None
         # return json.loads(response.content)
         return {'status': response.status_code}
 
-async def filter_cat(contents):
+async def filter_cat(contents, commonFileName):
     try:
         imgNp = np.fromstring(contents, np.uint8)
         img = cv2.imdecode(imgNp,-1) #decodificamos
@@ -105,7 +157,8 @@ async def filter_cat(contents):
                 cv2.putText(img, classNames[classId-1], (box[0]+10,box[1]+30), cv2.FONT_HERSHEY_COMPLEX, 1, (0,255,0),2)
         
         # 인식한 결과를 로컬에 저장함(임시)
-        cv2.imwrite("./static/img/output.jpg", img)
+        fileName = commonFileName + "_output.png"
+        cv2.imwrite("./static/img/"+fileName, img)
 
         return 1, True
     except:
@@ -115,13 +168,7 @@ async def filter_cat(contents):
 async def send_image(img, ext, serial_number):
     return requests.post(SERVER_URL + serial_number, files={'imageFile': img}, data={'extension': ext})
 
-# Google Drive에 Upload
-@app.post("/upload-on-google/{serial_number}")
-async def upload_on_google(serial_number, imageFile: UploadFile or None = None):
-    pass
-
-@app.get("/")
-def test():
-    upload_photo(googleService)
-    return "google serivce is done"
-
+@app.get("/white-balance")
+def white_balance():
+    white_balance_photo("test")
+    return "white-balancing is done"
