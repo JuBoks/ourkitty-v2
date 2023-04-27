@@ -18,5 +18,6 @@ class ManagementEntity(
 
     val managementContent: String,
     val dishState: String,
+    val locationCode: String,
 ) : BaseEntity() {
 }

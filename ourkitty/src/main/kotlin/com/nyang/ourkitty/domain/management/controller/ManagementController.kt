@@ -1,5 +1,7 @@
 package com.nyang.ourkitty.domain.management.controller
 
+import com.nyang.ourkitty.common.LocationCode
+import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.management.dto.ManagementCommentRequestDto
 import com.nyang.ourkitty.domain.management.dto.ManagementRequestDto
@@ -17,14 +19,28 @@ import org.springframework.web.bind.annotation.*
 class ManagementController(
     private val managementService: ManagementService
 ) {
+
+    private val testToken = mapOf(
+        "clientId" to 1L,
+        "userCode" to UserCode.지자체.code,
+        "locationCode" to LocationCode.해운대구.code,
+    )
+
     /**
-     * TODO : 관리일지 목록 조회
+     * TODO : JWT
+     * @param limit Long
+     * @param offset Long
+     * @param id Long?      : 냥그릇 ID
      * @return ResponseEntity<ResultDto<List<ManagementResponseDto>>>
      */
     @ApiOperation(value = "관리일지 목록 조회")
     @GetMapping
-    fun getManagementList(): ResponseEntity<ResultDto<List<ManagementResponseDto>>> {
-        return ResponseEntity.ok(ResultDto(listOf(ManagementResponseDto())))
+    fun getManagementList(
+        @RequestParam limit: Long, @RequestParam offset: Long, @RequestParam id: Long?
+    ): ResponseEntity<ResultDto<List<ManagementResponseDto>>> {
+        val managementList = managementService.getManagementList(testToken["locationCode"].toString(), limit, offset, id)
+
+        return ResponseEntity.ok(managementList)
     }
 
     /**

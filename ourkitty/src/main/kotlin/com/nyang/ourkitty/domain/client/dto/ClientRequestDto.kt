@@ -12,7 +12,7 @@ data class ClientRequestDto(
     val clientProfileImagePath: String = "./default.png",
     val clientAddress: String,
     val clientPhone: String,
-    val locationCode: LocationCode,
+    val locationCode: String,
     val dishList: List<DishRequestDto> = emptyList(),
 ) {
 

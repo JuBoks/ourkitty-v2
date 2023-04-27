@@ -1,26 +1,20 @@
 package com.nyang.ourkitty.domain.dish.service
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3ClientBuilder
-import com.amazonaws.services.s3.model.PutObjectRequest
 import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.DishImageRepository
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
 import com.nyang.ourkitty.entity.DishEntity
-import com.nyang.ourkitty.entity.DishImageEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
-import java.util.*
 
 @Service
 @Transactional(readOnly = true)
@@ -38,24 +32,26 @@ class DishService(
         "locationCode" to LocationCode.해운대구.code,
     ) */
 
-    fun getDishList(locationCode: String, limit: Long, offset: Long): ResultDto<List<DishResponseDto>> {
-        val dishList = dishQuerydslRepository.getDishListByLimitAndOffset(locationCode, limit, offset)
-        val totalCount = dishQuerydslRepository.countByLocationCode(locationCode)
+    fun getDishList(locationCode: String): DishListResultDto {
+        val dishList = dishQuerydslRepository.getDishList(locationCode)
+        val centerPos = dishQuerydslRepository.getCenterPos(locationCode)
 
         val dishResponseDtoList = dishList
             .filter { !it.isDeleted }
             .map(DishResponseDto::of)
 
-        return ResultDto(
+        return DishListResultDto(
             data = dishResponseDtoList,
-            totalCount = totalCount,
+            centerLat = centerPos.first,
+            centerLong = centerPos.second,
         )
     }
 
     @Transactional
-    fun createDish(dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
+    fun createDish(locationCode: String, dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
         val dish = dishRequestDto.toEntity()
-        //TODO : 중복검사
+        //TODO : 중복검사 serialNum 으로?
+        dish.setDishLocationCode(locationCode)
 
         if (file != null) {
             val imagePath = imageUploader.uploadImage(file)

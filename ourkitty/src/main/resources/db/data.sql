@@ -94,9 +94,9 @@ VALUES (1, 1, './default.png', false, now(), now()),
        (4, 3, './default.png', false, now(), now());
 
 INSERT INTO `management_table`
-VALUES (1, 1, 2, '고양이 커여웡', false, now(), now()),
-       (2, 2, 1, '고양이 커여웡', false, now(), now()),
-       (3, 3, 1, '고양이 커여웡', false, now(), now());
+VALUES (1, 1, 2, '고양이 커여웡', '0040001', '0020001', false, now(), now()),
+       (2, 2, 1, '고양이 커여웡', '0040002', '0020001', false, now(), now()),
+       (3, 3, 1, '고양이 커여웡', '0040001', '0020001', false, now(), now());
 
 INSERT INTO `management_comment_table`
 VALUES (1, 1, 3, '고양이 짱커여웡', false, now(), now());
