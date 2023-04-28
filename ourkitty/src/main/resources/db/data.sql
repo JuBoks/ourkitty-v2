@@ -11,13 +11,19 @@ VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', './default.png', 'add
 
 
 INSERT INTO `dish_table`
-VALUES (1, 'dish1', './default.png', 10.123, 20.321, 'address4', '0020001', 'serial-1234-0001', 33.33, 5, 3, false,
+VALUES (1, 'dish1', 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', 35.158593, 129.155774, 'address4',
+        '0020001', 'serial-1234-0001', 100.0, 5, 3,
+        false,
         now(),
         now()),
-       (2, 'dish2', './default.png', 20.123, 21.321, 'address5', '0020001', 'serial-1234-0002', 22.22, 3, 1, false,
+       (2, 'dish2', 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', 35.155395, 129.152768, 'address5',
+        '0020001', 'serial-1234-0002', 50.0, 3, 1,
+        false,
         now(),
         now()),
-       (3, 'dish3', './default.png', 20.123, 22.321, 'address6', '0020001', 'serial-5678-0003', 11.11, 7, 2, false,
+       (3, 'dish3', 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', 35.152933, 129.150499, 'address6',
+        '0020001', 'serial-5678-0003', 10.0, 7, 2,
+        false,
         now(),
         now());
 
