@@ -115,6 +115,6 @@ async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_n
             f.write(contents)
 
         # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, serial_number, imageFile)
+        await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
         
     return status
