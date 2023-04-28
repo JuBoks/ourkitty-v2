@@ -43,7 +43,6 @@ class DishEntity(
         this.dishLat = param.dishLat
         this.dishLong = param.dishLong
         this.dishAddress = param.dishAddress
-        this.locationCode = param.locationCode
 
         return this
     }
