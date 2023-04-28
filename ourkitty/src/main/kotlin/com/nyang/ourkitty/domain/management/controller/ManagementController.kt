@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/management")
 @CrossOrigin(origins = ["*"])
 class ManagementController(
-    private val managementService: ManagementService
+    private val managementService: ManagementService,
 ) {
 
     private val testToken = mapOf(
