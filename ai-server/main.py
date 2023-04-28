@@ -57,7 +57,8 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
     # 이미지 파일 이름 설정
     fileName = os.environ[serial_number+"_NAME"]
     filePath = "static/img/"+fileName+".png"
-    googleFileName = datetime.today().strftime("%Y%m%d%H%M%S")
+    googleFileName = datetime.today().strftime("%Y-%m-%d_%H-%M-%S")
+    googleFileName = fileName+"_"+googleFileName
 
     # 읽은 파일을 구글에 보내기 위해 서버에 저장
     with open("./static/img/"+fileName+".png", 'wb') as f:
@@ -66,7 +67,7 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
     # 딥러닝 모델 실행
     tasks = [
         asyncio.create_task(filterCatByYolo(filePath, googleFileName, contents)),
-        asyncio.create_task(filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile))
+        asyncio.create_task(filterCatByDetr(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName))
     ]
 
     results = await asyncio.gather(*tasks)
@@ -90,7 +91,7 @@ def display_detr_pics():
 
 def display_pics(folderName):
     image_list = os.listdir(f"./static/{folderName}")
-    html_content = "<html><body><div style='display: flex; gap: 10px;'>"
+    html_content = "<html><body><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
         if image.endswith(".jpg") or image.endswith(".png"):
             html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}" alt="{image}" width="416" ></div>'
@@ -106,7 +107,7 @@ async def filterCatByYolo(filePath, googleFileName, contents):
 
     return status
 
-async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile):
+async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile, commonFileName):
     # 1. 이미지 파일을 detr로 고양이 사진 필터링
     status, isDone = await detectCatByDetr(filePath, fileName)
     if status == 1:
@@ -114,6 +115,6 @@ async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_n
             f.write(contents)
 
         # 구글에 사진 전송
-        await upload_photo(googleService, fileName, serial_number, imageFile)
+        await upload_photo(googleService, commonFileName, serial_number, imageFile)
         
     return status
