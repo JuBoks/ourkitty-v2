@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/dish")
 @CrossOrigin(origins = ["*"])
 class DishController(
-    private val dishService: DishService
+    private val dishService: DishService,
 ) {
 
     private val testToken = mapOf(
