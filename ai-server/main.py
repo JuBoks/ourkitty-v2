@@ -84,6 +84,10 @@ def display_yolo_pics():
 def display_detr_pics():
     return display_pics("detr")
 
+@app.get("/img/pics")
+def display_detr_pics():
+    return display_pics("img")
+
 def display_pics(folderName):
     image_list = os.listdir(f"./static/{folderName}")
     html_content = "<html><body><div style='display: flex; gap: 10px;'>"
