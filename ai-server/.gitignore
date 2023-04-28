@@ -3,4 +3,6 @@ credentials.json
 token.json
 .env
 static/img/*
+static/detr/*
+static/yolo/*
 service-account.json
