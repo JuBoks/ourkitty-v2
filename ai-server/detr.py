@@ -159,7 +159,7 @@ def plot_results(pil_img, prob, boxes, commonFileName):
     plt.close(fig)
     return status, flag
 
-async def detect_cat(filepath, commonFileName):
+async def detectCatByDetr(filepath, commonFileName):
   im = Image.open(filepath)
   scores, boxes = detect(im, detr, transform)
   return plot_results(im, scores, boxes, commonFileName)
