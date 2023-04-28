@@ -11,17 +11,31 @@
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid = "KPHONE"; // 와이파이 이름
-const char* password = "12348765"; // 와이파이 비밀번호
 
+// 아이유정 WIFI 정보
+// const char* ssid = "EDU-ELR22-851139"; // 라우터
+// const char* password = "12345678";
+
+// 미현이네 WIFI 정보
+// const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
+// const char* password = "55343033"; // 와이파이 비밀번호
+
+// 테스트용 WIFI 정보
+// const char* ssid = "KPHONE"; // 와이파이 이름
+// const char* password = "12348765"; // 와이파이 비밀번호
+
+// AI 서버 도메인
 String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
-//String serverName = "example.com";   // 또는 도메인 네임
 
-String serialNumber = "EZZwEhRzzs9LvyZ";
+// String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
+// String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
+String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
+
 String serverPath = "/upload-google";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
 
+#define LED_DUTY          100 // 플래시라이트 밝기 (0 ~ 255)
 WiFiClient client;
 
 
@@ -49,7 +63,7 @@ WiFiClient client;
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 
-#define LED_DUTY          100
+
 #define FLASH_PIN         4
 
 void startCameraServer();
