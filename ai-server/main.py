@@ -3,6 +3,7 @@ import os.path
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import asyncio
@@ -16,7 +17,7 @@ from yolov5.yolo import detectCatByYolo
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-app = FastAPI()
+app = FastAPI(static_directory="static")
 
 app.mount("/fastapi", app)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -39,80 +40,6 @@ googleService = connect_to_google_drive()
 @app.get("/")
 async def index():
     return "Hello World!"
-
-# @app.post("/upload-google/{serial_number}")
-async def upload_google_model_detr(serial_number, imageFile: UploadFile or None = None):
-    if not imageFile:
-        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
-    else:
-        # 이미지 파일인지 식별하기
-        contentType, ext = imageFile.content_type.split('/')
-        if(contentType != 'image'):
-            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
-        
-        # 이미지 파일 읽기
-        contents = await imageFile.read()
-
-        # 이미지 파일 이름 설정
-        commonFileName = os.environ[serial_number+"_NAME"]
-        filepath = "static/img/"+commonFileName+".png"
-
-        # 읽은 파일 서버에 저장
-        with open("./static/img/"+commonFileName+".png", 'wb') as f:
-            f.write(contents)
-
-        # 이미지 파일을 detr로 고양이 사진 필터링
-        status, isDone = await detectCatByDetr(filepath, commonFileName)
-
-        # 고양이사진 인 경우 spring 서버로 보내기
-        if isDone is False:
-            if status == 0:
-                msg = '고양이 사진이 아닙니다.'
-            elif status == -1:
-                msg = '사물인식 중 에러 발생'
-            return {'status': 500, 'message': msg}
-        
-        # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, serial_number, imageFile)
-
-        return {'status': 200, 'message': "google serivce is done"}
-
-# @app.post("/upload-google/{serial_number}")
-async def upload_google_model_yolo(serial_number, imageFile: UploadFile or None = None):
-    if not imageFile:
-        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
-    else:
-        # 이미지 파일인지 식별하기
-        contentType, ext = imageFile.content_type.split('/')
-        if(contentType != 'image'):
-            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
-        
-        # 이미지 파일 읽기
-        contents = await imageFile.read()
-
-        # 이미지 파일 이름 설정
-        commonFileName = os.environ[serial_number+"_NAME"]
-        filepath = "static/img/"+commonFileName+".png"
-
-        # 읽은 파일 서버에 저장
-        with open("./static/img/"+commonFileName+".png", 'wb') as f:
-            f.write(contents)
-
-        # 이미지 파일을 yolo로 고양이 사진 필터링
-        status, isDone = await detectCatByYolo(filepath)
-
-        # 고양이사진 인 경우 spring 서버로 보내기
-        if isDone is False:
-            if status == 0:
-                msg = '고양이 사진이 아닙니다.'
-            elif status == -1:
-                msg = '사물인식 중 에러 발생'
-            return {'status': 500, 'message': msg}
-        
-        # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, serial_number, imageFile)
-
-        return {'status': 200, 'message': "google serivce is done"}
 
 @app.post("/upload-google/{serial_number}")
 async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or None = None):
@@ -145,28 +72,26 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
     results = await asyncio.gather(*tasks)
 
     if results[1] == 200:
-        return {'status': 200, 'message': "google serivce is done"}
+        return {'status': 200, 'message': "the image is uploaded on google drive."}
     else:
         return {'status': 200, 'message': "고양이 사진이 아닙니다."}
 
-    # 1. 이미지 파일을 yolo로 고양이 사진 필터링
-    # status, isDone = await detectCatByYolo(filePath)
+@app.get("/yolo/pics")
+def display_yolo_pics():
+    return display_pics("yolo")
 
-    # # 2. 이미지 파일을 detr로 고양이 사진 필터링
-    # status, isDone = await detectCatByDetr(filePath, googleFileName)
+@app.get("/detr/pics")
+def display_detr_pics():
+    return display_pics("detr")
 
-    # # 고양이사진 인 경우 spring 서버로 보내기
-    # if isDone is False:
-    #     if status == 0:
-    #         msg = '고양이 사진이 아닙니다.'
-    #     elif status == -1:
-    #         msg = '사물인식 중 에러 발생'
-    #     return {'status': 500, 'message': msg}
-    
-    # # 구글에 사진 전송
-    # await upload_photo(googleService, commonFileName, serial_number, imageFile)
-
-    # return {'status': 200, 'message': "google serivce is done"}
+def display_pics(folderName):
+    image_list = os.listdir(f"./static/{folderName}")
+    html_content = "<html><body><div style='display: flex; gap: 10px;'>"
+    for image in image_list:
+        if image.endswith(".jpg") or image.endswith(".png"):
+            html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}" alt="{image}" width="416" ></div>'
+    html_content += "</div></body></html>"
+    return HTMLResponse(content=html_content, status_code=200)
 
 async def filterCatByYolo(filePath, googleFileName, contents):
     # 1. 이미지 파일을 yolo로 고양이 사진 필터링
