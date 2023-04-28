@@ -179,7 +179,7 @@ async def filterCatByYolo(filePath, googleFileName, contents):
 
 async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile):
     # 1. 이미지 파일을 detr로 고양이 사진 필터링
-    status, isDone = await detectCatByDetr(filePath, googleFileName)
+    status, isDone = await detectCatByDetr(filePath, fileName)
     if status == 1:
         with open("./static/detr/"+googleFileName+".png", 'wb') as f:
             f.write(contents)
