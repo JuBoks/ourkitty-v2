@@ -5,6 +5,7 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 #include "esp_camera.h"
+#include "esp32-hal-ledc.h"
 #include "driver/rtc_io.h"
 
 // ===========================
@@ -13,10 +14,10 @@
 const char* ssid = "KPHONE"; // 와이파이 이름
 const char* password = "12348765"; // 와이파이 비밀번호
 
-String serverName = "43.200.242.128";   // 아이피 주소 기입
+String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
 
-String serialNumber = "LpnNFcE3YrQS490";
+String serialNumber = "EZZwEhRzzs9LvyZ";
 String serverPath = "/upload-google";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
@@ -48,10 +49,27 @@ WiFiClient client;
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 
+#define LED_DUTY          100
 #define FLASH_PIN         4
 
 void startCameraServer();
 void setupLedFlash(int pin);
+
+#define LED_LEDC_CHANNEL 2 //Using different ledc channel/timer than camera
+#define CONFIG_LED_MAX_INTENSITY 255
+
+void enable_led(bool en)
+{ // Turn LED On or Off
+    int duty = en ? LED_DUTY : 0;
+    if (en && (LED_DUTY > CONFIG_LED_MAX_INTENSITY))
+    {
+        duty = CONFIG_LED_MAX_INTENSITY;
+    }
+    ledcWrite(LED_LEDC_CHANNEL, duty);
+    //ledc_set_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL, duty);
+    //ledc_update_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL);
+    log_i("Set LED intensity to %d", duty);
+}
 
 void setup() {
   Serial.begin(115200);
@@ -100,13 +118,13 @@ void setup() {
   
   // init with high specs to pre-allocate larger buffers
   if(psramFound()){
-    config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 10;  //0-63 lower number means higher quality
+    config.jpeg_quality = 10;
     config.fb_count = 2;
+    config.grab_mode = CAMERA_GRAB_LATEST;
   } else {
-    config.frame_size = FRAMESIZE_CIF;
-    config.jpeg_quality = 12;  //0-63 lower number means higher quality
-    config.fb_count = 1;
+    // Limit the frame size when PSRAM is not available
+    config.frame_size = FRAMESIZE_SVGA;
+    config.fb_location = CAMERA_FB_IN_DRAM;
   }
   
   // camera init
@@ -116,29 +134,29 @@ void setup() {
     delay(1000);
     ESP.restart();
   }
-  sensor_t * s = esp_camera_sensor_get();
-  s->set_brightness(s, 0);     // -2 to 2
-  s->set_contrast(s, 0);       // -2 to 2
-  s->set_saturation(s, 0);     // -2 to 2
-  s->set_special_effect(s, 0); // 0 to 6 (0 - No Effect, 1 - Negative, 2 - Grayscale, 3 - Red Tint, 4 - Green Tint, 5 - Blue Tint, 6 - Sepia)
-  s->set_whitebal(s, 1);       // 0 = disable , 1 = enable
-  s->set_awb_gain(s, 1);       // 0 = disable , 1 = enable
-  s->set_wb_mode(s, 0);        // 0 to 4 - if awb_gain enabled (0 - Auto, 1 - Sunny, 2 - Cloudy, 3 - Office, 4 - Home)
-  s->set_exposure_ctrl(s, 1);  // 0 = disable , 1 = enable
-  s->set_aec2(s, 0);           // 0 = disable , 1 = enable
-  s->set_ae_level(s, 0);       // -2 to 2
-  s->set_aec_value(s, 300);    // 0 to 1200
-  s->set_gain_ctrl(s, 1);      // 0 = disable , 1 = enable
-  s->set_agc_gain(s, 0);       // 0 to 30
-  s->set_gainceiling(s, (gainceiling_t)0);  // 0 to 6
-  s->set_bpc(s, 0);            // 0 = disable , 1 = enable
-  s->set_wpc(s, 1);            // 0 = disable , 1 = enable
-  s->set_raw_gma(s, 1);        // 0 = disable , 1 = enable
-  s->set_lenc(s, 1);           // 0 = disable , 1 = enable
-  s->set_hmirror(s, 0);        // 0 = disable , 1 = enable
-  s->set_vflip(s, 0);          // 0 = disable , 1 = enable
-  s->set_dcw(s, 1);            // 0 = disable , 1 = enable
-  s->set_colorbar(s, 0);       // 0 = disable , 1 = enable
+  // sensor_t * s = esp_camera_sensor_get();
+  // s->set_brightness(s, 0);     // -2 to 2
+  // s->set_contrast(s, 0);       // -2 to 2
+  // s->set_saturation(s, 0);     // -2 to 2
+  // s->set_special_effect(s, 0); // 0 to 6 (0 - No Effect, 1 - Negative, 2 - Grayscale, 3 - Red Tint, 4 - Green Tint, 5 - Blue Tint, 6 - Sepia)
+  // s->set_whitebal(s, 1);       // 0 = disable , 1 = enable
+  // s->set_awb_gain(s, 1);       // 0 = disable , 1 = enable
+  // s->set_wb_mode(s, 0);        // 0 to 4 - if awb_gain enabled (0 - Auto, 1 - Sunny, 2 - Cloudy, 3 - Office, 4 - Home)
+  // s->set_exposure_ctrl(s, 1);  // 0 = disable , 1 = enable
+  // s->set_aec2(s, 0);           // 0 = disable , 1 = enable
+  // s->set_ae_level(s, 0);       // -2 to 2
+  // s->set_aec_value(s, 300);    // 0 to 1200
+  // s->set_gain_ctrl(s, 1);      // 0 = disable , 1 = enable
+  // s->set_agc_gain(s, 0);       // 0 to 30
+  // s->set_gainceiling(s, (gainceiling_t)0);  // 0 to 6
+  // s->set_bpc(s, 0);            // 0 = disable , 1 = enable
+  // s->set_wpc(s, 1);            // 0 = disable , 1 = enable
+  // s->set_raw_gma(s, 1);        // 0 = disable , 1 = enable
+  // s->set_lenc(s, 1);           // 0 = disable , 1 = enable
+  // s->set_hmirror(s, 0);        // 0 = disable , 1 = enable
+  // s->set_vflip(s, 0);          // 0 = disable , 1 = enable
+  // s->set_dcw(s, 1);            // 0 = disable , 1 = enable
+  // s->set_colorbar(s, 0);       // 0 = disable , 1 = enable
 
   // sendPhoto(); 
 
@@ -148,15 +166,11 @@ void setup() {
   // delay(1000);
   // esp_deep_sleep_start();
   // Serial.println("This will never be printed");
-  pinMode(FLASH_PIN, OUTPUT);
+  ledcSetup(LED_LEDC_CHANNEL, 5000, 8);
+  ledcAttachPin(FLASH_PIN, LED_LEDC_CHANNEL);
 }
 
 void loop() {
-  digitalWrite(FLASH_PIN, HIGH);
-  esp_camera_fb_return(esp_camera_fb_get());
-  delay(10000);
-  digitalWrite(FLASH_PIN, LOW);
-  // delay(9000);
   sendPhoto();
   delay(10000);
 }
@@ -166,7 +180,11 @@ String sendPhoto() {
   String getBody;
 
   camera_fb_t * fb = NULL;
-  fb = esp_camera_fb_get();
+  enable_led(true);
+  vTaskDelay(150 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
+  fb = esp_camera_fb_get();             // or it won't be visible in the frame. A better way to do this is needed.
+  enable_led(false);
+
   if(!fb) {
     Serial.println("Camera capture failed");
     delay(1000);
