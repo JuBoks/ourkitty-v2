@@ -133,13 +133,13 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
     googleFileName = datetime.today().strftime("%Y%m%d%H%M%S")
 
     # 읽은 파일을 구글에 보내기 위해 서버에 저장
-    with open("./static/img/"+googleFileName+".png", 'wb') as f:
+    with open("./static/img/"+fileName+".png", 'wb') as f:
         f.write(contents)
 
     # 딥러닝 모델 실행
     tasks = [
         asyncio.create_task(filterCatByYolo(filePath, googleFileName, contents)),
-        asyncio.create_task(filterCatByDetr(filePath, googleFileName, contents, serial_number, imageFile))
+        asyncio.create_task(filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile))
     ]
 
     results = await asyncio.gather(*tasks)
@@ -177,7 +177,7 @@ async def filterCatByYolo(filePath, googleFileName, contents):
 
     return status
 
-async def filterCatByDetr(filePath, googleFileName, contents, serial_number, imageFile):
+async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile):
     # 1. 이미지 파일을 detr로 고양이 사진 필터링
     status, isDone = await detectCatByDetr(filePath, googleFileName)
     if status == 1:
@@ -185,6 +185,6 @@ async def filterCatByDetr(filePath, googleFileName, contents, serial_number, ima
             f.write(contents)
 
         # 구글에 사진 전송
-        await upload_photo(googleService, googleFileName, serial_number, imageFile)
+        await upload_photo(googleService, fileName, serial_number, imageFile)
         
     return status
