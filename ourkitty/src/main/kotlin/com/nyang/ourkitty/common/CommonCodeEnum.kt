@@ -72,3 +72,15 @@ enum class AlertState(
         return code
     }
 }
+
+enum class SearchKey(
+    val code: String,
+) {
+    제목("0070001"),
+    내용("0070002"),
+    ;
+
+    override fun toString(): String {
+        return code
+    }
+}

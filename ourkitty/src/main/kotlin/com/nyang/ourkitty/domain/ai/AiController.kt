@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/ai")
 @CrossOrigin(origins = ["*"])
 class AiController(
-    private val aiService: AiService,
     private val dishService: DishService,
 ) {
 

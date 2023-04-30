@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/iot")
 @CrossOrigin(origins = ["*"])
-class IoTController(
+class IotController(
     private val dishService: DishService,
 ) {
 
