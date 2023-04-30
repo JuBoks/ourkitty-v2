@@ -6,15 +6,18 @@ import { darkState } from "../recoil/page";
 
 export default function MainLayout() {
   const isDark = useRecoilState(darkState)[0];
-  console.log(isDark);
   return (
     <div
-      className={`flex flex-row w-screen h-screen ${
+      className={`flex flex-row w-screen h-screen overflow-y-hidden ${
         isDark ? "dark bg-DarkBackground" : "bg-LightBackground"
       }`}
     >
-      <Header />
-      <Outlet />
+      <div>
+        <Header />
+      </div>
+      <div className="w-full h-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
