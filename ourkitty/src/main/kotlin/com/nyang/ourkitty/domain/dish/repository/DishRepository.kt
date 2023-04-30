@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DishRepository : JpaRepository<DishEntity, Long> {
-
-
 }

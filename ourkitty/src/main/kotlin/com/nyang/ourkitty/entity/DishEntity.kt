@@ -21,36 +21,30 @@ class DishEntity(
     var dishTnrCount: Int = 0,
 ) : BaseEntity() {
 
-    fun setProfileImage(imagePath: String) {
+    fun updateProfileImage(imagePath: String) {
         this.dishProfileImagePath = imagePath
     }
 
-    fun setDishLocationCode(locationCode: String) {
+    fun updateLocationCode(locationCode: String) {
         this.locationCode = locationCode
     }
 
-    fun modify(param: DishEntity): DishEntity {
+    fun updateDishWeight(dishWeight: Double) {
+        this.dishWeight = dishWeight
+    }
+
+    fun updateCatCount(catCount: Int, tnrCount: Int) {
+        this.dishCatCount = catCount
+        this.dishTnrCount = tnrCount
+    }
+
+    fun update(param: DishEntity): DishEntity {
         this.dishName = param.dishName
         this.dishLat = param.dishLat
         this.dishLong = param.dishLong
         this.dishAddress = param.dishAddress
-        this.locationCode = param.locationCode
 
         return this
     }
 
-    fun update(param: DishEntity): DishEntity {
-        this.dishWeight = param.dishWeight
-        this.dishCatCount = param.dishCatCount
-        this.dishTnrCount = param.dishTnrCount
-
-        return this
-    }
-
-    fun delete(): DishEntity {
-        this.isDeleted = true
-        //TODO : 연관된 Entity 들에 대한 처리 필요
-
-        return this
-    }
 }

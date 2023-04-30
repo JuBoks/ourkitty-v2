@@ -14,8 +14,9 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
-            android:name=".DIshCat"
-            android:exported="false" />
+            android:name=".detailDish.tap2.DIshCat"
+            android:exported="false"
+            android:parentActivityName=".detailDish.tap1.DetailActivity"/>
         <activity
             android:name=".detailDish.tap1.DetailActivity"
             android:exported="false"
