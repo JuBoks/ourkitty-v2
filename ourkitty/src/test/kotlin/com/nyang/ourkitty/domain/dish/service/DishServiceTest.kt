@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.dish.service
 
 
+import com.nyang.ourkitty.domain.dish.DishService
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
 import com.nyang.ourkitty.entity.DishEntity

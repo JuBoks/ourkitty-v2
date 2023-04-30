@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.client.controller
+package com.nyang.ourkitty.domain.client
 
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto

@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.dish.service
+package com.nyang.ourkitty.domain.dish
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.dto.ResultDto
@@ -8,10 +8,11 @@ import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.DishImageRepository
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
+import com.nyang.ourkitty.domain.dish.repository.DishWeightLogRepository
 import com.nyang.ourkitty.entity.DishEntity
+import com.nyang.ourkitty.entity.DishWeightLogEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile
 class DishService(
     private val dishRepository: DishRepository,
     private val dishQuerydslRepository: DishQuerydslRepository,
+    private val dishWeightLogRepository: DishWeightLogRepository,
     private val dishImageRepository: DishImageRepository,
     private val imageUploader: AwsS3ImageUploader,
 ) {
@@ -37,13 +39,12 @@ class DishService(
         val centerPos = dishQuerydslRepository.getCenterPos(locationCode)
 
         val dishResponseDtoList = dishList
-            .filter { !it.isDeleted }
             .map(DishResponseDto::of)
 
         return DishListResultDto(
             data = dishResponseDtoList,
-            centerLat = centerPos.lat!!,
-            centerLong = centerPos.long!!,
+            centerLat = centerPos.lat,
+            centerLong = centerPos.long,
         )
     }
 
@@ -96,6 +97,23 @@ class DishService(
     }
 
     @Transactional
+    fun updateDishWeight(dishSerialNum: String, dishWeight: Double): ResultDto<Boolean> {
+        val dish = getDishBySerialNum(dishSerialNum)
+        dish.updateDishWeight(dishWeight)
+
+        val dishWeightLog = DishWeightLogEntity(
+            dish = dish,
+            dishWeight = dishWeight,
+        )
+
+        dishWeightLogRepository.save(dishWeightLog)
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    @Transactional
     fun deleteDish(dishId: Long): ResultDto<Boolean> {
         val dish = getDishById(dishId)
         dish.delete()
@@ -108,12 +126,11 @@ class DishService(
     }
 
     private fun getDishById(dishId: Long): DishEntity {
-        val dish: DishEntity? = dishRepository.findByIdOrNull(dishId)
+        return dishQuerydslRepository.getDishById(dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
+    }
 
-        if (dish == null || dish.isDeleted) {
-            throw CustomException(ErrorCode.NOT_FOUND_DISH)
-        }
-        return dish
+    private fun getDishBySerialNum(dishSerialNum: String): DishEntity {
+        return dishQuerydslRepository.getDishBySerialNum(dishSerialNum) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
 
 }

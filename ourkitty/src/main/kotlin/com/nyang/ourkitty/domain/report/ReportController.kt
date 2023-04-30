@@ -1,9 +1,8 @@
-package com.nyang.ourkitty.domain.report.controller
+package com.nyang.ourkitty.domain.report
 
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.report.dto.ReportRequestDto
 import com.nyang.ourkitty.domain.report.dto.ReportResponseDto
-import com.nyang.ourkitty.domain.report.service.ReportService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity

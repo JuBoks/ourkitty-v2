@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.management.service
+package com.nyang.ourkitty.domain.management
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.UserCode

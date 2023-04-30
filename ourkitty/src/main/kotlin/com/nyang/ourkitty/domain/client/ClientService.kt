@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.client.service
+package com.nyang.ourkitty.domain.client
 
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
 import com.nyang.ourkitty.entity.ClientEntity

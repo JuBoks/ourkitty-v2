@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.report.service
+package com.nyang.ourkitty.domain.report
 
 import org.springframework.stereotype.Service
 

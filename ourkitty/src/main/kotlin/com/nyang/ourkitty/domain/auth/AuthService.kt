@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.auth.service
+package com.nyang.ourkitty.domain.auth
 
 import org.springframework.stereotype.Service
 
