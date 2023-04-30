@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.dish.controller
+package com.nyang.ourkitty.domain.dish
 
 import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
@@ -6,7 +6,6 @@ import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
-import com.nyang.ourkitty.domain.dish.service.DishService
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api

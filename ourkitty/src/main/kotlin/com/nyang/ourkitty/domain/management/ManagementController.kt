@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.domain.management.controller
+package com.nyang.ourkitty.domain.management
 
 import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
@@ -6,7 +6,6 @@ import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.management.dto.ManagementCommentRequestDto
 import com.nyang.ourkitty.domain.management.dto.ManagementRequestDto
 import com.nyang.ourkitty.domain.management.dto.ManagementResponseDto
-import com.nyang.ourkitty.domain.management.service.ManagementService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity

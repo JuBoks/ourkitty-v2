@@ -16,25 +16,11 @@ class DishQuerydslRepository(
         return queryFactory.select(dishEntity)
             .from(dishEntity)
             .where(
+                dishEntity.isDeleted.isFalse,
                 locationCode?.let { dishEntity.locationCode.eq(locationCode) },
             )
             .fetch()
     }
-
-//    fun getCenterPos(locationCode: String?): Pair<Double, Double> {
-//        val result = queryFactory.select(dishEntity.dishLat.avg(), dishEntity.dishLong.avg())
-//            .from(dishEntity)
-//            .where(
-//                locationCode?.let { dishEntity.locationCode.eq(locationCode) },
-//            )
-//            .fetchOne()
-//
-//        return if (result == null) {
-//            Pair(0.0, 0.0)
-//        } else {
-//            Pair(result.get(dishEntity.dishLat.avg())!!, result.get(dishEntity.dishLong.avg())!!)
-//        }
-//    }
 
     fun getCenterPos(locationCode: String?): PositionDto {
         return queryFactory.select(
@@ -51,13 +37,33 @@ class DishQuerydslRepository(
             .fetchOne()!!
     }
 
-    fun countDishList(locationCode: String): Int {
-        return queryFactory.select(dishEntity.dishId.count())
-            .from(dishEntity)
+    fun getDishById(dishId: Long): DishEntity? {
+        return queryFactory
+            .selectFrom(dishEntity)
             .where(
-                dishEntity.locationCode.eq(locationCode)
+                dishEntity.dishId.eq(dishId),
+                dishEntity.isDeleted.isFalse,
             )
-            .fetchOne()?.toInt() ?: 0
+            .fetchOne()
     }
+
+    fun getDishBySerialNum(dishSerialNum: String): DishEntity? {
+        return queryFactory
+            .selectFrom(dishEntity)
+            .where(
+                dishEntity.dishSerialNum.eq(dishSerialNum),
+                dishEntity.isDeleted.isFalse,
+            )
+            .fetchOne()
+    }
+
+//    fun countDishList(locationCode: String): Int {
+//        return queryFactory.select(dishEntity.dishId.count())
+//            .from(dishEntity)
+//            .where(
+//                dishEntity.locationCode.eq(locationCode)
+//            )
+//            .fetchOne()?.toInt() ?: 0
+//    }
 
 }

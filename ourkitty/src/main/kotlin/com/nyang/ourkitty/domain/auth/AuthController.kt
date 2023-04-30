@@ -1,8 +1,7 @@
-package com.nyang.ourkitty.domain.auth.controller
+package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
-import com.nyang.ourkitty.domain.auth.service.AuthService
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
