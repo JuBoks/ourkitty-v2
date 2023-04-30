@@ -2,6 +2,8 @@ package com.nyang.ourkitty.domain.dish
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.ai.dto.CatCountRequestDto
+import com.nyang.ourkitty.domain.ai.dto.ImageRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
@@ -10,6 +12,7 @@ import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
 import com.nyang.ourkitty.domain.dish.repository.DishWeightLogRepository
 import com.nyang.ourkitty.entity.DishEntity
+import com.nyang.ourkitty.entity.DishImageEntity
 import com.nyang.ourkitty.entity.DishWeightLogEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
@@ -68,6 +71,22 @@ class DishService(
         )
     }
 
+    @Transactional
+    fun createDishImage(imageRequestDto: ImageRequestDto): ResultDto<Boolean> {
+        val dish = getDishBySerialNum(imageRequestDto.dishSerialNum)
+
+        val dishImage = DishImageEntity(
+            dish = dish,
+            imagePath = imageRequestDto.imagePath,
+        )
+
+        dishImageRepository.save(dishImage)
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
     fun getDish(dishId: Long): ResultDto<DishResponseDto> {
 
         return ResultDto(
@@ -119,6 +138,18 @@ class DishService(
         dish.delete()
         dishRepository.save(dish)
         //TODO : save 과정에서 문제가 발생했을 때 false 를 반환해야 함, Transaction 공부해보기
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    @Transactional
+    fun modifyDishCatCount(catCountRequestDto: CatCountRequestDto): ResultDto<Boolean> {
+        val dish = getDishBySerialNum(catCountRequestDto.dishSerialNum)
+
+        dish.updateCatCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
+        dishRepository.save(dish)
 
         return ResultDto(
             data = true,

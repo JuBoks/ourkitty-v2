@@ -90,10 +90,10 @@ class ManagementService(
             managementResponseDto.setImageList(managementImageResponseDtoList)
         }
 
-        return ResultDto(
-            data = managementResponseDto,
-        )
-    }
+            return ResultDto(
+                data = managementResponseDto,
+            )
+        }
 
     @Transactional
     fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
