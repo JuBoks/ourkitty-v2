@@ -12,11 +12,12 @@ class AwsS3ImageUploader(
     private val amazonS3: AmazonS3,
     @Value("\${cloud.aws.s3.bucket}") private val bucketName: String,
     @Value("\${cloud.aws.region.static}") private val region: String,
+    @Value("\${cloud.aws.s3.dir}") private val dir: String,
 ) {
 
     fun uploadImage(file: MultipartFile): String {
         val fileExtension = getFileExtension(file.originalFilename!!)
-        val key = "${UUID.randomUUID()}.$fileExtension"
+        val key = "$dir/${UUID.randomUUID()}.$fileExtension"
         val metadata = ObjectMetadata().apply {
             contentType = file.contentType
             contentLength = file.size

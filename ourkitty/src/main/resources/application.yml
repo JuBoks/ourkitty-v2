@@ -44,6 +44,7 @@ cloud:
       secretKey: ${AWS_S3_SECRET_KEY}
     s3:
       bucket: ${AWS_S3_BUCKET}
+      dir: ${AWS_S3_DIRECTORY}
     region:
       static: ${AWS_S3_REGION}
     stack:
