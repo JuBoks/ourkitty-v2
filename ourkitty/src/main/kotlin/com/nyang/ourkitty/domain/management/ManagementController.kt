@@ -121,7 +121,7 @@ class ManagementController(
     @ApiOperation(value = "관리일지 댓글 삭제")
     @DeleteMapping("/{managementId}/comment/{managementCommentId}")
     fun deleteManagementComment(@PathVariable("managementId") managementId: Long, @PathVariable("managementCommentId") managementCommentId: Long): ResponseEntity<ResultDto<Boolean>> {
-        val result = managementService.deleteManagementComment(managementId, testToken["clientId"].toString().toLong(), managementCommentId)
+        val result = managementService.deleteManagementComment(managementId, testToken["clientId"].toString().toLong(), testToken["userCode"].toString(), testToken["locationCode"].toString(), managementCommentId)
 
         return ResponseEntity.ok(result)
     }
