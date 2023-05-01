@@ -16,14 +16,8 @@ export const getDishList = async () => {
  * @param {int} dishId 그릇 고유번호
  * @returns
  */
-export const getDishItem = async (
-  dishId: number,
-  limit: number,
-  offSet: number
-) => {
-  const { data } = await defaultInstance.get(
-    `dish/${dishId}?limit=${limit}&offSet=${offSet}`
-  );
+export const getDishItem = async (dishId: number) => {
+  const { data } = await defaultInstance.get(`dish/${dishId}`);
   return data;
 };
 

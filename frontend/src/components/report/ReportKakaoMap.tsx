@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import MarkerBlue from "../../assets/marker_blue.png";
 import MarkerYellow from "../../assets/marker_yellow.png";
 import MarkerRed from "../../assets/marker_red.png";
 import { useRecoilState } from "recoil";
-import { dishInfo, dishRegist, dishCountState } from "../../recoil/dish";
-import { useQuery } from "react-query";
+import { reportDetailId } from "../../recoil/report";
+import { useQuery, useMutation } from "react-query";
 import { getDishList } from "../../apis/api/dish";
 
 interface detailData {
@@ -24,25 +24,9 @@ interface detailData {
   locationCode: string;
   updatedDate: string;
 }
-export default function MyDishKakaoMap() {
-  const [dish, setDish] = useRecoilState(dishInfo);
-  const [isRegist, setIsRegist] = useRecoilState(dishRegist);
-  const dishCount = useRecoilState(dishCountState)[0];
-
-  const handleModifyDish = (item: detailData) => {
-    setIsRegist(false);
-    setDish({
-      dishId: item.dishId,
-      dishAddress: item.dishAddress,
-      dishLat: item.dishLat,
-      dishLong: item.dishLong,
-      dishName: item.dishName,
-      dishSerialNum: item.dishSerialNum,
-      file: item.dishProfileImagePath,
-    });
-  };
+export default function ReportKakaoMap() {
   const { data, isLoading } = useQuery({
-    queryKey: ["getDishList", dishCount],
+    queryKey: ["getDishList"],
     queryFn: () => getDishList(),
   });
 
@@ -78,7 +62,6 @@ export default function MyDishKakaoMap() {
               size: { width: 45, height: 45 },
             }}
             title={item.dishName}
-            onClick={() => handleModifyDish(item)}
           ></MapMarker>
         );
       })}
