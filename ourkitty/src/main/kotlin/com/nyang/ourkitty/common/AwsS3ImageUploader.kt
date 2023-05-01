@@ -37,4 +37,5 @@ class AwsS3ImageUploader(
         val dotIndex = fileName.lastIndexOf('.')
         return if (dotIndex == -1) null else fileName.substring(dotIndex + 1)
     }
+
 }

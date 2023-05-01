@@ -38,7 +38,11 @@ class ManagementController(
     fun getManagementList(
         @RequestParam limit: Long, @RequestParam offset: Long, @RequestParam("id") dishId: Long?
     ): ResponseEntity<ResultDto<List<ManagementResponseDto>>> {
-        val managementList = managementService.getManagementList(testToken["locationCode"].toString(), limit, offset, dishId)
+        val managementList = managementService.getManagementList(
+            dishId = dishId,
+            locationCode = testToken["locationCode"].toString(),
+            limit = limit, offset = offset,
+        )
 
         return ResponseEntity.ok(managementList)
     }
@@ -62,7 +66,12 @@ class ManagementController(
     fun createManagement(
         managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<MultipartFile>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        val managementResponseDto = managementService.createManagement(testToken["locationCode"].toString(), managementRequestDto, files)
+        val managementResponseDto = managementService.createManagement(
+            clientId = testToken["clientId"].toString().toLong(),
+            locationCode = testToken["locationCode"].toString(),
+            managementRequestDto = managementRequestDto,
+            files = files
+        )
 
         return ResponseEntity.ok(managementResponseDto)
     }
@@ -80,9 +89,13 @@ class ManagementController(
         @RequestParam(required = false) deleteList: List<Long>?,
         @RequestParam(required = false) insertList: List<MultipartFile>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        val management = managementService.modifyManagement(managementId, managementRequestDto, deleteList, insertList)
+        val managementResponseDto = managementService.modifyManagement(
+            managementId = managementId,
+            managementRequestDto = managementRequestDto,
+            deleteList = deleteList, insertList = insertList
+        )
 
-        return ResponseEntity.ok(management)
+        return ResponseEntity.ok(managementResponseDto)
     }
 
     /**
@@ -92,7 +105,12 @@ class ManagementController(
     @ApiOperation(value = "관리일지 삭제")
     @DeleteMapping("/{managementId}")
     fun deleteManagement(@PathVariable("managementId") managementId: Long): ResponseEntity<ResultDto<Boolean>> {
-        managementService.deleteManagement(managementId, testToken["clientId"].toString().toLong(), testToken["userCode"].toString(), testToken["locationCode"].toString())
+        managementService.deleteManagement(
+            clientId = testToken["clientId"].toString().toLong(),
+            managementId = managementId,
+            userCode = testToken["userCode"].toString(),
+            locationCode = testToken["locationCode"].toString()
+        )
 
         return ResponseEntity.ok(ResultDto(true))
     }
@@ -108,9 +126,13 @@ class ManagementController(
         @PathVariable("managementId") managementId: Long,
         managementCommentRequestDto: ManagementCommentRequestDto
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
-        val management = managementService.createManagementComment(managementId, managementCommentRequestDto)
+        val managementResponseDto = managementService.createManagementComment(
+            managementId = managementId,
+            clientId = testToken["clientId"].toString().toLong(),
+            managementCommentRequestDto = managementCommentRequestDto,
+        )
 
-        return ResponseEntity.ok(management)
+        return ResponseEntity.ok(managementResponseDto)
     }
 
     /**
@@ -121,7 +143,13 @@ class ManagementController(
     @ApiOperation(value = "관리일지 댓글 삭제")
     @DeleteMapping("/{managementId}/comment/{managementCommentId}")
     fun deleteManagementComment(@PathVariable("managementId") managementId: Long, @PathVariable("managementCommentId") managementCommentId: Long): ResponseEntity<ResultDto<Boolean>> {
-        val result = managementService.deleteManagementComment(managementId, testToken["clientId"].toString().toLong(), testToken["userCode"].toString(), testToken["locationCode"].toString(), managementCommentId)
+        val result = managementService.deleteManagementComment(
+            clientId = testToken["clientId"].toString().toLong(),
+            managementId = managementId,
+            userCode = testToken["userCode"].toString(),
+            locationCode = testToken["locationCode"].toString(),
+            managementCommentId = managementCommentId,
+        )
 
         return ResponseEntity.ok(result)
     }

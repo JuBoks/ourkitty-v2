@@ -5,7 +5,6 @@ import com.nyang.ourkitty.entity.QManagementEntity.managementEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
-//@Component
 @Repository
 class ManagementQuerydslRepository(
     private val queryFactory: JPAQueryFactory,

@@ -1,4 +1,5 @@
 import os.path
+import glob
 
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
@@ -90,9 +91,14 @@ def display_detr_pics():
     return display_pics("img")
 
 def display_pics(folderName):
-    image_list = os.listdir(f"./static/{folderName}")
-    html_content = "<html><body><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
-    for image in image_list:
+    # 이미지 파일의 확장자 리스트
+    img_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+    # 가져올 이미지 파일이 있는 폴더 경로
+    dir_path = f"./static/{folderName}"
+    # 폴더 안의 모든 파일을 가져와서 정렬
+    image_list = sorted([f for f in os.listdir(dir_path) if os.path.splitext(f)[-1].lower() in img_extensions], key=lambda x: os.path.getmtime(os.path.join(dir_path, x)), reverse=True)
+    html_content = "<html><body><h3>최신순 10개</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list[:10]:
         if image.endswith(".jpg") or image.endswith(".png"):
             html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}" alt="{image}" width="416" ></div>'
     html_content += "</div></body></html>"

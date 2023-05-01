@@ -43,15 +43,5 @@ data class ManagementResponseDto(
     fun setImageList(managementImageList: List<ManagementImageResponseDto>) {
         this.managementImageList = managementImageList
     }
-
-    constructor() : this(
-        managementId = 1,
-        dish = DishResponseDto(),
-        client = ClientResponseDto(),
-        managementContent = "고양이 귀여워",
-        dishState = "0040001",
-        isDeleted = false,
-        createdDate = LocalDateTime.now(),
-        updatedDate = LocalDateTime.now()
-    )
+    
 }

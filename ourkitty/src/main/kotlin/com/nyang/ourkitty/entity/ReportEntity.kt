@@ -6,25 +6,26 @@ import javax.persistence.*
 @Entity
 @Table(name = "report_table")
 class ReportEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val reportId: Long? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
-    val dishId: Long,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dish_id")
+    val dish: DishEntity,
 
     val reportTitle: String,
     val reportCategory: String,
     val reportContent: String,
     val locationCode: String,
 
-    @OneToMany(mappedBy = "report")
-    val reportImageList: List<ReportImageEntity> = listOf(),
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val reportId: Long? = null,
 
     var reportState: String = ReportState.답변중.code,
 
+    @OneToMany(mappedBy = "report")
+    val reportImageList: List<ReportImageEntity> = listOf(),
 ) : BaseEntity() {
 
     fun complete() {

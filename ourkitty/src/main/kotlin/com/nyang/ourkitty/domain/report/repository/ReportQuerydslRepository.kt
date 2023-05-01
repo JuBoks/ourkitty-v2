@@ -6,18 +6,20 @@ import com.nyang.ourkitty.entity.ReportEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
-@Component
+@Repository
 class ReportQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
 ) {
 
     fun getReportList(dishId: Long?, reportCategory: String?, searchKey: String?, searchWord: String, limit: Long, offset: Long): List<ReportEntity> {
         return queryFactory.selectFrom(reportEntity)
-            //TODO : client join
+            .leftJoin(reportEntity.client).fetchJoin()
+            .leftJoin(reportEntity.dish).fetchJoin()
             .where(
-                dishId?.let { reportEntity.dishId.eq(dishId) },
+                reportEntity.isDeleted.isFalse,
+                dishId?.let { reportEntity.dish.dishId.eq(dishId) },
                 reportCategory?.let { reportEntity.reportCategory.eq(reportCategory) },
                 searchKey?.let {
                     when (it) {
@@ -39,8 +41,10 @@ class ReportQuerydslRepository(
     fun countReportList(dishId: Long?, reportCategory: String?, searchKey: String?, searchWord: String): Long {
         return queryFactory.select(reportEntity.reportId.count())
             .from(reportEntity)
+            .leftJoin(reportEntity.dish)
             .where(
-                dishId?.let { reportEntity.dishId.eq(dishId) },
+                reportEntity.isDeleted.isFalse,
+                dishId?.let { reportEntity.dish.dishId.eq(dishId) },
                 reportCategory?.let { reportEntity.reportCategory.eq(reportCategory) },
                 searchKey?.let {
                     when (it) {

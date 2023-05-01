@@ -5,17 +5,17 @@ import javax.persistence.*
 @Entity
 @Table(name = "dish_table")
 class DishEntity(
+    var dishName: String,
+    var dishAddress: String,
+    val dishSerialNum: String,
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishId: Long? = null,
 
-    var dishName: String = "",
-    //TODO : default 이미지 환경변수 처리 (url)
-    var dishProfileImagePath: String = "default.png",
+    var dishProfileImagePath: String = "",
+    var locationCode: String = "",
     var dishLat: Double = 0.0,
     var dishLong: Double = 0.0,
-    var dishAddress: String = "",
-    var locationCode: String = "",
-    val dishSerialNum: String = "",
     var dishWeight: Double = 0.0,
     var dishCatCount: Int = 0,
     var dishTnrCount: Int = 0,
