@@ -7,9 +7,6 @@ enum class UserCode(
     지자체("0010002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class LocationCode(
@@ -21,9 +18,6 @@ enum class LocationCode(
     강서구("0020004"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class DishState(
@@ -34,9 +28,6 @@ enum class DishState(
     파손("0030003"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class ReportCategory(
@@ -46,9 +37,6 @@ enum class ReportCategory(
     테러위험("0040002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class ReportState(
@@ -58,9 +46,6 @@ enum class ReportState(
     답변완료("0050002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class AlertState(
@@ -68,7 +53,13 @@ enum class AlertState(
 ) {
     ;
 
-    override fun toString(): String {
-        return code
-    }
+}
+
+enum class SearchKey(
+    val code: String,
+) {
+    제목("0070001"),
+    내용("0070002"),
+    ;
+
 }

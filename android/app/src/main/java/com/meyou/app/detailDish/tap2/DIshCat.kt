@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
 import com.meyou.app.detailDish.tap1.DetailActivity
-import com.meyou.app.detailDish.tap1.DetailDIshInfo
+import com.meyou.app.detailDish.tap3.VisiteCatActivity
 
 class DIshCat : AppCompatActivity() {
     private var catList = mutableListOf<DIshCatInfo>()
@@ -41,7 +41,7 @@ class DIshCat : AppCompatActivity() {
         )
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dish_cat)
+        setContentView(R.layout.activity_tap2_dish_cat)
 
         // RecyclerView 초기화
         val dishNewData = findViewById<RecyclerView>(R.id.rvdish)
@@ -52,21 +52,16 @@ class DIshCat : AppCompatActivity() {
         dishNewData.adapter = dishNewAdapter
         dishNewData.layoutManager = GridLayoutManager(this, 2)
 
-        // RecyclerView 초기화
-        val dishData = findViewById<RecyclerView>(R.id.rvdish2)
-        dishData.layoutManager = LinearLayoutManager(this)
-
-        // Adapter 설정
-        val dishAdapter = DishCatAdapter(this, catList)
-        dishData.adapter = dishAdapter
-        dishData.layoutManager = GridLayoutManager(this, 2)
-
 
         val tap1 = findViewById<TextView>(R.id.tap1)
         tap1.setOnClickListener {
             val intent = Intent(this, DetailActivity::class.java)
             startActivity(intent)
         }
-
+        val tap3 = findViewById<TextView>(R.id.tap3)
+        tap3.setOnClickListener {
+            val intent = Intent(this, VisiteCatActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

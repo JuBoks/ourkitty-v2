@@ -4,5 +4,4 @@ data class CatCountRequestDto(
     val dishSerialNum: String,
     val catCount: Int,
     val tnrCount: Int,
-) {
-}
+)

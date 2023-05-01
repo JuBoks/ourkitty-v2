@@ -5,7 +5,6 @@ import com.nyang.ourkitty.entity.QManagementEntity.managementEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
-//@Component
 @Repository
 class ManagementQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
@@ -17,6 +16,7 @@ class ManagementQuerydslRepository(
             .leftJoin(managementEntity.dish).fetchJoin()
             .leftJoin(managementEntity.client).fetchJoin()
             .where(
+                managementEntity.isDeleted.isFalse,
                 managementEntity.locationCode.eq(locationCode),
                 dishId?.let { managementEntity.dish.dishId.eq(dishId) },
             )
@@ -30,6 +30,7 @@ class ManagementQuerydslRepository(
             .from(managementEntity)
             .leftJoin(managementEntity.dish)
             .where(
+                managementEntity.isDeleted.isFalse,
                 managementEntity.locationCode.eq(locationCode),
                 dishId?.let { managementEntity.dish.dishId.eq(dishId) },
             )

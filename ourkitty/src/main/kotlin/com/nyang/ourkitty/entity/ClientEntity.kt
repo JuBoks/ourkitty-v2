@@ -7,9 +7,6 @@ import javax.persistence.*
 @Entity
 @Table(name = "client_table")
 class ClientEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val clientId: Long? = null,
-
     val clientEmail: String,
     val clientPassword: String,
     val clientName: String,
@@ -20,6 +17,9 @@ class ClientEntity(
     val userCode: String = UserCode.캣맘.code,
     val locationCode: String,
     val lastPostingDate: LocalDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0),
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val clientId: Long? = null,
 ) : BaseEntity() {
 
     //TODO : updateDish or addDish -> DishClientEntity 생성하는 로직

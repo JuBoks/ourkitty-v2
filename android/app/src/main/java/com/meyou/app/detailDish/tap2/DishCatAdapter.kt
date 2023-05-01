@@ -13,7 +13,7 @@ import com.meyou.app.R
 class DishCatAdapter(val context: Context, val List : List<DIshCatInfo>):
     RecyclerView.Adapter<DishCatAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishCatAdapter.ViewHolder {
-        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_cat_list, parent, false)
+        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap2_cat_list, parent, false)
 
         return ViewHolder(v)    }
 

@@ -5,9 +5,6 @@ import javax.persistence.*
 @Entity
 @Table(name = "management_table")
 class ManagementEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val managementId: Long? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id")
     val dish: DishEntity,
@@ -16,15 +13,18 @@ class ManagementEntity(
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
-    @OneToMany(mappedBy = "management")
+    @OneToMany(mappedBy = "management", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val managementImageList: MutableList<ManagementImageEntity> = mutableListOf(),
 
-    @OneToMany(mappedBy = "management")
+    @OneToMany(mappedBy = "management", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val managementCommentList: MutableList<ManagementCommentEntity> = mutableListOf(),
 
     var managementContent: String,
     var dishState: String,
     val locationCode: String,
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val managementId: Long? = null,
 ) : BaseEntity() {
 
     fun addComment(comment: ManagementCommentEntity) {

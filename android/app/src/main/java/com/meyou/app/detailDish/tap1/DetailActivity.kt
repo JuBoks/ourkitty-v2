@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
 import com.meyou.app.detailDish.tap2.DIshCat
-import com.meyou.app.main.ContentsMyDishList
+import com.meyou.app.detailDish.tap3.VisiteCatActivity
 
 class DetailActivity : AppCompatActivity() {
     private var dishList = mutableListOf<DetailDIshInfo>()
@@ -26,9 +26,10 @@ class DetailActivity : AppCompatActivity() {
             )
         )
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_tap1_detail)
         // 클릭시 넘어온 dishId
         val dishId = intent.getStringExtra("dishId")
+
         var dishImage = findViewById<ImageView>(R.id.dishImage)
         val titleView = findViewById<TextView>(R.id.titleView)
         val addressView = findViewById<TextView>(R.id.addressView)
@@ -54,6 +55,11 @@ class DetailActivity : AppCompatActivity() {
         val tap2 = findViewById<TextView>(R.id.tap2)
         tap2.setOnClickListener {
             val intent = Intent(this, DIshCat::class.java)
+            startActivity(intent)
+        }
+        val tap3 = findViewById<TextView>(R.id.tap3)
+        tap3.setOnClickListener {
+            val intent = Intent(this, VisiteCatActivity::class.java)
             startActivity(intent)
         }
     }

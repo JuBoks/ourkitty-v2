@@ -29,7 +29,7 @@ class DishController(
     )
 
     /**
-     * 해당 유저가 관리하는 dish 의 목록을 반환한다.
+     * 해당 유저의 locationCode 를 통해 dishList 를 반환한다.
      * TODO : 인증 기능 - 현재 로그인한 유저의 id 를 받아와서 (jwt 토큰 까서?) 전달해야함
      * @return ResponseEntity<List<DishResponseDto>>
      */
@@ -55,7 +55,7 @@ class DishController(
 
     /**
      * 입력받은 dishRequestDto 의 정보를 바탕으로 새로운 냥그릇을 생성한 뒤,
-     * exception 이 발생하지 않는다면 id 값을 return 한다.
+     * 생성된 Entity 를 바탕으로 DishResponseDto 를 반환한다.
      * swagger 에 @ApiParam 이라는 어노테이션도 존재
      *
      * @param dishRequestDto DishRequestDto
@@ -71,7 +71,11 @@ class DishController(
             throw CustomException(ErrorCode.NO_ACCESS)
         }
 
-        val dishResponseDto = dishService.createDish(testToken["locationCode"].toString(), dishRequestDto, file)
+        val dishResponseDto = dishService.createDish(
+            locationCode = testToken["locationCode"].toString(),
+            dishRequestDto = dishRequestDto,
+            file = file
+        )
 
         return ResponseEntity.ok(dishResponseDto)
     }
@@ -90,10 +94,18 @@ class DishController(
     fun modifyDish(
         @PathVariable("dishId") dishId: Long, dishRequestDto: DishRequestDto, @RequestParam(required = false) file: MultipartFile?
     ): ResponseEntity<ResultDto<DishResponseDto>> {
+
         if (testToken["userCode"].toString() != UserCode.지자체.code) {
             throw CustomException(ErrorCode.NO_ACCESS)
         }
-        return ResponseEntity.ok(dishService.modifyDish(dishId, dishRequestDto, file))
+
+        val dishResponseDto = dishService.modifyDish(
+            dishId = dishId,
+            dishRequestDto = dishRequestDto,
+            file = file
+        )
+
+        return ResponseEntity.ok(dishResponseDto)
     }
 
     /**
@@ -105,9 +117,11 @@ class DishController(
     @ApiOperation(value = "냥그릇 삭제")
     @DeleteMapping("/{dishId}")
     fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<ResultDto<Boolean>> {
+
         if (testToken["userCode"].toString() != UserCode.지자체.code) {
             throw CustomException(ErrorCode.NO_ACCESS)
         }
+
         return ResponseEntity.ok(dishService.deleteDish(dishId))
     }
 

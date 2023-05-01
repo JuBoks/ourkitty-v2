@@ -5,9 +5,9 @@ import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.QDishEntity.dishEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
-@Component
+@Repository
 class DishQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
 ) {
@@ -32,6 +32,7 @@ class DishQuerydslRepository(
         )
             .from(dishEntity)
             .where(
+                dishEntity.isDeleted.isFalse,
                 locationCode?.let { dishEntity.locationCode.eq(locationCode) },
             )
             .fetchOne()!!
@@ -41,8 +42,8 @@ class DishQuerydslRepository(
         return queryFactory
             .selectFrom(dishEntity)
             .where(
-                dishEntity.dishId.eq(dishId),
                 dishEntity.isDeleted.isFalse,
+                dishEntity.dishId.eq(dishId),
             )
             .fetchOne()
     }
@@ -51,8 +52,8 @@ class DishQuerydslRepository(
         return queryFactory
             .selectFrom(dishEntity)
             .where(
-                dishEntity.dishSerialNum.eq(dishSerialNum),
                 dishEntity.isDeleted.isFalse,
+                dishEntity.dishSerialNum.eq(dishSerialNum),
             )
             .fetchOne()
     }
