@@ -30,8 +30,9 @@ def resize_img(im):
 
 
 # 이미지 load
-
-base_path = './input'
+print('hi',os.getcwd())
+print('hi',os.path.abspath('./Desktop/S08P31E203/ai/face_detection/input'))
+base_path = os.path.abspath('./Desktop/S08P31E203/ai/face_detection/input')
 file_list = sorted(os.listdir(base_path))
 img = cv2.imread(os.path.join(base_path, file_list[0]))
 ori_img = img.copy()
@@ -41,8 +42,8 @@ img_size = 224
 
 # 인공지능 모델 load
 
-bbs_path = './models/bbs_1.h5'
-lmks_path = './models/lmks_1.h5'
+bbs_path = './Desktop/S08P31E203/ai/face_detection/models/bbs_1.h5'
+lmks_path = './Desktop/S08P31E203/ai/face_detection/models/lmks_1.h5'
 
 bbs_model = load_model(bbs_path)
 lmks_model = load_model(lmks_path)
@@ -50,6 +51,9 @@ lmks_model = load_model(lmks_path)
 # 얼굴 인식 후 crop 및 흑백처리 후 저장
 
 for index, f in enumerate(file_list):
+  # 파일 이름, 확장자
+  filename, ext = os.path.splitext(f)
+
   img = cv2.imread(os.path.join(base_path, f))
   ori_img = img.copy()
   result_img = img.copy()
@@ -71,10 +75,9 @@ for index, f in enumerate(file_list):
   ]).astype(int)
   new_bb = np.clip(new_bb, 0, 99999)
 
-  # 얼굴 인식 및 흑백처리 후 경로로 저장
+  # 얼굴 인식 후 크롭해 경로로 저장
   face_img = ori_img[new_bb[0][1]:new_bb[1][1], new_bb[0][0]:new_bb[1][0]]
-  gray_img_face = cv2.cvtColor(face_img, cv2.COLOR_BGR2GRAY)
-  cv2.imwrite('./output/%s.jpg' % (index), gray_img_face)
+  cv2.imwrite('./Desktop/S08P31E203/ai/image_clustering/input/%s.jpg' % (filename), face_img)
 
   # 귀 Auto-labeling
   # 얼굴 사진 Preprocessing
@@ -123,20 +126,17 @@ for index, f in enumerate(file_list):
   new_w2 = new_pt2_x - x2 
   new_h2 = new_pt2_y - y2
 
-  # 파일 이름, 확장자
-  filename, ext = os.path.splitext(f)
+  # # visualizing
+  # cv2.rectangle(ori_img, pt1=(x2, y2), pt2=(int(x2 + new_w2), int(y2 + new_h2)), color=(0, 255, 0), thickness=2)
+  # cv2.imwrite('./Desktop/S08P31E203/ai/face_detection/output/%s.jpg' % (filename), ori_img)
 
-  # visualizing
-  cv2.rectangle(ori_img, pt1=(x2, y2), pt2=(int(x2 + new_w2), int(y2 + new_h2)), color=(0, 255, 0), thickness=2)
-  cv2.imwrite('./output/%s.jpg' % (filename), ori_img)
+  # #save .txt file
+  # x_center = (x2 + new_w2 // 2) / ori_img.shape[1]
+  # y_center = (y2 + new_h2 // 2) / ori_img.shape[0]
+  # width = new_w2 / ori_img.shape[1]
+  # height = abs(new_h2 / ori_img.shape[0])
 
-  #save .txt file
-  x_center = (x2 + new_w2 // 2) / ori_img.shape[1]
-  y_center = (y2 + new_h2 // 2) / ori_img.shape[0]
-  width = new_w2 / ori_img.shape[1]
-  height = abs(new_h2 / ori_img.shape[0])
-
-  data = str(x_center) + ' ' + str(y_center) + ' ' + str(width) + ' ' + str(height)
-  with open('./output/%s.txt' % (filename), 'w') as file:
-    file.write(data)
+  # data = str(x_center) + ' ' + str(y_center) + ' ' + str(width) + ' ' + str(height)
+  # with open('./output/%s.txt' % (filename), 'w') as file:
+  #   file.write(data)
 
