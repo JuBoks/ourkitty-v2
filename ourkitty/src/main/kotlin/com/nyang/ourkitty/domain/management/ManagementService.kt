@@ -40,7 +40,6 @@ class ManagementService(
         val totalCount = managementQuerydslRepository.countManagementList(locationCode, dishId)
 
         val managementDtoList = managementList
-            .filter { !it.isDeleted }
             .map(ManagementResponseDto::of)
 
         return ResultDto(
@@ -90,10 +89,10 @@ class ManagementService(
             managementResponseDto.setImageList(managementImageResponseDtoList)
         }
 
-        return ResultDto(
-            data = managementResponseDto,
-        )
-    }
+            return ResultDto(
+                data = managementResponseDto,
+            )
+        }
 
     @Transactional
     fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
@@ -150,15 +149,6 @@ class ManagementService(
         )
     }
 
-    private fun getManagementById(managementId: Long): ManagementEntity {
-        val management: ManagementEntity? = managementRepository.findByIdOrNull(managementId)
-
-        if (management == null || management.isDeleted) {
-            throw CustomException(ErrorCode.NOT_FOUND_MANAGEMENT)
-        }
-        return management
-    }
-
     @Transactional
     fun createManagementComment(managementId: Long, managementCommentRequestDto: ManagementCommentRequestDto): ResultDto<ManagementResponseDto> {
         val management = managementRepository.findByIdOrNull(managementId) ?: throw CustomException(ErrorCode.NOT_FOUND_MANAGEMENT)
@@ -175,10 +165,10 @@ class ManagementService(
     }
 
     @Transactional
-    fun deleteManagementComment(managementId: Long, clientId: Long, managementCommentId: Long): ResultDto<Boolean> {
+    fun deleteManagementComment(managementId: Long, clientId: Long, userCode: String, locationCode: String, managementCommentId: Long): ResultDto<Boolean> {
         val managementComment = getManagementCommentById(managementCommentId)
         
-        if (managementComment.client.clientId != clientId) throw CustomException(ErrorCode.NO_ACCESS)
+        if (managementComment.client.clientId != clientId || userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         managementComment.delete()
         managementCommentRepository.save(managementComment)
@@ -186,6 +176,15 @@ class ManagementService(
         return ResultDto(
             data = true,
         )
+    }
+
+    private fun getManagementById(managementId: Long): ManagementEntity {
+        val management: ManagementEntity? = managementRepository.findByIdOrNull(managementId)
+
+        if (management == null || management.isDeleted) {
+            throw CustomException(ErrorCode.NOT_FOUND_MANAGEMENT)
+        }
+        return management
     }
 
     private fun getManagementCommentById(managementCommentId: Long): ManagementCommentEntity {

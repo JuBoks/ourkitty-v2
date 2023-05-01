@@ -11,7 +11,7 @@ export default function Main() {
   const category = useRecoilState(categoryState)[0];
 
   return (
-    <div>
+    <div className="w-[1620px] h-full">
       {category[0] ? (
         <DashBoard />
       ) : category[1] ? (

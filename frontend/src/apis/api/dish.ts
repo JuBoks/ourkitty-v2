@@ -29,20 +29,19 @@ export const getDishItem = async (
 
 // POST
 /**
- * 냥그릇 등록
+ * 냥그릇 등록 / 수정
  * @param {dishAddress: string, dishLat: 0, dishLong: 0, dishName: string, dishSerialNum: string, file: string }
  * @returns
  */
 
-export const registDish = async (formData: any) => {
-  console.log(formData);
+export const registDish = async (formData: FormData) => {
   const { data } = await defaultInstance.post(`dish`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
 };
 
-// POST
+// PUT
 
 /**
  * 냥그릇 수정
@@ -51,15 +50,12 @@ export const registDish = async (formData: any) => {
  * @returns
  */
 
-// export const modifyDish = async (
-//   dishId: number,
-//   dishRequestDto: dishRequestDto
-// ) => {
-//   const { data } = await defaultInstance.put(`dish/${dishId}`, dishRequestDto, {
-//     headers: { "Content-type": "multipart/form-data" },
-//   });
-//   return data;
-// };
+export const modifyDish = async (dishId: number, formData: FormData) => {
+  const { data } = await defaultInstance.put(`dish/${dishId}`, formData, {
+    headers: { "Content-type": "multipart/form-data" },
+  });
+  return data;
+};
 
 // DELETE
 /**

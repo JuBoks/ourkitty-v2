@@ -3,13 +3,27 @@ import { defaultInstance } from "../utils";
 // GET
 /**
  * 관리일지 목록 조회
+ * id가 0일 경우 전체 조회
  * @returns
  */
-export const getManagementList = async (limit: number, offset: number) => {
-  const data = defaultInstance.get(
-    `management?limit=${limit}&offset=${offset}`
-  );
-  return data;
+export const getManagementList = async (
+  id: number,
+  limit: number,
+  offset: number
+) => {
+  if (id === 0) {
+    // 전체 일지 조회
+    const data = defaultInstance.get(
+      `management?limit=${limit}&offset=${offset}`
+    );
+    return data;
+  } else {
+    // 특정 냥그릇 일지 조회
+    const data = defaultInstance.get(
+      `management?id=${id}&limit=${limit}&offset=${offset}`
+    );
+    return data;
+  }
 };
 
 /**
@@ -56,11 +70,11 @@ interface managementCommentRequestDto {
  */
 export const registComment = async (
   managementId: number,
-  managementCommentContentDto: managementCommentRequestDto
+  formData: FormData
 ) => {
   const data = defaultInstance.post(
     `management/${managementId}/comment`,
-    managementCommentContentDto,
+    formData,
     {
       headers: { "Content-type": "multipart/form-data" },
     }
