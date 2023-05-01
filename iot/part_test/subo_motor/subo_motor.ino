@@ -1,30 +1,25 @@
 #include<Servo.h> //Servo 라이브러리를 추가
+
+#define SW              7
+#define DOOR_OPEN       30
+#define DOOR_CLOSE      0
 Servo servo;      //Servo 클래스로 servo객체 생성
 int value = 0;    // 각도를 조절할 변수 value
 
+
 void setup() {
-  servo.attach(7);     //servo 서보모터 7번 핀에 연결
+  Serial.begin(115200);
+  Serial.println("Servo Test");
+  servo.attach(9);     //servo 서보모터 7번 핀에 연결
                        // 이때 ~ 표시가 있는 PWM을 지원하는 디지털 핀에 연결
+  delay(1000);
+  pinMode(SW, INPUT_PULLUP);
 }
 
 void loop() {
-    value = 0;
-    servo.write(value); //value값의 각도로 회전. ex) value가 90이라면 90도 회전
-    delay(500);
-
-    value = 45;
-    servo.write(value);
-    delay(500);
-
-    value = 90;
-    servo.write(value);
-    delay(500);
-
-    value = 135;
-    servo.write(value);
-    delay(500);
-
-    value = 179;
-    servo.write(value);
-    delay(500);
+  while(digitalRead(SW)) delay(100);
+  Serial.println("SW detected");
+  servo.write(DOOR_OPEN);
+  delay(1000);
+  servo.write(DOOR_CLOSE);
 }
