@@ -14,6 +14,7 @@ data class ClientResponseDto(
     val clientPhone: String,
     val userCode: String,
     val locationCode: String,
+    val dishList: List<ClientDishResponseDto>,
     val isDeleted: Boolean,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
@@ -38,6 +39,8 @@ data class ClientResponseDto(
                 clientPhone = client.clientPhone,
                 userCode = client.userCode,
                 locationCode = client.locationCode,
+                //TODO : ManyToMany
+                dishList = client.dishList.map(ClientDishResponseDto::of),
                 isDeleted = client.isDeleted,
                 lastPostingDate = client.lastPostingDate,
                 createdDate = client.createdDate,
@@ -56,6 +59,7 @@ data class ClientResponseDto(
         "010101",
         "0010001",
         "0030001",
+        emptyList(),
         false,
         LocalDateTime.now(),
         LocalDateTime.now(),

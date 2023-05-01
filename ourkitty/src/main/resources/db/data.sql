@@ -8,7 +8,6 @@ VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', '', 'address1', '0123
         false,
         now(), now()),
        (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020002',
-       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020002',
         now(),
         false,
         now(), now());
@@ -38,10 +37,10 @@ VALUES (1, 2, 1, false, now(), now()),
        (4, 1, 3, false, now(), now());
 
 INSERT INTO `dish_image_table`
-VALUES (1, 1, '', false, now(), now()),
-       (2, 1, '', false, now(), now()),
-       (3, 2, '', false, now(), now()),
-       (4, 3, '', false, now(), now());
+VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+       (2, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+       (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+       (4, 3, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
 
 INSERT INTO `management_table`
 VALUES (1, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
@@ -72,9 +71,9 @@ VALUES (1, 1, 1, '신고1', '0040001', '고양이 아파', '처방전1', '002000
 -- VALUES (1, 2, 2, '병원 데려갈게요', false, now(), now());
 
 INSERT INTO `report_image_table`
-VALUES (1, 1, '', false, now(), now()),
-       (2, 2, '', false, now(), now()),
-       (3, 2, '', false, now(), now());
+VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+       (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+       (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
 
 INSERT INTO `alert_table`
 VALUES (1, '0080001', '관리일지알림', 2, null, null, '0060001', false, now(), now()),
