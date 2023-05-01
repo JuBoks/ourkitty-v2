@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.UserFragment">
+    tools:context=".user.UserFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:text="유저" />
+        android:text="로그아웃" />
 
-</FrameLayout>
+</LinearLayout>
