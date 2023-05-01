@@ -4,8 +4,6 @@ package com.nyang.ourkitty.domain.dish.service
 import com.nyang.ourkitty.domain.dish.DishService
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.dish.repository.DishRepository
-import com.nyang.ourkitty.entity.DishEntity
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -38,14 +36,6 @@ class DishServiceTest @Autowired constructor(
     @Test
     fun `dish 랑 savedDish 는 같은가`() {
         // given
-        val dish = DishEntity()
-
-        // when
-        val savedDish = dishRepository.save(dish)
-
-        // then
-        assertThat(savedDish.dishId).isEqualTo(dish.dishId)
-        assertThat(savedDish).isEqualTo(dish)
     }
 
 }

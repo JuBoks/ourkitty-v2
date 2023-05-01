@@ -5,9 +5,6 @@ import javax.persistence.*
 @Entity
 @Table(name = "management_table")
 class ManagementEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val managementId: Long? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id")
     val dish: DishEntity,
@@ -25,6 +22,9 @@ class ManagementEntity(
     var managementContent: String,
     var dishState: String,
     val locationCode: String,
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val managementId: Long? = null,
 ) : BaseEntity() {
 
     fun addComment(comment: ManagementCommentEntity) {

@@ -6,7 +6,6 @@ import com.nyang.ourkitty.entity.ManagementEntity
 
 data class ManagementCommentRequestDto(
     val managementId: Long,
-    val clientId: Long,
     val managementCommentContent: String,
 ) {
 
@@ -17,4 +16,5 @@ data class ManagementCommentRequestDto(
             managementCommentContent = this.managementCommentContent,
         )
     }
+
 }

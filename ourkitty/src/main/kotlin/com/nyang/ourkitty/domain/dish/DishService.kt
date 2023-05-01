@@ -30,13 +30,6 @@ class DishService(
     private val imageUploader: AwsS3ImageUploader,
 ) {
 
-    /*
-    private val testToken = mapOf(
-        "clientId" to 1L,
-        "userCode" to UserCode.캣맘.code,
-        "locationCode" to LocationCode.해운대구.code,
-    ) */
-
     fun getDishList(locationCode: String): DishListResultDto {
         val dishList = dishQuerydslRepository.getDishList(locationCode)
         val centerPos = dishQuerydslRepository.getCenterPos(locationCode)
@@ -55,7 +48,11 @@ class DishService(
     fun createDish(locationCode: String, dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
         //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
-        //TODO : 중복검사 serialNum 으로?
+
+        if (dishQuerydslRepository.getDishBySerialNum(dish.dishSerialNum) != null) {
+            throw CustomException(ErrorCode.DUPLICATE_RESOURCE)
+        }
+
         dish.updateLocationCode(locationCode)
         dish.updateDishWeight(100.0)
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.nyang.ourkitty.entity.ReportImageEntity
 import java.time.LocalDateTime
 
-class ReportImageResponseDto(
+data class ReportImageResponseDto(
     val reportImageId: Long,
     val imagePath: String,
     val isDeleted: Boolean,
@@ -14,7 +14,7 @@ class ReportImageResponseDto(
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val updatedDate: LocalDateTime,
-    ) {
+) {
 
     companion object {
         fun of(reportImageEntity: ReportImageEntity): ReportImageResponseDto {
@@ -27,4 +27,5 @@ class ReportImageResponseDto(
             )
         }
     }
+
 }
