@@ -19,7 +19,7 @@ create table `client_table`
     `client_password`           VARCHAR(255) NOT NULL,
     `client_name`               VARCHAR(50)  NOT NULL,
     `client_nickname`           VARCHAR(50)  NOT NULL,
-    `client_profile_image_path` VARCHAR(255) NOT NULL,
+    `client_profile_image_path` VARCHAR(255) NOT NULL DEFAULT '',
     `client_address`            VARCHAR(255) NOT NULL,
     `client_phone`              VARCHAR(50)  NOT NULL,
     `user_code`                 CHAR(10)     NOT NULL,
