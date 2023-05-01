@@ -1,4 +1,4 @@
-package com.meyou.app.detailDish.tap2
+package com.meyou.app.detailDish.tap3
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
 
-class DishCatAdapter(val context: Context, val List : List<DIshCatInfo>):
-    RecyclerView.Adapter<DishCatAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishCatAdapter.ViewHolder {
-        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap2_cat_list, parent, false)
+class VisiteCatAdapter(val context: Context, val List : List<VisiteCatInfo>):
+    RecyclerView.Adapter<VisiteCatAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VisiteCatAdapter.ViewHolder {
+        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap3_visite_cat, parent, false)
 
         return ViewHolder(v)    }
 
-    override fun onBindViewHolder(holder: DishCatAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VisiteCatAdapter.ViewHolder, position: Int) {
         holder.bindItems(List[position])
     }
 
@@ -26,13 +26,10 @@ class DishCatAdapter(val context: Context, val List : List<DIshCatInfo>):
     }
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView){
-        fun bindItems(item : DIshCatInfo) {
+        fun bindItems(item : VisiteCatInfo) {
             val rv_img = itemView.findViewById<ImageView>(R.id.catImage)
-            val rv_tnr = itemView.findViewById<TextView>(R.id.tnr)
             val rv_time = itemView.findViewById<TextView>(R.id.time)
             rv_time.text = item.time
-            if (item.isTNR) {rv_tnr.text = "O" }
-            else {rv_tnr.text = "X" }
 
             Glide.with(context)
                 .load(item.dishProfileImagePath)
