@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["사용자 관련 API"])
 @RestController
 @RequestMapping("/client")
+@CrossOrigin(origins = ["*"])
 class ClientController(
     private val clientService: ClientService,
 ) {

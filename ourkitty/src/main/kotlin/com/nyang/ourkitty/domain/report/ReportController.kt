@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 @Api(tags = ["문의 관련 API"])
 @RestController
 @RequestMapping("/report")
+@CrossOrigin(origins = ["*"])
 class ReportController(
     private val reportService: ReportService
 ) {
