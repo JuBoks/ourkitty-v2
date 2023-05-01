@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.report.dto
 
 import com.nyang.ourkitty.entity.ClientEntity
+import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.ReportEntity
 
 data class ReportRequestDto(
@@ -9,14 +10,16 @@ data class ReportRequestDto(
     val reportCategory: String,
     val reportContent: String,
 ) {
-    fun toEntity(client: ClientEntity, locationCode: String): ReportEntity {
+    
+    fun toEntity(client: ClientEntity, dish: DishEntity, locationCode: String): ReportEntity {
         return ReportEntity(
             client = client,
-            dishId = this.dishId,
+            dish = dish,
             reportTitle = this.reportTitle,
             reportCategory = this.reportCategory,
             reportContent = this.reportContent,
             locationCode = locationCode,
         )
     }
+
 }

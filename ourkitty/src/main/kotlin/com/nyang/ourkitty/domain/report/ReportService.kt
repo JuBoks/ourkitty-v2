@@ -2,10 +2,9 @@ package com.nyang.ourkitty.domain.report
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.ReportState
-import com.nyang.ourkitty.common.SearchKey
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
-import com.nyang.ourkitty.domain.report.dto.ReportImageResponseDto
+import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.domain.report.dto.ReportListResultDto
 import com.nyang.ourkitty.domain.report.dto.ReportRequestDto
 import com.nyang.ourkitty.domain.report.dto.ReportResponseDto
@@ -13,6 +12,7 @@ import com.nyang.ourkitty.domain.report.repository.ReportImageRepository
 import com.nyang.ourkitty.domain.report.repository.ReportQuerydslRepository
 import com.nyang.ourkitty.domain.report.repository.ReportRepository
 import com.nyang.ourkitty.entity.ClientEntity
+import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.ReportEntity
 import com.nyang.ourkitty.entity.ReportImageEntity
 import com.nyang.ourkitty.exception.CustomException
@@ -28,7 +28,10 @@ class ReportService(
     private val reportRepository: ReportRepository,
     private val reportQuerydslRepository: ReportQuerydslRepository,
     private val reportImageRepository: ReportImageRepository,
+
     private val clientRepository: ClientRepository,
+
+    private val dishQuerydslRepository: DishQuerydslRepository,
 
     private val imageUploader: AwsS3ImageUploader,
 ) {
@@ -36,9 +39,13 @@ class ReportService(
     @Transactional
     fun createReport(clientId: Long, locationCode: String, reportRequestDto: ReportRequestDto, files: List<MultipartFile>?): ResultDto<Boolean> {
         val client = getClientById(clientId)
+        val dish = getDishById(reportRequestDto.dishId)
+
         val report = reportRequestDto.toEntity(
             client = client,
-            locationCode = locationCode)
+            dish = dish,
+            locationCode = locationCode
+        )
 
         reportRepository.save(report)
 
@@ -126,6 +133,10 @@ class ReportService(
             throw CustomException(ErrorCode.NOT_FOUND_REPORT)
         }
         return report
+    }
+
+    private fun getDishById(dishId: Long): DishEntity {
+        return dishQuerydslRepository.getDishById(dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
 
 }

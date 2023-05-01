@@ -5,8 +5,7 @@ import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.ManagementEntity
 
 data class ManagementRequestDto(
-    val dishId: Long = 0L,
-    val clientId: Long = 0L,
+    val dishId: Long,
     val managementContent: String,
     val dishState: String,
 ) {

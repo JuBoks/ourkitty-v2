@@ -51,6 +51,5 @@ class SwaggerConfig {
     private fun getProduceContentTypes(): Set<String> {
         return setOf("application/json;charset=UTF-8")
     }
-
-
+    
 }
