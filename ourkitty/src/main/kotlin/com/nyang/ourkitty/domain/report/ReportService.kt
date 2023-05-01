@@ -106,9 +106,9 @@ class ReportService(
     }
 
     @Transactional
-    fun checkReport(reportId: Long): ResultDto<Boolean> {
+    fun checkReport(reportId: Long, reportDescription: String): ResultDto<Boolean> {
         val report = getReportById(reportId)
-        report.complete()
+        report.complete(reportDescription)
 
         reportRepository.save(report)
 
