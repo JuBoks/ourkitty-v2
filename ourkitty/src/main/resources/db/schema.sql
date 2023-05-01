@@ -163,7 +163,7 @@ create table `report_table`
     `report_title`       VARCHAR(50)  NOT NULL,
     `report_category`    CHAR(10)     NOT NULL,
     `report_content`     VARCHAR(255) NOT NULL,
-    `report_description` TEXT         NOT NULL,
+    `report_description` VARCHAR(255) NOT NULL DEFAULT '',
     `location_code`      CHAR(10)     NOT NULL,
     `report_state`       CHAR(10)     NOT NULL,
     `is_deleted`         BOOLEAN      NOT NULL,
