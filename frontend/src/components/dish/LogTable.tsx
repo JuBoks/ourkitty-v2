@@ -145,8 +145,16 @@ export default function LogTable() {
                   <td className="w-[10%] text-center py-1.5 px-2">
                     {item.client.clientName}
                   </td>
-                  <td className="w-[10%] text-center py-1.5 px-2">
-                    {item.dishState}
+                  <td className="w-[10%] text-center py-1.5 px-2 flex justify-center">
+                    {item.dishState === "0030001" ? (
+                      <div className="w-4 h-4 mt-1 bg-State1 rounded-[50%]"></div>
+                    ) : item.dishState === "0030002" ? (
+                      <div className="w-4 h-4 mt-1 bg-State2 rounded-[50%]"></div>
+                    ) : item.dishState === "0030003" ? (
+                      <div className="w-4 h-4 mt-1 bg-State3 rounded-[50%]"></div>
+                    ) : (
+                      <div className="w-4 h-4 mt-1 bg-State4 rounded-[50%]"></div>
+                    )}
                   </td>
                   <td className="w-[50%] py-1 px-2 truncate">
                     {item.managementContent}
@@ -158,7 +166,7 @@ export default function LogTable() {
               ))}
             </tbody>
           </table>
-          <div className="flex flex-row justify-center absolute bottom-0 left-[40%]">
+          <div className="absolute bottom-0 left-[40%]">
             <Pagination
               count={totalPage}
               sx={{ color: "#9FA9D8" }}
