@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import MarkerBlue from "../../assets/marker_blue.png";
 import MarkerYellow from "../../assets/marker_yellow.png";
@@ -26,6 +26,7 @@ interface detailData {
 }
 export default function ReportKakaoMap2() {
   const reportId = useRecoilState(reportDetailId)[0];
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["getReportItem", reportId],
@@ -65,7 +66,11 @@ export default function ReportKakaoMap2() {
           size: { width: 45, height: 45 },
         }}
         title={data.data.data.dish.dishName}
-      ></MapMarker>
+      >
+        <div style={{ padding: "5px", color: "#000" }}>
+          {data.data.data.dish.dishName}
+        </div>
+      </MapMarker>
     </Map>
   );
 }

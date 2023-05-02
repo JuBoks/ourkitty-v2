@@ -88,7 +88,6 @@ export default function ReportDetail() {
 
   if (isLoading || data === undefined) return null;
 
-  console.log(data.data.data);
   return (
     <div className="w-full h-full flex flex-col">
       <h1 className="text-[1.3rem] font-bold">민원 상세</h1>
