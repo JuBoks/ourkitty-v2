@@ -90,9 +90,9 @@ export default function ReportItem() {
           <option value="0040002">테러/위협</option>
           <option value="0040003">분실 신고</option>
         </select>
-        <div className="w-[430px] h-10 x-4 border-2 border-slate-300 flex flex-row gap-2 rounded-lg">
+        <div className="w-[430px] h-10 x-4 border-2 border-slate-300 flex flex-row gap-2 rounded-lg dark:border-DarkMain">
           <select
-            className="border-r-2 border-slate-300 px-3 outline-none rounded-l-lg dark:bg-DarkBackground2"
+            className="border-r-2 border-slate-300 px-3 outline-none rounded-l-lg dark:border-DarkMain dark:bg-DarkBackground2"
             name=""
             id=""
             value={searchKey}
