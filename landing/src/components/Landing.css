@@ -23,7 +23,7 @@
 .manu-cat:after {
   display: block;
   content: "";
-  border-bottom: solid 5px #9fa9d8;
+  border-bottom: solid 5px white;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }
@@ -34,4 +34,8 @@
 
 .manu-cat:after {
   transform-origin: 0% 50%;
+}
+
+.frame {
+  transform: rotateY(180deg);
 }

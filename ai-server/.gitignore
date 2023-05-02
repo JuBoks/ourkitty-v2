@@ -1,3 +1,8 @@
 __pycache__
 credentials.json
 token.json
+.env
+static/img/*
+static/yolo/*
+static/detr/*
+service-account.json

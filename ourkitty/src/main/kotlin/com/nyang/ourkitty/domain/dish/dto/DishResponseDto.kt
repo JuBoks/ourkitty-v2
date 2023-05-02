@@ -24,21 +24,26 @@ data class DishResponseDto(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val updatedDate: LocalDateTime,
 ) {
-    constructor(dish: DishEntity) : this(
-        dishId = dish.dishId!!,
-        dishName = dish.dishName,
-        dishProfileImagePath = dish.dishProfileImagePath,
-        dishLat = dish.dishLat,
-        dishLong = dish.dishLong,
-        dishAddress = dish.dishAddress,
-        locationCode = dish.locationCode,
-        dishSerialNum = dish.dishSerialNum,
-        dishWeight = dish.dishWeight,
-        dishCatCount = dish.dishCatCount,
-        dishTnrCount = dish.dishTnrCount,
-        isDeleted = dish.isDeleted,
-        createdDate = dish.createdDate,
-        updatedDate = dish.updatedDate
-    )
+
+    companion object {
+        fun of(dish: DishEntity): DishResponseDto {
+            return DishResponseDto(
+                dishId = dish.dishId!!,
+                dishName = dish.dishName,
+                dishProfileImagePath = dish.dishProfileImagePath,
+                dishLat = dish.dishLat,
+                dishLong = dish.dishLong,
+                dishAddress = dish.dishAddress,
+                locationCode = dish.locationCode,
+                dishSerialNum = dish.dishSerialNum,
+                dishWeight = dish.dishWeight,
+                dishCatCount = dish.dishCatCount,
+                dishTnrCount = dish.dishTnrCount,
+                isDeleted = dish.isDeleted,
+                createdDate = dish.createdDate,
+                updatedDate = dish.updatedDate,
+            )
+        }
+    }
 
 }

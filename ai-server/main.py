@@ -1,15 +1,24 @@
+import os.path
+import glob
+
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-import requests
-import cv2
-import numpy as np
+from datetime import datetime
+import asyncio
 # Google
-from google_drive import connect_to_google_drive
-from google_drive import upload_photo
+from google_drive import connect_to_google_drive, upload_photo
+from dotenv import load_dotenv
+from detr import detectCatByDetr
+# YOLO
+from yolov5.yolo import detectCatByYolo
 
-app = FastAPI()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+app = FastAPI(static_directory="static")
 
 app.mount("/fastapi", app)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -27,101 +36,91 @@ app.add_middleware(
 googleService = connect_to_google_drive()
 
 # Spring 서버 URL
-SERVER_URL = 'https://ourkitty.site/api/pictures/'
+# SERVER_URL = 'https://ourkitty.site/api/pictures/'
 
-# OpenCV 설정
-winName = 'ESP32 CAMERA'
-infoPath = './infor/'
+@app.get("/")
+async def index():
+    return "Hello World!"
 
-classNames = []
-classFile = infoPath+'coco.names'
-with open(classFile,'rt') as f:
-    classNames = f.read().rstrip('\n').split('\n')
-
-configPath = infoPath+'ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt' #YOLO 환경설정파일
-weightsPath = infoPath+'frozen_inference_graph.pb'#사전 훈련된 가중치들
-
-net = cv2.dnn_DetectionModel(weightsPath,configPath)
-# net.setInputSize(320,320)
-#net.setInputSize(480,480)
-net.setInputSize(608, 608)
-net.setInputScale(1.0/127.5)
-net.setInputMean((127.5, 127.5, 127.5))
-net.setInputSwapRB(True)
-
-@app.post("/uploadfile/{serial_number}")
-async def create_upload_file(serial_number, imageFile: UploadFile or None = None):
+@app.post("/upload-google/{serial_number}")
+async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or None = None):
     if not imageFile:
         return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
-    else:
-        # 1. 이미지 파일인지 식별하기
-        contentType, ext = imageFile.content_type.split('/')
-        if(contentType != 'image'):
-            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
-        
-        # 2. 이미지 파일 읽기
-        contents = await imageFile.read()
 
-        # 읽은 파일 서버에 저장 (임시 추후 삭제)
-        with open("./static/img/uploaded.jpg", 'wb') as f:
+    # 이미지 파일인지 식별하기
+    contentType, ext = imageFile.content_type.split('/')
+    if(contentType != 'image'):
+        return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
+
+    # 이미지 파일 읽기
+    contents = await imageFile.read()
+
+    # 이미지 파일 이름 설정
+    fileName = os.environ[serial_number+"_NAME"]
+    filePath = "static/img/"+fileName+".png"
+    googleFileName = datetime.today().strftime("%Y-%m-%d_%H-%M-%S")
+    googleFileName = fileName+"_"+googleFileName
+
+    # 읽은 파일을 구글에 보내기 위해 서버에 저장
+    with open("./static/img/"+fileName+".png", 'wb') as f:
+        f.write(contents)
+
+    # 딥러닝 모델 실행
+    tasks = [
+        asyncio.create_task(filterCatByYolo(filePath, googleFileName, contents)),
+        asyncio.create_task(filterCatByDetr(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName))
+    ]
+
+    results = await asyncio.gather(*tasks)
+
+    if results[1] == 200:
+        return {'status': 200, 'message': "the image is uploaded on google drive."}
+    else:
+        return {'status': 200, 'message': "고양이 사진이 아닙니다."}
+
+@app.get("/yolo/pics")
+def display_yolo_pics():
+    return display_pics("yolo")
+
+@app.get("/detr/pics")
+def display_detr_pics():
+    return display_pics("detr")
+
+@app.get("/img/pics")
+def display_detr_pics():
+    return display_pics("img")
+
+def display_pics(folderName):
+    # 이미지 파일의 확장자 리스트
+    img_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+    # 가져올 이미지 파일이 있는 폴더 경로
+    dir_path = f"./static/{folderName}"
+    # 폴더 안의 모든 파일을 가져와서 정렬
+    image_list = sorted([f for f in os.listdir(dir_path) if os.path.splitext(f)[-1].lower() in img_extensions], key=lambda x: os.path.getmtime(os.path.join(dir_path, x)), reverse=True)
+    html_content = "<html><body><h3>최신순 10개</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list[:10]:
+        if image.endswith(".jpg") or image.endswith(".png"):
+            html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}" alt="{image}" width="416" ></div>'
+    html_content += "</div></body></html>"
+    return HTMLResponse(content=html_content, status_code=200)
+
+async def filterCatByYolo(filePath, googleFileName, contents):
+    # 1. 이미지 파일을 yolo로 고양이 사진 필터링
+    status, isDone = await detectCatByYolo(filePath)
+    if status == 1:
+        with open("./static/yolo/"+googleFileName+".png", 'wb') as f:
             f.write(contents)
 
-        # 3. 이미지 파일을 openCV로 고양이 사진 필터링 
-        status, isDone = await filter_cat(contents)
+    return status
 
-        # 4. 고양이사진 인 경우 spring 서버로 보내기
-        if isDone is False:
-            if status == 0:
-                msg = '고양이 사진이 아닙니다.'
-            elif status == -1:
-                msg = '사물인식 중 에러 발생'
-            return {'status': 500, 'message': msg}
+async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile, commonFileName):
+    # 1. 이미지 파일을 detr로 고양이 사진 필터링
+    status, isDone = await detectCatByDetr(filePath, fileName)
+    if status == 1:
+        with open("./static/detr/"+googleFileName+".png", 'wb') as f:
+            f.write(contents)
 
-        # 모션인식된 결과물 전송 (임시 추후 삭제)
-        # with open("./static/img/output.jpg", 'rb') as f:
-        #     contents = f.read()
-
-        response = await send_image(contents, ext, serial_number)
-
-        # return json.loads(response.content)
-        return {'status': response.status_code}
-
-async def filter_cat(contents):
-    try:
-        imgNp = np.fromstring(contents, np.uint8)
-        img = cv2.imdecode(imgNp,-1) #decodificamos
-
-        #사물인식
-        classIds, confs, bbox = net.detect(img,confThreshold=0.5)
-
-        # classId 가 17(cat)이 아니면 return false
-        if 17 not in classIds:
-            return 0, False
-
-        #사물인식된 경우 박스 및 테스트 입력
-        if len(classIds) != 0:
-            for classId, confidence,box in zip(classIds.flatten(),confs.flatten(),bbox):
-                cv2.rectangle(img,box,color=(0,255,0),thickness = 3) #mostramos en rectangulo lo que se encuentra
-                cv2.putText(img, classNames[classId-1], (box[0]+10,box[1]+30), cv2.FONT_HERSHEY_COMPLEX, 1, (0,255,0),2)
+        # 구글에 사진 전송
+        await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
         
-        # 인식한 결과를 로컬에 저장함(임시)
-        cv2.imwrite("./static/img/output.jpg", img)
-
-        return 1, True
-    except:
-        return -1, False
-
-
-async def send_image(img, ext, serial_number):
-    return requests.post(SERVER_URL + serial_number, files={'imageFile': img}, data={'extension': ext})
-
-
-@app.post("/test/{serial_number}")
-async def create_upload_file(serial_number, imageFile: UploadFile or None = None):
-    await upload_photo(googleService, imageFile)
-    return "google serivce is done"
-
-@app.get("/white-balance")
-def white_balance():
-    white_balance_photo("test")
-    return "white-balancing is done"
+    return status

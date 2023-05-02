@@ -11,6 +11,9 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseEntity {
+    fun delete() {
+        this.isDeleted = true
+    }
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

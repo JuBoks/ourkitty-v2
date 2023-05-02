@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card"
+    android:elevation="10dp"
+    android:id="@+id/detailDiv"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="20sp">
+        <ImageView
+            android:id="@+id/dishImage"
+            android:scaleType="fitXY"
+            android:radius="25dp"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/dishName"
+        android:layout_marginTop="10dp"
+        android:text="냥그릇 이름"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:src="@drawable/addressepin"
+            android:layout_width="wrap_content"
+            android:layout_height="15sp" />
+        <TextView
+        android:id="@+id/dishAddressText"
+        android:text="냥그릇 주소"
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

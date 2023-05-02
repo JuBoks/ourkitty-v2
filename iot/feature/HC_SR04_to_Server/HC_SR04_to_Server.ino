@@ -1,14 +1,9 @@
-#include <Arduino.h>
-#include <WiFi.h>
-#include <base64.h>
-#include "soc/soc.h"
-#include "soc/rtc_cntl_reg.h"
-#include "driver/rtc_io.h"
+#include "WiFi.h"
 
 
-#define SR04_TRIG 8
-#define SR04_ECHO 9
-#define LED 13
+#define SR04_TRIG 5
+#define SR04_ECHO 18
+// #define LED 13
 
 // ===========================
 // Enter your WiFi credentials
@@ -16,11 +11,11 @@
 const char* ssid = "KPHONE"; // 와이파이 이름
 const char* password = "12348765"; // 와이파이 비밀번호
 
-String serverName = "MY_BACKSERVER_IP";   // 아이피 주소 기입
+String serverName = "k8e203.p.ssafy.io";   // 아이피 주소 기입
 //String serverName = "example.com";   // 또는 도메인 네임
 
-String serialNumber = "LpnNFcE3YrQS490";
-String serverPath = "MY_BACKSERVER_PATH";     // serverPath 기입
+String serialNumber = "serial-1234-0001";
+String serverPath = "/api/iot/weight";     // serverPath 기입
 
 const int serverPort = 8000; // 포트번호
 
@@ -34,6 +29,7 @@ void setup() {
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
+  delay(100);
   WiFi.begin(ssid, password);  
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -45,17 +41,20 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   //초음파 송신부-> OUTPUT, 초음파 수신부 -> INPUT,  LED핀 -> OUTPUT
+  Serial.print("PinMode Setting : ");
   pinMode(SR04_TRIG, OUTPUT);
   pinMode(SR04_ECHO, INPUT);
-  pinMode(LED, OUTPUT);
+  // pinMode(LED, OUTPUT);
+  Serial.println("done.");
 }
 
 void loop() {
+  Serial.println("loop start");
   uint8_t count = 0;
   float sum = 0;
-  while(count < 100) {
+  while(count < 10) {
     digitalWrite(SR04_TRIG, LOW);
-    digitalWrite(SR04_ECHO, LOW);
+    // digitalWrite(SR04_ECHO, LOW);
     delayMicroseconds(2);
     digitalWrite(SR04_TRIG, HIGH);
     delayMicroseconds(10); 
@@ -79,9 +78,9 @@ void loop() {
     count += 1;
   }
 
-  sendData(sum / 100.0);
+  sendData(sum / count);
 
-  delay(300000);
+  delay(20000);
 }
 
 String sendData(float sensor_data) {
@@ -92,11 +91,11 @@ String sendData(float sensor_data) {
 
   if (client.connect(serverName.c_str(), serverPort)) {
     Serial.println("Connection successful!");    
-    String body = "{\"data\":" + String(sensor_data) + "}";
+    String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": " + String(sensor_data) +"}";
 
     uint32_t totalLen = body.length();
   
-    client.println("POST " + serverPath + "/" + serialNumber + " HTTP/1.1");
+    client.println("PUT " + serverPath + " HTTP/1.1");
     client.println("Host: " + serverName);
     client.println("Content-Type: application/json");
     client.println("Content-Length: " + String(totalLen));

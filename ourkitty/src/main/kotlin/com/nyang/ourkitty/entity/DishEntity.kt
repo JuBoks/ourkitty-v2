@@ -5,44 +5,46 @@ import javax.persistence.*
 @Entity
 @Table(name = "dish_table")
 class DishEntity(
+    var dishName: String,
+    var dishAddress: String,
+    val dishSerialNum: String,
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishId: Long? = null,
 
-    var dishName: String = "",
     var dishProfileImagePath: String = "",
+    var locationCode: String = "",
     var dishLat: Double = 0.0,
     var dishLong: Double = 0.0,
-    var dishAddress: String = "",
-    var locationCode: String = "",
-    val dishSerialNum: String = "",
     var dishWeight: Double = 0.0,
     var dishCatCount: Int = 0,
     var dishTnrCount: Int = 0,
 ) : BaseEntity() {
 
-    fun modify(param: DishEntity): DishEntity {
-        this.dishName = param.dishName
-        this.dishProfileImagePath = param.dishProfileImagePath
-        this.dishLat = param.dishLat
-        this.dishLong = param.dishLong
-        this.dishAddress = param.dishAddress
-        this.locationCode = param.locationCode
+    fun updateProfileImage(imagePath: String) {
+        this.dishProfileImagePath = imagePath
+    }
 
-        return this
+    fun updateLocationCode(locationCode: String) {
+        this.locationCode = locationCode
+    }
+
+    fun updateDishWeight(dishWeight: Double) {
+        this.dishWeight = dishWeight
+    }
+
+    fun updateCatCount(catCount: Int, tnrCount: Int) {
+        this.dishCatCount = catCount
+        this.dishTnrCount = tnrCount
     }
 
     fun update(param: DishEntity): DishEntity {
-        this.dishWeight = param.dishWeight
-        this.dishCatCount = param.dishCatCount
-        this.dishTnrCount = param.dishTnrCount
+        this.dishName = param.dishName
+        this.dishLat = param.dishLat
+        this.dishLong = param.dishLong
+        this.dishAddress = param.dishAddress
 
         return this
     }
 
-    fun delete(): DishEntity {
-        this.isDeleted = true
-        //TODO : 연관된 Entity 들에 대한 처리 필요
-
-        return this
-    }
 }
