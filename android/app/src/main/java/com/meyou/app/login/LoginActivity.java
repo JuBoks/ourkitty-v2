@@ -89,9 +89,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(pref.getString("checkNum", "").equals(inputCheckNum.getText().toString())){
+                    // 로그인 상태를 저장
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+
                     Toast.makeText(getApplicationContext(), "인증 완료 되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(), "인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }

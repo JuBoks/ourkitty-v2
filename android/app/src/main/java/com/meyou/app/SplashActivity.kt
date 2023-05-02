@@ -14,20 +14,25 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
-//        try{
-//            현재 로그인된 정보가 있는지 확인
-    //        Toast.makeText(this, "원래 로그인된 사람입니다.", Toast.LENGTH_LONG).show()
-//            Handler().postDelayed({
-//                    startActivity(Intent(this, LoginActivity::class.java))
-//                    finish()
-//                }, 2000)
-//        }catch (e:Exception){
-//                Log.d("SPLASH", "로그인 페이지로")
-            Handler().postDelayed({
+        // SharedPreferences 인스턴스 가져오기
+        val pref = getSharedPreferences("myPref", MODE_PRIVATE)
+
+        // SharedPreferences에서 로그인 정보 가져오기
+        val isLoggedIn = pref.getBoolean("isLoggedIn", false)
+
+        // 2초 후에 실행될 코드 설정
+        Handler().postDelayed({
+            // 로그인 정보가 있으면 MainActivity 실행
+            if (isLoggedIn) {
                 startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }, 2000)
-//        }
+            }
+            // 로그인 정보가 없으면 LoginActivity 실행
+            else {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            // 현재 액티비티 종료
+            finish()
+        }, 2000)
 
     }
 }

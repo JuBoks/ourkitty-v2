@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 @Api(tags = ["문의 관련 API"])
 @RestController
 @RequestMapping("/report")
+@CrossOrigin(origins = ["*"])
 class ReportController(
     private val reportService: ReportService
 ) {
@@ -57,7 +58,7 @@ class ReportController(
         @RequestParam("searchWord", required = false, defaultValue = "") searchWord: String,
     ): ResponseEntity<ReportListResultDto> {
 
-        if (testToken["userCode"] != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         val reportList = reportService.getReportList(
             dishId = dishId,
@@ -78,7 +79,7 @@ class ReportController(
     @GetMapping("/{reportId}")
     fun getReport(@PathVariable("reportId") reportId: Long): ResponseEntity<ResultDto<ReportResponseDto>> {
 
-        if (testToken["userCode"] != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(reportService.getReport(reportId))
     }
@@ -90,11 +91,11 @@ class ReportController(
      */
     @ApiOperation(value = "신고 답변 완료")
     @PutMapping("/{reportId}")
-    fun checkReport(@PathVariable("reportId") reportId: Long): ResponseEntity<ResultDto<Boolean>> {
+    fun checkReport(@PathVariable("reportId") reportId: Long, reportDescription: String?): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["userCode"] != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
-        return ResponseEntity.ok(reportService.checkReport(reportId))
+        return ResponseEntity.ok(reportService.checkReport(reportId, reportDescription))
     }
 
 }

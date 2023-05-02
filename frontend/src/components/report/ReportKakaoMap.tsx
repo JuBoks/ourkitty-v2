@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import MarkerBlue from "../../assets/marker_blue.png";
 import MarkerYellow from "../../assets/marker_yellow.png";
 import MarkerRed from "../../assets/marker_red.png";
 import { useRecoilState } from "recoil";
-import { dishInfo, dishRegist, dishCountState } from "../../recoil/dish";
-import { useQuery } from "react-query";
+import { reportDetailId } from "../../recoil/report";
+import { useQuery, useMutation } from "react-query";
 import { getDishList } from "../../apis/api/dish";
 
 interface detailData {
@@ -24,26 +24,13 @@ interface detailData {
   locationCode: string;
   updatedDate: string;
 }
-export default function MyDishKakaoMap() {
-  const [dish, setDish] = useRecoilState(dishInfo);
-  const [isRegist, setIsRegist] = useRecoilState(dishRegist);
-  const dishCount = useRecoilState(dishCountState)[0];
+export default function ReportKakaoMap() {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
   const [markerList, setMarkerList] = useState([] as boolean[]);
 
   const handleModifyDish = (item: detailData, index: number) => {
     handleMarkers(item, index);
     setCenter({ lat: item.dishLat, lng: item.dishLong });
-    setIsRegist(false);
-    setDish({
-      dishId: item.dishId,
-      dishAddress: item.dishAddress,
-      dishLat: item.dishLat,
-      dishLong: item.dishLong,
-      dishName: item.dishName,
-      dishSerialNum: item.dishSerialNum,
-      file: item.dishProfileImagePath,
-    });
   };
 
   const handleMarkers = (item: detailData, index: number) => {
@@ -60,7 +47,7 @@ export default function MyDishKakaoMap() {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getDishList", dishCount],
+    queryKey: ["getDishList"],
     queryFn: () => getDishList(),
   });
 
@@ -110,23 +97,8 @@ export default function MyDishKakaoMap() {
             }}
           >
             {markerList[index] && (
-              <div style={{ minWidth: "150px" }}>
-                <img
-                  alt="close"
-                  width="14"
-                  height="13"
-                  src="https://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"
-                  style={{
-                    position: "absolute",
-                    right: "5px",
-                    top: "5px",
-                    cursor: "pointer",
-                  }}
-                  onClick={handleMarkerClose}
-                />
-                <div style={{ padding: "5px", color: "#000" }}>
-                  {item.dishName}
-                </div>
+              <div style={{ padding: "5px", color: "#000" }}>
+                {item.dishName}
               </div>
             )}
           </MapMarker>

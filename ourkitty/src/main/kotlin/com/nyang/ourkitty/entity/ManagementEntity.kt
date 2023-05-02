@@ -13,10 +13,10 @@ class ManagementEntity(
     @JoinColumn(name = "client_id")
     val client: ClientEntity,
 
-    @OneToMany(mappedBy = "management")
+    @OneToMany(mappedBy = "management", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val managementImageList: MutableList<ManagementImageEntity> = mutableListOf(),
 
-    @OneToMany(mappedBy = "management")
+    @OneToMany(mappedBy = "management", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val managementCommentList: MutableList<ManagementCommentEntity> = mutableListOf(),
 
     var managementContent: String,

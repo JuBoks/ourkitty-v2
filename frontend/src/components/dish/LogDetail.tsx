@@ -219,11 +219,11 @@ export default function LogDetail({
         <div className="text-[2rem] font-bold">
           {data.data.data.dish.dishName}
         </div>
-        {data.data.data.dish.dishState === "0001" ? (
+        {data.data.data.dish.dishState === "0030001" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State1"></div>
-        ) : data.data.data.dish.dishState === "0002" ? (
+        ) : data.data.data.dish.dishState === "0030002" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State2"></div>
-        ) : data.data.data.dish.dishState === "0003" ? (
+        ) : data.data.data.dish.dishState === "0030003" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State3"></div>
         ) : (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State4"></div>
@@ -242,11 +242,13 @@ export default function LogDetail({
         {data.data.data.managementImageList.length === 0 ? null : (
           <div className="w-[600px] h-[400px] m-auto">
             <Carousel autoPlay={false}>
-              {data.data.data.managementImageList.map((item: string) => (
-                <Paper>
-                  <img src={item} alt="" />
-                </Paper>
-              ))}
+              {data.data.data.managementImageList.map(
+                (item: string, index: number) => (
+                  <Paper>
+                    <img key={index} src={item} alt="" />
+                  </Paper>
+                )
+              )}
             </Carousel>
           </div>
         )}
@@ -258,7 +260,10 @@ export default function LogDetail({
             <div className="ml-3 mt-2">등록된 댓글이 없습니다.</div>
           ) : (
             data.data.data.managementCommentList.map((item: comment) => (
-              <div className="flex flex-col gap-5 relative">
+              <div
+                key={item.managementCommentId}
+                className="flex flex-col gap-5 relative"
+              >
                 <div className="flex flex-row gap-3">
                   <img
                     className="w-16 h-16 rounded-[50%]"

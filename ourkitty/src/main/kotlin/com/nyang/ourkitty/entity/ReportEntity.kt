@@ -22,13 +22,15 @@ class ReportEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val reportId: Long? = null,
 
+    var reportDescription: String = "",
     var reportState: String = ReportState.답변중.code,
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val reportImageList: List<ReportImageEntity> = listOf(),
 ) : BaseEntity() {
 
-    fun complete() {
+    fun complete(reportDescription: String?) {
+        reportDescription?.let { this.reportDescription = it }
         this.reportState = ReportState.답변완료.code
     }
 

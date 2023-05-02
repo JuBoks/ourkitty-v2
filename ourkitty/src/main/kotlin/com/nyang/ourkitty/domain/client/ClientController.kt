@@ -1,9 +1,12 @@
 package com.nyang.ourkitty.domain.client
 
+import com.nyang.ourkitty.common.LocationCode
+import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
-import com.nyang.ourkitty.domain.client.repository.ClientRepository
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -12,9 +15,16 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["사용자 관련 API"])
 @RestController
 @RequestMapping("/client")
+@CrossOrigin(origins = ["*"])
 class ClientController(
-    private val clientRepository: ClientRepository
+    private val clientService: ClientService,
 ) {
+
+    private val testToken = mapOf(
+        "clientId" to 1L,
+        "userCode" to UserCode.지자체.code,
+        "locationCode" to LocationCode.해운대구.code,
+    )
 
     /**
      * TODO : 캣맘 아이디 생성 (지자체)
@@ -24,6 +34,14 @@ class ClientController(
     @ApiOperation(value = "사용자 아이디 생성")
     @PostMapping
     fun createAccount(clientRequestDto: ClientRequestDto): ResponseEntity<ResultDto<ClientResponseDto>> {
+
+        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+
+        clientService.createAccount(
+            locationCode = testToken["locationCode"].toString(),
+            clientRequestDto = clientRequestDto,
+        )
+
         return ResponseEntity.ok(ResultDto(ClientResponseDto()))
     }
 
@@ -34,7 +52,8 @@ class ClientController(
     @ApiOperation(value = "사용자 아이디 목록 조회")
     @GetMapping
     fun getAccountList(): ResponseEntity<ResultDto<List<ClientResponseDto>>> {
-        return ResponseEntity.ok(ResultDto(listOf(ClientResponseDto())))
+
+        return ResponseEntity.ok(clientService.getClientList())
     }
 
     /**
