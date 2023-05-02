@@ -28,7 +28,7 @@ create table `client_table`
     `last_posting_date`         TIMESTAMP    NOT NULL,
     `is_active`                 BOOLEAN      NOT NULL,
     `is_deleted`                BOOLEAN      NOT NULL,
-    `clientDescription`         VARCHAR(255) NOT NULL DEFAULT '',
+    `client_description`        VARCHAR(255) NOT NULL DEFAULT '',
     `created_date`              TIMESTAMP    NOT NULL,
     `updated_date`              TIMESTAMP    NOT NULL,
     PRIMARY KEY (`client_id`)
