@@ -1,15 +1,15 @@
 INSERT INTO `client_table`
 VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', '', 'address1', '0123', '0010001', '0020001',
         now(),
-        false,
+        true, false, '',
         now(), now()),
        (2, 'test2@ssafy.com', 'pwd', 'name2', 'nickname2', '', 'address2', '0123', '0010002', '0020001',
         now(),
-        false,
+        true, true, '',
         now(), now()),
-       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020002',
+       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020001',
         now(),
-        false,
+        false, false, '',
         now(), now());
 
 

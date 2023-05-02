@@ -38,13 +38,11 @@ class DishEntity(
         this.dishTnrCount = tnrCount
     }
 
-    fun update(param: DishEntity): DishEntity {
+    fun update(param: DishEntity) {
         this.dishName = param.dishName
         this.dishLat = param.dishLat
         this.dishLong = param.dishLong
         this.dishAddress = param.dishAddress
-
-        return this
     }
 
 }

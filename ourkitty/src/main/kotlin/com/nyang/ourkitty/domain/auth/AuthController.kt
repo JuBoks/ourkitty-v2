@@ -2,7 +2,6 @@ package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
-import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -22,8 +21,8 @@ class AuthController(
      */
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
-    fun signIn(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<ResultDto<ClientResponseDto>> {
-        return ResponseEntity.ok(ResultDto(ClientResponseDto()))
+    fun signIn(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<ResultDto<Boolean>> {
+        return ResponseEntity.ok(ResultDto(true))
     }
 
     /**
