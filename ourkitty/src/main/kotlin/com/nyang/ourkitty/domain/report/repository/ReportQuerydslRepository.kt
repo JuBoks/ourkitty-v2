@@ -1,6 +1,6 @@
 package com.nyang.ourkitty.domain.report.repository
 
-import com.nyang.ourkitty.common.SearchKey
+import com.nyang.ourkitty.common.ReportSearchKey
 import com.nyang.ourkitty.entity.QReportEntity.reportEntity
 import com.nyang.ourkitty.entity.ReportEntity
 import com.nyang.ourkitty.exception.CustomException
@@ -23,15 +23,15 @@ class ReportQuerydslRepository(
                 reportCategory?.let { reportEntity.reportCategory.eq(reportCategory) },
                 searchKey?.let {
                     when (it) {
-                        SearchKey.제목.code -> reportEntity.reportTitle.contains(searchWord)
-                        SearchKey.내용.code -> reportEntity.reportContent.contains(searchWord)
+                        ReportSearchKey.제목.code -> reportEntity.reportTitle.contains(searchWord)
+                        ReportSearchKey.내용.code -> reportEntity.reportContent.contains(searchWord)
                         else -> throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
                     }
                 },
             )
             .orderBy(
                 reportEntity.reportState.asc(),
-                reportEntity.createdDate.asc(),
+                reportEntity.updatedDate.asc(),
             )
             .limit(limit)
             .offset(offset)
@@ -48,8 +48,8 @@ class ReportQuerydslRepository(
                 reportCategory?.let { reportEntity.reportCategory.eq(reportCategory) },
                 searchKey?.let {
                     when (it) {
-                        SearchKey.제목.code -> reportEntity.reportTitle.contains(searchWord)
-                        SearchKey.내용.code -> reportEntity.reportContent.contains(searchWord)
+                        ReportSearchKey.제목.code -> reportEntity.reportTitle.contains(searchWord)
+                        ReportSearchKey.내용.code -> reportEntity.reportContent.contains(searchWord)
                         else -> throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
                     }
                 },
