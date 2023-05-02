@@ -1,10 +1,11 @@
 #include "WiFi.h"
 
-
-#define SR04_TRIG 5
-#define SR04_ECHO 18
-// #define LED 13
-
+// 배터리 충전삳태 상수. 0V ~ 5V 의 값을 1024단계로 나누어 단계를 표현
+// 특정 전압 이상일 때 표시가 바뀌는 형식
+#define FULL        1000
+#define SAFE        950
+#define WARNING     900
+#define DANGER      850
 // ===========================
 // Enter your WiFi credentials
 // ===========================
@@ -23,6 +24,7 @@ WiFiClient client;
 
 void setup() {
   Serial.begin(115200);
+  Serial.begin(115200);
   Serial.setDebugOutput(true);
 
   WiFi.mode(WIFI_STA);
@@ -39,51 +41,34 @@ void setup() {
   Serial.println();
   Serial.print("ESP32-CAM IP Address: ");
   Serial.println(WiFi.localIP());
-
-  //초음파 송신부-> OUTPUT, 초음파 수신부 -> INPUT,  LED핀 -> OUTPUT
-  Serial.print("PinMode Setting : ");
-  pinMode(SR04_TRIG, OUTPUT);
-  pinMode(SR04_ECHO, INPUT);
-  // pinMode(LED, OUTPUT);
-  Serial.println("done.");
 }
 
 void loop() {
-  Serial.println("loop start");
-  uint8_t count = 0;
-  float sum = 0;
-  while(count < 10) {
-    digitalWrite(SR04_TRIG, LOW);
-    // digitalWrite(SR04_ECHO, LOW);
-    delayMicroseconds(2);
-    digitalWrite(SR04_TRIG, HIGH);
-    delayMicroseconds(10); 
-    digitalWrite(SR04_TRIG, LOW);
-  
-    unsigned long duration = pulseIn(SR04_ECHO, HIGH);
-  
-    // 초음파의 속도는 초당 340미터를 이동하거나, 29마이크로초 당 1센치를 이동합니다.
-    // 따라서, 초음파의 이동 거리 = duration(왕복에 걸린시간) / 29 / 2 입니다.
-    float distance = duration / 29.0 / 2.0;
-  
-    // 측정된 거리 값를 시리얼 모니터에 출력합니다.
-    Serial.print(distance);
-    Serial.println("cm");
-  
-    // 측정된 거리의 총 합을 측정합니다.
-    sum += distance;
-    
-    // 0.2초 동안 대기합니다.
-    delay(200);
-    count += 1;
+  int sensorValue = analogRead(A0);
+  uint8_t code = 0;
+  Serial.println(sensorValue);
+  // 배터리 완충
+  if (sensorValue > FULL) {
+    code = 0;
+  }
+  // 배터리 안정적
+  else if (sensorValue > SAFE) {
+    code = 1;
+  }
+  // 배터리 위혐
+  else if (sensorValue > WARNING) {
+    code = 2;
+  }
+  // 배터리 경고
+  else {
+    code = 3;
   }
 
-  sendData(sum / count);
-
-  delay(20000);
+  sendData(sensorValue)
+  delay(1000);
 }
 
-String sendData(float sensor_data) {
+String sendData(uint8_t sensor_data) {
   String getAll;
   String getBody;
 
@@ -91,7 +76,7 @@ String sendData(float sensor_data) {
 
   if (client.connect(serverName.c_str(), serverPort)) {
     Serial.println("Connection successful!");    
-    String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": " + String(sensor_data) +"}";
+    String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishBettery\": " + String(sensor_data) +"}";
 
     uint32_t totalLen = body.length();
   
@@ -131,3 +116,4 @@ String sendData(float sensor_data) {
   }
   return getBody;
 }
+
