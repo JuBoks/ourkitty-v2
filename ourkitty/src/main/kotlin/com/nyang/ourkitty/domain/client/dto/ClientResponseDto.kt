@@ -15,7 +15,9 @@ data class ClientResponseDto(
     val userCode: String,
     val locationCode: String,
     val dishList: List<ClientDishResponseDto>,
+    val isActive: Boolean,
     val isDeleted: Boolean,
+    val clientDescription: String,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val lastPostingDate: LocalDateTime,
@@ -39,31 +41,15 @@ data class ClientResponseDto(
                 clientPhone = client.clientPhone,
                 userCode = client.userCode,
                 locationCode = client.locationCode,
-                //TODO : ManyToMany
                 dishList = client.dishList.map(ClientDishResponseDto::of),
+                isActive = client.isActive,
                 isDeleted = client.isDeleted,
+                clientDescription = client.clientDescription,
                 lastPostingDate = client.lastPostingDate,
                 createdDate = client.createdDate,
                 updatedDate = client.updatedDate
             )
         }
     }
-
-    constructor() : this(
-        1,
-        "baebugEmail",
-        "baebug",
-        "baebug",
-        "./default.png",
-        "address",
-        "010101",
-        "0010001",
-        "0030001",
-        emptyList(),
-        false,
-        LocalDateTime.now(),
-        LocalDateTime.now(),
-        LocalDateTime.now()
-    )
 
 }

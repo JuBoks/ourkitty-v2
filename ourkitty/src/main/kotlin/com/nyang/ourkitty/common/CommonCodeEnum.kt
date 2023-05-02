@@ -55,11 +55,23 @@ enum class AlertState(
 
 }
 
-enum class SearchKey(
+enum class ReportSearchKey(
     val code: String,
 ) {
     제목("0070001"),
     내용("0070002"),
+    ;
+
+}
+
+enum class ClientSearchKey(
+    val code: String,
+) {
+    이름("0090001"),
+    닉네임("0090002"),
+    이메일("0090003"),
+    전화번호("0090004"),
+    주소("0090005"),
     ;
 
 }
