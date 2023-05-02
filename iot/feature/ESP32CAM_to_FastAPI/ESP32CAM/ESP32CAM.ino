@@ -13,6 +13,10 @@
 // ===========================
 
 // 아이유정 WIFI 정보
+const char* ssid = "EDU-ELR22-861823"; // 라우터
+const char* password = "12345678";
+
+// 정호네 WIFI 정보
 const char* ssid = "EDU-ELR22-851139"; // 라우터
 const char* password = "12345678";
 
