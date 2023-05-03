@@ -10,7 +10,7 @@ services:
     ports:
       - '9099:8000'
     networks:
-      - prod
+      - mynetwork
   
   front-prod:
     build:
@@ -25,7 +25,7 @@ services:
     ports:
       - '3033:3000'
     networks:
-      - prod
+      - mynetwork
 
   landing-prod:
     build:
@@ -40,7 +40,7 @@ services:
     ports:
       - '3043:3000'
     networks:
-      - prod
+      - mynetwork
 
 networks:
   mynetwork:
