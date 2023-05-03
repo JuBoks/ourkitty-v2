@@ -1,0 +1,11 @@
+FROM mysql:8.0.31
+
+ENV TZ=Asia/Seoul
+
+COPY db-prod.env /etc/db-prod.env
+
+VOLUME /home/ubuntu/.dbdata-prod:/var/lib/mysql
+
+EXPOSE 3306
+
+CMD ["mysqld"]

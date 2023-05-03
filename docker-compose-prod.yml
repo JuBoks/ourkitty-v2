@@ -1,14 +1,12 @@
 services:
   db-prod:
-    image: mysql:8.0.31
+    build:
+      context: .
+      dockerfile: Dockerfile-dbprod
     container_name: db-prod
     restart: always
-    environment:
-      TZ: Asia/Seoul
     env_file:
       - db-prod.env
-    volumes:
-      - /home/ubuntu/.dbdata-prod:/var/lib/mysql
     ports:
       - "9404:3306"
     networks:
