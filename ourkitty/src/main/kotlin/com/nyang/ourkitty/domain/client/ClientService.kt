@@ -170,6 +170,18 @@ class ClientService(
     }
 
     @Transactional
+    fun cancelDeleteAccount(clientId: Long): ResultDto<Boolean>? {
+        getClientById(clientId).let {
+            it.cancelDelete()
+            clientRepository.save(it)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    @Transactional
     fun deactivateAccount(clientId: Long, clientDescription: String, unBlockDate: LocalDateTime): ResultDto<Boolean> {
         getClientById(clientId).let {
             it.deactivate(clientDescription)
@@ -209,6 +221,5 @@ class ClientService(
     private fun getDishById(dishId: Long): DishEntity {
         return dishQuerydslRepository.getDishById(dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
-
 
 }

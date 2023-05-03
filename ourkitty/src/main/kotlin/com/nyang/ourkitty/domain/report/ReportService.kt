@@ -118,12 +118,7 @@ class ReportService(
     }
 
     private fun getClientById(clientId: Long): ClientEntity {
-        val client = clientRepository.findByIdOrNull(clientId)
-
-        if (client == null || client.isDeleted) {
-            throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
-        }
-        return client
+        return clientRepository.findByIdOrNull(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
 
     private fun getReportById(reportId: Long): ReportEntity {

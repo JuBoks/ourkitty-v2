@@ -142,6 +142,22 @@ class ClientController(
     }
 
     /**
+     * TODO : 캣맘 아이디 탈퇴 취소
+     * @param clientId Long
+     * @return ResponseEntity<ResultDto<Boolean>>
+     */
+    @ApiOperation(value = "사용자 아이디 탈퇴")
+    @PutMapping("/{clientId}/cancel")
+    fun cancelDeleteAccount(@PathVariable clientId: Long): ResponseEntity<ResultDto<Boolean>> {
+
+        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+
+        return ResponseEntity.ok(
+            clientService.cancelDeleteAccount(clientId)
+        )
+    }
+
+    /**
      * TODO : 캣맘 아이디 비활성화 (지자체)
      * @param clientId Long
      * @return ResponseEntity<ResultDto<Boolean>>

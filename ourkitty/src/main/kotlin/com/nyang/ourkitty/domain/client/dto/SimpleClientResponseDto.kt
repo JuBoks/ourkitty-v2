@@ -5,6 +5,7 @@ import com.nyang.ourkitty.entity.ClientEntity
 data class SimpleClientResponseDto(
     val clientId: Long,
     val clientNickname: String,
+    val clientProfileImagePath: String,
 ) {
 
     companion object {
@@ -12,6 +13,7 @@ data class SimpleClientResponseDto(
             return SimpleClientResponseDto(
                 clientId = client.clientId!!,
                 clientNickname = client.clientNickname,
+                clientProfileImagePath = client.clientProfileImagePath,
             )
         }
     }

@@ -65,7 +65,15 @@ class ClientEntity(
 
     fun delete(clientDescription: String) {
         this.clientDescription = clientDescription
+        this.clientNickname = "삭제된 사용자"
+        this.clientProfileImagePath = ""
         this.isDeleted = true
+    }
+
+    fun cancelDelete() {
+        this.clientDescription = ""
+        this.clientNickname = this.clientName
+        this.isDeleted = false
     }
 
     fun activate() {
