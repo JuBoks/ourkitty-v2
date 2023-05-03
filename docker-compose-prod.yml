@@ -8,7 +8,6 @@ services:
     env_file:
       - db-prod.env
     volumes:
-      - /home/ubuntu/.dbdata-prod/my.cnf:/etc/mysql/my.cnf
       - /home/ubuntu/.dbdata-prod:/var/lib/mysql
     ports:
       - "9404:3306"
