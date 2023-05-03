@@ -8,7 +8,7 @@ Original file is located at
 """
 
 #필요한 라이브러리들 import
-import cv2, os, sys
+import cv2, os
 import numpy as np
 from keras.models import load_model
 
@@ -31,8 +31,8 @@ def resize_img(im):
 
 # 이미지 load
 print('hi',os.getcwd())
-print('hi',os.path.abspath('./Desktop/S08P31E203/ai/face_detection/input'))
-base_path = os.path.abspath('./Desktop/S08P31E203/ai/face_detection/input')
+print('hi',os.path.abspath('./input'))
+base_path = os.path.abspath('./input')
 file_list = sorted(os.listdir(base_path))
 img = cv2.imread(os.path.join(base_path, file_list[0]))
 ori_img = img.copy()
@@ -42,8 +42,8 @@ img_size = 224
 
 # 인공지능 모델 load
 
-bbs_path = './Desktop/S08P31E203/ai/face_detection/models/bbs_1.h5'
-lmks_path = './Desktop/S08P31E203/ai/face_detection/models/lmks_1.h5'
+bbs_path = './models/bbs_1.h5'
+lmks_path = './models/lmks_1.h5'
 
 bbs_model = load_model(bbs_path)
 lmks_model = load_model(lmks_path)
@@ -77,7 +77,7 @@ for index, f in enumerate(file_list):
 
   # 얼굴 인식 후 크롭해 경로로 저장
   face_img = ori_img[new_bb[0][1]:new_bb[1][1], new_bb[0][0]:new_bb[1][0]]
-  cv2.imwrite('./Desktop/S08P31E203/ai/image_clustering/input/%s.jpg' % (filename), face_img)
+  cv2.imwrite('../image_clustering/input/%s.jpg' % (filename), face_img)
 
   # 귀 Auto-labeling
   # 얼굴 사진 Preprocessing
