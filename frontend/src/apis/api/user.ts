@@ -21,29 +21,8 @@ export const getClientIdItem = async (clientId: number) => {
 };
 
 // POST
-interface clientRequestDto {
-  clientAddress: string;
-  clientEmail: string;
-  clientName: string;
-  clientNickname: string;
-  clientPassword: string;
-  clientPhone: string;
-  clientProfileImagePath: string;
-  dishList: [
-    {
-      dishAddress: string;
-      dishLat: 0;
-      dishLong: 0;
-      dishName: string;
-      dishProfileImagePath: string;
-      dishSerialNum: string;
-      locationCode: string;
-    }
-  ];
-  locationCode: string;
-}
-export const registClient = async (clientRequestDto: clientRequestDto) => {
-  const data = defaultInstance.post(`client`, clientRequestDto, {
+export const registClient = async (formData: FormData) => {
+  const data = defaultInstance.post(`client`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -56,11 +35,8 @@ export const registClient = async (clientRequestDto: clientRequestDto) => {
  * @param {clientAddress: string, clientEmail: string, clientName: string, clientNickname: string, clientPassword: string, clientPhone: string, clientProfileImagePath: string, dishList: [{dishAddress: string, dishLat: number, dishLong: number, dishName: string, dishProfileImagePath: string, dishSerialNum: string, locationCode: string}], locationCode: string}
  * @returns true/false
  */
-export const modifyClient = async (
-  clientId: number,
-  clientRequestDto: clientRequestDto
-) => {
-  const data = defaultInstance.put(`client/${clientId}`, clientRequestDto, {
+export const modifyClient = async (clientId: number, formData: FormData) => {
+  const data = defaultInstance.put(`client/${clientId}`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;

@@ -25,6 +25,7 @@ module.exports = {
         State2: "#FFCD4A",
         State3: "#FC5230",
         State4: "#9A30AE",
+        BlockUser: "#A7A7A755",
       },
     },
   },
