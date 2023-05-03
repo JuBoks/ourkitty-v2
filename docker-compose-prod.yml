@@ -43,4 +43,5 @@ services:
       - prod
 
 networks:
-  prod:
+  mynetwork:
+    name: prod
