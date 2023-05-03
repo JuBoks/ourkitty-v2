@@ -13,8 +13,12 @@
 // ===========================
 
 // 아이유정 WIFI 정보
-// const char* ssid = "EDU-ELR22-851139"; // 라우터
-// const char* password = "12345678";
+const char* ssid = "EDU-ELR22-861823"; // 라우터
+const char* password = "12345678";
+
+// 정호네 WIFI 정보
+const char* ssid = "EDU-ELR22-851139"; // 라우터
+const char* password = "12345678";
 
 // 미현이네 WIFI 정보
 // const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
@@ -28,8 +32,8 @@
 String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
 
 // String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
-// String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
-String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
+String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
+// String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
 
 String serverPath = "/upload-google";     // serverPath 기입
 
@@ -186,7 +190,7 @@ void setup() {
 
 void loop() {
   sendPhoto();
-  delay(10000);
+  delay(1000);
 }
 
 String sendPhoto() {
@@ -195,7 +199,7 @@ String sendPhoto() {
 
   camera_fb_t * fb = NULL;
   enable_led(true);
-  vTaskDelay(150 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
+  vTaskDelay(1000 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   fb = esp_camera_fb_get();             // or it won't be visible in the frame. A better way to do this is needed.
   enable_led(false);
 
@@ -239,7 +243,7 @@ String sendPhoto() {
     
     esp_camera_fb_return(fb);
     
-    int timoutTimer = 10000;
+    int timoutTimer = 5000;
     long startTimer = millis();
     boolean state = false;
     
@@ -352,3 +356,4 @@ String sendPhoto() {
 //   grabImage();
 //   delay(1000);
 // }
+

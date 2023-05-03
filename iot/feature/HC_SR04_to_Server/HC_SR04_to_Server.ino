@@ -1,7 +1,4 @@
 #include "WiFi.h"
-// #include "soc/soc.h"
-// #include "soc/rtc_cntl_reg.h"
-// #include "driver/rtc_io.h"
 
 
 #define SR04_TRIG 5

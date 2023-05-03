@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 @Api(tags = ["문의 관련 API"])
 @RestController
 @RequestMapping("/report")
+@CrossOrigin(origins = ["*"])
 class ReportController(
     private val reportService: ReportService
 ) {
@@ -90,7 +91,7 @@ class ReportController(
      */
     @ApiOperation(value = "신고 답변 완료")
     @PutMapping("/{reportId}")
-    fun checkReport(@PathVariable("reportId") reportId: Long, reportDescription: String): ResponseEntity<ResultDto<Boolean>> {
+    fun checkReport(@PathVariable("reportId") reportId: Long, reportDescription: String?): ResponseEntity<ResultDto<Boolean>> {
 
         if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 

@@ -29,8 +29,8 @@ class ReportEntity(
     val reportImageList: List<ReportImageEntity> = listOf(),
 ) : BaseEntity() {
 
-    fun complete(reportDescription: String) {
-        this.reportDescription = reportDescription
+    fun complete(reportDescription: String?) {
+        reportDescription?.let { this.reportDescription = it }
         this.reportState = ReportState.답변완료.code
     }
 

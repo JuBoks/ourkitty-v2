@@ -1,0 +1,46 @@
+services:
+  back-prod:
+    build:
+      context: ourkitty
+      dockerfile: Dockerfile
+    container_name: nyang-back-prod
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - '9099:8000'
+    networks:
+      - prod
+  
+  front-prod:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: nyang-front-prod
+    depends_on:
+      - back-prod
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - '3033:3000'
+    networks:
+      - prod
+
+  landing-prod:
+    build:
+      context: landing
+      dockerfile: Dockerfile
+    container_name: nyang-landing-prod
+    depends_on:
+      - back-prod
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - '3043:3000'
+    networks:
+      - prod
+
+networks:
+  prod:
