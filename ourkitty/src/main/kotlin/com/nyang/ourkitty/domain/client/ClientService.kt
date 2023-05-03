@@ -35,7 +35,7 @@ class ClientService(
     private val imageUploader: AwsS3ImageUploader,
 ) {
 
-    val log = LogFactory.getLog(ClientService::class.java)!!
+    private val log = LogFactory.getLog(ClientService::class.java)!!
 
 
     @Transactional
@@ -61,7 +61,7 @@ class ClientService(
         )
     }
 
-    fun getClientList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
+    fun getAccountList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
         val clientListResponseDto = clientQuerydslRepository.getClientList(
             locationCode = locationCode,
             dishId = dishId,
@@ -92,11 +92,20 @@ class ClientService(
         return result
     }
 
-    fun getClient(clientId: Long): ResultDto<ClientResponseDto> {
+    fun getAccountById(clientId: Long): ResultDto<ClientResponseDto> {
 
         return ResultDto(
             data = ClientResponseDto.of(
                 getClientById(clientId)
+            ),
+        )
+    }
+
+    fun getAccountByEmail(clientEmail: String): ResultDto<ClientResponseDto> {
+
+        return ResultDto(
+            data = ClientResponseDto.of(
+                getClientByEmail(clientEmail)
             ),
         )
     }
@@ -216,6 +225,10 @@ class ClientService(
 
     private fun getClientById(clientId: Long): ClientEntity {
         return clientQuerydslRepository.getClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    }
+
+    private fun getClientByEmail(clientEmail: String): ClientEntity {
+        return clientQuerydslRepository.getClientByEmail(clientEmail) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
 
     private fun getDishById(dishId: Long): DishEntity {

@@ -64,7 +64,7 @@ class ClientController(
         if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(
-            clientService.getClientList(
+            clientService.getAccountList(
                 locationCode = testToken["locationCode"].toString(),
                 dishId = dishId,
                 searchKey = searchKey,
@@ -84,7 +84,7 @@ class ClientController(
 
         if (testToken["clientId"].toString().toLong() != clientId || testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
-        return ResponseEntity.ok(clientService.getClient(clientId))
+        return ResponseEntity.ok(clientService.getAccountById(clientId))
     }
 
     /**

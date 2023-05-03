@@ -14,6 +14,7 @@ enum class ErrorCode(
 
     /* 403 FORBIDDEN : 접근 권한 없음 */
     NO_ACCESS(FORBIDDEN, "페이지에 대한 접근 권한이 없습니다."),
+    JWT_TOKEN_EXCEPTION(FORBIDDEN, "유효하지 않은 토큰입니다."),
 
     /* 404 NOT_FOUND : 대상이 존재하지 않음 */
     NOT_FOUND_DISH(NOT_FOUND, "존재하지 않는 냥그릇 입니다."),

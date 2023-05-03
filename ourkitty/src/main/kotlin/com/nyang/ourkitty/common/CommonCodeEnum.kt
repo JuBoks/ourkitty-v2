@@ -1,5 +1,11 @@
 package com.nyang.ourkitty.common
 
+
+enum class Authority {
+    ROLE_USER, ROLE_ADMIN
+    ;
+}
+
 enum class UserCode(
     val code: String,
 ) {

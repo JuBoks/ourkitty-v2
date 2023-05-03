@@ -7,6 +7,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "client_table")
 class ClientEntity(
+    @Column(unique = true)
     var clientEmail: String,
     var clientPassword: String,
     var clientName: String,

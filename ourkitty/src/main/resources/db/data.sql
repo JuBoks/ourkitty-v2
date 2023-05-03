@@ -1,5 +1,5 @@
 INSERT INTO `client_table`
-VALUES (1, 'test1@ssafy.com', 'pwd', 'name1', 'nickname1', '', 'address1', '0123', '0010001', '0020001',
+VALUES (1, 'baebug', 'pwd', 'name1', 'nickname1', '', 'address1', '0123', '0010001', '0020001',
         now(),
         true, false, '',
         now(), now()),
