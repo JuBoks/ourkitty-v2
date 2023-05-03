@@ -5,10 +5,7 @@ import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientListResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
-import com.nyang.ourkitty.domain.client.repository.BlockRepository
-import com.nyang.ourkitty.domain.client.repository.ClientDishRepository
-import com.nyang.ourkitty.domain.client.repository.ClientQuerydslRepository
-import com.nyang.ourkitty.domain.client.repository.ClientRepository
+import com.nyang.ourkitty.domain.client.repository.*
 import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
 import com.nyang.ourkitty.entity.BlockEntity
 import com.nyang.ourkitty.entity.ClientDishEntity
@@ -16,10 +13,12 @@ import com.nyang.ourkitty.entity.ClientEntity
 import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
+import org.apache.commons.logging.LogFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
+
 
 @Service
 @Transactional(readOnly = true)
@@ -29,11 +28,15 @@ class ClientService(
     private val clientDishRepository: ClientDishRepository,
 
     private val blockRepository: BlockRepository,
+    private val blockQuerydslRepository: BlockQuerydslRepository,
 
     private val dishQuerydslRepository: DishQuerydslRepository,
 
     private val imageUploader: AwsS3ImageUploader,
 ) {
+
+    val log = LogFactory.getLog(ClientService::class.java)!!
+
 
     @Transactional
     fun createAccount(locationCode: String, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
@@ -169,7 +172,7 @@ class ClientService(
     @Transactional
     fun deactivateAccount(clientId: Long, clientDescription: String, unBlockDate: LocalDateTime): ResultDto<Boolean> {
         getClientById(clientId).let {
-            it.delete(clientDescription)
+            it.deactivate(clientDescription)
             clientRepository.save(it)
         }
 
@@ -183,6 +186,20 @@ class ClientService(
         return ResultDto(
             data = true,
         )
+    }
+
+    @Transactional
+    fun activateAccount() {
+        val now = LocalDateTime.now()
+        log.info(now)
+        val unBlockList = blockQuerydslRepository.getUnblockList(now)
+        log.info(unBlockList)
+
+        unBlockList
+            .map { getClientById(it.clientId) }
+            .forEach { it.activate() }
+
+        unBlockList.forEach(blockRepository::delete)
     }
 
     private fun getClientById(clientId: Long): ClientEntity {

@@ -10,6 +10,7 @@ import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -147,7 +148,10 @@ class ClientController(
      */
     @ApiOperation(value = "사용자 아이디 비활성화")
     @DeleteMapping("/{clientId}/block")
-    fun deactivateAccount(@PathVariable clientId: Long, clientDescription: String, unBlockDate: LocalDateTime): ResponseEntity<ResultDto<Boolean>> {
+    fun deactivateAccount(
+        @PathVariable clientId: Long, clientDescription: String,
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") unBlockDate: LocalDateTime
+    ): ResponseEntity<ResultDto<Boolean>> {
 
         if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
@@ -155,4 +159,5 @@ class ClientController(
             clientService.deactivateAccount(clientId, clientDescription, unBlockDate)
         )
     }
+
 }
