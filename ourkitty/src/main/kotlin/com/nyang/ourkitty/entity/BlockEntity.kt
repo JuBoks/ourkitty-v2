@@ -12,4 +12,9 @@ class BlockEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val blockId: Long? = null,
 ) : BaseEntity() {
+
+    override fun toString(): String {
+        return "BlockEntity(clientId=$clientId, unBlockDate=$unBlockDate, blockId=$blockId)"
+    }
+    
 }
