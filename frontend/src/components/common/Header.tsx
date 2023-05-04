@@ -7,14 +7,17 @@ import Chart from "@mui/icons-material/Leaderboard";
 import Logout from "@mui/icons-material/ExitToApp";
 import Light from "@mui/icons-material/WbSunny";
 import Dark from "@mui/icons-material/DarkMode";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LightLogo from "../../assets/logo_light.png";
 import DarkLogo from "../../assets/logo_dark.png";
 import { useRecoilState } from "recoil";
 import { darkState, categoryState } from "../../recoil/page";
+import { isLoginState } from "../../recoil/auth";
 
 export default function Header() {
   const [isDark, setIsDark] = useRecoilState(darkState);
   const [category, setCategory] = useRecoilState(categoryState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   const handleHeaderMenu = (num: number) => {
     switch (num) {
@@ -50,62 +53,88 @@ export default function Header() {
           냥그릇
         </span>
       </div>
-      <div
-        className={`${
-          category[0] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-        onClick={() => handleHeaderMenu(0)}
-      >
-        <Dash sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        <div className="h-[60px] text-[1.5rem] text-white mt-2">대시보드</div>
-      </div>
-      <div
-        className={`${
-          category[1] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-        onClick={() => handleHeaderMenu(1)}
-      >
-        <User sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        <div className="h-[60px] text-[1.5rem] text-white mt-2">
-          사용자 관리
-        </div>
-      </div>
-      <div
-        className={`${
-          category[2] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-        onClick={() => handleHeaderMenu(2)}
-      >
-        <Dish sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        <div className="h-[60px] text-[1.5rem] text-white mt-2">
-          냥그릇 관리
-        </div>
-      </div>
-      <div
-        className={`${
-          category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-        onClick={() => handleHeaderMenu(3)}
-      >
-        <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        <div className="h-[60px] text-[1.5rem] text-white mt-2">민원 관리</div>
-      </div>
-      <div
-        className={`${
-          category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-        } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-        onClick={() => handleHeaderMenu(4)}
-      >
-        <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
-      </div>
-      <div className="w-full h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
-        <div
-          title="로그아웃"
-          className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
-        >
-          <Logout sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-        </div>
+      {isLogin ? (
+        <>
+          <div
+            className={`${
+              category[0] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            onClick={() => handleHeaderMenu(0)}
+          >
+            <Dash sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">
+              대시보드
+            </div>
+          </div>
+          <div
+            className={`${
+              category[1] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            onClick={() => handleHeaderMenu(1)}
+          >
+            <User sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">
+              사용자 관리
+            </div>
+          </div>
+          <div
+            className={`${
+              category[2] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            onClick={() => handleHeaderMenu(2)}
+          >
+            <Dish sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">
+              냥그릇 관리
+            </div>
+          </div>
+          <div
+            className={`${
+              category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            onClick={() => handleHeaderMenu(3)}
+          >
+            <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">
+              민원 관리
+            </div>
+          </div>
+          <div
+            className={`${
+              category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            onClick={() => handleHeaderMenu(4)}
+          >
+            <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
+          </div>
+          <div className="w-full h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
+            <div
+              title="로그아웃"
+              className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
+            >
+              <Logout sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            </div>
+            <div
+              className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
+              onClick={() => setIsDark((cur: boolean) => !cur)}
+            >
+              {isDark ? (
+                <div title="라이트모드">
+                  <Light sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+                </div>
+              ) : (
+                <div title="다크모드">
+                  <Dark
+                    sx={{ fontSize: "50px", color: "#FFFFFF" }}
+                    onClick={() => setIsDark((cur: boolean) => !cur)}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
         <div className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1">
           {isDark ? (
             <div title="라이트모드">
@@ -115,15 +144,15 @@ export default function Header() {
               />
             </div>
           ) : (
-            <div title="다크모드">
-              <Dark
-                sx={{ fontSize: "50px", color: "#FFFFFF" }}
-                onClick={() => setIsDark((cur: boolean) => !cur)}
-              />
+            <div className="w-full h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer">
+              <AccountCircleIcon sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+              <div className="w-full h-[60px] text-[1.5rem] text-white mt-2">
+                로그인
+              </div>
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
