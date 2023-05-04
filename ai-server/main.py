@@ -85,44 +85,43 @@ async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     return upload_image(serial_number, imageFile)
 
 @app.get("/yolo/pics")
-def display_yolo_pics():
+@app.get("/yolo/pics/{time}")
+def display_yolo_pics(time=None):
     return display_pics("yolo")
 
 @app.get("/detr/pics")
-def display_detr_pics():
+@app.get("/detr/pics/{time}")
+def display_detr_pics(time=None):
     return display_pics("detr")
 
 @app.get("/img/pics")
-def display_detr_pics():
-    return display_pics("img")
+@app.get("/img/pics/{time}")
+def display_img_pics(time=None):
+    return display_pics("img", time)
 
-def display_pics(folderName):
-    time = 10
-    img_list = [f for f in os.listdir(f"./static/{folderName}") if f.endswith(".png")]
-    values = []
-    for i in img_list:
-        date = i.split('.')[0].split('_')
-        if len(date) < 3:
-            continue
-        values.append(date)
-
+def display_pics(folderName, param_time=None):
     now = datetime.datetime.now()
-    display_now = now.strftime('%Y-%m-%d %H:%M')
-    delta = datetime.timedelta(minutes=time)
-    before = now - delta
+    date = now.strftime('%Y-%m-%d')
 
-    filtered_values = [value for value in values if datetime.datetime.strptime(f"{value[1]} {value[2]}", "%Y-%m-%d %H-%M-%S") >= before]
+    if param_time == None:
+        time = now.strftime('%H')
+    else:
+        time_int = int(param_time)
+        if time_int >= 0 and time_int <= 24:
+            time = "{:02d}".format(time_int)
+        else:
+            time = now.strftime('%H')
 
-    image_list = []
-    for i in filtered_values:
-        image_list.append("_".join(i))
-    html_content = f"<html><body><h3>현재시각: {display_now}기준<br>{time}분 전 사진들</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    path = f"static/{folderName}/*{date}_{time}*.png"
+
+    image_list = glob(path)
+
+    html_content = f"<html><body><h3>{date}기준 {time}시 사진들</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
-        html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}.png" alt="{image}" width="416" ></div>'
+        dirpath, filename = os.path.split(image)
+        html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
     html_content += "</div></body></html>"
     return HTMLResponse(content=html_content, status_code=200)
-
-
 
 
 async def filterCatByYolo(filePath, googleFileName, contents):
