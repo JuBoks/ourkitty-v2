@@ -97,18 +97,31 @@ def display_detr_pics():
     return display_pics("img")
 
 def display_pics(folderName):
-    # 이미지 파일의 확장자 리스트
-    img_extensions = ['.jpg', '.jpeg', '.png', '.gif']
-    # 가져올 이미지 파일이 있는 폴더 경로
-    dir_path = f"./static/{folderName}"
-    # 폴더 안의 모든 파일을 가져와서 정렬
-    image_list = sorted([f for f in os.listdir(dir_path) if os.path.splitext(f)[-1].lower() in img_extensions], key=lambda x: os.path.getmtime(os.path.join(dir_path, x)), reverse=True)
-    html_content = "<html><body><h3>최신순 10개</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
-    for image in image_list[:10]:
-        if image.endswith(".jpg") or image.endswith(".png"):
-            html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}" alt="{image}" width="416" ></div>'
+    time = 10
+    img_list = [f for f in os.listdir(f"./static/{folderName}") if f.endswith(".png")]
+    values = []
+    for i in img_list:
+        date = i.split('.')[0].split('_')
+        if len(date) < 3:
+            continue
+        values.append(date)
+
+    now = datetime.datetime.now()
+    display_now = now.strftime('%Y-%m-%d %H:%M')
+    delta = datetime.timedelta(minutes=time)
+    before = now - delta
+
+    filtered_values = [value for value in values if datetime.datetime.strptime(f"{value[1]} {value[2]}", "%Y-%m-%d %H-%M-%S") >= before]
+
+    image_list = []
+    for i in filtered_values:
+        image_list.append("_".join(i))
+    html_content = f"<html><body><h3>현재시각: {display_now}기준<br>{time}분 전 사진들</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list:
+        html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}.png" alt="{image}" width="416" ></div>'
     html_content += "</div></body></html>"
     return HTMLResponse(content=html_content, status_code=200)
+
 
 
 
