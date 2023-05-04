@@ -86,22 +86,32 @@ async def upload_s3(serial_number, imageFile: UploadFile or None = None):
 
 @app.get("/yolo/pics")
 @app.get("/yolo/pics/{time}")
-def display_yolo_pics(time=None):
+@app.get("/yolo/pics/{time}/{date}")
+def display_yolo_pics(time=None, date=None):
     return display_pics("yolo")
 
 @app.get("/detr/pics")
 @app.get("/detr/pics/{time}")
-def display_detr_pics(time=None):
+@app.get("/detr/pics/{time}/{date}")
+def display_detr_pics(time=None, date=None):
     return display_pics("detr")
 
 @app.get("/img/pics")
 @app.get("/img/pics/{time}")
-def display_img_pics(time=None):
-    return display_pics("img", time)
+@app.get("/img/pics/{time}/{date}")
+def display_img_pics(time=None, date=None):
+    return display_pics("img", time, date)
 
-def display_pics(folderName, param_time=None):
+def display_pics(folderName, param_time=None, param_date=None):
     now = datetime.datetime.now()
-    date = now.strftime('%Y-%m-%d')
+
+    if param_date == None:
+        date = now.strftime('%Y-%m-%d')
+    else:
+        # 문자열을 datetime 객체로 변환
+        dt = datetime.datetime.strptime(param_date, "%y%m%d")
+        # 문자열로 변환
+        date = dt.strftime("%Y-%m-%d")
 
     if param_time == None:
         time = now.strftime('%H')
