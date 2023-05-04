@@ -128,7 +128,7 @@ class ClientController(
      */
     @ApiOperation(value = "사용자 아이디 탈퇴")
     @DeleteMapping("/{clientId}")
-    fun deleteAccount(@PathVariable clientId: Long, clientDescription: String): ResponseEntity<ResultDto<Boolean>> {
+    fun deleteAccount(@PathVariable clientId: Long, @RequestParam(required = false, defaultValue = "") clientDescription: String): ResponseEntity<ResultDto<Boolean>> {
 
         if (JwtContextHolder.clientId!!.toLong() != clientId && JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
@@ -161,7 +161,7 @@ class ClientController(
     @ApiOperation(value = "사용자 아이디 비활성화")
     @DeleteMapping("/{clientId}/block")
     fun deactivateAccount(
-        @PathVariable clientId: Long, clientDescription: String,
+        @PathVariable clientId: Long, @RequestParam(required = false, defaultValue = "") clientDescription: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") unBlockDate: LocalDateTime
     ): ResponseEntity<ResultDto<Boolean>> {
 
