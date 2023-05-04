@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity">
+
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginTop="104dp"
+        android:fontFamily="@font/yeonsung"
         android:text="로그인 인증"
+        android:textAlignment="center"
         android:textSize="30dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +30,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
+        android:fontFamily="@font/yeonsung"
         android:hint="핸드폰 번호를  - 없이 입력해주세요."
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +46,8 @@
         android:layout_marginTop="10dp"
         android:text="인증번호 발송"
         android:textStyle="bold"
+        android:fontFamily="@font/yeonsung"
+        android:background="@color/pink"
         app:layout_constraintEnd_toEndOf="@+id/input_phone_num"
         app:layout_constraintStart_toStartOf="@+id/input_phone_num"
         app:layout_constraintTop_toBottomOf="@+id/input_phone_num" />
@@ -52,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
+        android:fontFamily="@font/yeonsung"
         android:inputType="textPersonName"
         android:hint="인증번호를 입력해주세요."
         app:layout_constraintEnd_toEndOf="@+id/send_sms_button"
@@ -64,6 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="인증번호 확인"
+        android:background="@color/pink"
+        android:fontFamily="@font/yeonsung"
         app:layout_constraintEnd_toEndOf="@+id/input_check_num"
         app:layout_constraintStart_toStartOf="@+id/input_check_num"
         app:layout_constraintTop_toBottomOf="@+id/input_check_num" />

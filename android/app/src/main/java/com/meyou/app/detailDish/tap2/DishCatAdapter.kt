@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
 
-class DishCatAdapter(val context: Context, val List : List<DIshCatInfo>):
+class DishCatAdapter(val context: Context, val dishCatList : List<DIshCatInfo>):
     RecyclerView.Adapter<DishCatAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishCatAdapter.ViewHolder {
         var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap2_cat_list, parent, false)
@@ -18,11 +18,11 @@ class DishCatAdapter(val context: Context, val List : List<DIshCatInfo>):
         return ViewHolder(v)    }
 
     override fun onBindViewHolder(holder: DishCatAdapter.ViewHolder, position: Int) {
-        holder.bindItems(List[position])
+        holder.bindItems(dishCatList[position])
     }
 
     override fun getItemCount(): Int {
-        return List.size
+        return dishCatList.size
     }
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView){
