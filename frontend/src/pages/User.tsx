@@ -1,7 +1,7 @@
 import React from "react";
 import ActivateUser from "../components/user/ActivateUser";
 import DeactivateUser from "../components/user/DeactivateUser";
-import UserHistory from "../components/user/UserHistory";
+import DeletedUser from "../components/user/DeletedUser";
 
 export default function User() {
   return (
@@ -14,7 +14,7 @@ export default function User() {
           <DeactivateUser />
         </div>
         <div className="w-[50%] h-full bg-white pt-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <UserHistory />
+          <DeletedUser />
         </div>
       </div>
     </div>

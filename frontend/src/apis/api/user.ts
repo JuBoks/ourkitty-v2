@@ -1,13 +1,33 @@
-import { defaultInstance } from "../utils";
+import { authInstance } from "../utils";
 
 // GET
 /**
  * 사용자 아이디 목록 조회
  * @returns
  */
-export const getClientIdList = async () => {
-  const data = defaultInstance.get(`client`);
-  return data;
+
+export const getClientIdList = async (
+  dishId: number,
+  searchKey: string,
+  searchWord: string
+) => {
+  if (dishId === 0 && searchWord === "") {
+    const data = authInstance.get(`client`);
+    return data;
+  } else if (dishId !== 0 && searchWord === "") {
+    const data = authInstance.get(`client?dishId=${dishId}`);
+    return data;
+  } else if (dishId === 0 && searchWord !== "") {
+    const data = authInstance.get(
+      `client?searchKey=${searchKey}&searchWord=${searchWord}`
+    );
+    return data;
+  } else if (dishId !== 0 && searchWord !== "") {
+    const data = authInstance.get(
+      `client?dishId=${dishId}&searchKey=${searchKey}&searchWord=${searchWord}`
+    );
+    return data;
+  }
 };
 
 /**
@@ -16,13 +36,17 @@ export const getClientIdList = async () => {
  * @returns
  */
 export const getClientIdItem = async (clientId: number) => {
-  const data = defaultInstance.get(`client/${clientId}`);
+  const data = authInstance.get(`client/${clientId}`);
   return data;
 };
 
 // POST
+/**
+ * 사용자 아이디 생성
+ * @returns {boolean}
+ */
 export const registClient = async (formData: FormData) => {
-  const data = defaultInstance.post(`client`, formData, {
+  const data = authInstance.post(`client`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -32,11 +56,10 @@ export const registClient = async (formData: FormData) => {
 /**
  * 사용자 아이디 정보 수정
  * @param {int} clientId
- * @param {clientAddress: string, clientEmail: string, clientName: string, clientNickname: string, clientPassword: string, clientPhone: string, clientProfileImagePath: string, dishList: [{dishAddress: string, dishLat: number, dishLong: number, dishName: string, dishProfileImagePath: string, dishSerialNum: string, locationCode: string}], locationCode: string}
- * @returns true/false
+ * @returns {boolean}
  */
 export const modifyClient = async (clientId: number, formData: FormData) => {
-  const data = defaultInstance.put(`client/${clientId}`, formData, {
+  const data = authInstance.put(`client/${clientId}`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -44,13 +67,16 @@ export const modifyClient = async (clientId: number, formData: FormData) => {
 
 // DELETE
 /**
- * 사용자 아이디 횔성화/비활성화
+ * 사용자 아이디 비활성화
  * @param {int} clientId
  * @returns true/false
  */
-export const modifyClientState = (clientId: number) => {
-  const data = defaultInstance.delete(`client${clientId}`);
-  return data;
+export const modifyClientState = (clientId: number, formData: FormData) => {
+  const result = authInstance.delete(`client/${clientId}/block`, {
+    data: formData,
+    headers: { "Content-type": "multipart/form-data" },
+  });
+  return result;
 };
 
 /**
@@ -59,6 +85,6 @@ export const modifyClientState = (clientId: number) => {
  * @returns true/false
  */
 export const deleteClient = (clientId: number) => {
-  const data = defaultInstance.delete(`client/${clientId}/request`);
+  const data = authInstance.delete(`client/${clientId}/request`);
   return data;
 };
