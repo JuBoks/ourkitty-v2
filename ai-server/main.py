@@ -85,44 +85,53 @@ async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     return upload_image(serial_number, imageFile)
 
 @app.get("/yolo/pics")
-def display_yolo_pics():
+@app.get("/yolo/pics/{time}")
+@app.get("/yolo/pics/{time}/{date}")
+def display_yolo_pics(time=None, date=None):
     return display_pics("yolo")
 
 @app.get("/detr/pics")
-def display_detr_pics():
+@app.get("/detr/pics/{time}")
+@app.get("/detr/pics/{time}/{date}")
+def display_detr_pics(time=None, date=None):
     return display_pics("detr")
 
 @app.get("/img/pics")
-def display_detr_pics():
-    return display_pics("img")
+@app.get("/img/pics/{time}")
+@app.get("/img/pics/{time}/{date}")
+def display_img_pics(time=None, date=None):
+    return display_pics("img", time, date)
 
-def display_pics(folderName):
-    time = 10
-    img_list = [f for f in os.listdir(f"./static/{folderName}") if f.endswith(".png")]
-    values = []
-    for i in img_list:
-        date = i.split('.')[0].split('_')
-        if len(date) < 3:
-            continue
-        values.append(date)
-
+def display_pics(folderName, param_time=None, param_date=None):
     now = datetime.datetime.now()
-    display_now = now.strftime('%Y-%m-%d %H:%M')
-    delta = datetime.timedelta(minutes=time)
-    before = now - delta
 
-    filtered_values = [value for value in values if datetime.datetime.strptime(f"{value[1]} {value[2]}", "%Y-%m-%d %H-%M-%S") >= before]
+    if param_date == None:
+        date = now.strftime('%Y-%m-%d')
+    else:
+        # 문자열을 datetime 객체로 변환
+        dt = datetime.datetime.strptime(param_date, "%y%m%d")
+        # 문자열로 변환
+        date = dt.strftime("%Y-%m-%d")
 
-    image_list = []
-    for i in filtered_values:
-        image_list.append("_".join(i))
-    html_content = f"<html><body><h3>현재시각: {display_now}기준<br>{time}분 전 사진들</h1><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    if param_time == None:
+        time = now.strftime('%H')
+    else:
+        time_int = int(param_time)
+        if time_int >= 0 and time_int <= 24:
+            time = "{:02d}".format(time_int)
+        else:
+            time = now.strftime('%H')
+
+    path = f"static/{folderName}/*{date}_{time}*.png"
+
+    image_list = glob(path)
+
+    html_content = f"<html><body><h3>{date}기준 {time}시 사진들</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
-        html_content += f'<div><div>{image}</div><img src="/static/{folderName}/{image}.png" alt="{image}" width="416" ></div>'
+        dirpath, filename = os.path.split(image)
+        html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
     html_content += "</div></body></html>"
     return HTMLResponse(content=html_content, status_code=200)
-
-
 
 
 async def filterCatByYolo(filePath, googleFileName, contents):
