@@ -11,7 +11,7 @@ services:
       - db-prod.env
     volumes:
       - /home/ubuntu/.dbdata-prod:/var/lib/mysql
-      - /home/ubuntu/.dbdata-prod/etc/mysql:/etc/mysql
+      - /home/ubuntu/.dbdata-prod/etc:/etc
     ports:
       - "9404:3306"
     networks:
