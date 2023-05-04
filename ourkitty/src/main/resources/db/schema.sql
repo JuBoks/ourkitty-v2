@@ -12,6 +12,19 @@ DROP TABLE IF EXISTS `client_dish_table`;
 DROP TABLE IF EXISTS `dish_client_table`;
 DROP TABLE IF EXISTS `dish_table`;
 DROP TABLE IF EXISTS `client_table`;
+DROP TABLE IF EXISTS `refresh_token_table`;
+
+create table `refresh_token_table`
+(
+    `rt_key`       VARCHAR(255) NOT NULL,
+    `rt_value`     TEXT         NOT NULL,
+    `is_deleted`   BOOLEAN      NOT NULL,
+    `created_date` TIMESTAMP    NOT NULL,
+    `updated_date` TIMESTAMP    NOT NULL,
+    PRIMARY KEY (`rt_key`)
+) engine = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin;
 
 create table `client_table`
 (
@@ -26,7 +39,7 @@ create table `client_table`
     `user_code`                 CHAR(10)     NOT NULL,
     `location_code`             CHAR(10)     NOT NULL,
     `last_posting_date`         TIMESTAMP    NOT NULL,
-    `is_active`                 BOOLEAN      NOT NULL,
+    `user_state`                CHAR(10)     NOT NULL,
     `is_deleted`                BOOLEAN      NOT NULL,
     `client_description`        VARCHAR(255) NOT NULL DEFAULT '',
     `created_date`              TIMESTAMP    NOT NULL,
@@ -48,6 +61,7 @@ CREATE TABLE `dish_table`
     `location_code`           CHAR(10)     NOT NULL,
     `dish_serial_num`         VARCHAR(50)  NOT NULL,
     `dish_weight`             DOUBLE       NOT NULL,
+    `dish_battery_state`      CHAR(10)     NOT NULL,
     `dish_cat_count`          INTEGER      NOT NULL,
     `dish_tnr_count`          INTEGER      NOT NULL,
     `is_deleted`              BOOLEAN      NOT NULL,

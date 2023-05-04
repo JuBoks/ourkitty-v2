@@ -1,7 +1,8 @@
 package com.nyang.ourkitty.domain.auth
 
-import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
+import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -21,8 +22,8 @@ class AuthController(
      */
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
-    fun signIn(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<ResultDto<Boolean>> {
-        return ResponseEntity.ok(ResultDto(true))
+    fun signIn(loginRequestDto: LoginRequestDto): ResponseEntity<LoginResultDto<Any>> {
+        return ResponseEntity.ok(authService.signin(loginRequestDto))
     }
 
     /**
@@ -59,6 +60,17 @@ class AuthController(
     @PutMapping("/find/password")
     fun resetPassword() {
 
+    }
+
+    @GetMapping("/test")
+    fun test123() {
+        val clientId = JwtContextHolder.clientId
+        val locationCode = JwtContextHolder.locationCode
+        val userCode = JwtContextHolder.userCode
+
+        println("clientId $clientId")
+        println("locationCode $locationCode")
+        println("userCode $userCode")
     }
 
 }

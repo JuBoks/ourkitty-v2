@@ -1,8 +1,8 @@
 package com.nyang.ourkitty.domain.report
 
-import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.report.dto.ReportListResultDto
 import com.nyang.ourkitty.domain.report.dto.ReportRequestDto
 import com.nyang.ourkitty.domain.report.dto.ReportResponseDto
@@ -22,12 +22,6 @@ class ReportController(
     private val reportService: ReportService
 ) {
 
-    private val testToken = mapOf(
-        "clientId" to 1L,
-        "userCode" to UserCode.지자체.code,
-        "locationCode" to LocationCode.해운대구.code,
-    )
-
     /**
      * @param reportRequestDto ReportRequestDto
      * @return ResponseEntity<ResultDto<Boolean>>
@@ -36,8 +30,8 @@ class ReportController(
     @PostMapping
     fun createReport(reportRequestDto: ReportRequestDto, @RequestParam(required = false) files: List<MultipartFile>?): ResponseEntity<ResultDto<Boolean>> {
         val result = reportService.createReport(
-            clientId = testToken["clientId"].toString().toLong(),
-            locationCode = testToken["locationCode"].toString(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
+            locationCode = JwtContextHolder.locationCode!!,
             reportRequestDto = reportRequestDto,
             files = files
         )
@@ -58,7 +52,7 @@ class ReportController(
         @RequestParam("searchWord", required = false, defaultValue = "") searchWord: String,
     ): ResponseEntity<ReportListResultDto> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         val reportList = reportService.getReportList(
             dishId = dishId,
@@ -79,7 +73,7 @@ class ReportController(
     @GetMapping("/{reportId}")
     fun getReport(@PathVariable("reportId") reportId: Long): ResponseEntity<ResultDto<ReportResponseDto>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(reportService.getReport(reportId))
     }
@@ -93,7 +87,7 @@ class ReportController(
     @PutMapping("/{reportId}")
     fun checkReport(@PathVariable("reportId") reportId: Long, reportDescription: String?): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(reportService.checkReport(reportId, reportDescription))
     }

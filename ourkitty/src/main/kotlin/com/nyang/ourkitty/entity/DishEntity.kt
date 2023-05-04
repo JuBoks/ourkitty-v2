@@ -17,6 +17,7 @@ class DishEntity(
     var dishLat: Double = 0.0,
     var dishLong: Double = 0.0,
     var dishWeight: Double = 0.0,
+    var dishBatteryState: String = "0100001",
     var dishCatCount: Int = 0,
     var dishTnrCount: Int = 0,
 ) : BaseEntity() {
@@ -31,6 +32,10 @@ class DishEntity(
 
     fun updateDishWeight(dishWeight: Double) {
         this.dishWeight = dishWeight
+    }
+
+    fun updateBatteryState(dishBatteryState: String) {
+        this.dishBatteryState = dishBatteryState
     }
 
     fun updateCatCount(catCount: Int, tnrCount: Int) {

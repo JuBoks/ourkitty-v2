@@ -1,0 +1,30 @@
+package com.nyang.ourkitty.config
+
+import com.nyang.ourkitty.domain.auth.JwtFilter
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+
+    @Autowired
+    private lateinit var jwtFilter: JwtFilter
+
+    @Throws(Exception::class)
+    override fun configure(http: HttpSecurity) {
+        http
+            .csrf().disable()
+            .authorizeRequests()
+            .anyRequest().permitAll()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
+    }
+}

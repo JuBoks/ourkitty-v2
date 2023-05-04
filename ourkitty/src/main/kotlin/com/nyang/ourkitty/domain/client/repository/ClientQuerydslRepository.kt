@@ -46,5 +46,13 @@ class ClientQuerydslRepository(
             .fetchOne()
     }
 
+    fun getClientByEmail(clientEmail: String): ClientEntity? {
+        return queryFactory.selectFrom(clientEntity)
+            .where(
+                clientEntity.clientEmail.eq(clientEmail)
+            )
+            .fetchOne()
+    }
+
 
 }
