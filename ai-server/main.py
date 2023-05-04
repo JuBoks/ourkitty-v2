@@ -85,24 +85,39 @@ async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     return upload_image(serial_number, imageFile)
 
 @app.get("/yolo/pics")
-@app.get("/yolo/pics/{time}")
-@app.get("/yolo/pics/{time}/{date}")
-def display_yolo_pics(time=None, date=None):
-    return display_pics("yolo")
+@app.get("/yolo/pics/{site}")
+def display_yolo_pics(site=None):
+    return display_result_pics("yolo", site)
 
 @app.get("/detr/pics")
-@app.get("/detr/pics/{time}")
-@app.get("/detr/pics/{time}/{date}")
-def display_detr_pics(time=None, date=None):
-    return display_pics("detr")
+@app.get("/detr/pics/{site}")
+def display_detr_pics(site=None):
+    return display_result_pics("detr", site)
 
-@app.get("/img/pics")
-@app.get("/img/pics/{time}")
-@app.get("/img/pics/{time}/{date}")
-def display_img_pics(time=None, date=None):
-    return display_pics("img", time, date)
+@app.get("/img/pics/{site}")
+@app.get("/img/pics/{site}/{time}")
+@app.get("/img/pics/{site}/{time}/{date}")
+def display_img_pics(site='iujeong', time=None, date=None):
+    return display_pics("img", site, time, date)
 
-def display_pics(folderName, param_time=None, param_date=None):
+def display_result_pics(folderName, site):
+    if site == None:
+        path = f"static/{folderName}/*.png"
+    else:
+        path = f"static/{folderName}/{site}*.png"
+
+    image_list = glob(path)
+
+    site = "모든 위치" if site == None else site
+
+    html_content = f"<html><body><h3>[{folderName}] {site} 사진들</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list:
+        dirpath, filename = os.path.split(image)
+        html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
+    html_content += "</div></body></html>"
+    return HTMLResponse(content=html_content, status_code=200)
+
+def display_pics(folderName, site, param_time=None, param_date=None):
     now = datetime.datetime.now()
 
     if param_date == None:
@@ -122,7 +137,10 @@ def display_pics(folderName, param_time=None, param_date=None):
         else:
             time = now.strftime('%H')
 
-    path = f"static/{folderName}/*{date}_{time}*.png"
+    if site == None:
+        path = f"static/{folderName}/*_{date}_{time}*.png"
+    else:
+        path = f"static/{folderName}/{site}_{date}_{time}*.png"
 
     image_list = glob(path)
 
