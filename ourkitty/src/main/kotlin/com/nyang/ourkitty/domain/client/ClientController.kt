@@ -1,8 +1,8 @@
 package com.nyang.ourkitty.domain.client
 
-import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.client.dto.ClientListResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto
 import com.nyang.ourkitty.domain.client.dto.ClientResponseDto
@@ -24,12 +24,6 @@ class ClientController(
     private val clientService: ClientService,
 ) {
 
-    private val testToken = mapOf(
-        "clientId" to 1L,
-        "userCode" to UserCode.지자체.code,
-        "locationCode" to LocationCode.해운대구.code,
-    )
-
     /**
      * TODO : 캣맘 아이디 생성 (지자체)
      * @param clientRequestDto ClientRequestDto
@@ -39,10 +33,10 @@ class ClientController(
     @PostMapping
     fun createAccount(clientRequestDto: ClientRequestDto): ResponseEntity<ResultDto<ClientResponseDto>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         val client = clientService.createAccount(
-            locationCode = testToken["locationCode"].toString(),
+            locationCode = JwtContextHolder.locationCode!!,
             clientRequestDto = clientRequestDto,
         )
 
@@ -61,11 +55,11 @@ class ClientController(
         @RequestParam("searchWord", required = false, defaultValue = "") searchWord: String,
     ): ResponseEntity<ClientListResultDto> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(
             clientService.getAccountList(
-                locationCode = testToken["locationCode"].toString(),
+                locationCode = JwtContextHolder.locationCode!!,
                 dishId = dishId,
                 searchKey = searchKey,
                 searchWord = searchWord,
@@ -82,7 +76,9 @@ class ClientController(
     @GetMapping("/{clientId}")
     fun getAccount(@PathVariable("clientId") clientId: Long): ResponseEntity<ResultDto<ClientResponseDto>> {
 
-        if (testToken["clientId"].toString().toLong() != clientId || testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.clientId!!.toLong() != clientId && JwtContextHolder.userCode != UserCode.지자체.code) {
+            throw CustomException(ErrorCode.NO_ACCESS)
+        }
 
         return ResponseEntity.ok(clientService.getAccountById(clientId))
     }
@@ -97,7 +93,7 @@ class ClientController(
     fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: MultipartFile?): ResponseEntity<ResultDto<ClientResponseDto>> {
 
         val client = clientService.modifyMyAccount(
-            clientId = testToken["clientId"].toString().toLong(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
             clientRequestDto = clientRequestDto,
             file = file
         )
@@ -115,7 +111,7 @@ class ClientController(
     @PutMapping("/{clientId}")
     fun modifyAccount(@PathVariable("clientId") clientId: Long, clientRequestDto: ClientRequestDto): ResponseEntity<ResultDto<ClientResponseDto>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         val clientResponseDto = clientService.modifyAccount(
             clientId = clientId,
@@ -134,7 +130,7 @@ class ClientController(
     @DeleteMapping("/{clientId}")
     fun deleteAccount(@PathVariable clientId: Long, clientDescription: String): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["clientId"].toString().toLong() != clientId || testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.clientId!!.toLong() != clientId && JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(
             clientService.deleteAccount(clientId, clientDescription)
@@ -150,7 +146,7 @@ class ClientController(
     @PutMapping("/{clientId}/cancel")
     fun cancelDeleteAccount(@PathVariable clientId: Long): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(
             clientService.cancelDeleteAccount(clientId)
@@ -169,7 +165,7 @@ class ClientController(
         @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") unBlockDate: LocalDateTime
     ): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         return ResponseEntity.ok(
             clientService.deactivateAccount(clientId, clientDescription, unBlockDate)

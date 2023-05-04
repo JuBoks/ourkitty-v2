@@ -81,3 +81,24 @@ enum class ClientSearchKey(
     ;
 
 }
+
+enum class BatteryState(
+    val code: String,
+) {
+    FULL("0100001"),
+    SAFE("0100002"),
+    WARNING("0100003"),
+    DANGER("0100004")
+    ;
+
+}
+
+enum class UserState(
+    val code: String,
+) {
+    정상("0110001"),
+    비활성화("0110002"),
+    탈퇴("0110003"),
+    ;
+
+}

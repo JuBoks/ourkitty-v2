@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.client
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
+import com.nyang.ourkitty.common.UserState
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientListResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto
@@ -73,10 +74,10 @@ class ClientService(
         val result = ClientListResultDto()
 
         clientListResponseDto.forEach {
-            when {
-                it.isDeleted -> result.deletedList.add(it)
-                it.isActive -> result.activeList.add(it)
-                else -> result.inactiveList.add(it)
+            when (it.userState) {
+                UserState.정상.code -> result.activeList.add(it)
+                UserState.비활성화.code -> result.inactiveList.add(it)
+                UserState.탈퇴.code -> result.deletedList.add(it)
             }
         }
         /*

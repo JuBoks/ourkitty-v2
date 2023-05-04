@@ -1,43 +1,60 @@
 package com.nyang.ourkitty.domain.auth
 
+import com.nyang.ourkitty.common.UserState
+import com.nyang.ourkitty.domain.auth.dto.LoginErrorResponseDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
-import com.nyang.ourkitty.domain.auth.dto.TokenDto
-import com.nyang.ourkitty.domain.auth.repository.RefreshTokenRepository
+import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
+import com.nyang.ourkitty.domain.client.repository.BlockQuerydslRepository
 import com.nyang.ourkitty.domain.client.repository.ClientQuerydslRepository
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.core.Authentication
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
 class AuthService(
-    private val authenticationManagerBuilder: AuthenticationManagerBuilder,
-    private val tokenProvider: TokenProvider,
-
-    private val refreshTokenRepository: RefreshTokenRepository,
+    private val tokenProvider: JwtTokenProvider,
 
     private val clientRepository: ClientRepository,
     private val clientQuerydslRepository: ClientQuerydslRepository,
+
+    private val blockQuerydslRepository: BlockQuerydslRepository
 ) {
 
-    @Transactional
-    fun signin(loginRequestDto: LoginRequestDto): TokenDto {
-        val authenticationToken: UsernamePasswordAuthenticationToken = loginRequestDto.toAuthentication()
+    fun signin(loginRequestDto: LoginRequestDto): LoginResultDto<Any> {
+        val client = clientQuerydslRepository.getClientByEmail(loginRequestDto.clientEmail) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
 
-        val authentication: Authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
+        if (client.userState == UserState.비활성화.code) {
+            val block = blockQuerydslRepository.getBlockByClient(client)
+            return LoginResultDto(
+                code = "1",
+                data = LoginErrorResponseDto(
+                    clientDescription = client.clientDescription,
+                    unBlockDate = block?.unBlockDate ?: LocalDateTime.now(),
+                )
+            )
+        } else if (client.userState == UserState.탈퇴.code) {
+            return LoginResultDto(
+                code = "2",
+                data = LoginErrorResponseDto(
+                    clientDescription = client.clientDescription,
+                )
+            )
+        }
 
-        val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
+//        if (!passwordEncoder.matches(loginRequestDto.clientPassword, client.clientPassword)) {
+        if (loginRequestDto.clientPassword != client.clientPassword) {
+            throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
+        }
 
-        val refreshToken = RefreshToken(
-            key = authentication.name,
-            value = tokenDto.refreshToken,
+
+        return LoginResultDto(
+            code = "0",
+            data = tokenProvider.createToken(client),
         )
-
-        refreshTokenRepository.save(refreshToken)
-
-        return tokenDto
     }
+
 }

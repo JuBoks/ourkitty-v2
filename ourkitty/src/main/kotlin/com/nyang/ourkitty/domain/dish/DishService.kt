@@ -113,9 +113,10 @@ class DishService(
     }
 
     @Transactional
-    fun updateDishWeight(dishSerialNum: String, dishWeight: Double): ResultDto<Boolean> {
+    fun updateDishWeight(dishSerialNum: String, dishWeight: Double, dishBatteryState: String): ResultDto<Boolean> {
         val dish = getDishBySerialNum(dishSerialNum)
         dish.updateDishWeight(dishWeight)
+        dish.updateBatteryState(dishBatteryState)
 
         val dishWeightLog = DishWeightLogEntity(
             dish = dish,

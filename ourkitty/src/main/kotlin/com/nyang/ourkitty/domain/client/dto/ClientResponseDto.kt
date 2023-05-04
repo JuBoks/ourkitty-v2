@@ -15,7 +15,7 @@ data class ClientResponseDto(
     val userCode: String,
     val locationCode: String,
     val dishList: List<ClientDishResponseDto>,
-    val isActive: Boolean,
+    val userState: String,
     val isDeleted: Boolean,
     val clientDescription: String,
 
@@ -42,7 +42,7 @@ data class ClientResponseDto(
                 userCode = client.userCode,
                 locationCode = client.locationCode,
                 dishList = client.dishList.map(ClientDishResponseDto::of),
-                isActive = client.isActive,
+                userState = client.userState,
                 isDeleted = client.isDeleted,
                 clientDescription = client.clientDescription,
                 lastPostingDate = client.lastPostingDate,

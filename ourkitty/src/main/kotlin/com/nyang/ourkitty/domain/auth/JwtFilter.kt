@@ -1,39 +1,42 @@
 package com.nyang.ourkitty.domain.auth
 
-import com.nyang.ourkitty.exception.CustomException
-import com.nyang.ourkitty.exception.ErrorCode
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.util.StringUtils
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+@Order(1)
+@Component
 class JwtFilter(
-    private val tokenProvider: TokenProvider,
+    private val jwtTokenProvider: JwtTokenProvider,
 ) : OncePerRequestFilter() {
 
     companion object {
-        const val AUTHORIZATION_HEADER: String = "Authorization"
-        const val BEARER_PREFIX: String = "Bearer "
+        private const val AUTHORIZATION_HEADER = "Authorization"
+        private const val TOKEN_PREFIX = "Bearer "
     }
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-        val jwt: String = resolveToken(request) ?: throw CustomException(ErrorCode.JWT_TOKEN_EXCEPTION)
+        val token = resolveToken(request)
+        if (token != null) {
+            val claims = jwtTokenProvider.getClaimsFromToken(token)
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            val authentication: Authentication = tokenProvider.getAuthentication(jwt)
-            SecurityContextHolder.getContext().authentication = authentication
+            JwtContextHolder.clientId = claims["clientId"]?.toString()
+            JwtContextHolder.locationCode = claims["locationCode"]?.toString()
+            JwtContextHolder.userCode = claims["userCode"]?.toString()
         }
+
+        filterChain.doFilter(request, response)
     }
 
     private fun resolveToken(request: HttpServletRequest): String? {
-        val bearerToken: String = request.getHeader(AUTHORIZATION_HEADER) ?: throw CustomException(ErrorCode.JWT_TOKEN_EXCEPTION)
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7)
+        val bearerToken = request.getHeader(AUTHORIZATION_HEADER)
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.substring(TOKEN_PREFIX.length).trim()
         }
         return null
     }
-
 }
