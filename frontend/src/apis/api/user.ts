@@ -85,6 +85,6 @@ export const modifyClientState = (clientId: number, formData: FormData) => {
  * @returns true/false
  */
 export const deleteClient = (clientId: number) => {
-  const data = authInstance.delete(`client/${clientId}/request`);
+  const data = authInstance.delete(`client/${clientId}`);
   return data;
 };

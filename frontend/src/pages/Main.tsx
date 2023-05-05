@@ -15,7 +15,7 @@ export default function Main() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const category = useRecoilState(categoryState)[0];
   const [userId, setUserId] = useState("admin");
-  const [userPw, setUserPw] = useState("1234");
+  const [userPw, setUserPw] = useState("test");
 
   const loginRequest = useMutation(
     ["login"],

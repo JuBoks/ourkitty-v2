@@ -125,10 +125,7 @@ export default function Header() {
                 </div>
               ) : (
                 <div title="다크모드">
-                  <Dark
-                    sx={{ fontSize: "50px", color: "#FFFFFF" }}
-                    onClick={() => setIsDark((cur: boolean) => !cur)}
-                  />
+                  <Dark sx={{ fontSize: "50px", color: "#FFFFFF" }} />
                 </div>
               )}
             </div>

@@ -109,9 +109,11 @@ export default function Regist() {
       cancelButtonText: "취소",
       reverseButtons: true,
     }).then((result) => {
-      URL.revokeObjectURL(image);
-      setImage("");
-      setImageUrl("");
+      if (result.isConfirmed) {
+        URL.revokeObjectURL(image);
+        setImage("");
+        setImageUrl("");
+      }
     });
   };
 
