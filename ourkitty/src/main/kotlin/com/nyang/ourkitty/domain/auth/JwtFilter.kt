@@ -21,7 +21,7 @@ class JwtFilter(
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val token = resolveToken(request)
-        if (token != null) {
+        if (token != null && jwtTokenProvider.validateToken(token)) {
             val claims = jwtTokenProvider.getClaimsFromToken(token)
 
             JwtContextHolder.clientId = claims["clientId"]?.toString()
