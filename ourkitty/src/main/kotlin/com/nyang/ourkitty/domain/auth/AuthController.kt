@@ -77,12 +77,11 @@ class AuthController(
         println("userCode $userCode")
     }
 
-    @GetMapping("/error")
+    @RequestMapping("/error")
     fun authError(request: HttpServletRequest) {
         when (request.getAttribute("exception").toString()) {
             "AuthenticationException" -> throw CustomException(ErrorCode.NEED_LOGIN_EXCEPTION)
         }
-
     }
 
 }

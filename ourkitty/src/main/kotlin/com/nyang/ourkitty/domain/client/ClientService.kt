@@ -15,6 +15,7 @@ import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import org.apache.commons.logging.LogFactory
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -34,15 +35,20 @@ class ClientService(
     private val dishQuerydslRepository: DishQuerydslRepository,
 
     private val imageUploader: AwsS3ImageUploader,
+    private val passwordEncoder: PasswordEncoder,
 ) {
-
-    private val log = LogFactory.getLog(ClientService::class.java)!!
-
 
     @Transactional
     fun createAccount(locationCode: String, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
         val client = clientRequestDto.toEntity()
+
+        if (clientQuerydslRepository.getClientByEmail(client.clientEmail) != null) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
+        }
+
         client.updateLocationCode(locationCode)
+        client.updateLastPostingDate()
+        client.updatePassword(passwordEncoder.encode(client.clientPassword))
 
         clientRepository.save(client)
 
@@ -97,7 +103,7 @@ class ClientService(
 
         return ResultDto(
             data = ClientResponseDto.of(
-                getClientById(clientId)
+                getAllClientById(clientId)
             ),
         )
     }
@@ -115,7 +121,7 @@ class ClientService(
 
     @Transactional
     fun modifyMyAccount(clientId: Long, clientRequestDto: ClientRequestDto, file: MultipartFile?): ResultDto<ClientResponseDto> {
-        val client = getClientById(clientId)
+        val client = getAllClientById(clientId)
         val updateParam = clientRequestDto.toEntity()
 
         if (file != null) {
@@ -134,7 +140,7 @@ class ClientService(
 
     @Transactional
     fun modifyAccount(clientId: Long, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
-        val client = getClientById(clientId)
+        val client = getAllClientById(clientId)
         val updateParam = clientRequestDto.toEntity()
 
         client.updateAccount(updateParam)
@@ -169,7 +175,7 @@ class ClientService(
 
     @Transactional
     fun deleteAccount(clientId: Long, clientDescription: String): ResultDto<Boolean> {
-        getClientById(clientId).let {
+        getAllClientById(clientId).let {
             it.delete(clientDescription)
             clientRepository.save(it)
         }
@@ -181,7 +187,7 @@ class ClientService(
 
     @Transactional
     fun cancelDeleteAccount(clientId: Long): ResultDto<Boolean>? {
-        getClientById(clientId).let {
+        getAllClientById(clientId).let {
             it.cancelDelete()
             clientRepository.save(it)
         }
@@ -198,7 +204,7 @@ class ClientService(
             clientRepository.save(it)
         }
 
-        val block = BlockEntity(
+        val block = blockRepository.findByClientId(clientId)?.apply{ this.updateBlockDate(unBlockDate) } ?: BlockEntity(
             clientId = clientId,
             unBlockDate = unBlockDate,
         )
@@ -213,12 +219,10 @@ class ClientService(
     @Transactional
     fun activateAccount() {
         val now = LocalDateTime.now()
-        log.info(now)
         val unBlockList = blockQuerydslRepository.getUnblockList(now)
-        log.info(unBlockList)
 
         unBlockList
-            .map { getClientById(it.clientId) }
+            .map { getAllClientById(it.clientId) }
             .forEach { it.activate() }
 
         unBlockList.forEach(blockRepository::delete)
@@ -226,6 +230,9 @@ class ClientService(
 
     private fun getClientById(clientId: Long): ClientEntity {
         return clientQuerydslRepository.getClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    }
+    private fun getAllClientById(clientId: Long): ClientEntity {
+        return clientQuerydslRepository.getAllClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
 
     private fun getClientByEmail(clientEmail: String): ClientEntity {

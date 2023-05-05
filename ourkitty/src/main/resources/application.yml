@@ -62,4 +62,4 @@ logging:
     jdbc.sqlonly: debug
 
 jwt:
-  secret: 7823d64bc346802ebcb800dc8f03fedbf3b5cc9fd152b8e4d9c2a39173aa109daeca52511d6039e19751b8f1c224b156007e6a58d90fa375091fb3d7d6c67654
+  secret: ${JWT_SECRET_KEY}

@@ -50,7 +50,7 @@ class DishService(
         val dish = dishRequestDto.toEntity()
 
         if (dishQuerydslRepository.getDishBySerialNum(dish.dishSerialNum) != null) {
-            throw CustomException(ErrorCode.DUPLICATE_RESOURCE)
+            throw CustomException(ErrorCode.DUPLICATE_SERIAL_NUM)
         }
 
         dish.updateLocationCode(locationCode)
@@ -115,8 +115,11 @@ class DishService(
     @Transactional
     fun updateDishWeight(dishSerialNum: String, dishWeight: Double, dishBatteryState: String): ResultDto<Boolean> {
         val dish = getDishBySerialNum(dishSerialNum)
+        // 이전 배터리 정보(0100005) - 새로 들어온 배터리 정보(0100004) == 1 --> 배터리 상승 --> noise 발생
+        if (dish.dishBatteryState.toInt() - dishBatteryState.toInt() != 1) {
+            dish.updateBatteryState(dishBatteryState)
+        }
         dish.updateDishWeight(dishWeight)
-        dish.updateBatteryState(dishBatteryState)
 
         val dishWeightLog = DishWeightLogEntity(
             dish = dish,
