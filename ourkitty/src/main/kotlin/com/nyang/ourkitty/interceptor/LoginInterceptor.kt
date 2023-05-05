@@ -1,4 +1,4 @@
-package com.nyang.ourkitty.common
+package com.nyang.ourkitty.interceptor
 
 import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.exception.CustomException
@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletResponse
 class LoginInterceptor : HandlerInterceptor {
     
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (JwtContextHolder.clientId == null) {
-            throw CustomException(ErrorCode.NO_ACCESS)
+        if (JwtContextHolder.clientId != null) {
+            return true
         }
 
-        return true
+        request.setAttribute("exception", "AuthenticationException")
+        request.getRequestDispatcher("/auth/error").forward(request, response)
+        return false
     }
 
 }

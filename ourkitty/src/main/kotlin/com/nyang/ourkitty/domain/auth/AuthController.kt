@@ -3,14 +3,18 @@ package com.nyang.ourkitty.domain.auth
 import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @Api(tags = ["인증 관련 API"])
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = ["*"])
 class AuthController(
     private val authService: AuthService
 ) {
@@ -71,6 +75,14 @@ class AuthController(
         println("clientId $clientId")
         println("locationCode $locationCode")
         println("userCode $userCode")
+    }
+
+    @GetMapping("/error")
+    fun authError(request: HttpServletRequest) {
+        when (request.getAttribute("exception").toString()) {
+            "AuthenticationException" -> throw CustomException(ErrorCode.NEED_LOGIN_EXCEPTION)
+        }
+
     }
 
 }
