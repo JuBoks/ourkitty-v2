@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BlockRepository : JpaRepository<BlockEntity, Long> {
+    fun findByClientId(clientId: Long): BlockEntity?
+
 }

@@ -7,6 +7,7 @@ import javax.persistence.*
 class DishEntity(
     var dishName: String,
     var dishAddress: String,
+    @Column(unique = true)
     val dishSerialNum: String,
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -161,8 +161,9 @@ class ClientController(
     @ApiOperation(value = "사용자 아이디 비활성화")
     @DeleteMapping("/{clientId}/block")
     fun deactivateAccount(
-        @PathVariable clientId: Long, @RequestParam(required = false, defaultValue = "") clientDescription: String,
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") unBlockDate: LocalDateTime
+        @PathVariable clientId: Long,
+        @RequestParam(required = false, defaultValue = "") clientDescription: String,
+        unBlockDate: LocalDateTime
     ): ResponseEntity<ResultDto<Boolean>> {
 
         if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)

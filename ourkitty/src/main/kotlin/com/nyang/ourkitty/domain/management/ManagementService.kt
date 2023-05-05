@@ -62,6 +62,7 @@ class ManagementService(
     fun createManagement(clientId: Long, locationCode: String, managementRequestDto: ManagementRequestDto, files: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
         val dish = dishRepository.findByIdOrNull(managementRequestDto.dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
         val client = clientRepository.findByIdOrNull(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
 
         val management = managementRequestDto.toEntity(
             dish = dish,
@@ -97,6 +98,9 @@ class ManagementService(
     @Transactional
     fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
         val management = getManagementById(managementId)
+        val client = clientRepository.findByIdOrNull(management.client.clientId!!.toLong()) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
+
         management.update(
             managementContent = managementRequestDto.managementContent,
             dishState = managementRequestDto.dishState,
@@ -153,6 +157,7 @@ class ManagementService(
     fun createManagementComment(managementId: Long, clientId: Long, managementCommentRequestDto: ManagementCommentRequestDto): ResultDto<ManagementResponseDto> {
         val management = managementRepository.findByIdOrNull(managementId) ?: throw CustomException(ErrorCode.NOT_FOUND_MANAGEMENT)
         val client = clientRepository.findByIdOrNull(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
 
         managementCommentRequestDto.toEntity(
             management = management,
@@ -195,4 +200,5 @@ class ManagementService(
         }
         return managementComment
     }
+
 }

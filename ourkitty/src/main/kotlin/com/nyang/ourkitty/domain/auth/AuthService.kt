@@ -9,6 +9,7 @@ import com.nyang.ourkitty.domain.client.repository.ClientQuerydslRepository
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -17,6 +18,7 @@ import java.time.LocalDateTime
 @Transactional(readOnly = true)
 class AuthService(
     private val tokenProvider: JwtTokenProvider,
+    private val passwordEncoder: PasswordEncoder,
 
     private val clientRepository: ClientRepository,
     private val clientQuerydslRepository: ClientQuerydslRepository,
@@ -45,8 +47,8 @@ class AuthService(
             )
         }
 
-//        if (!passwordEncoder.matches(loginRequestDto.clientPassword, client.clientPassword)) {
-        if (loginRequestDto.clientPassword != client.clientPassword) {
+        if (!passwordEncoder.matches(loginRequestDto.clientPassword, client.clientPassword)) {
+//        if (loginRequestDto.clientPassword != client.clientPassword) {
             throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
         }
 

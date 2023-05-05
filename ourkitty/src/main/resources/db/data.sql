@@ -1,21 +1,20 @@
 INSERT INTO `client_table`
-VALUES (1, 'client', '1234', 'name1', '테스트유저', '', 'address1', '010-1223-1234', '0010001', '0020001',
+VALUES (1, 'client', '$2a$10$kNnSCr0rS0SxvR7w09F2FetmPh6doUi7GyrZAXsQ3BOSFEbY5YLha', 'name1', '테스트유저', '', 'address1', '010-1223-1234', '0010001', '0020001',
         now(),
         '0110001', false, '',
         now(), now()),
-       (2, 'admin', '1234', 'name2', '테스트관리자', '', 'address2', '010-4312-1234', '0010002', '0020001',
+       (2, 'admin', '$2a$10$kNnSCr0rS0SxvR7w09F2FetmPh6doUi7GyrZAXsQ3BOSFEbY5YLha', 'name2', '테스트관리자', '', 'address2', '010-4312-1234', '0010002', '0020001',
         now(),
         '0110001', false, '',
         now(), now()),
-       (3, 'test3@ssafy.com', 'pwd', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020001',
+       (3, 'test3@ssafy.com', '$2a$10$kNnSCr0rS0SxvR7w09F2FetmPh6doUi7GyrZAXsQ3BOSFEbY5YLha', 'name3', 'nickname3', '', 'address3', '0123', '0010001', '0020001',
         now(),
-        '0110002', false, '비매너유저',
+        '0110001', false, '',
         now(), now()),
-       (4, 'test4@ssafy.com', 'pwd', 'name4', 'nickname3', '', 'address3', '0123', '0010001', '0020001',
+       (4, 'test4@ssafy.com', '$2a$10$kNnSCr0rS0SxvR7w09F2FetmPh6doUi7GyrZAXsQ3BOSFEbY5YLha', 'name4', 'nickname3', '', 'address3', '0123', '0010001', '0020001',
         now(),
         '0110003', false, '이사',
         now(), now());
-
 
 INSERT INTO `dish_table`
 VALUES (1, 'dish1', 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', 35.158593, 129.155774, 'address4',

@@ -25,7 +25,7 @@ class ClientEntity(
     var clientProfileImagePath: String = "",
     var locationCode: String = "",
     var clientPhone: String = "",
-    val lastPostingDate: LocalDateTime = LocalDateTime.of(2000, 1, 1, 0, 0, 0),
+    var lastPostingDate: LocalDateTime = LocalDateTime.MIN,
     var userState: String = UserState.정상.code,
     var clientDescription: String = "",
 ) : BaseEntity() {
@@ -39,8 +39,16 @@ class ClientEntity(
         this.clientProfileImagePath = imagePath
     }
 
+    fun updateLastPostingDate() {
+        this.lastPostingDate = LocalDateTime.now()
+    }
+
     fun updatePhone(phone: String) {
         this.clientPhone = phone
+    }
+
+    fun updatePassword(newPassword: String) {
+        this.clientPassword = newPassword
     }
 
     fun updateMyAccount(param: ClientEntity) {
