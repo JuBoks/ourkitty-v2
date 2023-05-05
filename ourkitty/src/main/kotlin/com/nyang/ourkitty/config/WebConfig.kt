@@ -12,7 +12,14 @@ class WebConfig : WebMvcConfigurer {
         registry.addInterceptor(LoginInterceptor())
             .order(1)
             .addPathPatterns("/**")
-            .excludePathPatterns("/", "/auth/**", "/swagger-ui/**", "/css/**", "/*.ico", "/error")
+            .excludePathPatterns(
+                "/auth/**",
+                "/v2/api-docs",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/*.ico",
+                "/error"
+            )
     }
     
 }
