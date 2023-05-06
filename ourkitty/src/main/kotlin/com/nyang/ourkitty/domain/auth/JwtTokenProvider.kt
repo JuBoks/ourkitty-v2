@@ -2,6 +2,8 @@ package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.domain.auth.dto.TokenDto
 import com.nyang.ourkitty.entity.ClientEntity
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SecurityException
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Component
 class JwtTokenProvider(
@@ -54,10 +58,10 @@ class JwtTokenProvider(
         )
     }
 
-    fun validateToken(token: String): Boolean {
-        try {
+    fun validateToken(request: HttpServletRequest, token: String): Boolean {
+        return try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
-            return true
+            true
         } catch (e: Exception) {
             when (e) {
                 is SecurityException, is MalformedJwtException -> log.error("잘못된 JWT 서명입니다.")
@@ -65,8 +69,9 @@ class JwtTokenProvider(
                 is UnsupportedJwtException -> log.error("지원되지 않는 JWT 토큰입니다.")
                 is IllegalArgumentException -> log.error("JWT 토큰이 잘못되었습니다.")
             }
+            request.setAttribute("exception", "JWTException")
+            false
         }
-        return false
     }
 
     fun getClaimsFromToken(token: String): Claims {
