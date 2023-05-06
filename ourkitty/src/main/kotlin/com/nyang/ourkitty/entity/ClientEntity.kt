@@ -30,7 +30,6 @@ class ClientEntity(
     var clientDescription: String = "",
 ) : BaseEntity() {
 
-    //TODO : updateDish or addDish -> DishClientEntity 생성하는 로직
     fun updateLocationCode(locationCode: String) {
         this.locationCode = locationCode
     }
@@ -63,6 +62,7 @@ class ClientEntity(
         this.clientName = param.clientName
         this.clientNickname = param.clientNickname
         this.clientAddress = param.clientAddress
+        this.clientPhone = param.clientPhone
     }
 
     fun deleteDish(clientDish: ClientDishEntity) {

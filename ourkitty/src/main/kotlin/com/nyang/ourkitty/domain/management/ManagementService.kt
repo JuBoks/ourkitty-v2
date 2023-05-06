@@ -35,6 +35,7 @@ class ManagementService(
 
     private val imageUploader: AwsS3ImageUploader,
 ) {
+
     fun getManagementList(locationCode: String, limit: Long, offset: Long, dishId: Long?): ResultDto<List<ManagementResponseDto>> {
         val managementList = managementQuerydslRepository.getManagementList(locationCode, limit, offset, dishId)
         val totalCount = managementQuerydslRepository.countManagementList(locationCode, dishId)
@@ -56,7 +57,6 @@ class ManagementService(
             ),
         )
     }
-
 
     @Transactional
     fun createManagement(clientId: Long, locationCode: String, managementRequestDto: ManagementRequestDto, files: List<MultipartFile>?): ResultDto<ManagementResponseDto> {

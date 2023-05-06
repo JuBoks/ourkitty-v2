@@ -1,6 +1,5 @@
 package com.nyang.ourkitty.common
 
-
 enum class Authority {
     ROLE_USER, ROLE_ADMIN
     ;

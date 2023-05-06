@@ -9,4 +9,6 @@ interface ClientRepository : CrudRepository<ClientEntity, Long> {
 
     fun existsByClientEmail(clientEmail: String): Boolean
 
+    fun existsByClientPhone(clientPhone: String): Boolean
+
 }

@@ -14,7 +14,6 @@ import com.nyang.ourkitty.entity.ClientEntity
 import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
-import org.apache.commons.logging.LogFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -42,8 +41,12 @@ class ClientService(
     fun createAccount(locationCode: String, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
         val client = clientRequestDto.toEntity()
 
-        if (clientQuerydslRepository.getClientByEmail(client.clientEmail) != null) {
+        if (clientRepository.existsByClientEmail(client.clientEmail)) {
             throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
+        }
+
+        if (clientRepository.existsByClientPhone(client.clientPhone)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_PHONE)
         }
 
         client.updateLocationCode(locationCode)

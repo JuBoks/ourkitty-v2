@@ -10,7 +10,6 @@ import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -25,7 +24,6 @@ class ClientController(
 ) {
 
     /**
-     * TODO : 캣맘 아이디 생성 (지자체)
      * @param clientRequestDto ClientRequestDto
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
@@ -44,7 +42,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 캣맘 아이디 목록 조회 (지자체)
      * @return ResponseEntity<ResultDto<List<ClientResponseDto>>>
      */
     @ApiOperation(value = "사용자 아이디 목록 조회")
@@ -68,7 +65,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 캣맘 아이디 조회
      * @param clientId Long
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
@@ -122,7 +118,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 캣맘 아이디 탈퇴 요청 (캣맘)
      * @param clientId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
@@ -138,7 +133,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 캣맘 아이디 탈퇴 취소
      * @param clientId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
@@ -154,7 +148,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 캣맘 아이디 비활성화 (지자체)
      * @param clientId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
