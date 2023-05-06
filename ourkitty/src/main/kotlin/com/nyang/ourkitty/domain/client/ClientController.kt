@@ -41,6 +41,25 @@ class ClientController(
         return ResponseEntity.ok(client)
     }
 
+    @ApiOperation(value = "E-mail 중복 확인")
+    @PostMapping("/check/email")
+    fun checkEmailDuplication(clientEmail: String): ResponseEntity<ResultDto<Boolean>> {
+
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+
+        return ResponseEntity.ok(clientService.checkEmailDuplication(clientEmail))
+    }
+
+    @ApiOperation(value = "휴대전화 번호 중복 확인")
+    @PostMapping("/check/phone")
+    fun checkPhoneDuplication(clientPhone: String): ResponseEntity<ResultDto<Boolean>> {
+
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+
+        return ResponseEntity.ok(clientService.checkPhoneDuplication(clientPhone))
+    }
+
+
     /**
      * @return ResponseEntity<ResultDto<List<ClientResponseDto>>>
      */

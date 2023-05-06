@@ -71,6 +71,26 @@ class ClientService(
         )
     }
 
+    fun checkEmailDuplication(clientEmail: String): ResultDto<Boolean> {
+        if (clientRepository.existsByClientEmail(clientEmail)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    fun checkPhoneDuplication(clientPhone: String): ResultDto<Boolean> {
+        if (clientRepository.existsByClientPhone(clientPhone)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_PHONE)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
     fun getAccountList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
         val clientListResponseDto = clientQuerydslRepository.getClientList(
             locationCode = locationCode,
