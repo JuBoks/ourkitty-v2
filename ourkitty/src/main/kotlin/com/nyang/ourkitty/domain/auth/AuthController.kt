@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/auth")
 @CrossOrigin(origins = ["*"])
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
+
 ) {
 
     /**
@@ -25,7 +26,7 @@ class AuthController(
      * @return ClientResponseDto
      */
     @ApiOperation(value = "로그인")
-    @PostMapping("/signin")
+    @PostMapping("/login")
     fun signIn(loginRequestDto: LoginRequestDto): ResponseEntity<LoginResultDto<Any>> {
         return ResponseEntity.ok(authService.signin(loginRequestDto))
     }
@@ -34,7 +35,7 @@ class AuthController(
      * TODO : 로그아웃
      */
     @ApiOperation(value = "로그아웃")
-    @GetMapping("/signout")
+    @GetMapping("/logout")
     fun signOut() {
     }
 
@@ -66,21 +67,11 @@ class AuthController(
 
     }
 
-    @GetMapping("/test")
-    fun test123() {
-        val clientId = JwtContextHolder.clientId
-        val locationCode = JwtContextHolder.locationCode
-        val userCode = JwtContextHolder.userCode
-
-        println("clientId $clientId")
-        println("locationCode $locationCode")
-        println("userCode $userCode")
-    }
-
-    @RequestMapping("/error")
+    @RequestMapping("/error", method = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
     fun authError(request: HttpServletRequest) {
         when (request.getAttribute("exception").toString()) {
             "AuthenticationException" -> throw CustomException(ErrorCode.NEED_LOGIN_EXCEPTION)
+            "JWTException" -> throw CustomException(ErrorCode.JWT_TOKEN_EXCEPTION)
         }
     }
 
