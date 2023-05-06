@@ -6,6 +6,7 @@ data class ClientRequestDto(
     val clientEmail: String,
     val clientPassword: String,
     val clientName: String,
+    val clientPhone: String,
     val clientAddress: String,
     val clientNickname: String = "user",
     val dishList: List<Long> = emptyList(),
@@ -18,6 +19,7 @@ data class ClientRequestDto(
             clientName = this.clientName,
             clientNickname = this.clientNickname,
             clientAddress = this.clientAddress,
+            clientPhone = this.clientPhone,
         )
     }
 

@@ -1,6 +1,5 @@
 package com.nyang.ourkitty.domain.auth
 
-import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
 import com.nyang.ourkitty.exception.CustomException
@@ -21,14 +20,13 @@ class AuthController(
 ) {
 
     /**
-     * TODO : 로그인
      * @param loginRequestDto LoginRequestDto
      * @return ClientResponseDto
      */
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
     fun signIn(loginRequestDto: LoginRequestDto): ResponseEntity<LoginResultDto<Any>> {
-        return ResponseEntity.ok(authService.signin(loginRequestDto))
+        return ResponseEntity.ok(authService.signIn(loginRequestDto))
     }
 
     /**

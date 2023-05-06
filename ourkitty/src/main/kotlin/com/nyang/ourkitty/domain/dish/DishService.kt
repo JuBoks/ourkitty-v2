@@ -49,7 +49,7 @@ class DishService(
         //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
 
-        if (dishQuerydslRepository.getDishBySerialNum(dish.dishSerialNum) != null) {
+        if (dishRepository.existsByDishSerialNum(dish.dishSerialNum)) {
             throw CustomException(ErrorCode.DUPLICATE_SERIAL_NUM)
         }
 

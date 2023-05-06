@@ -6,7 +6,6 @@ import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
 import com.nyang.ourkitty.domain.client.repository.BlockQuerydslRepository
 import com.nyang.ourkitty.domain.client.repository.ClientQuerydslRepository
-import com.nyang.ourkitty.domain.client.repository.ClientRepository
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -20,13 +19,12 @@ class AuthService(
     private val tokenProvider: JwtTokenProvider,
     private val passwordEncoder: PasswordEncoder,
 
-    private val clientRepository: ClientRepository,
     private val clientQuerydslRepository: ClientQuerydslRepository,
 
     private val blockQuerydslRepository: BlockQuerydslRepository
 ) {
 
-    fun signin(loginRequestDto: LoginRequestDto): LoginResultDto<Any> {
+    fun signIn(loginRequestDto: LoginRequestDto): LoginResultDto<Any> {
         val client = clientQuerydslRepository.getClientByEmail(loginRequestDto.clientEmail) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
 
         if (client.userState == UserState.비활성화.code) {
@@ -48,7 +46,6 @@ class AuthService(
         }
 
         if (!passwordEncoder.matches(loginRequestDto.clientPassword, client.clientPassword)) {
-//        if (loginRequestDto.clientPassword != client.clientPassword) {
             throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
         }
 

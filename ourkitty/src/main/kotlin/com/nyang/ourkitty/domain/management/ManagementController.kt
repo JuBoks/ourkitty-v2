@@ -20,7 +20,6 @@ class ManagementController(
 ) {
 
     /**
-     * TODO : JWT
      * @param limit Long
      * @param offset Long
      * @param id Long?      : 냥그릇 ID
