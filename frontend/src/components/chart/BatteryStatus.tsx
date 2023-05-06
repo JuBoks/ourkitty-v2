@@ -8,7 +8,7 @@ export default function BatteryStatus() {
     const today = new Date(); 
     const dates = Array.from({ length: 7 }, (_, index) => {
       const date = new Date(today);
-      date.setDate(today.getDate() - index);
+      date.setDate(today.getDate() - (index +1) );
       const dayString = date.toLocaleDateString('ko-KR', { day: 'numeric' });
       return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
     }).reverse();
