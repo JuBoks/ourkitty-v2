@@ -6,7 +6,7 @@ import { defaultInstance, authInstance } from "../utils";
  */
 export const login = async (formData: FormData) => {
   try {
-    const res = await defaultInstance.post(`auth/signin`, formData, {
+    const res = await defaultInstance.post(`auth/login`, formData, {
       headers: { "Content-type": "multipart/form-data" },
     });
 
@@ -23,7 +23,7 @@ export const login = async (formData: FormData) => {
 export const logout = async () => {
   const refresh = localStorage.getItem("refreshToken");
   const access = localStorage.getItem("accessToken");
-  const res = await authInstance.get(`auth/signout`);
+  const res = await authInstance.get(`auth/logout`);
 
   if (res.data.message === "SUCCESS") {
     localStorage.removeItem("refreshToken");
