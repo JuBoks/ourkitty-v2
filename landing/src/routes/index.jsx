@@ -5,7 +5,7 @@ import Landing from "../pages/Landing";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/landing",
     element: <UserMainLayout />,
     children: [{ index: true, path: "", element: <Landing /> }],
   },
