@@ -408,9 +408,7 @@ export default function Landing() {
               좌측 상단 아이콘 버튼을 클릭하면 개체 수 현황 정보를 이미지 또는
               엑셀 파일로 다운로드 할 수 있습니다.
             </p>
-            <a href className="underline">
-              더보기
-            </a>
+            <span className="underline">더보기</span>
           </div>
           <div data-aos="fade-left" className="sm:w-1/2 relative mt-10 sm:mt-0">
             <div
@@ -533,7 +531,7 @@ export default function Landing() {
             </h1>
             <p className="py-5 lg:pr-32">중성화 과정</p>
             <div className="flex items-center space-x-5 my-5">
-              <div className="flex-shrink bg-white shadow-lg rounded-full p-3 px-5 flex items-center justify-center bg-red text-white font-bold">
+              <div className="flex-shrink bg-red shadow-lg rounded-full p-3 px-5 flex items-center justify-center bg-red text-white font-bold">
                 1
               </div>
               <p>
@@ -574,7 +572,7 @@ export default function Landing() {
               </h1>
             </div>
             <h1 className="font-semibold text-black text-2xl lg:pr-52">
-              19가지 이상의 다양한 기술을 통해{" "}
+              19가지 이상의 다양한 기술들로{" "}
               <span className="text-yellow-500">냥그릇</span>이 탄생했습니다.
             </h1>
             <p className="text-gray-500 mt-5 lg:pr-20">
@@ -610,9 +608,17 @@ export default function Landing() {
         >
           <div className="lg:w-6/12">
             <img className="w-full mb-6 rounded-xl" src={News01} alt="" />
-            <h1 className="text-gray-800 font-semibold my-3 text-xl">
-              "캣맘 싫어서"…인천 길고양이 급식소 훼손한 중학생 검거
-            </h1>
+            <a
+              href="https://www.hankyung.com/society/article/2023050317677"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <h1 className="text-gray-800 font-semibold my-3 text-xl cursor-pointer">
+                <span className="hover:border-b-[2px]">
+                  "캣맘 싫어서"…인천 길고양이 급식소 훼손한 중학생 검거
+                </span>
+              </h1>
+            </a>
             <p
               className="content-detail text-gray-500 mb-3 w-full overflow-hidden"
               dangerouslySetInnerHTML={{
@@ -628,9 +634,17 @@ export default function Landing() {
                 </div>
               </div>
               <div className="w-8/12">
-                <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                  길고양이와 공존하는 법
-                </h1>
+                <a
+                  href="https://www.chosun.com/national/weekend/2023/04/29/P3UGS5FWPNBDREXH5ZGQAQ424M/?utm_source=naver&utm_medium=referral&utm_campaign=naver-news"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      길고양이와 공존하는 법
+                    </span>
+                  </h1>
+                </a>
                 <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
                   서울 강남의 한 아파트 단지에 설치된 길고양이 급식소.
                   길고양이에게 밥을 주는 사람을 지칭하는 ‘캣맘’이 약속된 시간에
@@ -649,9 +663,17 @@ export default function Landing() {
                 </div>
               </div>
               <div className="w-8/12">
-                <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                  길고양이 급식소 설치… 주민들끼리 날선 신경전
-                </h1>
+                <a
+                  href="http://www.joongboo.com/news/articleView.html?idxno=363589741"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      길고양이 급식소 설치… 주민들끼리 날선 신경전
+                    </span>
+                  </h1>
+                </a>
                 <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
                   최근 일부 아파트 단지를 드나드는 길고양이의 관리 문제를 두고
                   주민들이 이견을 보이고 있다. 27일 중부일보 취재진이 수원시 내
@@ -669,9 +691,17 @@ export default function Landing() {
                 </div>
               </div>
               <div className="w-8/12">
-                <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                  길냥이들의 보금자리 설치로 입주민-길고양이 서로 ‘윈윈’
-                </h1>
+                <a
+                  href="http://www.civicnews.com/news/articleView.html?idxno=35273"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      길냥이들의 보금자리 설치로 입주민-길고양이 서로 ‘윈윈’
+                    </span>
+                  </h1>
+                </a>
                 <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
                   길고양이가 차를 긁거나 지나가는 시민에게 공격을 하는 등의
                   피해를 입히는 경우가 계속 발생하고 있다. 그런 가운데 몇몇
@@ -688,7 +718,9 @@ export default function Landing() {
         <div className="absolute rounded-2xl z-40 w-full top-10">
           <a
             href="https://paypal.me/e204catbowl?country.x=KR&locale.x=ko_KR"
-            class="relative"
+            className="relative"
+            target="_blank"
+            rel="noreferrer"
           >
             <button className="text-[1.5rem] font-bold px-20 py-5 bg-white border border-yellow-500 text-yellow font-medium my-4 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out rounded-full hover:bg-yellow hover:text-white">
               후원하기
@@ -702,7 +734,6 @@ export default function Landing() {
         <iframe
           className="frame z-0 w-[80%] h-[70%] m-auto"
           title="Cat in a Box"
-          frameborder="0"
           src="https://sketchfab.com/models/726067b21dcc439895aec9c3d2410881/embed?autostart=1"
         ></iframe>
       </div>
@@ -749,9 +780,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex items-center text-sm justify-center text-white">
-            <a href className="pr-3">
-              삼성 청년 SW 아카데미
-            </a>
+            <p className="pr-3">삼성 청년 SW 아카데미</p>
           </div>
           <div className="text-center text-white my-3 text-sm pb-10">
             © SSAFY 8기 자율 프로젝트 "냥그릇"
