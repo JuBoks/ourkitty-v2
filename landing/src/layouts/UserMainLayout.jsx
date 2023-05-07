@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 function UserMainLayout() {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-[1920px] h-screen">
       <Outlet />
     </div>
   );
