@@ -51,6 +51,26 @@ export const registClient = async (formData: FormData) => {
   });
   return data;
 };
+/**
+ * 연락처 중복 확인
+ * @returns {boolean}
+ */
+export const checkPhone = async (formData: FormData) => {
+  const data = authInstance.post(`client/check/phone`, formData, {
+    headers: { "Content-type": "multipart/form-data" },
+  });
+  return data;
+};
+/**
+ * 이메일 중복 확인
+ * @returns {boolean}
+ */
+export const checkEmail = async (formData: FormData) => {
+  const data = authInstance.post(`client/check/email`, formData, {
+    headers: { "Content-type": "multipart/form-data" },
+  });
+  return data;
+};
 
 // PUT
 /**
