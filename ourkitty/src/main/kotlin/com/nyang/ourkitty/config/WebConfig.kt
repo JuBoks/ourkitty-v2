@@ -17,6 +17,7 @@ class WebConfig : WebMvcConfigurer {
             .addPathPatterns("/**")
             .excludePathPatterns(
                 "/auth/**",
+                "/ai/**",
                 "/v2/api-docs",
                 "/swagger-ui/**",
                 "/swagger-resources/**",
@@ -26,9 +27,9 @@ class WebConfig : WebMvcConfigurer {
     }
 
     override fun addFormatters(registry: FormatterRegistry) {
-        val registrar = DateTimeFormatterRegistrar()
-        registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-        registrar.registerFormatters(registry)
+        val dateTimeRegistrar = DateTimeFormatterRegistrar()
+        dateTimeRegistrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
+        dateTimeRegistrar.registerFormatters(registry)
     }
 
 }
