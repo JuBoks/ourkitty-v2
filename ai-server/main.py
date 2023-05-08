@@ -1,6 +1,8 @@
 import os.path
 import datetime
 from glob import glob
+import requests
+import json
 
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,7 +40,7 @@ app.add_middleware(
 googleService = connect_to_google_drive()
 
 # Spring 서버 URL
-# SERVER_URL = 'https://ourkitty.site/api/pictures/'
+SERVER_URL = 'https://k8e2031.p.ssafy.io/api'
 
 @app.get("/")
 async def index():
@@ -68,21 +70,51 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
         f.write(contents)
 
     # 딥러닝 모델 실행
-    tasks = [
-        asyncio.create_task(filterCatByYolo(filePath, googleFileName, contents)),
-        asyncio.create_task(filterCatByDetr(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName))
-    ]
+    # tasks = [
+    #     asyncio.create_task(filterCatByYolo(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName)),
+    #     asyncio.create_task(filterCatByDetr(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName))
+    # ]
 
-    results = await asyncio.gather(*tasks)
-
-    if results[1] == 200:
-        return {'status': 200, 'message': "the image is uploaded on google drive."}
+    # results = await asyncio.gather(*tasks)
+    status = await filterCatByYolo(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName)
+    
+    # s3로 파일 업로드 및 객체 정보 저장
+    if status == 1:
+        return await upload_s3(serial_number, imageFile)
     else:
-        return {'status': 200, 'message': "고양이 사진이 아닙니다."}
+        return {'status': 500, 'message': "cat detection error"}
 
 @app.post("/upload-s3/{serial_number}")
 async def upload_s3(serial_number, imageFile: UploadFile or None = None):
-    return upload_image(serial_number, imageFile)
+    try:
+        imagePath = upload_image(serial_number, imageFile)
+    except Exception as e:
+        print('이미지 업로드 도중 에러 발생', e)
+        return {'status': 500, 'message': '이미지 업로드 도중 에러 발생'}
+    
+    # back에 정보 보내기
+    # POST 요청을 보낼 URL
+    url = f'{SERVER_URL}/ai/image'
+
+    # POST 요청에 포함할 데이터
+    data = {
+        "dishSerialNum": serial_number,
+        "imagePath": imagePath,
+    }
+
+    # 요청 본문에 포함할 데이터를 JSON 형식으로 인코딩
+    json_data = json.dumps(data)
+
+    # 요청 본문과 함께 POST 요청 보내기
+    response = requests.post(url, data=json_data, headers={"Content-Type": "application/json"})
+
+    # print(response.text)
+    # 응답 결과 출력
+    if response.status_code >= 400:
+        return {'status': 500, 'message': '이미지 업로드 실패'}
+    else:
+        return {'status': 200, 'message': '이미지 업로드 성공'}
+
 
 @app.get("/yolo/pics")
 @app.get("/yolo/pics/{site}")
@@ -99,6 +131,13 @@ def display_detr_pics(site=None):
 @app.get("/img/pics/{site}/{time}/{date}")
 def display_img_pics(site='iujeong', time=None, date=None):
     return display_pics("img", site, time, date)
+
+@app.get("/detect-by-yolo")
+async def detect_cat_by_yolo():
+    filePath = "static/img/yolo-test.jpg"
+    status, isDone = await detectCatByYolo(filePath)
+
+    return {'status': status, 'isDone': isDone}
 
 def display_result_pics(folderName, site):
     if site == None:
@@ -152,12 +191,15 @@ def display_pics(folderName, site, param_time=None, param_date=None):
     return HTMLResponse(content=html_content, status_code=200)
 
 
-async def filterCatByYolo(filePath, googleFileName, contents):
+async def filterCatByYolo(filePath, googleFileName, fileName, contents, serial_number, imageFile, commonFileName):
     # 1. 이미지 파일을 yolo로 고양이 사진 필터링
     status, isDone = await detectCatByYolo(filePath)
     if status == 1:
         with open("./static/yolo/"+googleFileName+".png", 'wb') as f:
             f.write(contents)
+
+        # 구글에 사진 전송
+        await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
 
     return status
 
@@ -169,6 +211,6 @@ async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_n
             f.write(contents)
 
         # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
+        # await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
         
     return status
