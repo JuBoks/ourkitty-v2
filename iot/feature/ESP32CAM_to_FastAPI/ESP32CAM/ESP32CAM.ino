@@ -17,8 +17,8 @@ const char* ssid = "EDU-ELR22-861823"; // 라우터
 const char* password = "12345678";
 
 // 정호네 WIFI 정보
-const char* ssid = "EDU-ELR22-851139"; // 라우터
-const char* password = "12345678";
+// const char* ssid = "EDU-ELR22-851139"; // 라우터
+// const char* password = "12345678";
 
 // 미현이네 WIFI 정보
 // const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
@@ -31,8 +31,8 @@ const char* password = "12345678";
 // AI 서버 도메인
 String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
 
-// String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
-String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
+String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
+// String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
 // String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
 
 String serverPath = "/upload-google";     // serverPath 기입
@@ -131,19 +131,19 @@ void setup() {
   //config.pixel_format = PIXFORMAT_RGB565; // for face detection/recognition
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
-  config.jpeg_quality = 12;
-  config.fb_count = 1;
+  config.jpeg_quality = 10;
+  config.fb_count = 2;
   
   // init with high specs to pre-allocate larger buffers
-  if(psramFound()){
-    config.jpeg_quality = 10;
-    config.fb_count = 2;
-    config.grab_mode = CAMERA_GRAB_LATEST;
-  } else {
-    // Limit the frame size when PSRAM is not available
-    config.frame_size = FRAMESIZE_SVGA;
-    config.fb_location = CAMERA_FB_IN_DRAM;
-  }
+  // if(psramFound()){
+  //   config.jpeg_quality = 10;
+  //   config.fb_count = 2;
+  //   config.grab_mode = CAMERA_GRAB_LATEST;
+  // } else {
+  //   // Limit the frame size when PSRAM is not available
+  //   config.frame_size = FRAMESIZE_SVGA; // 800 600
+  //   config.fb_location = CAMERA_FB_IN_DRAM;
+  // }
   
   // camera init
   esp_err_t err = esp_camera_init(&config);
