@@ -21,29 +21,13 @@ class ChartService(
 
         for (x in 0..23) {
             val map = data[x]?.groupBy { it.createdDate.dayOfMonth } ?: continue
-            for (y in today-7..today) {
-                if ((y == today && x >= 15) ||
-                    (y == today-7 && x < 15)) {
-                    continue
-                }
-                // x + 9 가 24 이상일 때
-                else if (x >= 15) {
-                    result[x-15][y-today+7] = map[y]?.let { it ->
-                        DishImageListResponseDto(
-                            size = it.size,
-                            imageList = it.map { it.imagePath }
-                        )
-                    } ?: DishImageListResponseDto()
-                }
-                // 그 외
-                else {
-                    result[x+9][y-today+6] = map[y]?.let { it ->
-                        DishImageListResponseDto(
-                            size = it.size,
-                            imageList = it.map { it.imagePath }
-                        )
-                    } ?: DishImageListResponseDto()
-                }
+            for (y in today-6..today) {
+                result[x][y-today+6] = map[y]?.let { it ->
+                    DishImageListResponseDto(
+                        size = it.size,
+                        imageList = it.map { it.imagePath }
+                    )
+                } ?: DishImageListResponseDto()
             }
         }
 
