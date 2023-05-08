@@ -13,5 +13,5 @@ class ManagementImageEntity(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val managementImageId: Long? = null,
-) : ImageEntity() {
+) : BaseEntity() {
 }

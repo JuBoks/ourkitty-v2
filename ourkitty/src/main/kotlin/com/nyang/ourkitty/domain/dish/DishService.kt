@@ -4,13 +4,12 @@ import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.ai.dto.CatCountRequestDto
 import com.nyang.ourkitty.domain.ai.dto.ImageRequestDto
+import com.nyang.ourkitty.domain.dish.dto.DishImageResponseDto
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
-import com.nyang.ourkitty.domain.dish.repository.DishImageRepository
-import com.nyang.ourkitty.domain.dish.repository.DishQuerydslRepository
-import com.nyang.ourkitty.domain.dish.repository.DishRepository
-import com.nyang.ourkitty.domain.dish.repository.DishWeightLogRepository
+import com.nyang.ourkitty.domain.dish.repository.*
+import com.nyang.ourkitty.entity.DishCountLogEntity
 import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.DishImageEntity
 import com.nyang.ourkitty.entity.DishWeightLogEntity
@@ -19,6 +18,7 @@ import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -26,7 +26,9 @@ class DishService(
     private val dishRepository: DishRepository,
     private val dishQuerydslRepository: DishQuerydslRepository,
     private val dishWeightLogRepository: DishWeightLogRepository,
+    private val dishCountLogRepository: DishCountLogRepository,
     private val dishImageRepository: DishImageRepository,
+    private val dishImageQuerydslRepository: DishImageQuerydslRepository,
     private val imageUploader: AwsS3ImageUploader,
 ) {
 
@@ -45,7 +47,11 @@ class DishService(
     }
 
     @Transactional
-    fun createDish(locationCode: String, dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
+    fun createDish(
+        locationCode: String,
+        dishRequestDto: DishRequestDto,
+        file: MultipartFile?
+    ): ResultDto<DishResponseDto> {
         //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
 
@@ -115,11 +121,12 @@ class DishService(
     @Transactional
     fun updateDishWeight(dishSerialNum: String, dishWeight: Double, dishBatteryState: String): ResultDto<Boolean> {
         val dish = getDishBySerialNum(dishSerialNum)
-        // 이전 배터리 정보(0100005) - 새로 들어온 배터리 정보(0100004) == 1 --> 배터리 상승 --> noise 발생
-        if (dish.dishBatteryState.toInt() - dishBatteryState.toInt() != 1) {
+        // 새로 들어온 배터리 정보(0100005) - 이전 배터리 정보(0100004) == 1 --> 배터리 상승 --> noise 발생
+        if (dishBatteryState.toInt() - dish.dishBatteryState.toInt() != 1) {
             dish.updateBatteryState(dishBatteryState)
         }
         dish.updateDishWeight(dishWeight)
+        dishRepository.save(dish)
 
         val dishWeightLog = DishWeightLogEntity(
             dish = dish,
@@ -146,14 +153,36 @@ class DishService(
     }
 
     @Transactional
-    fun modifyDishCatCount(catCountRequestDto: CatCountRequestDto): ResultDto<Boolean> {
+    fun updateDishCatCount(catCountRequestDto: CatCountRequestDto): ResultDto<Boolean> {
         val dish = getDishBySerialNum(catCountRequestDto.dishSerialNum)
 
-        dish.updateCatCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
+        var countLog = dishCountLogRepository.findByDishAndDate(dish, catCountRequestDto.date)
+
+        if (countLog == null) {
+            dish.updateCatCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
+            countLog = DishCountLogEntity(
+                dish = dish,
+                date = catCountRequestDto.date,
+            )
+        } else {
+            countLog.updateCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
+        }
+
         dishRepository.save(dish)
+        dishCountLogRepository.save(countLog)
 
         return ResultDto(
             data = true,
+        )
+    }
+
+    fun getDishImageList(dishSerialNum: String, date: LocalDate): ResultDto<List<DishImageResponseDto>> {
+        val dishImageDtoList = dishImageQuerydslRepository.getDishImageList(dishSerialNum, date)
+            .map(DishImageResponseDto::of)
+
+        return ResultDto(
+            data = dishImageDtoList,
+            totalCount = dishImageDtoList.size.toLong()
         )
     }
 
@@ -162,7 +191,8 @@ class DishService(
     }
 
     private fun getDishBySerialNum(dishSerialNum: String): DishEntity {
-        return dishQuerydslRepository.getDishBySerialNum(dishSerialNum) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
+        return dishQuerydslRepository.getDishBySerialNum(dishSerialNum)
+            ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
 
 }

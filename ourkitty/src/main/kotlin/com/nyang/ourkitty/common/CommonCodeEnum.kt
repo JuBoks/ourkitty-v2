@@ -84,10 +84,18 @@ enum class ClientSearchKey(
 enum class BatteryState(
     val code: String,
 ) {
-    FULL("0100001"),
-    SAFE("0100002"),
-    WARNING("0100003"),
-    DANGER("0100004")
+    ZERO("0100001"),
+    PERCENT_10("0100002"),
+    PERCENT_20("0100003"),
+    PERCENT_30("0100004"),
+    PERCENT_40("0100005"),
+    PERCENT_50("0100006"),
+    PERCENT_60("0100007"),
+    PERCENT_70("0100008"),
+    PERCENT_80("0100009"),
+    PERCENT_90("0100010"),
+    PERCENT_100("0100011"),
+
     ;
 
 }
