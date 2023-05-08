@@ -219,11 +219,11 @@ export default function LogDetail({
         <div className="text-[2rem] font-bold">
           {data.data.data.dish.dishName}
         </div>
-        {data.data.data.dish.dishState === "0030001" ? (
+        {data.data.data.dishState === "0030001" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State1"></div>
-        ) : data.data.data.dish.dishState === "0030002" ? (
+        ) : data.data.data.dishState === "0030002" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State2"></div>
-        ) : data.data.data.dish.dishState === "0030003" ? (
+        ) : data.data.data.dishState === "0030003" ? (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State3"></div>
         ) : (
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State4"></div>

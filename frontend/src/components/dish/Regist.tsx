@@ -288,6 +288,7 @@ export default function Regist() {
   }, []);
 
   useEffect(() => {
+    console.log("Changed", dish);
     setDishSerialNum(dish.dishSerialNum);
     setDishAddress(dish.dishAddress);
     setDishName(dish.dishName);
