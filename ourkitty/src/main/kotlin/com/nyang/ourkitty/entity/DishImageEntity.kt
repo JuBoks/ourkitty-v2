@@ -14,4 +14,8 @@ class DishImageEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishImageId: Long? = null,
 ) : BaseEntity() {
+
+    override fun toString(): String {
+        return "ct ${this.createdDate} zz"
+    }
 }

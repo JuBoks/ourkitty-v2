@@ -1,12 +1,17 @@
 package com.nyang.ourkitty.domain.chart.repository
 
 import com.nyang.ourkitty.domain.chart.dto.DishCountResponseDto
+import com.nyang.ourkitty.entity.DishImageEntity
 import com.nyang.ourkitty.entity.QDishCountLogEntity.dishCountLogEntity
 import com.nyang.ourkitty.entity.QDishImageEntity.dishImageEntity
+import com.querydsl.core.group.GroupBy.groupBy
+import com.querydsl.core.group.GroupBy.list
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Repository
 class ChartQuerydslRepository(
@@ -14,16 +19,30 @@ class ChartQuerydslRepository(
 ) {
 
 
-    fun getVisitCountHeatMapData(dishId: Long): List<Long> {
-        return queryFactory.select(dishImageEntity.dishImageId.count())
+    fun getVisitCountHeatMapData(dishId: Long): Map<Int, List<DishImageEntity>> {
+        val now = LocalDate.now()
+        println("now $now")
+        val start = now.minusDays(7).atStartOfDay()
+        println("start $start")
+
+//        queryFactory.select(
+//            dishImageEntity.createdDate.hour(),
+//            dishImageEntity.createdDate.dayOfMonth(),
+//            dishImageEntity.dishImageId.count(),
+//        )
+        return queryFactory
             .from(dishImageEntity)
             .where(
-                dishImageEntity.createdDate.after(LocalDate.now().minusWeeks(1).atStartOfDay())
+                dishImageEntity.createdDate.between(start, LocalDateTime.now())
             )
-            .groupBy(
-                dishImageEntity.createdDate.hour()
+            .transform(
+                groupBy(dishImageEntity.createdDate.hour()).`as`(list(dishImageEntity))
             )
-            .fetch()
+//            .groupBy(
+//                dishImageEntity.createdDate.hour(),
+//                dishImageEntity.createdDate.dayOfMonth(),
+//            )
+//            .fetch()
     }
 
     fun getDishWeightHeatMapData() {

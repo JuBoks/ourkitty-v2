@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.chart
 
 import com.nyang.ourkitty.domain.chart.dto.DishCountResultDto
+import com.nyang.ourkitty.domain.chart.dto.DishImageListResponseDto
 import com.nyang.ourkitty.domain.chart.repository.ChartQuerydslRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,10 +13,41 @@ class ChartService(
     private val chartQuerydslRepository: ChartQuerydslRepository,
 ) {
 
-    fun getCatVisitData(dishId: Long) {
+    fun getCatVisitData(dishId: Long): List<List<DishImageListResponseDto>> {
+        val today = LocalDate.now().dayOfMonth
+        val result: MutableList<MutableList<DishImageListResponseDto>> = MutableList(24) { MutableList(7) { DishImageListResponseDto() } }
+
         val data = chartQuerydslRepository.getVisitCountHeatMapData(dishId)
 
-        println(data)
+        for (x in 0..23) {
+            val map = data[x]?.groupBy { it.createdDate.dayOfMonth } ?: continue
+            for (y in today-7..today) {
+                if ((y == today && x >= 15) ||
+                    (y == today-7 && x < 15)) {
+                    continue
+                }
+                // x + 9 가 24 이상일 때
+                else if (x >= 15) {
+                    result[x-15][y-today+7] = map[y]?.let { it ->
+                        DishImageListResponseDto(
+                            size = it.size,
+                            imageList = it.map { it.imagePath }
+                        )
+                    } ?: DishImageListResponseDto()
+                }
+                // 그 외
+                else {
+                    result[x+9][y-today+6] = map[y]?.let { it ->
+                        DishImageListResponseDto(
+                            size = it.size,
+                            imageList = it.map { it.imagePath }
+                        )
+                    } ?: DishImageListResponseDto()
+                }
+            }
+        }
+
+        return result
     }
 
     fun getCatCountData(dishId: Long): DishCountResultDto {

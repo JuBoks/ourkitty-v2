@@ -3,6 +3,7 @@ package com.nyang.ourkitty.domain.chart
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.chart.dto.DishCountResultDto
+import com.nyang.ourkitty.domain.chart.dto.DishImageListResponseDto
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
@@ -27,12 +28,11 @@ class ChartController(
      */
     @ApiOperation("최근 일주일 시간대별 히트맵 데이터")
     @GetMapping("/visit")
-    fun getCatVisitData(dishId: Long) {
-        chartService.getCatVisitData(dishId)
+    fun getCatVisitData(dishId: Long): ResponseEntity<List<List<DishImageListResponseDto>>> {
+        if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
-        // return ResponseEntity.ok(chartService.getCatVisitData(dishId))
+        return ResponseEntity.ok(chartService.getCatVisitData(dishId))
     }
-
 
     /**
      * 냥그릇 별 개체수 (라인그래프) 데이터 형태에 맞게 가공해서 return
@@ -45,9 +45,5 @@ class ChartController(
 
         return ResponseEntity.ok(chartService.getCatCountData(dishId))
     }
-
-    /**
-     * 사료통 무게
-     */
 
 }

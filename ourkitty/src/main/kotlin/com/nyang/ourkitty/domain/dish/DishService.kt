@@ -4,6 +4,7 @@ import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.ai.dto.CatCountRequestDto
 import com.nyang.ourkitty.domain.ai.dto.ImageRequestDto
+import com.nyang.ourkitty.domain.dish.dto.DishImageResponseDto
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
@@ -17,6 +18,7 @@ import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -26,6 +28,7 @@ class DishService(
     private val dishWeightLogRepository: DishWeightLogRepository,
     private val dishCountLogRepository: DishCountLogRepository,
     private val dishImageRepository: DishImageRepository,
+    private val dishImageQuerydslRepository: DishImageQuerydslRepository,
     private val imageUploader: AwsS3ImageUploader,
 ) {
 
@@ -44,7 +47,11 @@ class DishService(
     }
 
     @Transactional
-    fun createDish(locationCode: String, dishRequestDto: DishRequestDto, file: MultipartFile?): ResultDto<DishResponseDto> {
+    fun createDish(
+        locationCode: String,
+        dishRequestDto: DishRequestDto,
+        file: MultipartFile?
+    ): ResultDto<DishResponseDto> {
         //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
 
@@ -169,12 +176,23 @@ class DishService(
         )
     }
 
+    fun getDishImageList(dishSerialNum: String, date: LocalDate): ResultDto<List<DishImageResponseDto>> {
+        val dishImageDtoList = dishImageQuerydslRepository.getDishImageList(dishSerialNum, date)
+            .map(DishImageResponseDto::of)
+
+        return ResultDto(
+            data = dishImageDtoList,
+            totalCount = dishImageDtoList.size.toLong()
+        )
+    }
+
     private fun getDishById(dishId: Long): DishEntity {
         return dishQuerydslRepository.getDishById(dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
 
     private fun getDishBySerialNum(dishSerialNum: String): DishEntity {
-        return dishQuerydslRepository.getDishBySerialNum(dishSerialNum) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
+        return dishQuerydslRepository.getDishBySerialNum(dishSerialNum)
+            ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
     }
 
 }
