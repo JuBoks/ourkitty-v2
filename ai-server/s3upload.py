@@ -9,7 +9,7 @@ S3_REGION = os.environ['S3_REGION']
 
 s3 = boto3.client('s3')
 
-def upload_image(serial_number, file: UploadFile):
+async def upload_image(serial_number, file: UploadFile):
   file_extension = file.filename.split('.')[-1]
   directory = os.environ[f'{serial_number}_S3']
   key = f"{directory}/{uuid.uuid4()}.{file_extension}"

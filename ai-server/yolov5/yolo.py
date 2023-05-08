@@ -7,7 +7,7 @@ async def detectCatByYolo(input_path):
     output = output.decode('utf-8')
     result_arr = ast.literal_eval(output)
 
-    if result_arr[0] and result_arr[1]:
+    if result_arr[0]:
       return 1, True
     else:
       return -1, False

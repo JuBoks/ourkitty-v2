@@ -199,7 +199,6 @@ export default function ModifyForm({ setModalOpen }: any) {
 
   if (isLoading || data === undefined) return null;
 
-  console.log(data.data.data);
   return (
     <div className="w-full h-full flex flex-col relative">
       <button

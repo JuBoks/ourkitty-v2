@@ -129,7 +129,7 @@ export default function Header() {
           >
             <DishDetail sx={{ fontSize: "50px", color: "#FFFFFF" }} />
             <div className="h-[60px] text-[1.5rem] text-white mt-2">
-              냥그릇 상세
+              개체수 관리
             </div>
           </div>
           <div
