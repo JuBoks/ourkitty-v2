@@ -77,9 +77,11 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
 
     # results = await asyncio.gather(*tasks)
     status = await filterCatByYolo(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName)
-    
+
     # s3로 파일 업로드 및 객체 정보 저장
     if status == 1:
+        # 파일 포인터를 파일의 처음으로 옮겨줍니다.
+        await imageFile.seek(0)
         return await upload_s3(serial_number, imageFile)
     else:
         return {'status': 500, 'message': "cat detection error"}
@@ -87,7 +89,7 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
 @app.post("/upload-s3/{serial_number}")
 async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     try:
-        imagePath = upload_image(serial_number, imageFile)
+        imagePath = await upload_image(serial_number, imageFile)
     except Exception as e:
         print('이미지 업로드 도중 에러 발생', e)
         return {'status': 500, 'message': '이미지 업로드 도중 에러 발생'}
