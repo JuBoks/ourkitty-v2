@@ -22,7 +22,7 @@ class ChartQuerydslRepository(
     fun getVisitCountHeatMapData(dishId: Long): Map<Int, List<DishImageEntity>> {
         val now = LocalDate.now()
         println("now $now")
-        val start = now.minusDays(7).atStartOfDay()
+        val start = now.minusDays(6).atStartOfDay()
         println("start $start")
 
 //        queryFactory.select(
