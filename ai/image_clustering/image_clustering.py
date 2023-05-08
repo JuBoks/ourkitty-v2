@@ -73,7 +73,7 @@ def calculate_num_of_cluster(features):
     end = 11
     wcss = []
     for i in range(start, end):
-        kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+        kmeans = KMeans(n_clusters=i, n_init=10, init='k-means++', random_state=42)
         kmeans.fit(features)
         wcss.append(kmeans.inertia_)
     
@@ -107,7 +107,7 @@ def cluster_images(directory):
 
     features = extract_features(directory)
 
-    num_clusters = calculate_num_of_cluster(features) + 1
+    num_clusters = calculate_num_of_cluster(features)
 
     # print('num_clusters :', num_clusters)
 
@@ -116,13 +116,19 @@ def cluster_images(directory):
     # Get the centroids
     centroids = kmeans.cluster_centers_
 
+    print('features.shape', features.shape)
+    print('centroids.shape', centroids.shape)
+
     # Find the representative image for each cluster
     representative_images = []
     image_paths = [os.path.join(directory, img_name) for img_name in os.listdir(directory)]
+    print('img_path :', len(image_paths))
     for i, img_path in enumerate(image_paths):
         img_name = os.path.basename(img_path)
         distances = euclidean_distances(features[i].reshape(1, -1), centroids)
+        print('distances: ', distances)
         closest_centroid = np.argmin(distances)
+        print('closest_centroid: ', closest_centroid)
         if len(representative_images) < num_clusters:
             # Add the first image for this centroid
             representative_images.append((closest_centroid, img_name))

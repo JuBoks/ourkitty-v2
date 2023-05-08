@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { ApexOptions } from 'apexcharts';
 import Chart from 'react-apexcharts';
+import { useRecoilState } from "recoil";
+import { darkState } from "../../recoil/page";
 
 export default function MainChart() {
+
+  const isDark = useRecoilState(darkState)[0];
 
   // Create a new Date object with today's date
   const today = new Date(); 
   const dates = Array.from({ length: 7 }, (_, index) => {
     const date = new Date(today);
-    date.setDate(today.getDate() - index);
+    date.setDate(today.getDate() - (index +1) );
     const dayString = date.toLocaleDateString('ko-KR', { day: 'numeric' });
     return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
   }).reverse();
@@ -17,14 +21,28 @@ export default function MainChart() {
 
   const options: ApexOptions = {
     chart: {
-      toolbar: { show: true },
       zoom: {
+        enabled: false,
+      },
+      width: "100%",
+    },
+    dataLabels: {
       enabled: false,
+    },
+    stroke: {
+      curve: "straight",
+      width: 3,
+    },
+    colors: ["#EC5E98", '#29325B'],
+    grid: {
+      row: {
+        colors: ["#f5f5f5f5", "transparent"],
+        opacity: 0.5,
       },
     },
     markers: {
       size: 3,
-      colors: ['#5FD6E4','#FFA500'],
+      colors: ["#EC5E98", '#29325B'],
       shape: "circle",
       radius: 2,
       hover: {
@@ -32,40 +50,26 @@ export default function MainChart() {
         sizeOffset: 3
       }
     },
-    stroke: {
-        curve: 'straight',
-        width: 2,
-        colors: ['#5FD6E4','#FFA500'],
-    },
-    dataLabels: {
-        enabled: false,
+    legend: {
+      labels: {
+        colors: `${isDark ? "#FFFFFF" : "#000000"}`,
+      },
     },
     xaxis: {
-      categories: dates
+      categories: dates,
+      labels: {
+        style: {
+          colors: `${isDark ? "#FFFFFF" : "#000000"}`,
+        },
+      },
     },
     yaxis: {
-        min: 0,
-        max: 10,
-        tickAmount: 10,
-    },
-    tooltip: {
-        enabled: false,
-    },
-    grid: {
-        borderColor: '#f1f1f1',
-    },
-    legend: {
-      show: true,
-      fontFamily: 'Droid Sans',
-      fontWeight: 900,
-      markers: {
-        fillColors: ['#5FD6E4','#FFA500'],
+      labels: {
+        style: {
+          colors: `${isDark ? "#FFFFFF" : "#000000"}`,
+        },
       },
-      itemMargin: {
-        vertical: 5, // Set vertical gap between legend items
-        horizontal: 50, // Set horizontal gap between legend items
     },
-    }
   };
     
 
@@ -79,10 +83,9 @@ export default function MainChart() {
   }
   ]
 
-  
   return (
     <div className="w-full h-full gap-1">
-      <h1 className="text-[1.8rem] font-bold" >개체 수 / 중성화 수</h1>
+      <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
       </div>
