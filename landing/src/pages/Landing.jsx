@@ -561,9 +561,9 @@ export default function Landing() {
                 사용 기술 목록
               </h1>
             </div>
-            <h1 className="font-semibold text-black text-2xl lg:pr-52">
-              19가지 이상의 다양한 기술들로{" "}
-              <span className="text-yellow-500">냥그릇</span>이 탄생했습니다.
+            <h1 className="font-semibold text-black text-2xl">
+              <span className="text-yellow-500">19가지 이상의 기술</span>들로
+              냥그릇이 탄생했습니다.
             </h1>
             <p className="text-gray-500 mt-5 lg:pr-20">
               <span className="font-bold">AI: </span>&nbsp;Python, Yolov5,
