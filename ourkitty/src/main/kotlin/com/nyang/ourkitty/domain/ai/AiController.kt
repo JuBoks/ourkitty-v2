@@ -26,8 +26,8 @@ class AiController(
 
     @ApiOperation(value = "개체 수 수정")
     @PutMapping("/count")
-    fun modifyCatCount(@RequestBody catCountRequestDto: CatCountRequestDto): ResponseEntity<ResultDto<Boolean>> {
-        return ResponseEntity.ok(dishService.modifyDishCatCount(catCountRequestDto))
+    fun updateCatCount(@RequestBody catCountRequestDto: CatCountRequestDto): ResponseEntity<ResultDto<Boolean>> {
+        return ResponseEntity.ok(dishService.updateDishCatCount(catCountRequestDto))
     }
 
 }

@@ -10,8 +10,8 @@ class DishImageEntity(
     val dish: DishEntity,
 
     val imagePath: String,
-    
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishImageId: Long? = null,
-) : ImageEntity() {
+) : BaseEntity() {
 }

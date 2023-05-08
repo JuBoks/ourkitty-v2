@@ -26,6 +26,7 @@ enum class ErrorCode(
     NOT_FOUND_COMMENT(NOT_FOUND, "존재하지 않는 댓글입니다."),
     NOT_FOUND_CLIENT(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_REPORT(NOT_FOUND, "존재하지 않는 신고입니다."),
+    NOT_FOUND_LOG(NOT_FOUND, "존재하지 않는 로그입니다."),
 
 
     ;
