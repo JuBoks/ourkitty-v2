@@ -26,6 +26,7 @@ export default function MyDishButtons() {
   });
 
   const [button, setButton] = useState<detailData[]>([]);
+  const [selectedButton, setSelectedButton] = useState<number>(1);
 
   useEffect(() => {
     if (data !== undefined) {
@@ -37,7 +38,6 @@ export default function MyDishButtons() {
     }
   }, [data]);
 
-  const [selectedButton, setSelectedButton] = useState(0);
 
   const handleClick = (id: number) => {
     setSelectedButton(id);
