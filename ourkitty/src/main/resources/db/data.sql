@@ -18,6 +18,18 @@ VALUES (1, 'client', '$2a$10$kNnSCr0rS0SxvR7w09F2FetmPh6doUi7GyrZAXsQ3BOSFEbY5YL
         'address3', '01000000004', '0010001', '0020001',
         now(),
         '0110003', false, '이사',
+        now(), now()),
+       (5, 'consultant@ssafy.com', '$2a$10$URlnKnYUThXPyQbFjQzf4eVrQSLNvY19AyICcCJsHAQ.jQRJ/Q21e', 'consultant', '컨설턴트',
+        '', 'ssafy 202',
+        '01022222222', '0010002', '0020001',
+        now(),
+        '0110001', false, '',
+        now(), now()),
+       (6, 'coach@ssafy.com', '$2a$10$CYNtFi7GH/RFohNii2J7neI5SFghBdOEcUuA9fPrQHK22IOltDhfi', 'coach', '코치', '',
+        'ssafy 202',
+        '01033333333', '0010002', '0020001',
+        now(),
+        '0110001', false, '',
         now(), now());
 
 INSERT INTO `dish_table`
