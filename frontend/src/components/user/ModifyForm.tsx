@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import MyDishButtons from "../common/MyDishButtons2";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
@@ -9,8 +10,9 @@ import {
   getClientIdItem,
   modifyClient,
   deleteClient,
+  checkPhone,
+  checkEmail,
 } from "../../apis/api/user";
-import MyDishButtons from "../common/MyDishButtons2";
 
 interface buttonState {
   dishId: number;
@@ -24,25 +26,168 @@ export default function ModifyForm({ setModalOpen }: any) {
 
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
+  const [phone1, setPhone1] = useState("");
+  const [phone2, setPhone2] = useState("");
+  const [phone3, setPhone3] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [buttons, setButtons] = useState([] as buttonState[]);
+  const [isSamePhone, setIsSamePhone] = useState(true);
+  const [isSameEmail, setIsSameEmail] = useState(true);
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  const handleNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+  const handlePhone1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone1(e.target.value);
+  };
+  const handlePhone2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone2(e.target.value);
+  };
+  const handlePhone3 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone3(e.target.value);
   };
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setNickname(e.target.value.split("@")[0]);
   };
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
   const handleAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(e.target.value);
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["getClientIdItem", selectId],
+    queryFn: () => getClientIdItem(selectId),
+  });
+
+  // 연락처 중복 확인 요청
+  const phoneCheck = useMutation(
+    ["checkPhone"],
+    (formData: FormData) => checkPhone(formData),
+    {
+      onSuccess: () => {
+        const Toast = Swal.mixin({
+          toast: true, // 토스트 형식
+          position: "bottom-end", // 알림 위치
+          showConfirmButton: false, // 확인버튼 생성 유무
+          timer: 1500, // 지속 시간
+          timerProgressBar: true, // 지속시간바 생성 여부
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+        Toast.fire({
+          icon: "success",
+          title: "사용가능한 연락처입니다.",
+        });
+      },
+      onError: () => {
+        const Toast = Swal.mixin({
+          toast: true, // 토스트 형식
+          position: "bottom-end", // 알림 위치
+          showConfirmButton: false, // 확인버튼 생성 유무
+          timer: 1500, // 지속 시간
+          timerProgressBar: true, // 지속시간바 생성 여부
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+        Toast.fire({
+          icon: "warning",
+          title: "이미 등록된 연락처입니다.",
+        });
+      },
+    }
+  );
+
+  // 연락처 중복 확인
+  const handleCheckPhone = () => {
+    if (
+      data?.data.data.clientPhone.split("-")[0] === phone1 &&
+      data?.data.data.clientPhone.split("-")[1] === phone2 &&
+      data?.data.data.clientPhone.split("-")[2] === phone3
+    ) {
+      const Toast = Swal.mixin({
+        toast: true, // 토스트 형식
+        position: "bottom-end", // 알림 위치
+        showConfirmButton: false, // 확인버튼 생성 유무
+        timer: 1500, // 지속 시간
+        timerProgressBar: true, // 지속시간바 생성 여부
+        background: isDark ? "#262D33" : "white",
+        color: isDark ? "white" : "black",
+      });
+      Toast.fire({
+        icon: "success",
+        title: "사용가능한 연락처입니다.",
+      });
+    } else {
+      const formData = new FormData();
+      formData.append("clientPhone", phone1 + "-" + phone2 + "-" + phone3);
+      phoneCheck.mutate(formData);
+    }
+  };
+
+  // 이메일 중복 확인 요청
+  const emailCheck = useMutation(
+    ["checkEmail"],
+    (formData: FormData) => checkEmail(formData),
+    {
+      onSuccess: () => {
+        const Toast = Swal.mixin({
+          toast: true, // 토스트 형식
+          position: "bottom-end", // 알림 위치
+          showConfirmButton: false, // 확인버튼 생성 유무
+          timer: 1500, // 지속 시간
+          timerProgressBar: true, // 지속시간바 생성 여부
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+        Toast.fire({
+          icon: "success",
+          title: "사용가능한 이메일입니다.",
+        });
+      },
+      onError: () => {
+        const Toast = Swal.mixin({
+          toast: true, // 토스트 형식
+          position: "bottom-end", // 알림 위치
+          showConfirmButton: false, // 확인버튼 생성 유무
+          timer: 1500, // 지속 시간
+          timerProgressBar: true, // 지속시간바 생성 여부
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+        Toast.fire({
+          icon: "warning",
+          title: "이미 등록된 이메일입니다.",
+        });
+      },
+    }
+  );
+
+  // 이메일 중복 확인
+  const handleCheckEmail = () => {
+    if (data?.data.data.clientEmail === email) {
+      const Toast = Swal.mixin({
+        toast: true, // 토스트 형식
+        position: "bottom-end", // 알림 위치
+        showConfirmButton: false, // 확인버튼 생성 유무
+        timer: 1500, // 지속 시간
+        timerProgressBar: true, // 지속시간바 생성 여부
+        background: isDark ? "#262D33" : "white",
+        color: isDark ? "white" : "black",
+      });
+      Toast.fire({
+        icon: "success",
+        title: "사용가능한 이메일입니다.",
+      });
+    } else {
+      const formData = new FormData();
+      formData.append("clientEmail", email);
+      emailCheck.mutate(formData);
+    }
   };
 
   // 수정 요청
@@ -183,15 +328,13 @@ export default function ModifyForm({ setModalOpen }: any) {
     });
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["getClientIdItem", selectId],
-    queryFn: () => getClientIdItem(selectId),
-  });
-
   useEffect(() => {
     if (data !== undefined) {
       setName(data.data.data.clientName);
       setNickname(data.data.data.clientNickname);
+      setPhone1(data.data.data.clientPhone.split("-")[0]);
+      setPhone2(data.data.data.clientPhone.split("-")[1]);
+      setPhone3(data.data.data.clientPhone.split("-")[2]);
       setEmail(data.data.data.clientEmail);
       setAddress(data.data.data.clientAddress);
     }
@@ -229,7 +372,7 @@ export default function ModifyForm({ setModalOpen }: any) {
       <div className="flex flex-row justify-center gap-28 mt-5">
         <div className="flex flex-col gap-7 text-[1.3rem] mt-2">
           <div>이름</div>
-          <div>닉네임</div>
+          <div>연락처</div>
           <div>이메일</div>
           <div>비밀번호</div>
           <div>주소</div>
@@ -242,18 +385,53 @@ export default function ModifyForm({ setModalOpen }: any) {
             onChange={handleName}
             value={name}
           />
-          <input
-            type="text"
-            className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
-            onChange={handleNickname}
-            value={nickname}
-          />
-          <input
-            type="text"
-            className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
-            onChange={handleEmail}
-            value={email}
-          />
+          <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-1">
+              <input
+                type="text"
+                className="w-[70px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
+                onChange={handlePhone1}
+                value={phone1}
+              />
+              <span className="leading-[40px]">-</span>
+              <input
+                type="text"
+                className="w-[100px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
+                onChange={handlePhone2}
+                value={phone2}
+              />
+              <span className="leading-[40px]">-</span>
+              <input
+                type="text"
+                className="w-[100px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
+                onChange={handlePhone3}
+                value={phone3}
+              />
+            </div>
+
+            <button
+              className="w-[100px] h-[40px] bg-LightMainHover text-white hover:bg-LightMain rounded-lg dark:bg-DarkMainHover dark:hover:bg-DarkMain"
+              onClick={handleCheckPhone}
+            >
+              중복확인
+            </button>
+          </div>
+          <div className="flex flex-row gap-4">
+            <input
+              type="text"
+              className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
+              onChange={handleEmail}
+              value={email}
+            />
+
+            <button
+              className="w-[100px] h-[40px] bg-LightMainHover text-white hover:bg-LightMain rounded-lg dark:bg-DarkMainHover dark:hover:bg-DarkMain"
+              onClick={handleCheckEmail}
+            >
+              중복확인
+            </button>
+          </div>
+
           <input
             type="text"
             className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"

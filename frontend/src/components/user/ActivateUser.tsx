@@ -112,7 +112,7 @@ export default function ActivateUser() {
         searchKey={searchKey}
         searchWord={searchWord}
       />
-      <Modal open={modalOpen} close={closeModal} header="회원 등록">
+      <Modal open={modalOpen} close={closeModal} header="회원 등록1">
         <RegistForm setModalOpen={setModalOpen} />
       </Modal>
     </div>

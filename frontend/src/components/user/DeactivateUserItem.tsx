@@ -86,16 +86,22 @@ export default function DeactivateUserItem({
                   />
                 )}
               </div>
-              <div className="flex flex-row gap-8 justify-center text-CancelBtn">
+              <div className="flex flex-row justify-center gap-2 mb-5">
+                <div className="text-[1.2rem] font-bold text-gray-500 dark:text-white">
+                  {item.clientName}
+                </div>
+                <div className="text-[1.2rem] text-gray-300">
+                  ({item.clientNickname})
+                </div>
+              </div>
+              <div className="flex flex-row gap-8 justify-center">
                 <div className="flex flex-col gap-2">
-                  <div>이름</div>
-                  <div>닉네임</div>
+                  <div>이메일</div>
                   <div>연락처</div>
                   <div>주소</div>
                   <div>최근 활동</div>
                 </div>
                 <div className="flex flex-col gap-2 font-bold text-CancelBtn w-[170px]">
-                  <div className="truncate">: {item.clientName}</div>
                   <div className="truncate">: {item.clientNickname}</div>
                   <div className="truncate">: {item.clientPhone}</div>
                   <div className="truncate">: {item.clientAddress}</div>

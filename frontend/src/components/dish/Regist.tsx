@@ -125,36 +125,22 @@ export default function Regist() {
     setDishName("");
     setImage("");
 
-    const errorCallBack = () => {
-      console.log("ERROR");
-    };
+    navigator.geolocation.getCurrentPosition((position) => {
+      setDish({
+        dishId: 0,
+        dishAddress: "",
+        dishLat: position.coords.latitude,
+        dishLong: position.coords.longitude,
+        dishName: "",
+        dishSerialNum: "",
+        file: "",
+      });
 
-    const options = {
-      enableHighAccuracy: false,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setDish({
-          dishId: 0,
-          dishAddress: "",
-          dishLat: position.coords.latitude,
-          dishLong: position.coords.longitude,
-          dishName: "",
-          dishSerialNum: "",
-          file: "",
-        });
-
-        setDishPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      errorCallBack,
-      options
-    );
+      setDishPosition({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
   };
 
   // 기기 등록
