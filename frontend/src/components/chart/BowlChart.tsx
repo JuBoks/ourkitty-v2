@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ApexCharts from "react-apexcharts";
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
 import Modal from "../common/Modal";
 import ModalContent from "../common/Modal";
+import { useQuery } from "react-query";
+import { selectedButtonState } from "../../recoil/chart";
+import { getCatUserList } from "../../apis/api/chart";
 
 export default function BowlChart() {
-  const isDark = useRecoilState(darkState)[0];
-  const [modalOpen, setModalOpen] = useState(false);
-  const [day, setDay] = useState("");
-  const [time, setTime] = useState(0);
 
-  // Create a new Date object with today's date
+  // 냥그릇 선택 iD 가져오기
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  
+  // 선택한 id로 API 요청
+  const { data, isLoading } = useQuery({
+    queryKey: ["getCatUserList", selectedButton],
+    queryFn: () => getCatUserList(selectedButton),
+  });
+
+  // 어제부터 7일
   const today = new Date(); 
   const dates = Array.from({ length: 7 }, (_, index) => {
   const date = new Date(today);
@@ -20,192 +28,327 @@ export default function BowlChart() {
   return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
   }).reverse();
 
-  const generateData = (count: any, yrange: any) => {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-      var x = dates[i];
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-      series.push({
-        x: x,
-        y: y,
-      });
-      i++;
-    }
-    return series;
-  };
+  // 데이터 초기값
+  const defaultData = [
+    { x: dates[0], y: 0 , imgs: []  },
+    { x: dates[1], y: 1 , imgs: []  },
+    { x: dates[2], y: 2 , imgs: []  },
+    { x: dates[3], y: 3 , imgs: []  },
+    { x: dates[4], y: 4 , imgs: [] },
+    { x: dates[5], y: 5 , imgs: [] },
+    { x: dates[6], y: 6 , imgs: [] },
+  ]
 
   const series = [
     {
-      name: "0",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "0시",
+      data:defaultData
     },
     {
-      name: "1",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "1시",
+      data:defaultData
     },
     {
-      name: "2",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "2시",
+      data:defaultData
     },
     {
-      name: "3",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "3시",
+      data:defaultData
     },
     {
-      name: "4",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "4시",
+      data:defaultData
     },
     {
-      name: "5",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "5시",
+      data:defaultData
     },
     {
-      name: "6",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "6시",
+      data:defaultData
     },
     {
-      name: "7",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "7시",
+      data:defaultData
     },
     {
-      name: "8",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "8시",
+      data:defaultData
     },
     {
-      name: "9",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "9시",
+      data:defaultData
     },
     {
-      name: "10",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "10시",
+      data:defaultData
     },
     {
-      name: "11",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "11시",
+      data:defaultData
     },
     {
-      name: "12",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "12시",
+      data:defaultData
     },
     {
-      name: "13",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "13시",
+      data:defaultData
     },
     {
-      name: "14",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "14시",
+      data:defaultData
     },
     {
-      name: "15",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "15시",
+      data:defaultData
     },
     {
-      name: "16",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "16시",
+      data:defaultData
     },
     {
-      name: "17",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "17시",
+      data:defaultData
     },
     {
-      name: "18",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "18시",
+      data:defaultData
     },
     {
-      name: "19",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "19시",
+      data:defaultData
     },
     {
-      name: "20",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "20시",
+      data:defaultData
     },
     {
-      name: "21",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "21시",
+      data:defaultData
     },
     {
-      name: "22",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
+      name: "22시",
+      data:defaultData
     },
     {
-      name: "23",
-      data: generateData(7, {
-        min: 0,
-        max: 24,
-      }),
-    }
+      name: "23시",
+      data:defaultData
+    },
   ];
+
+  // 데이터 load
+  // useEffect(() => {
+  //   if (data !== undefined) {
+  //     console.log('ihihihih', data)
+  //     var i = 0;
+  //     var j = 0;
+  //     var day = 7;
+  //     var hour = 24;
+  //     while (i < hour) {
+  //           var hourlyData = data[i];
+  //           while (j < day) {
+  //             var x = hourlyData[j]["size"]
+  //             var y = hourlyData[j]["imageList"]
+  //           }
+  //           i++;
+  //         }
+  //   }
+  // }, [data]);
+
+
+  const isDark = useRecoilState(darkState)[0];
+  const [modalOpen, setModalOpen] = useState(false);
+  const [day, setDay] = useState("");
+  const [time, setTime] = useState(0);
+
+  // const generateData = (count: any, yrange: any) => {
+  //   var i = 0;
+  //   var series = [];
+  //   while (i < count) {
+  //     var x = dates[i];
+  //     var y =
+  //       Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+  //     series.push({
+  //       x: x,
+  //       y: y,
+  //     });
+  //     i++;
+  //   }
+  //   return series;
+  // };
+
+  // const series = [
+  //   {
+  //     name: "0시",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "1",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "2",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "3",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "4",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "5",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "6",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "7",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "8",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "9",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "10",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "11",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "12",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "13",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "14",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "15",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "16",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "17",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "18",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "19",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "20",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "21",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "22",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   },
+  //   {
+  //     name: "23",
+  //     data: generateData(7, {
+  //       min: 0,
+  //       max: 24,
+  //     }),
+  //   }
+  // ];
 
   const handleChart = (xaxis: number, yaxis: number) => {
     const x = dates;
@@ -224,6 +367,8 @@ export default function BowlChart() {
     e.stopPropagation();
     setModalOpen(false);
   };
+
+  if (isLoading || data === undefined) return null;
 
   return (
     <div className="w-full h-full flex flex-col gap-1">

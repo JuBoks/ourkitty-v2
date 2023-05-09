@@ -8,16 +8,9 @@ import { getCatNum } from "../../apis/api/chart";
 import { useQuery } from "react-query";
 
 
-export default function MainChart() {
+export default function MainChart({ catCountList, noTnrCountList }: { catCountList: number[], noTnrCountList: number[] }) {
 
   const isDark = useRecoilState(darkState)[0];
-  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["getCatNum", selectedButton],
-    queryFn: () => getCatNum(selectedButton),
-  });
-
 
   // Create a new Date object with today's date
   const today = new Date(); 
@@ -28,7 +21,6 @@ export default function MainChart() {
     return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
   }).reverse();
 
-  if (isLoading || data === undefined) return null;
   
   const options: ApexOptions = {
     chart: {
@@ -75,6 +67,9 @@ export default function MainChart() {
       },
     },
     yaxis: {
+      min : 0,
+      max : 10,
+      tickAmount: 5,
       labels: {
         style: {
           colors: `${isDark ? "#FFFFFF" : "#000000"}`,
@@ -86,11 +81,11 @@ export default function MainChart() {
 
   const series = [{
     name: "전체 개체 수",
-    data: data['catCountList']
+    data: catCountList
   },
   {
     name: "중성화가 필요한 고양이",
-    data: data['tnrCountList']
+    data: noTnrCountList
   }
   ]
 
@@ -99,7 +94,6 @@ export default function MainChart() {
       <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
-        <div>{selectedButton}</div>
       </div>
     </div>
   );
