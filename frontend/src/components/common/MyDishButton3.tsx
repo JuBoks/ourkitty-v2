@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getDishList } from "../../apis/api/dish";
+import { useRecoilState } from "recoil";
+import { selectedButtonState } from "../../recoil/chart";
 
 interface detailData {
   createdData: string;
@@ -26,7 +28,7 @@ export default function MyDishButtons() {
   });
 
   const [button, setButton] = useState<detailData[]>([]);
-  const [selectedButton, setSelectedButton] = useState<number>(1);
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
 
   useEffect(() => {
     if (data !== undefined) {

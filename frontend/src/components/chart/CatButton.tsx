@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { dishInfo } from "../../recoil/dish";
-import { useRecoilState } from "recoil";
+import React from "react";
 import MyDishButtons from "../common/MyDishButton3";
 
 export default function CatButton() {
