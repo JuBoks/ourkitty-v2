@@ -26,7 +26,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 app = FastAPI(static_directory="static")
 
 app.mount("/fastapi", app)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/fastapi/static", StaticFiles(directory="static"), name="static")
 
 origins = ["*"]
 app.add_middleware(
