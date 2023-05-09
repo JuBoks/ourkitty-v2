@@ -30,7 +30,7 @@ export default function DishWeight({ foodAmountList }: { foodAmountList: number[
     },
     stroke: {
       curve: "straight",
-      width: 3,
+      width: 5,
     },
     colors: ["#9FA9D8"],
     grid: {
@@ -76,14 +76,14 @@ export default function DishWeight({ foodAmountList }: { foodAmountList: number[
     
 
   const series = [{
-    name: "전체 개체 수",
+    name: "사료 잔여량",
     data: foodAmountList
   },
   ]
 
   return (
     <div className="w-full h-full gap-1">
-      <h1 className="text-[1.3rem] font-bold" >사료 잔여량</h1>
+      <h1 className="text-[1.3rem] font-bold" >사료 잔여량 (%)</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
       </div>

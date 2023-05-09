@@ -3,10 +3,6 @@ import { ApexOptions } from 'apexcharts';
 import Chart from 'react-apexcharts';
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
-import { selectedButtonState } from "../../recoil/chart";
-import { getCatNum } from "../../apis/api/chart";
-import { useQuery } from "react-query";
-
 
 export default function MainChart({ catCountList, noTnrCountList }: { catCountList: number[], noTnrCountList: number[] }) {
 
@@ -34,7 +30,7 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
     },
     stroke: {
       curve: "straight",
-      width: 3,
+      width: 5,
     },
     colors: ["#EC5E98", '#29325B'],
     grid: {
@@ -91,7 +87,7 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
 
   return (
     <div className="w-full h-full gap-1">
-      <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수</h1>
+      <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수 (마리)</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
       </div>
