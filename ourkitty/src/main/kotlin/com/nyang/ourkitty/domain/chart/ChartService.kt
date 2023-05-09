@@ -21,11 +21,11 @@ class ChartService(
 
         for (x in 0..23) {
             val map = data[x]?.groupBy { it.createdDate.dayOfMonth } ?: continue
-            for (y in today-6..today) {
-                result[x][y-today+6] = map[y]?.let { it ->
+            for (y in (today - 6)..today) {
+                result[x][y - (today - 6)] = map[y]?.let { it ->
                     DishImageListResponseDto(
                         size = it.size,
-                        imageList = it.map { it.imagePath }
+                        imageList = it.map { it.imagePath },
                     )
                 } ?: DishImageListResponseDto()
             }
@@ -36,21 +36,28 @@ class ChartService(
 
     fun getCatCountData(dishId: Long): DishCountResultDto {
         val data = chartQuerydslRepository.getCatCountData(dishId)
+        val startDate = LocalDate.now().dayOfMonth - 7
 
+        val batteryAmountList: MutableList<Int> = MutableList(7) { 0 }
+        val foodAmountList: MutableList<Double> = MutableList(7) { 0.0 }
         val catCountList: MutableList<Int> = MutableList(7) { 0 }
         val tnrCountList: MutableList<Int> = MutableList(7) { 0 }
 
-        for (x in 6L downTo 0) {
-            val day = LocalDate.now().minusDays(x)
-            data.firstOrNull { it.date == day }.let {
-                catCountList[(6 - x).toInt()] = it?.catCount ?: 0
-                tnrCountList[(6 - x).toInt()] = it?.tnrCount ?: 0
+        for (x in 0..6) {
+            data.firstOrNull { it.date == startDate + x }.let {
+                batteryAmountList[x] = it?.batteryAmount ?: 0
+                foodAmountList[x] = it?.foodAmount ?: 0.0
+                catCountList[x] = it?.catCount ?: 0
+                tnrCountList[x] = it?.tnrCount ?: 0
             }
         }
 
         return DishCountResultDto(
+            batteryAmountList = batteryAmountList,
+            foodAmountList = foodAmountList,
             catCountList = catCountList,
             tnrCountList = tnrCountList,
         )
     }
+
 }

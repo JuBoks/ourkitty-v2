@@ -2,12 +2,11 @@ package com.nyang.ourkitty.domain.chart.repository
 
 import com.nyang.ourkitty.domain.chart.dto.DishCountResponseDto
 import com.nyang.ourkitty.entity.DishImageEntity
-import com.nyang.ourkitty.entity.QDishCountLogEntity.dishCountLogEntity
 import com.nyang.ourkitty.entity.QDishImageEntity.dishImageEntity
+import com.nyang.ourkitty.entity.QDishTotalLogEntity.dishTotalLogEntity
 import com.querydsl.core.group.GroupBy.groupBy
 import com.querydsl.core.group.GroupBy.list
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
@@ -21,9 +20,7 @@ class ChartQuerydslRepository(
 
     fun getVisitCountHeatMapData(dishId: Long): Map<Int, List<DishImageEntity>> {
         val now = LocalDate.now()
-        println("now $now")
         val start = now.minusDays(6).atStartOfDay()
-        println("start $start")
 
 //        queryFactory.select(
 //            dishImageEntity.createdDate.hour(),
@@ -55,18 +52,19 @@ class ChartQuerydslRepository(
         return queryFactory.select(
             Projections.constructor(
                 DishCountResponseDto::class.java,
-                dishCountLogEntity.date,
-                dishCountLogEntity.dishCatCount.sum(),
-                dishCountLogEntity.dishTnrCount.sum(),
+                dishTotalLogEntity.date.dayOfMonth(),
+                dishTotalLogEntity.batteryAmount,
+                dishTotalLogEntity.foodAmount,
+                dishTotalLogEntity.catCount,
+                dishTotalLogEntity.tnrCount,
             )
         )
-            .from(dishCountLogEntity)
+            .from(dishTotalLogEntity)
             .where(
-                dishCountLogEntity.dish.dishId.eq(dishId),
-                dishCountLogEntity.date.after(LocalDate.now().minusWeeks(1))
+                dishTotalLogEntity.dish.dishId.eq(dishId),
+                dishTotalLogEntity.date.between(LocalDate.now().minusDays(7), LocalDate.now())
             )
-            .groupBy(dishCountLogEntity.date)
-            .orderBy(dishCountLogEntity.date.asc())
+            .orderBy(dishTotalLogEntity.date.asc())
             .fetch()
     }
 
