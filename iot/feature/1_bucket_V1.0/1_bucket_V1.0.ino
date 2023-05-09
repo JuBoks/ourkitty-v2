@@ -58,8 +58,11 @@ WiFiClient client;
 // 배터리 충전삳태 상수. 0V ~ 5V 의 값을 1024단계로 나누어 단계를 표현
 // 특정 전압 이상일 때 표시가 바뀌는 형식
 // 아래 수치는 50000mA 배터리 기준
-#define FULL 1000
-#define EMPTY 750
+#define FULL_BATTERY 2900 
+#define EMPTY_BATTERY 1900  
+// 사료통 용량 상수. EMPTY값은 사료통이 비었을 때 측정값.
+#define FULL_BUCKET 0
+#define EMPTY_BUCKET 31
 
 // pin config
 #define MOTOR_ENABLE 25
@@ -67,8 +70,8 @@ WiFiClient client;
 #define SR04_ECHO 18
 #define BATTERY 33
 
-String sendData(float sonar_data, String code);
-float checkBucket();
+String sendData(String sonar_data, String code);
+String checkBucket();
 String checkBattery();
 
 long start_time;
@@ -105,8 +108,7 @@ void setup() {
   //초음파 송신부-> OUTPUT, 초음파 수신부 -> INPUT,  LED핀 -> OUTPUT
   pinMode(SR04_TRIG, OUTPUT);
   pinMode(SR04_ECHO, INPUT);
-  //몇bit 신호로 배터리를 나눌지 -> (2^bit)단계로 아날로그 전압값을 측정합니다.
-  analogReadResolution(10);
+  sendData(checkBucket(), checkBattery());
   start_time = millis();
   Serial.println("total test");
 }
@@ -114,6 +116,7 @@ void setup() {
 void loop() {
   long time_now = millis();
   if (!digitalRead(MOTOR_ENABLE)) {
+    Serial.println("motor enable");
     pwm.setPWM(servonum, 0, DOOR_OPEN);
     // 사료출구 열려있는 시간. 사료량을 이 값으로 조절
     delay(600);
@@ -127,11 +130,11 @@ void loop() {
 }
 
 // 통신코드. 바디를 생성해서 넣어주면 알아서 작동
-String sendData(float sensor_data, String code) {
+String sendData(String sensor_data, String code) {
   String getAll;
   String getBody;
 
-  String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": " + String(sensor_data) + ", \"dishBatteryState\": \"" + code + " \"}";
+  String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": \"" + sensor_data + "\", \"dishBatteryState\": \"" + code + " \"}";
 
   Serial.println("Connecting to server: " + serverName);
 
@@ -178,9 +181,11 @@ String sendData(float sensor_data, String code) {
 }
 
 // 사료통 용량 체크 코드
-float checkBucket() {
+String checkBucket() {
   uint8_t count = 0;
   float sum = 0;
+  int term = (FULL_BUCKET / EMPTY_BUCKET) / 10;
+  String code;
   while (count < 10) {
     digitalWrite(SR04_TRIG, LOW);
     // digitalWrite(SR04_ECHO, LOW);
@@ -202,16 +207,58 @@ float checkBucket() {
     count += 1;
   }
   sum /= count;
-  Serial.print(sum);
-  Serial.println("cm");
-  return (sum);
+  if (sum > FULL_BUCKET) {
+    code = "0120011";
+  }
+  // 사료통 90%
+  else if (sum > FULL_BUCKET - (1 * term)) {
+    code = "0120010";
+  }
+  // 사료통 80%
+  else if (sum > FULL_BUCKET - (2 * term)) {
+    code = "0120009";
+  }
+  // 사료통 70%
+  else if (sum > FULL_BUCKET - (3 * term)) {
+    code = "0120008";
+  }
+  // 사료통 60%
+  else if (sum > FULL_BUCKET - (4 * term)) {
+    code = "0120007";
+  }
+  // 사료통 50%
+  else if (sum > FULL_BUCKET - (5 * term)) {
+    code = "0120006";
+  }
+  // 사료통 40%
+  else if (sum > FULL_BUCKET - (6 * term)) {
+    code = "0120005";
+  }
+  // 사료통 30%
+  else if (sum > FULL_BUCKET - (7 * term)) {
+    code = "0120004";
+  }
+  // 사료통 20%
+  else if (sum > FULL_BUCKET - (8 * term)) {
+    code = "0120003";
+  }
+  // 사료통 10%
+  else if (sum > FULL_BUCKET - (9 * term)) {
+    code = "0120002";
+  }
+  // 사료통 0%
+  else {
+    code = "0120001";
+  }
+
+  return code;
 }
 
 // 배터리 용량 체크
 String checkBattery() {
   int sum, avg;
   uint8_t count = 0;
-  int term = (FULL / EMPTY) / 10;
+  int term = (FULL_BATTERY / EMPTY_BATTERY) / 10;
   // 20회 측정 후 평균치 사용
   while (count < 20) {
     int sensorValue = analogRead(BATTERY);
@@ -223,43 +270,43 @@ String checkBattery() {
   // 평균값에 맞는 전송수치 보내기
   String code;
   // 배터리 완충
-  if (avg > FULL) {
+  if (avg > FULL_BATTERY) {
     code = "0100011";
   }
   // 배터리 90%
-  else if (avg > FULL - (1 * term)) {
+  else if (avg > FULL_BATTERY - (1 * term)) {
     code = "0100010";
   }
   // 배터리 80%
-  else if (avg > FULL - (2 * term)) {
+  else if (avg > FULL_BATTERY - (2 * term)) {
     code = "0100009";
   }
   // 배터리 70%
-  else if (avg > FULL - (3 * term)) {
+  else if (avg > FULL_BATTERY - (3 * term)) {
     code = "0100008";
   }
   // 배터리 60%
-  else if (avg > FULL - (4 * term)) {
+  else if (avg > FULL_BATTERY - (4 * term)) {
     code = "0100007";
   }
   // 배터리 50%
-  else if (avg > FULL - (5 * term)) {
+  else if (avg > FULL_BATTERY - (5 * term)) {
     code = "0100006";
   }
   // 배터리 40%
-  else if (avg > FULL - (6 * term)) {
+  else if (avg > FULL_BATTERY - (6 * term)) {
     code = "0100005";
   }
   // 배터리 30%
-  else if (avg > FULL - (7 * term)) {
+  else if (avg > FULL_BATTERY - (7 * term)) {
     code = "0100004";
   }
   // 배터리 20%
-  else if (avg > FULL - (8 * term)) {
+  else if (avg > FULL_BATTERY - (8 * term)) {
     code = "0100003";
   }
   // 배터리 10%
-  else if (avg > FULL - (9 * term)) {
+  else if (avg > FULL_BATTERY - (9 * term)) {
     code = "0100002";
   }
   // 배터리 0%
