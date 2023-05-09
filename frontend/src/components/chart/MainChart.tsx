@@ -30,7 +30,7 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
     },
     stroke: {
       curve: "straight",
-      width: 3,
+      width: 5,
     },
     colors: ["#EC5E98", '#29325B'],
     grid: {

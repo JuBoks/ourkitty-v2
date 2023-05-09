@@ -8,6 +8,11 @@ import { selectedButtonState } from "../../recoil/chart";
 import { getCatUserList } from "../../apis/api/chart";
 import CatImages from './CatImages';
 
+
+interface ImgType {
+  imgUrl: string;
+}
+
 export default function HeatMapChart() {
 
   // 냥그릇 선택 iD 가져오기
@@ -62,14 +67,22 @@ export default function HeatMapChart() {
 
   const isDark = useRecoilState(darkState)[0];
   const [modalOpen, setModalOpen] = useState(false);
+
   const [day, setDay] = useState("");
   const [time, setTime] = useState(0);
+  const [images, setImages] = useState<string[]>([]);
 
   const handleChart = (xaxis: number, yaxis: number) => {
     const x = dates;
     const y = Array.from({ length: 24 }, (_, index) => index);
+    const imgList: string[] = []; 
     setDay(x[xaxis]);
     setTime(y[yaxis]);
+    const dataPoint = series[yaxis].data[xaxis];
+    dataPoint.imgs.forEach((img: string) => {
+      imgList.push(img); // push the path of each image to imgList
+    });
+    setImages(imgList); // set the state of images to imgList
     openModal();
   };
 
@@ -101,6 +114,7 @@ export default function HeatMapChart() {
               handleChart(config.dataPointIndex, config.seriesIndex);
             },
           },
+          
         },
         dataLabels: {
           enabled: false,
@@ -164,8 +178,9 @@ export default function HeatMapChart() {
       height={"100%"}
     ></ApexCharts>
     <Modal open={modalOpen} close={closeModal} header="이용 고객 사진">
-      {/* <CatImages images={series[time].data[day].imgs}/> */}
-    </Modal>
+    <h1 className="text-[1.3rem] font-bold p-3" >{day} {time}시 촬영된 고객들</h1>
+      <CatImages images={images} />    
+      </Modal>
     </div>
   </div>
   );

@@ -30,7 +30,7 @@ export default function DishWeight({ foodAmountList }: { foodAmountList: number[
     },
     stroke: {
       curve: "straight",
-      width: 3,
+      width: 5,
     },
     colors: ["#9FA9D8"],
     grid: {

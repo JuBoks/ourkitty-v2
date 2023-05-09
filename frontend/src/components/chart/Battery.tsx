@@ -31,7 +31,7 @@ export default function Battery({ batteryAmountList }: { batteryAmountList: numb
     },
     stroke: {
       curve: "straight",
-      width: 3,
+      width: 5,
     },
     colors: ["#9FA9D8"],
     grid: {
