@@ -3,6 +3,7 @@ import datetime
 from glob import glob
 import requests
 import json
+import shutil
 
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,47 +47,66 @@ SERVER_URL = 'https://k8e2031.p.ssafy.io/api'
 async def index():
     return "Hello World!"
 
+@app.get("/yolo/pics")
+def display_yolo_pics():
+    return display_pics("static/yolov5/*.png", "Cats Detected By YOLO")
+
+@app.get("/img/pics")
+def display_img_pics():
+    return display_pics("static/realtime/*.png", "실시간 사진들")
+
 @app.post("/upload-google/{serial_number}")
 async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or None = None):
     if not imageFile:
-        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
+        return {'status': 400, 'message': 'There is no file'}
 
     # 이미지 파일인지 식별하기
     contentType, ext = imageFile.content_type.split('/')
     if(contentType != 'image'):
-        return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
+        return {'status': 400, 'message': 'Not a image file'}
 
     # 이미지 파일 읽기
     contents = await imageFile.read()
 
-    # 이미지 파일 이름 설정
-    fileName = os.environ[serial_number+"_NAME"]
-    filePath = "static/img/"+fileName+".png"
+    # 실시간 이미지 파일 이름 설정
+    siteId = os.environ[serial_number]
+    siteName = os.environ[serial_number+"_NAME"]
+
+    # 구글에 업로드할 구글 파일 이름 설정
     googleFileName = datetime.datetime.today().strftime("%Y-%m-%d_%H-%M-%S")
-    googleFileName = fileName+"_"+googleFileName
+    googleFileName = f"{siteName}_{googleFileName}"
 
-    # 읽은 파일을 구글에 보내기 위해 서버에 저장
-    with open("./static/img/"+fileName+".png", 'wb') as f:
-        f.write(contents)
+    # 읽은 파일을 보내기 위해 서버에 저장
+    realtimeFilePath = f"static/realtime/{siteName}.png"
+    inputFilePath = f"static/input/{googleFileName}.png"
 
-    # 딥러닝 모델 실행
-    # tasks = [
-    #     asyncio.create_task(filterCatByYolo(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName)),
-    #     asyncio.create_task(filterCatByDetr(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName))
-    # ]
+    paths = [realtimeFilePath, inputFilePath]
+    for path in paths:
+        with open(path, 'wb') as f:
+            f.write(contents)
 
-    # results = await asyncio.gather(*tasks)
-    status = await filterCatByYolo(filePath, googleFileName, googleFileName, contents, serial_number, imageFile, fileName)
+    status = await filterCatByYolo(inputFilePath, googleFileName)
 
-    # s3로 파일 업로드 및 객체 정보 저장
-    if status == 1:
+    if status:
         # 파일 포인터를 파일의 처음으로 옮겨줍니다.
         await imageFile.seek(0)
-        return await upload_s3(serial_number, imageFile)
-    else:
-        return {'status': 500, 'message': "cat detection error"}
 
-@app.post("/upload-s3/{serial_number}")
+        # 구글에 사진 전송, S3로 파일 업로드 및 객체 정보 저장
+        tasks = [
+            asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId)),
+            asyncio.create_task(upload_s3(serial_number, imageFile))
+        ]
+
+        results = await asyncio.gather(*tasks)
+
+        if results[0] and results[1]:
+            return {'status': 200, 'message': "cat detection and upload images are successful."}
+        else:
+            return {'status': 500, 'message': "Image Uploading is failed."}
+    else:
+        return {'status': 200, 'message': "No Cat."}
+
+# @app.post("/upload-s3/{serial_number}")
 async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     try:
         imagePath = await upload_image(serial_number, imageFile)
@@ -113,106 +133,28 @@ async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     # print(response.text)
     # 응답 결과 출력
     if response.status_code >= 400:
-        return {'status': 500, 'message': '이미지 업로드 실패'}
+        return False
     else:
-        return {'status': 200, 'message': '이미지 업로드 성공'}
+        return True
 
+def display_pics(filePath, title):
+    image_list = glob(filePath)
 
-@app.get("/yolo/pics")
-@app.get("/yolo/pics/{site}")
-def display_yolo_pics(site=None):
-    return display_result_pics("yolo", site)
-
-@app.get("/detr/pics")
-@app.get("/detr/pics/{site}")
-def display_detr_pics(site=None):
-    return display_result_pics("detr", site)
-
-@app.get("/img/pics/{site}")
-@app.get("/img/pics/{site}/{time}")
-@app.get("/img/pics/{site}/{time}/{date}")
-def display_img_pics(site='iujeong', time=None, date=None):
-    return display_pics("img", site, time, date)
-
-@app.get("/detect-by-yolo")
-async def detect_cat_by_yolo():
-    filePath = "static/img/yolo-test.jpg"
-    status, isDone = await detectCatByYolo(filePath)
-
-    return {'status': status, 'isDone': isDone}
-
-def display_result_pics(folderName, site):
-    if site == None:
-        path = f"static/{folderName}/*.png"
-    else:
-        path = f"static/{folderName}/{site}*.png"
-
-    image_list = glob(path)
-
-    site = "모든 위치" if site == None else site
-
-    html_content = f"<html><body><h3>[{folderName}] {site} 사진들</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
         dirpath, filename = os.path.split(image)
         html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
     html_content += "</div></body></html>"
-    return HTMLResponse(content=html_content, status_code=200)
 
-def display_pics(folderName, site, param_time=None, param_date=None):
-    now = datetime.datetime.now()
-
-    if param_date == None:
-        date = now.strftime('%Y-%m-%d')
-    else:
-        # 문자열을 datetime 객체로 변환
-        dt = datetime.datetime.strptime(param_date, "%y%m%d")
-        # 문자열로 변환
-        date = dt.strftime("%Y-%m-%d")
-
-    if param_time == None:
-        time = now.strftime('%H')
-    else:
-        time_int = int(param_time)
-        if time_int >= 0 and time_int <= 24:
-            time = "{:02d}".format(time_int)
-        else:
-            time = now.strftime('%H')
-
-    if site == None:
-        path = f"static/{folderName}/*_{date}_{time}*.png"
-    else:
-        path = f"static/{folderName}/{site}_{date}_{time}*.png"
-
-    image_list = glob(path)
-
-    html_content = f"<html><body><h3>{date}기준 {time}시 사진들</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
-    for image in image_list:
-        dirpath, filename = os.path.split(image)
-        html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
-    html_content += "</div></body></html>"
     return HTMLResponse(content=html_content, status_code=200)
 
 
-async def filterCatByYolo(filePath, googleFileName, fileName, contents, serial_number, imageFile, commonFileName):
+async def filterCatByYolo(inputFilePath, googleFileName):
     # 1. 이미지 파일을 yolo로 고양이 사진 필터링
-    status, isDone = await detectCatByYolo(filePath)
-    if status == 1:
-        with open("./static/yolo/"+googleFileName+".png", 'wb') as f:
-            f.write(contents)
-
-        # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
-
-    return status
-
-async def filterCatByDetr(filePath, googleFileName, fileName, contents, serial_number, imageFile, commonFileName):
-    # 1. 이미지 파일을 detr로 고양이 사진 필터링
-    status, isDone = await detectCatByDetr(filePath, fileName)
-    if status == 1:
-        with open("./static/detr/"+googleFileName+".png", 'wb') as f:
-            f.write(contents)
-
-        # 구글에 사진 전송
-        # await upload_photo(googleService, commonFileName, googleFileName, serial_number, imageFile)
+    isCat = await detectCatByYolo(inputFilePath)
+    if isCat :
+        # yolo로 통과된 사진을 보여주기 위해 yolo폴더에 저장
+        yoloFilePath = f"static/yolov5/{googleFileName}.png"
+        shutil.copyfile(inputFilePath, yoloFilePath)
         
-    return status
+    return isCat
