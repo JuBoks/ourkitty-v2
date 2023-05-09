@@ -143,7 +143,7 @@ def display_pics(filePath, title):
     html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
         dirpath, filename = os.path.split(image)
-        html_content += f'<div><div>{filename}</div><img src="/{image}" alt="{image}" width="416" ></div>'
+        html_content += f'<div><div>{filename}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
     html_content += "</div></body></html>"
 
     return HTMLResponse(content=html_content, status_code=200)
