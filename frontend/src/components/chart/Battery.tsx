@@ -4,7 +4,7 @@ import Chart from 'react-apexcharts';
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
 
-export default function Battery() {
+export default function Battery({ batteryAmountList }: { batteryAmountList: number[] }) {
 
   const isDark = useRecoilState(darkState)[0];
 
@@ -64,6 +64,9 @@ export default function Battery() {
       },
     },
     yaxis: {
+      min : 0,
+      max : 100,
+      tickAmount: 5,
       labels: {
         style: {
           colors: `${isDark ? "#FFFFFF" : "#000000"}`,
@@ -75,7 +78,7 @@ export default function Battery() {
 
   const series = [{
     name: "전체 개체 수",
-    data: [5, 3, 3, 4, 3, 4, 2]
+    data: batteryAmountList
   },
   ]
 

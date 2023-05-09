@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ApexOptions } from 'apexcharts';
 import Chart from 'react-apexcharts';
 import Modal from "../common/Modal";
 import ModalContent from "../common/Modal";
+import { useQuery } from "react-query";
+import { selectedButtonState } from "../../recoil/chart";
+import { useRecoilState } from "recoil";
+import { getCatUserList } from "../../apis/api/chart";
+
 
 // interface ArrayType {
 //   name: string;
@@ -17,13 +22,29 @@ interface DataType {
 
 export default function HeatMapForUsage() {
 
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  const { data, isLoading } = useQuery({
+    queryKey: ["getCatUserList", selectedButton],
+    queryFn: () => getCatUserList(selectedButton),
+  });
+
+  useEffect(() => {
+    if (data !== undefined) {
+      console.log('ihihihih', data)
+    }
+  }, [data]);
+
+  useEffect(() => {
+    console.log('ihihihih')
+  }, []);
+
+
   // const [series, setSeries] = useState<ArrayType[]>([]);
   const [time, setTime] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
 
   const [day, setDay] = useState("");
   const handleChart = (xaxis: number, yaxis: number) => {
-    
     openModal();
   };
 
@@ -152,155 +173,155 @@ export default function HeatMapForUsage() {
     }
   }
 
-const series = [
-  {
-    name: "0",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "2",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "4",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "6",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "8",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "10",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "12",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "14",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
-      { x: dates[3], y: 8 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "16",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
-      { x: dates[3], y: 8 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "18",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "20",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  },
-  {
-    name: "22",
-    data: [
-      { x: dates[0], y: 3 , imgs: []  },
-      { x: dates[1], y: 3 , imgs: []  },
-      { x: dates[2], y: 5 , imgs: []  },
-      { x: dates[3], y: 8 , imgs: []  },
-      { x: dates[4], y: 1 , imgs: [] },
-      { x: dates[5], y: 4 , imgs: [] },
-      { x: dates[6], y: 42 , imgs: [] },
-    ]
-  }
-]
+  const series = [
+    {
+      name: "0",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "2",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "4",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "6",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "8",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "10",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "12",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "14",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
+        { x: dates[3], y: 8 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "16",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
+        { x: dates[3], y: 8 , imgs: ['http://k8e2031.p.ssafy.io:8000/static/yolo/jeongho_2023-05-01_23-05-16.png', 'http://k8e2031.p.ssafy.io:8000/static/yolo/iujeong_2023-04-30_09-10-26.png']  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "18",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "20",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    },
+    {
+      name: "22",
+      data: [
+        { x: dates[0], y: 3 , imgs: []  },
+        { x: dates[1], y: 3 , imgs: []  },
+        { x: dates[2], y: 5 , imgs: []  },
+        { x: dates[3], y: 8 , imgs: []  },
+        { x: dates[4], y: 1 , imgs: [] },
+        { x: dates[5], y: 4 , imgs: [] },
+        { x: dates[6], y: 42 , imgs: [] },
+      ]
+    }
+  ]
 
+  if (isLoading || data === undefined) return null;
 
-  
   return (
     <div className="w-full h-full flex flex-col gap-1">
       <h1 className="text-[1.8rem] font-bold">고양이 방문 시간대</h1>
