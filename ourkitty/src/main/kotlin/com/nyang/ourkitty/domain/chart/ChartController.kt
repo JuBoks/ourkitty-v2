@@ -38,7 +38,7 @@ class ChartController(
      * 냥그릇 별 개체수 (라인그래프) 데이터 형태에 맞게 가공해서 return
      * serial-num 과 date 를 찍어놔야 그래프가 나오겠지?
      */
-    @ApiOperation("최근 일주일 개체 수 데이터")
+    @ApiOperation("최근 일주일 냥그릇 수치 데이터")
     @GetMapping("/count")
     fun getCatCountData(dishId: Long): ResponseEntity<DishCountResultDto> {
         if (JwtContextHolder.userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)

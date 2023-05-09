@@ -9,10 +9,7 @@ import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.*
-import com.nyang.ourkitty.entity.DishCountLogEntity
-import com.nyang.ourkitty.entity.DishEntity
-import com.nyang.ourkitty.entity.DishImageEntity
-import com.nyang.ourkitty.entity.DishWeightLogEntity
+import com.nyang.ourkitty.entity.*
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.stereotype.Service
@@ -27,6 +24,7 @@ class DishService(
     private val dishQuerydslRepository: DishQuerydslRepository,
     private val dishWeightLogRepository: DishWeightLogRepository,
     private val dishCountLogRepository: DishCountLogRepository,
+    private val dishTotalLogRepository: DishTotalLogRepository,
     private val dishImageRepository: DishImageRepository,
     private val dishImageQuerydslRepository: DishImageQuerydslRepository,
     private val imageUploader: AwsS3ImageUploader,
@@ -184,6 +182,13 @@ class DishService(
             data = dishImageDtoList,
             totalCount = dishImageDtoList.size.toLong()
         )
+    }
+
+    @Transactional
+    fun writeTotalLog() {
+        dishQuerydslRepository.getDishList()
+            .map(::DishTotalLogEntity)
+            .forEach(dishTotalLogRepository::save)
     }
 
     private fun getDishById(dishId: Long): DishEntity {

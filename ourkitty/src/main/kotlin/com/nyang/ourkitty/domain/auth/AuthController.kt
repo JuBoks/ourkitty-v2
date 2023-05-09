@@ -2,6 +2,7 @@ package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
+import com.nyang.ourkitty.domain.dish.DishService
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
@@ -16,8 +17,9 @@ import javax.servlet.http.HttpServletRequest
 @CrossOrigin(origins = ["*"])
 class AuthController(
     private val authService: AuthService,
+    private val dishService: DishService,
 
-) {
+    ) {
 
     /**
      * @param loginRequestDto LoginRequestDto
@@ -71,6 +73,11 @@ class AuthController(
             "AuthenticationException" -> throw CustomException(ErrorCode.NEED_LOGIN_EXCEPTION)
             "JWTException" -> throw CustomException(ErrorCode.JWT_TOKEN_EXCEPTION)
         }
+    }
+
+    @GetMapping("/test")
+    fun test() {
+        dishService.writeTotalLog()
     }
 
 }
