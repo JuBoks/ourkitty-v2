@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DishWeight from "../components/chart/DishWeight";
-import BowlChart from "../components/chart/BowlChart";
+import HeatMapChart from "../components/chart/HeatMapChart";
 import CatButton from "../components/chart/CatButton";
 import MainChart from './../components/chart/MainChart';
 import Battery from './../components/chart/Battery';
@@ -51,7 +51,7 @@ export default function Chart() {
       </div>
       <div className="w-[42%] h-full flex flex-col gap-2">
         <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <BowlChart/>
+          <HeatMapChart/>
         </div>
       </div>
     </div>
