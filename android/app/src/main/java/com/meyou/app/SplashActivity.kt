@@ -23,15 +23,15 @@ class SplashActivity : AppCompatActivity() {
         // 2초 후에 실행될 코드 설정
         Handler().postDelayed({
             // 로그인 정보가 있으면 MainActivity 실행
-            if (isLoggedIn) {
+//            if (isLoggedIn) {
                 startActivity(Intent(this, MainActivity::class.java))
-            }
+//            }
             // 로그인 정보가 없으면 LoginActivity 실행
-            else {
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
+//            else {
+//                startActivity(Intent(this, LoginActivity::class.java))
+//            }
             // 현재 액티비티 종료
-            finish()
+//            finish()
         }, 2000)
 
     }

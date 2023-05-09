@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
+import com.meyou.app.detailDish.ReportActivity
 import com.meyou.app.detailDish.tap2.DIshCat
 import com.meyou.app.detailDish.tap3.VisiteCatActivity
 
@@ -60,6 +61,13 @@ class DetailActivity : AppCompatActivity() {
         val tap3 = findViewById<TextView>(R.id.tap3)
         tap3.setOnClickListener {
             val intent = Intent(this, VisiteCatActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 신고 아이콘 클릭시 신고 페이지로 이동
+        val report = findViewById<ImageView>(R.id.report)
+        report.setOnClickListener {
+            val intent = Intent(this, ReportActivity::class.java)
             startActivity(intent)
         }
     }

@@ -22,6 +22,7 @@
             android:text="그릇 정보"
             android:textSize="25sp"
             android:layout_weight="1"
+            android:fontFamily="@font/yeonsung"
             android:padding="5sp" />
         <TextView
             android:id="@+id/tap2"
@@ -32,6 +33,7 @@
             android:text="그릇 고객"
             android:textSize="25sp"
             android:layout_weight="1"
+            android:fontFamily="@font/yeonsung"
             android:padding="5sp" />
         <TextView
             android:id="@+id/tap3"
@@ -42,6 +44,7 @@
             android:text="방문 냥이"
             android:textSize="25sp"
             android:layout_weight="1"
+            android:fontFamily="@font/yeonsung"
             android:padding="5sp" />
     </LinearLayout>
 
@@ -49,12 +52,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvdish"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 
