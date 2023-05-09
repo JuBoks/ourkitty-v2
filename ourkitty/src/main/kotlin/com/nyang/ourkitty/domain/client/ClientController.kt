@@ -83,19 +83,11 @@ class ClientController(
         )
     }
 
-    /**
-     * @param clientId Long
-     * @return ResponseEntity<ResultDto<ClientResponseDto>>
-     */
-    @ApiOperation(value = "사용자 아이디 조회")
-    @GetMapping("/{clientId}")
-    fun getAccount(@PathVariable("clientId") clientId: Long): ResponseEntity<ResultDto<ClientResponseDto>> {
+    @ApiOperation(value = "본인 아이디 정보 조회 (캣맘용)")
+    @GetMapping("/mypage")
+    fun getMyAccount(): ResponseEntity<ResultDto<ClientResponseDto>> {
 
-        if (JwtContextHolder.clientId!!.toLong() != clientId && JwtContextHolder.userCode != UserCode.지자체.code) {
-            throw CustomException(ErrorCode.NO_ACCESS)
-        }
-
-        return ResponseEntity.ok(clientService.getAccountById(clientId))
+        return ResponseEntity.ok(clientService.getAccountById(JwtContextHolder.clientId!!.toLong()))
     }
 
     /**
@@ -103,7 +95,7 @@ class ClientController(
      * @param clientRequestDto ClientRequestDto
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
-    @ApiOperation(value = "본인 아이디 정보 수정")
+    @ApiOperation(value = "본인 아이디 정보 수정 (캣맘용)")
     @PutMapping("/mypage")
     fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: MultipartFile?): ResponseEntity<ResultDto<ClientResponseDto>> {
 
@@ -117,12 +109,27 @@ class ClientController(
     }
 
     /**
+     * @param clientId Long
+     * @return ResponseEntity<ResultDto<ClientResponseDto>>
+     */
+    @ApiOperation(value = "소속 사용자 아이디 조회 (관리자용)")
+    @GetMapping("/{clientId}")
+    fun getAccount(@PathVariable("clientId") clientId: Long): ResponseEntity<ResultDto<ClientResponseDto>> {
+
+        if (JwtContextHolder.clientId!!.toLong() != clientId && JwtContextHolder.userCode != UserCode.지자체.code) {
+            throw CustomException(ErrorCode.NO_ACCESS)
+        }
+
+        return ResponseEntity.ok(clientService.getAccountById(clientId))
+    }
+
+    /**
      * TODO : 개인정보 수정 - 지자체
      * @param clientId Long
      * @param clientRequestDto ClientRequestDto
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
-    @ApiOperation(value = "소속 사용자 아이디 정보 수정")
+    @ApiOperation(value = "소속 사용자 아이디 정보 수정 (관리자용)")
     @PutMapping("/{clientId}")
     fun modifyAccount(@PathVariable("clientId") clientId: Long, clientRequestDto: ClientRequestDto): ResponseEntity<ResultDto<ClientResponseDto>> {
 
