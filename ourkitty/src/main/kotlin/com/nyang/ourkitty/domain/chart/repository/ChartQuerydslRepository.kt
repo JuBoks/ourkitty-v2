@@ -56,7 +56,7 @@ class ChartQuerydslRepository(
                 dishTotalLogEntity.batteryAmount,
                 dishTotalLogEntity.foodAmount,
                 dishTotalLogEntity.catCount,
-                dishTotalLogEntity.tnrCount,
+                dishTotalLogEntity.catCount.subtract(dishTotalLogEntity.tnrCount),
             )
         )
             .from(dishTotalLogEntity)

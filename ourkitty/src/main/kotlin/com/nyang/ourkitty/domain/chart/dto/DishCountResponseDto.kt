@@ -6,6 +6,6 @@ data class DishCountResponseDto(
     val batteryAmount: Int,
     val foodAmount: Double,
     val catCount: Int,
-    val tnrCount: Int,
+    val noTnrCount: Int,
 ) {
 }
