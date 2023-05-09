@@ -15,6 +15,12 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
+            android:name=".detailDish.ReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".management.CreateManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".management.DetailManagementActivity"
             android:exported="false" />
         <activity

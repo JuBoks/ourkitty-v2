@@ -28,7 +28,7 @@
             android:id="@+id/home_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/spinner_items"
+            android:entries="@array/spinner_dish_items"
             android:padding="10sp"
             android:layout_marginLeft="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,6 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/create_form"
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_margin="10sp"
