@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ApexOptions } from 'apexcharts';
 import Chart from 'react-apexcharts';
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
+import { selectedButtonState } from "../../recoil/chart";
+import { getCatNum } from "../../apis/api/chart";
+import { useQuery } from "react-query";
+
 
 export default function MainChart() {
 
   const isDark = useRecoilState(darkState)[0];
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["getCatNum", selectedButton],
+    queryFn: () => getCatNum(selectedButton),
+  });
+
 
   // Create a new Date object with today's date
   const today = new Date(); 
@@ -16,9 +27,9 @@ export default function MainChart() {
     const dayString = date.toLocaleDateString('ko-KR', { day: 'numeric' });
     return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
   }).reverse();
+
+  if (isLoading || data === undefined) return null;
   
-
-
   const options: ApexOptions = {
     chart: {
       zoom: {
@@ -75,11 +86,11 @@ export default function MainChart() {
 
   const series = [{
     name: "전체 개체 수",
-    data: [5, 3, 3, 4, 3, 4, 2]
+    data: data['catCountList']
   },
   {
     name: "중성화가 필요한 고양이",
-    data: [3, 2, 3, 3, 2, 1, 2]
+    data: data['tnrCountList']
   }
   ]
 
@@ -88,6 +99,7 @@ export default function MainChart() {
       <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
+        <div>{selectedButton}</div>
       </div>
     </div>
   );
