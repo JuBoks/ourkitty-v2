@@ -43,6 +43,9 @@ googleService = connect_to_google_drive()
 # Spring 서버 URL
 SERVER_URL = 'https://k8e2031.p.ssafy.io/api'
 
+# 전역 시간
+REALTIME = {'iujeong': '', 'jeongho': '', 'mihyeon': ''}
+
 @app.get("/")
 async def index():
     return "Hello World!"
@@ -74,6 +77,7 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
 
     # 구글에 업로드할 구글 파일 이름 설정
     googleFileName = datetime.datetime.today().strftime("%Y-%m-%d_%H-%M-%S")
+    REALTIME[siteName] = googleFileName
     googleFileName = f"{siteName}_{googleFileName}"
 
     # 읽은 파일을 보내기 위해 서버에 저장
@@ -143,7 +147,8 @@ def display_pics(filePath, title):
     html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
     for image in image_list:
         dirpath, filename = os.path.split(image)
-        html_content += f'<div><div>{filename}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
+        filename = filename.split('.')[0]
+        html_content += f'<div><div>{filename}_{REALTIME[filename]}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
     html_content += "</div></body></html>"
 
     return HTMLResponse(content=html_content, status_code=200)
