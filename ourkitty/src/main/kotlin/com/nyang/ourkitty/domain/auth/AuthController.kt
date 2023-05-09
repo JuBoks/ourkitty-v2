@@ -77,7 +77,6 @@ class AuthController(
 
     @GetMapping("/test")
     fun test() {
-        dishService.writeTotalLog()
     }
 
 }
