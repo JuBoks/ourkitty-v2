@@ -51,11 +51,11 @@ async def index():
     return "Hello World!"
 
 @app.get("/yolo/pics")
-def display_yolo_pics():
-    return display_pics("static/yolov5/*.png", "Cats Detected By YOLO")
+def yolo_pics():
+    return display_yolo_pics("static/yolov5/*.png", "Cats Detected By YOLO")
 
 @app.get("/img/pics")
-def display_img_pics():
+def img_pics():
     return display_pics("static/realtime/*.png", "실시간 사진들")
 
 @app.post("/upload-google/{serial_number}")
@@ -149,6 +149,18 @@ def display_pics(filePath, title):
         dirpath, filename = os.path.split(image)
         filename = filename.split('.')[0]
         html_content += f'<div><div>{filename}_{REALTIME[filename]}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
+    html_content += "</div></body></html>"
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+def display_yolo_pics(filePath, title):
+    image_list = glob(filePath)
+
+    html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list:
+        dirpath, filename = os.path.split(image)
+        filename = filename.split('.')[0]
+        html_content += f'<div><div>{filename}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
     html_content += "</div></body></html>"
 
     return HTMLResponse(content=html_content, status_code=200)
