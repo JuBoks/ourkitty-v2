@@ -44,7 +44,6 @@ class MainFragment : Fragment() {
                     dishList.clear()
                     // 응답에서 받은 데이터를 추가한 뒤
                     dishList.addAll(response.body()?.data ?: emptyList())
-                    Log.d("test",response.body()?.data.toString())
                     // 어댑터에게 데이터가 변경되었음을 알립니다.
                     dishAdapter.notifyDataSetChanged()
                 } else {

@@ -1,5 +1,6 @@
 package com.meyou.app.network
 
+import com.meyou.app.network.Dish.DetailDishGetService
 import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
@@ -44,6 +45,8 @@ class RetrofitInstance(private val accessToken: String = "") {
     fun getDishList(): DishListGetService {
         return retrofit.create(DishListGetService::class.java)
     }
-
+    fun getDetailDish(): DetailDishGetService {
+        return retrofit.create(DetailDishGetService::class.java)
+    }
 }
 
