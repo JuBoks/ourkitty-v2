@@ -3,20 +3,24 @@ package com.meyou.app.main
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
 import com.meyou.app.network.RetrofitInstance
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +32,9 @@ class MainFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
     private val marker = Marker()
+    private var centerLat = 0.0
+    private var centerLong = 0.0
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,8 +60,54 @@ class MainFragment : Fragment(), OnMapReadyCallback {
                     dishList.clear()
                     // 응답에서 받은 데이터를 추가한 뒤
                     dishList.addAll(response.body()?.data ?: emptyList())
+
                     // 어댑터에게 데이터가 변경되었음을 알립니다.
                     dishAdapter.notifyDataSetChanged()
+                    centerLat = response.body()!!.centerLat
+                    centerLong = response.body()!!.centerLong
+                    val cameraPosition = CameraPosition(
+                        LatLng(centerLat, centerLong),  // 위치 지정
+                        14.0 // 줌 레벨
+                    )
+                    // 지도 중심좌표 재설정
+                    naverMap.setCameraPosition(cameraPosition);
+
+                    var marker1 = Marker()
+                    var marker2 = Marker()
+                    var marker3 = Marker()
+
+                    marker1.position = LatLng(dishList[0].dishLat, dishList[0].dishLong)
+                    marker1.captionText = dishList[0].dishName
+                    marker2.position = LatLng(dishList[1].dishLat, dishList[1].dishLong)
+                    marker2.captionText = dishList[1].dishName
+                    marker3.position = LatLng(dishList[2].dishLat, dishList[2].dishLong)
+                    marker3.captionText = dishList[2].dishName
+
+                    if (dishList[0].dishWeight < 30) {
+                        marker1.icon = OverlayImage.fromResource(R.drawable.red_marker)
+                    } else if (dishList[0].dishWeight < 70) {
+                        marker1.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
+                    } else {
+                        marker1.icon = OverlayImage.fromResource(R.drawable.blue_marker)
+                    }
+                    if (dishList[1].dishWeight < 30) {
+                        marker2.icon = OverlayImage.fromResource(R.drawable.red_marker)
+                    } else if (dishList[1].dishWeight < 70) {
+                        marker2.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
+                    } else {
+                        marker2.icon = OverlayImage.fromResource(R.drawable.blue_marker)
+                    }
+                    if (dishList[2].dishWeight < 30) {
+                        marker3.icon = OverlayImage.fromResource(R.drawable.red_marker)
+                    } else if (dishList[2].dishWeight < 70) {
+                        marker3.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
+                    } else {
+                        marker3.icon = OverlayImage.fromResource(R.drawable.blue_marker)
+                    }
+
+                    marker1.map = naverMap
+                    marker2.map = naverMap
+                    marker3.map = naverMap
                 } else {
                     // 응답이 성공적으로 오지 않았을 때의 처리를 해야 합니다.
                 }
@@ -77,17 +130,18 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         // 뒤로가기 버튼을 비활성화합니다.
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-//        mapView = rootView.findViewById(com.naver.maps.map.R.id.navermap_map_view)
-//        mapView.onCreate(savedInstanceState)
-//        mapView.getMapAsync(this)
+        mapView = rootView.findViewById(com.naver.maps.map.R.id.navermap_map_view)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
 
         return rootView
     }
 
-    override fun onMapReady(p0: NaverMap) {
+    override fun onMapReady(@NonNull naverMap: NaverMap) {
         this.naverMap = naverMap
-        marker.position = LatLng(37.5670135, 126.9783740)
-        marker.map = naverMap
+
+//        marker.position = LatLng(37.5670135, 126.9783740)
+//        marker.map = naverMap
     }
 }
 
