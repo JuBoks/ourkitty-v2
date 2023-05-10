@@ -5,6 +5,11 @@ data class ContentsMyDishList(
     val centerLat: Double,
     val centerLong: Double
 )
+data class ContentsDetailDishList(
+    val data: Dish,
+    val totalCount: Int,
+)
+
 
 data class Dish(
     val dishId: Int,
