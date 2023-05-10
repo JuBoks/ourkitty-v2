@@ -1,6 +1,8 @@
 package com.nyang.ourkitty.domain.dish.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.nyang.ourkitty.common.BatteryState
+import com.nyang.ourkitty.common.DishWeight
 import com.nyang.ourkitty.entity.DishEntity
 import java.time.LocalDateTime
 
@@ -13,8 +15,8 @@ data class DishResponseDto(
     val dishAddress: String,
     val locationCode: String,
     val dishSerialNum: String,
-    val dishWeight: Double,
-    val dishBatteryState: String,
+    val dishWeight: Int,
+    val dishBatteryState: Int,
     val dishCatCount: Int,
     val dishTnrCount: Int,
     val isDeleted: Boolean,
@@ -37,8 +39,8 @@ data class DishResponseDto(
                 dishAddress = dish.dishAddress,
                 locationCode = dish.locationCode,
                 dishSerialNum = dish.dishSerialNum,
-                dishWeight = dish.dishWeight,
-                dishBatteryState = dish.dishBatteryState,
+                dishWeight = DishWeight.values().first { it.code == dish.dishWeight }.amount,
+                dishBatteryState = BatteryState.values().first { it.code == dish.dishBatteryState }.amount,
                 dishCatCount = dish.dishCatCount,
                 dishTnrCount = dish.dishTnrCount,
                 isDeleted = dish.isDeleted,
