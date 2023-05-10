@@ -75,3 +75,5 @@ def analyze_results(closest_images):
     # Validation
     if cat['exist'] and tnr['exist'] and cat['x'] > tnr['x']: # 고양이 기준으로 오른쪽 귀가 잡혔으면 pass
       print(f'{img_name} is tnr!')
+    else:
+      print(f'{img_name} is not tnr!')

@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export default function ResultImage() {
+export default function ClusteringResult() {
 
   return (
     <div className="w-full h-full gap-1">
