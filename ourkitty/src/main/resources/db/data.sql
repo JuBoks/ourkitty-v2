@@ -125,8 +125,8 @@ VALUES (1, 1, '2023-05-02', 100, 70, 5, 3, false, now(), now()),
 --        (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
 --        (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
 
-INSERT INTO `alert_table`
-VALUES (1, '0080001', '관리일지알림', 2, null, null, '0060001', false, now(), now()),
-       (2, '0080002', '냥그릇알림', null, 1, null, '0060001', false, now(), now()),
-       (3, '0080002', '냥그릇알림', null, 2, null, '0060002', false, now(), now()),
-       (4, '0080003', '리포트알림', null, null, 2, '0060002', false, now(), now());
+-- INSERT INTO `alert_table`
+-- VALUES (1, '0080001', '관리일지알림', 2, null, null, '0060001', false, now(), now()),
+--        (2, '0080002', '냥그릇알림', null, 1, null, '0060001', false, now(), now()),
+--        (3, '0080002', '냥그릇알림', null, 2, null, '0060002', false, now(), now()),
+--        (4, '0080003', '리포트알림', null, null, 2, '0060002', false, now(), now());
