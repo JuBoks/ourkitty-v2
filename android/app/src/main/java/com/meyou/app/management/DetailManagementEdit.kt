@@ -1,11 +1,16 @@
 package com.meyou.app.management
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -47,7 +52,36 @@ class DetailManagementEdit : AppCompatActivity() {
 
         // EditText 초기 값 설정
         commentInput.setText(message)
+        val addButton: Button = findViewById(R.id.edit)
+        addButton.setOnClickListener {
+            // 커스텀 뷰를 inflate합니다.
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_modal, null)
+
+            // TextView에 텍스트를 설정합니다.
+            val dialogMessage: TextView = dialogView.findViewById(R.id.dialogMessage)
+            dialogMessage.text = "작성된 내용으로 수정 하시겠습니까?"
+
+            // AlertDialog를 생성합니다.
+            val customDialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .show()
+            customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            // 확인 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
+            dialogConfirmButton.setOnClickListener {
+                Log.d("Modal", "작성완료")
+                customDialog.dismiss()
+            }
+
+            // 취소 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogCancelButton: Button = dialogView.findViewById(R.id.dialogCancelButton)
+            dialogCancelButton.setOnClickListener {
+                customDialog.dismiss()
+            }
+        }
     }
+
 }
 class ImageAdapter(private val imageUrls: List<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 

@@ -1,7 +1,10 @@
 package com.meyou.app.management
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -108,6 +111,34 @@ class DetailManagementActivity : AppCompatActivity() {
             intent.putExtra("message", detailInfo.message)
 
             startActivity(intent)
+        }
+        val addButton: Button = findViewById(R.id.delete)
+        addButton.setOnClickListener {
+            // 커스텀 뷰를 inflate합니다.
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_modal, null)
+
+            // TextView에 텍스트를 설정합니다.
+            val dialogMessage: TextView = dialogView.findViewById(R.id.dialogMessage)
+            dialogMessage.text = "관리 일지를 삭제하시겠습니까?"
+
+            // AlertDialog를 생성합니다.
+            val customDialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .show()
+            customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            // 확인 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
+            dialogConfirmButton.setOnClickListener {
+                Log.d("Modal", "삭제완료")
+                customDialog.dismiss()
+            }
+
+            // 취소 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogCancelButton: Button = dialogView.findViewById(R.id.dialogCancelButton)
+            dialogCancelButton.setOnClickListener {
+                customDialog.dismiss()
+            }
         }
     }
 

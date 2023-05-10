@@ -1,6 +1,10 @@
 package com.meyou.app.management
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +31,34 @@ class CommentAdapter(private val context: Context, private val comments: List<Us
         holder.userName.text = comment.userName
         holder.date.text = comment.date
         holder.comment.text = comment.comment
+
+        holder.delete.setOnClickListener {
+            // 커스텀 뷰를 inflate
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_dialog_modal, null)
+
+            // TextView에 텍스트를 설정
+            val dialogMessage: TextView = dialogView.findViewById(R.id.dialogMessage)
+            dialogMessage.text = "댓글을 삭제하시겠습니까?"
+
+            // AlertDialog를 생성
+            val customDialog = AlertDialog.Builder(context)
+                .setView(dialogView)
+                .show()
+            customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            // 확인 버튼에 대한 클릭 리스너를 설정
+            val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
+            dialogConfirmButton.setOnClickListener {
+                Log.d("Modal", "삭제완료")
+                customDialog.dismiss()
+            }
+
+            // 취소 버튼에 대한 클릭 리스너를 설정
+            val dialogCancelButton: Button = dialogView.findViewById(R.id.dialogCancelButton)
+            dialogCancelButton.setOnClickListener {
+                customDialog.dismiss()
+            }
+        }
     }
 
     override fun getItemCount(): Int {
