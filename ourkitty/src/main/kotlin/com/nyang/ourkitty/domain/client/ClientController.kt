@@ -12,7 +12,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 @Api(tags = ["사용자 관련 API"])
@@ -91,13 +90,12 @@ class ClientController(
     }
 
     /**
-     * TODO : 개인정보 수정 - 캣맘
      * @param clientRequestDto ClientRequestDto
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
     @ApiOperation(value = "본인 아이디 정보 수정 (캣맘용)")
     @PutMapping("/mypage")
-    fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: MultipartFile?): ResponseEntity<ResultDto<ClientResponseDto>> {
+    fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
 
         val client = clientService.modifyMyAccount(
             clientId = JwtContextHolder.clientId!!.toLong(),
@@ -124,7 +122,6 @@ class ClientController(
     }
 
     /**
-     * TODO : 개인정보 수정 - 지자체
      * @param clientId Long
      * @param clientRequestDto ClientRequestDto
      * @return ResponseEntity<ResultDto<ClientResponseDto>>

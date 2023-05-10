@@ -9,7 +9,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @Api(tags = ["관리일지 관련 API"])
 @RestController
@@ -56,7 +55,7 @@ class ManagementController(
     @ApiOperation(value = "관리일지 작성")
     @PostMapping
     fun createManagement(
-        managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<MultipartFile>?
+        managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<String>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         val managementResponseDto = managementService.createManagement(
             clientId = JwtContextHolder.clientId!!.toLong(),
@@ -79,7 +78,7 @@ class ManagementController(
         @PathVariable("managementId") managementId: Long,
         managementRequestDto: ManagementRequestDto,
         @RequestParam(required = false) deleteList: List<Long>?,
-        @RequestParam(required = false) insertList: List<MultipartFile>?
+        @RequestParam(required = false) insertList: List<String>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         val managementResponseDto = managementService.modifyManagement(
             managementId = managementId,

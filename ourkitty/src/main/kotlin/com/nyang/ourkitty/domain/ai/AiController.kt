@@ -31,7 +31,6 @@ class AiController(
     @ApiOperation(value = "고양이 사진 전송")
     @PostMapping("/image")
     fun saveCatImage(@RequestBody imageRequestDto: ImageRequestDto): ResponseEntity<ResultDto<Boolean>> {
-        //FIXME : serialNum 위치 - DTO or PathVariable
         return ResponseEntity.ok(dishService.createDishImage(imageRequestDto))
     }
 

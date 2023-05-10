@@ -1,6 +1,5 @@
 package com.nyang.ourkitty.domain.report
 
-import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.ReportState
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
@@ -20,7 +19,6 @@ import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 @Transactional(readOnly = true)
@@ -32,12 +30,10 @@ class ReportService(
     private val clientRepository: ClientRepository,
 
     private val dishQuerydslRepository: DishQuerydslRepository,
-
-    private val imageUploader: AwsS3ImageUploader,
 ) {
 
     @Transactional
-    fun createReport(clientId: Long, locationCode: String, reportRequestDto: ReportRequestDto, files: List<MultipartFile>?): ResultDto<Boolean> {
+    fun createReport(clientId: Long, locationCode: String, reportRequestDto: ReportRequestDto, files: List<String>?): ResultDto<Boolean> {
         val client = getClientById(clientId)
         val dish = getDishById(reportRequestDto.dishId)
 
@@ -49,18 +45,12 @@ class ReportService(
 
         reportRepository.save(report)
 
-        if (files != null) {
-            val imagePaths = imageUploader.uploadImageList(files)
-
-            imagePaths
-                .map { imagePath ->
-                    ReportImageEntity(
-                        report = report,
-                        imagePath = imagePath,
-                    )
-                }
-                .map(reportImageRepository::save)
-        }
+        files?.map { imagePath ->
+            ReportImageEntity(
+                report = report,
+                imagePath = imagePath,
+            )
+        }?.forEach(reportImageRepository::save)
 
         return ResultDto(
             data = true,

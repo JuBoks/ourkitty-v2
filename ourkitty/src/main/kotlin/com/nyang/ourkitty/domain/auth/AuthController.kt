@@ -41,7 +41,6 @@ class AuthController(
     }
 
     /**
-     * TODO : 로그아웃
      */
     @ApiOperation(value = "로그아웃")
     @GetMapping("/logout")
