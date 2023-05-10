@@ -1,8 +1,25 @@
 package com.meyou.app.main
 
 data class ContentsMyDishList(
-    val dishProfileImagePath : String = "",
-    val dishName : String = "",
-    val dishAddress : String = "",
-    val dishId : Int = 0,
-    )
+    val data: List<Dish>,
+    val centerLat: Double,
+    val centerLong: Double
+)
+
+data class Dish(
+    val dishId: Int,
+    val dishName: String,
+    val dishProfileImagePath: String,
+    val dishLat: Double,
+    val dishLong: Double,
+    val dishAddress: String,
+    val locationCode: String,
+    val dishSerialNum: String,
+    val dishWeight: Int,
+    val dishBatteryState: Int,
+    val dishCatCount: Int,
+    val dishTnrCount: Int,
+    val isDeleted: Boolean,
+    val createdDate: String,
+    val updatedDate: String
+)

@@ -1,8 +1,11 @@
 package com.meyou.app.detailDish
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -90,6 +93,34 @@ class ReportActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Log.d("Spinner", "Nothing Selected")
+            }
+        }
+        val addButton: Button = findViewById(R.id.add)
+        addButton.setOnClickListener {
+            // 커스텀 뷰를 inflate합니다.
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_modal, null)
+
+            // TextView에 텍스트를 설정합니다.
+            val dialogMessage: TextView = dialogView.findViewById(R.id.dialogMessage)
+            dialogMessage.text = "작성된 내용을 신고 하시겠습니까?"
+
+            // AlertDialog를 생성합니다.
+            val customDialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .show()
+            customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            // 확인 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
+            dialogConfirmButton.setOnClickListener {
+                Log.d("Modal", "작성완료")
+                customDialog.dismiss()
+            }
+
+            // 취소 버튼에 대한 클릭 리스너를 설정합니다.
+            val dialogCancelButton: Button = dialogView.findViewById(R.id.dialogCancelButton)
+            dialogCancelButton.setOnClickListener {
+                customDialog.dismiss()
             }
         }
     }

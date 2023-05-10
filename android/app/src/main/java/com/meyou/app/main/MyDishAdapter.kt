@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.meyou.app.R
 import com.meyou.app.detailDish.tap1.DetailActivity
 
-class MyDishAdapter(val context: Context, val List : MutableList<ContentsMyDishList>) :
+class MyDishAdapter(val context: Context, val List : MutableList<Dish>) :
     RecyclerView.Adapter<MyDishAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDishAdapter.ViewHolder {
         var v = LayoutInflater.from(parent.context).inflate(R.layout.main_mydisy_list, parent, false)
@@ -26,7 +26,7 @@ class MyDishAdapter(val context: Context, val List : MutableList<ContentsMyDishL
         return List.size
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun bindItems(item : ContentsMyDishList) {
+        fun bindItems(item : Dish) {
             val rv_img = itemView.findViewById<ImageView>(R.id.dishImage)
             val rv_name = itemView.findViewById<TextView>(R.id.dishName)
             val rv_address = itemView.findViewById<TextView>(R.id.dishAddressText)
