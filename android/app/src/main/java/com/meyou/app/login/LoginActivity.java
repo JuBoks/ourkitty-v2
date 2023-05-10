@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.Manifest;
 
+import com.bumptech.glide.Glide;
 import com.meyou.app.MainActivity;
 import com.meyou.app.R;
 import com.meyou.app.network.Login.LoginApiService;
@@ -52,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ImageView cat = (ImageView) findViewById(R.id.CatGif);
+        Glide.with(this).load(R.raw.login_cat).into(cat);
 
         inputPhoneNum = findViewById(R.id.input_phone_num);
         sendSMSBt = findViewById(R.id.send_sms_button);
