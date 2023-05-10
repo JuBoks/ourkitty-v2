@@ -42,12 +42,6 @@ class ChartQuerydslRepository(
 //            .fetch()
     }
 
-    fun getDishWeightHeatMapData() {
-        queryFactory.select(dishImageEntity.dishImageId.coalesce(123L).`as`("ㄷㅊ라"))
-
-        TODO()
-    }
-
     fun getCatCountData(dishId: Long): List<DishCountResponseDto> {
         return queryFactory.select(
             Projections.constructor(

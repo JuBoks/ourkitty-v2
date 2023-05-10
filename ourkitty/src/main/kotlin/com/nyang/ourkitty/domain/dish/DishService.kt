@@ -51,7 +51,6 @@ class DishService(
         dishRequestDto: DishRequestDto,
         file: MultipartFile?
     ): ResultDto<DishResponseDto> {
-        //TODO : Entity 변환 과정에서 타입 미스매치 예외처리
         val dish = dishRequestDto.toEntity()
 
         if (dishRepository.existsByDishSerialNum(dish.dishSerialNum)) {
@@ -144,7 +143,6 @@ class DishService(
         val dish = getDishById(dishId)
         dish.delete()
         dishRepository.save(dish)
-        //TODO : save 과정에서 문제가 발생했을 때 false 를 반환해야 함, Transaction 공부해보기
 
         return ResultDto(
             data = true,

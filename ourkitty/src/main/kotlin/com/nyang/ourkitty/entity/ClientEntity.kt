@@ -51,18 +51,18 @@ class ClientEntity(
     }
 
     fun updateMyAccount(param: ClientEntity) {
-        this.clientPassword = param.clientPassword
         this.clientNickname = param.clientNickname
         this.clientAddress = param.clientAddress
+        if (param.clientPassword != "") this.clientPassword = param.clientPassword
     }
 
     fun updateAccount(param: ClientEntity) {
         this.clientEmail = param.clientEmail
-        this.clientPassword = param.clientPassword
         this.clientName = param.clientName
         this.clientNickname = param.clientNickname
         this.clientAddress = param.clientAddress
         this.clientPhone = param.clientPhone
+        if (param.clientPassword != "") this.clientPassword = param.clientPassword
     }
 
     fun deleteDish(clientDish: ClientDishEntity) {
