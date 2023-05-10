@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.entity
 
 import com.nyang.ourkitty.common.BatteryState
+import com.nyang.ourkitty.common.DishWeight
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -16,7 +17,7 @@ class DishTotalLogEntity(
 ) : BaseEntity() {
     val date: LocalDate = LocalDate.now()
     val batteryAmount: Int = BatteryState.values().first { it.code == dish.dishBatteryState }.amount
-    val foodAmount: Double = dish.dishWeight
+    val foodAmount: Int = DishWeight.values().first { it.code == dish.dishWeight }.amount
     val catCount: Int = dish.dishCatCount
     val tnrCount: Int = dish.dishTnrCount
 

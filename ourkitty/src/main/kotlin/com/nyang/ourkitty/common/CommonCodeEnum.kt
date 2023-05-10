@@ -109,3 +109,22 @@ enum class UserState(
     ;
 
 }
+
+enum class DishWeight(
+    val code: String,
+    val amount: Int,
+) {
+    ZERO("0120001", 0),
+    PERCENT_10("0120002", 10),
+    PERCENT_20("0120003", 20),
+    PERCENT_30("0120004", 30),
+    PERCENT_40("0120005", 40),
+    PERCENT_50("0120006", 50),
+    PERCENT_60("0120007", 60),
+    PERCENT_70("0120008", 70),
+    PERCENT_80("0120009", 80),
+    PERCENT_90("0120010", 90),
+    PERCENT_100("0120011", 100),
+    ;
+
+}

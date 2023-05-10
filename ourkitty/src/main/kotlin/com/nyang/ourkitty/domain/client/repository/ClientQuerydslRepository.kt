@@ -72,5 +72,13 @@ class ClientQuerydslRepository(
             .fetchOne()
     }
 
+    fun getClientByPhone(clientPhone: String): ClientEntity? {
+        return queryFactory.selectFrom(clientEntity)
+            .where(
+                clientEntity.clientPhone.eq(clientPhone)
+            )
+            .fetchOne()
+    }
+
 
 }

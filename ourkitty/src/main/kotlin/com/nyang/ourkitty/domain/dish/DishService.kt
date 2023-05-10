@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.domain.dish
 
 import com.nyang.ourkitty.common.AwsS3ImageUploader
+import com.nyang.ourkitty.common.DishWeight
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.ai.dto.CatCountRequestDto
 import com.nyang.ourkitty.domain.ai.dto.ImageRequestDto
@@ -58,7 +59,7 @@ class DishService(
         }
 
         dish.updateLocationCode(locationCode)
-        dish.updateDishWeight(100.0)
+        dish.updateDishWeight(DishWeight.PERCENT_100.code)
 
         if (file != null) {
             val imagePath = imageUploader.uploadImage(file)
@@ -117,7 +118,7 @@ class DishService(
     }
 
     @Transactional
-    fun updateDishWeight(dishSerialNum: String, dishWeight: Double, dishBatteryState: String): ResultDto<Boolean> {
+    fun updateDishWeight(dishSerialNum: String, dishWeight: String, dishBatteryState: String): ResultDto<Boolean> {
         val dish = getDishBySerialNum(dishSerialNum)
         // 새로 들어온 배터리 정보(0100005) - 이전 배터리 정보(0100004) == 1 --> 배터리 상승 --> noise 발생
         if (dishBatteryState.toInt() - dish.dishBatteryState.toInt() != 1) {

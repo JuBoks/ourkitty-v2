@@ -39,14 +39,14 @@ class ChartService(
         val startDate = LocalDate.now().dayOfMonth - 7
 
         val batteryAmountList: MutableList<Int> = MutableList(7) { 0 }
-        val foodAmountList: MutableList<Double> = MutableList(7) { 0.0 }
+        val foodAmountList: MutableList<Int> = MutableList(7) { 0 }
         val catCountList: MutableList<Int> = MutableList(7) { 0 }
         val noTnrCountList: MutableList<Int> = MutableList(7) { 0 }
 
         for (x in 0..6) {
             data.firstOrNull { it.date == startDate + x }.let {
                 batteryAmountList[x] = it?.batteryAmount ?: 0
-                foodAmountList[x] = it?.foodAmount ?: 0.0
+                foodAmountList[x] = it?.foodAmount ?: 0
                 catCountList[x] = it?.catCount ?: 0
                 noTnrCountList[x] = it?.noTnrCount ?: 0
             }

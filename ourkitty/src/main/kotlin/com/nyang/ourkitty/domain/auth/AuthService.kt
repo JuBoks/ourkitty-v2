@@ -56,4 +56,31 @@ class AuthService(
         )
     }
 
+    fun signInWithPhone(clientPhone: String): LoginResultDto<Any> {
+        val client = clientQuerydslRepository.getClientByPhone(clientPhone) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+
+        if (client.userState == UserState.비활성화.code) {
+            val block = blockQuerydslRepository.getBlockByClient(client)
+            return LoginResultDto(
+                code = "1",
+                data = LoginErrorResponseDto(
+                    clientDescription = client.clientDescription,
+                    unBlockDate = block?.unBlockDate ?: LocalDateTime.now(),
+                )
+            )
+        } else if (client.userState == UserState.탈퇴.code) {
+            return LoginResultDto(
+                code = "2",
+                data = LoginErrorResponseDto(
+                    clientDescription = client.clientDescription,
+                )
+            )
+        }
+
+        return LoginResultDto(
+            code = "0",
+            data = tokenProvider.createToken(client),
+        )
+    }
+
 }

@@ -21,7 +21,7 @@ class JwtTokenProvider(
     private val log = LogFactory.getLog(JwtTokenProvider::class.java)!!
 
     companion object {
-        private const val ACCESS_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 30
+        private const val ACCESS_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 60 * 2
         private const val REFRESH_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 60 * 24 * 7
     }
 

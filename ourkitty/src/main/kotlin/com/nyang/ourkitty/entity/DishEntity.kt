@@ -1,6 +1,7 @@
 package com.nyang.ourkitty.entity
 
 import com.nyang.ourkitty.common.BatteryState
+import com.nyang.ourkitty.common.DishWeight
 import javax.persistence.*
 
 @Entity
@@ -18,7 +19,7 @@ class DishEntity(
     var locationCode: String = "",
     var dishLat: Double = 0.0,
     var dishLong: Double = 0.0,
-    var dishWeight: Double = 0.0,
+    var dishWeight: String = DishWeight.PERCENT_100.code,
     var dishBatteryState: String = BatteryState.PERCENT_100.code,
     var dishCatCount: Int = 0,
     var dishTnrCount: Int = 0,
@@ -32,7 +33,7 @@ class DishEntity(
         this.locationCode = locationCode
     }
 
-    fun updateDishWeight(dishWeight: Double) {
+    fun updateDishWeight(dishWeight: String) {
         this.dishWeight = dishWeight
     }
 

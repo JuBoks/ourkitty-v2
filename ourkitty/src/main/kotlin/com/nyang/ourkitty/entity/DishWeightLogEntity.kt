@@ -9,7 +9,7 @@ class DishWeightLogEntity(
     @JoinColumn(name = "dish_id")
     val dish: DishEntity,
 
-    val dishWeight: Double,
+    val dishWeight: String,
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishWeightLogId: Long? = null,
