@@ -18,7 +18,10 @@
         android:orientation="vertical"
         android:padding="15dp"
         tools:context=".MainActivity">
-
+        <com.naver.maps.map.MapView
+            android:id="@+id/navermap_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="340dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2dp"

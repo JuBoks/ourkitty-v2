@@ -12,13 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
 import com.meyou.app.network.RetrofitInstance
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.MapView
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainFragment : Fragment() {
+
+class MainFragment : Fragment(), OnMapReadyCallback {
 
     private var dishList = mutableListOf<Dish>()
+    private lateinit var mapView: MapView
+    private lateinit var naverMap: NaverMap
+    private val marker = Marker()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,7 +77,17 @@ class MainFragment : Fragment() {
         // 뒤로가기 버튼을 비활성화합니다.
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
+//        mapView = rootView.findViewById(com.naver.maps.map.R.id.navermap_map_view)
+//        mapView.onCreate(savedInstanceState)
+//        mapView.getMapAsync(this)
+
         return rootView
+    }
+
+    override fun onMapReady(p0: NaverMap) {
+        this.naverMap = naverMap
+        marker.position = LatLng(37.5670135, 126.9783740)
+        marker.map = naverMap
     }
 }
 
