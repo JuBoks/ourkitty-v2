@@ -1,4 +1,5 @@
 import axios from "axios";
+import { error } from "console";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -26,6 +27,22 @@ const axiosAuthApi = (baseURL: any) => {
     },
     (error) => {
       return Promise.reject(error);
+    }
+  );
+
+  instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async (error) => {
+      const {
+        config,
+        response: { status },
+      } = error;
+      if (status === 403) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      }
     }
   );
 

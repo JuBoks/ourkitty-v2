@@ -80,7 +80,7 @@ export default function Main() {
               <div>아이디</div>
               <div>비밀번호</div>
             </div>
-            <div className="flex flex-col gap-7 w-[300px] h-[60px] mt-[5%]">
+            <div className="flex flex-col gap-7 w-[300px] h-[60px] mt-[4%]">
               <input
                 type="text"
                 value={userId}
@@ -88,14 +88,14 @@ export default function Main() {
                 className="pl-2 rounded-lg py-2"
               />
               <input
-                type="text"
+                type="password"
                 value={userPw}
                 onChange={handlePassword}
                 className="pl-2 rounded-lg py-2"
               />
             </div>
             <button
-              className="w-[100px] h-[80px] bg-DarkMainHover text-[1.3rem] text-white font-bold mt-[7%] rounded-xl hover:bg-DarkMain"
+              className="w-[100px] h-[80px] bg-DarkMainHover text-[1.3rem] text-white font-bold mt-[5%] rounded-xl hover:bg-DarkMain"
               onClick={handleLogin}
             >
               로그인
