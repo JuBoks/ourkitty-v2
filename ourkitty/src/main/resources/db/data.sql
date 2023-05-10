@@ -50,87 +50,10 @@ VALUES (1, '미현이네', 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/ani
         now());
 
 INSERT INTO `client_dish_table`
-VALUES (1, 2, 1, false, now(), now()),
-       (2, 3, 1, false, now(), now()),
-       (3, 1, 2, false, now(), now()),
-       (4, 1, 3, false, now(), now());
-
-INSERT INTO `dish_image_table`
-VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-02 00:00:00',
-        '2023-05-07 17:00:00'),
-       (2, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 01:30:00',
-        '2023-05-07 17:00:00'),
-       (3, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 02:00:00',
-        '2023-05-07 17:00:00'),
-       (4, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 02:10:00',
-        '2023-05-07 17:00:00'),
-       (5, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 02:50:00',
-        '2023-05-07 17:00:00'),
-       (6, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 03:00:00',
-        '2023-05-07 17:00:00'),
-       (7, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-02 00:30:00',
-        '2023-05-07 17:00:00'),
-       (8, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 05:00:00',
-        '2023-05-07 17:00:00'),
-       (9, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 06:00:00',
-        '2023-05-07 17:00:00'),
-       (10, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 07:00:00',
-        '2023-05-07 17:00:00'),
-       (11, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 08:00:00',
-        '2023-05-07 17:00:00'),
-       (12, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 09:00:00',
-        '2023-05-07 17:00:00'),
-       (13, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 10:00:00',
-        '2023-05-07 17:00:00'),
-       (14, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 11:00:00',
-        '2023-05-07 17:00:00'),
-       (15, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 12:00:00',
-        '2023-05-07 17:00:00'),
-       (16, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 13:00:00',
-        '2023-05-07 17:00:00'),
-       (17, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 14:00:00',
-        '2023-05-07 17:00:00'),
-       (18, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 15:00:00',
-        '2023-05-07 17:00:00'),
-       (19, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 16:00:00',
-        '2023-05-07 17:00:00'),
-       (20, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 17:00:00',
-        '2023-05-07 17:00:00'),
-       (21, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 18:00:00',
-        '2023-05-07 17:00:00'),
-       (22, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 19:00:00',
-        '2023-05-07 17:00:00'),
-       (23, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 20:00:00',
-        '2023-05-07 17:00:00'),
-       (24, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 21:00:00',
-        '2023-05-07 17:00:00'),
-       (25, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 22:00:00',
-        '2023-05-07 17:00:00'),
-       (26, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-07 23:00:00',
-        '2023-05-07 17:00:00'),
-       (27, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 00:00:00',
-        '2023-05-07 17:00:00'),
-       (28, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 01:00:00',
-        '2023-05-07 17:00:00'),
-       (29, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 23:50:00',
-        '2023-05-07 17:00:00'),
-       (30, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-09 00:30:00',
-        '2023-05-07 17:00:00'),
-       (31, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 10:10:00',
-        '2023-05-07 17:00:00'),
-       (32, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 10:40:00',
-        '2023-05-07 17:00:00'),
-       (33, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 12:00:00',
-        '2023-05-07 17:00:00'),
-       (34, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 12:10:00',
-        '2023-05-07 17:00:00'),
-       (35, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 12:20:00',
-        '2023-05-07 17:00:00'),
-       (36, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, '2023-05-08 12:30:00',
-        '2023-05-07 17:00:00'),
-       (37, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (38, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (39, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
+VALUES (1, 1, 1, false, now(), now()),
+       (2, 1, 2, false, now(), now()),
+       (3, 3, 2, false, now(), now()),
+       (4, 4, 3, false, now(), now());
 
 INSERT INTO `dish_count_log_table`
 VALUES (1, 1, '2023-05-08', 5, 4, false, now(), now()),
@@ -169,38 +92,38 @@ VALUES (1, 1, '2023-05-02', 100, 70, 5, 3, false, now(), now()),
        (23, 2, '2023-05-09', 70, 60, 6, 4, false, now(), now()),
        (24, 3, '2023-05-09', 70, 60, 6, 4, false, now(), now());
 
-INSERT INTO `management_table`
-VALUES (1, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (2, 2, 1, '고양이 커여웡', '0030002', '0020001', false, now(), now()),
-       (3, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (4, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (5, 2, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (6, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (7, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (8, 2, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
-       (9, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now());
+-- INSERT INTO `management_table`
+-- VALUES (1, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (2, 2, 1, '고양이 커여웡', '0030002', '0020001', false, now(), now()),
+--        (3, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (4, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (5, 2, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (6, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (7, 1, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (8, 2, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now()),
+--        (9, 3, 1, '고양이 커여웡', '0030001', '0020001', false, now(), now());
 
-INSERT INTO `management_comment_table`
-VALUES (1, 1, 1, '고양이 짱커여웡', false, now(), now());
+-- INSERT INTO `management_comment_table`
+-- VALUES (1, 1, 1, '고양이 짱커여웡', false, now(), now());
 
-INSERT INTO `management_image_table`
-VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (4, 3, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
+-- INSERT INTO `management_image_table`
+-- VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+--        (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+--        (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+--        (4, 3, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
 
-INSERT INTO `report_table`
-VALUES (1, 1, 1, '신고1', '0040001', '고양이 아파', '처방전1', '0020001', '0050001', false, now(), now()),
-       (2, 1, 2, '신고2', '0040001', '고양이 아파', '처방전2', '0020001', '0050002', false, now(), now()),
-       (3, 1, 3, '신고3', '0040002', '밥통 사라졌음', '', '0020001', '0050001', false, now(), now());
+-- INSERT INTO `report_table`
+-- VALUES (1, 1, 1, '신고1', '0040001', '고양이 아파', '처방전1', '0020001', '0050001', false, now(), now()),
+--        (2, 1, 2, '신고2', '0040001', '고양이 아파', '처방전2', '0020001', '0050002', false, now(), now()),
+--        (3, 1, 3, '신고3', '0040002', '밥통 사라졌음', '', '0020001', '0050001', false, now(), now());
 
 -- INSERT INTO `report_comment_table`
 -- VALUES (1, 2, 2, '병원 데려갈게요', false, now(), now());
 
-INSERT INTO `report_image_table`
-VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
-       (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
+-- INSERT INTO `report_image_table`
+-- VALUES (1, 1, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+--        (2, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now()),
+--        (3, 2, 'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png', false, now(), now());
 
 INSERT INTO `alert_table`
 VALUES (1, '0080001', '관리일지알림', 2, null, null, '0060001', false, now(), now()),
