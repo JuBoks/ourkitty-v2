@@ -86,7 +86,7 @@ export default function MyDishKakaoMap() {
         width: "100%",
         height: "100%",
       }}
-      level={5}
+      level={8}
       onClick={handleMarkerClose}
     >
       {data.data.map((item: detailData, index: number) => {
