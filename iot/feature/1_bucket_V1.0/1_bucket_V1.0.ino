@@ -42,9 +42,9 @@ String serverName = "k8e203.p.ssafy.io";  // 아이피 주소 기입
 
 // String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
 // String serialNumber = "EZZwEhRzzs9LvyZ";  // 정호네
-// String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
+String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
 
-String serialNumber = "serial-1234-0001";
+// String serialNumber = "serial-1234-0001";
 String serverPath = "/api/iot/weight";  // serverPath 기입
 
 
@@ -74,7 +74,8 @@ String sendData(String sonar_data, String code);
 String checkBucket();
 String checkBattery();
 
-long start_time;
+long start_time = 0;
+long feed_time = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -88,7 +89,7 @@ void setup() {
   pwm.setPWM(servonum, 0, DOOR_CLOSE);
 
   // pin config
-  pinMode(MOTOR_ENABLE, INPUT_PULLUP);
+  pinMode(MOTOR_ENABLE, INPUT);
 
   WiFi.mode(WIFI_STA);
   Serial.println();
@@ -115,18 +116,19 @@ void setup() {
 
 void loop() {
   long time_now = millis();
-  if (!digitalRead(MOTOR_ENABLE)) {
+  if (digitalRead(MOTOR_ENABLE) && time_now - feed_time > 900000) {
     Serial.println("motor enable");
     pwm.setPWM(servonum, 0, DOOR_OPEN);
     // 사료출구 열려있는 시간. 사료량을 이 값으로 조절
     delay(600);
     pwm.setPWM(servonum, 0, DOOR_CLOSE);
+    feed_time = time_now;
   }
   if (time_now - start_time > 300000) {
     sendData(checkBucket(), checkBattery());
-    start_time = millis();
+    start_time = time_now;
   }
-  delay(100);
+  delay(5000);
 }
 
 // 통신코드. 바디를 생성해서 넣어주면 알아서 작동
