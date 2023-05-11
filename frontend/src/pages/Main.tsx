@@ -69,9 +69,9 @@ export default function Main() {
         ) : category[3] ? (
           <DishDetail />
         ) : category[4] ? (
-          <Report />
-        ) : (
           <Chart />
+        ) : (
+          <Report />
         )
       ) : (
         <div className="w-full h-full ml-[10%]">

@@ -138,10 +138,8 @@ export default function Header() {
             } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(4)}
           >
-            <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-            <div className="h-[60px] text-[1.5rem] text-white mt-2">
-              민원 관리
-            </div>
+            <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
           </div>
           <div
             className={`${
@@ -149,9 +147,10 @@ export default function Header() {
             } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(5)}
           >
-            <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
-            <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
-          </div>
+          <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
+            <div className="h-[60px] text-[1.5rem] text-white mt-2">
+              민원 관리
+            </div>          </div>
           <div className="w-full h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
             <div
               title="로그아웃"
