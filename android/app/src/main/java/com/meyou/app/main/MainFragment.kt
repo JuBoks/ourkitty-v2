@@ -18,12 +18,13 @@ import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ted.gun0912.clustering.naver.TedNaverClustering
 
 
 class MainFragment : Fragment(), OnMapReadyCallback {
@@ -31,13 +32,16 @@ class MainFragment : Fragment(), OnMapReadyCallback {
     private var dishList = mutableListOf<Dish>()
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
-    private val marker = Marker()
     private var centerLat = 0.0
     private var centerLong = 0.0
-
+    private lateinit var mContext: Context
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context?.let {
+            mContext = it
+        }
 
         val dishData = view.findViewById<RecyclerView>(R.id.rv)
         val dishAdapter = MyDishAdapter(requireContext(), dishList)
@@ -63,51 +67,15 @@ class MainFragment : Fragment(), OnMapReadyCallback {
 
                     // 어댑터에게 데이터가 변경되었음을 알립니다.
                     dishAdapter.notifyDataSetChanged()
+
+                    // 지도 중심좌표 설정
                     centerLat = response.body()!!.centerLat
                     centerLong = response.body()!!.centerLong
-                    val cameraPosition = CameraPosition(
-                        LatLng(centerLat, centerLong),  // 위치 지정
-                        14.0 // 줌 레벨
-                    )
-                    // 지도 중심좌표 재설정
-                    naverMap.setCameraPosition(cameraPosition);
 
-                    var marker1 = Marker()
-                    var marker2 = Marker()
-                    var marker3 = Marker()
+                    mapView = view.findViewById(com.naver.maps.map.R.id.navermap_map_view)
+                    mapView.onCreate(savedInstanceState)
+                    mapView.getMapAsync(this@MainFragment)
 
-                    marker1.position = LatLng(dishList[0].dishLat, dishList[0].dishLong)
-                    marker1.captionText = dishList[0].dishName
-                    marker2.position = LatLng(dishList[1].dishLat, dishList[1].dishLong)
-                    marker2.captionText = dishList[1].dishName
-                    marker3.position = LatLng(dishList[2].dishLat, dishList[2].dishLong)
-                    marker3.captionText = dishList[2].dishName
-
-                    if (dishList[0].dishWeight < 30) {
-                        marker1.icon = OverlayImage.fromResource(R.drawable.red_marker)
-                    } else if (dishList[0].dishWeight < 70) {
-                        marker1.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
-                    } else {
-                        marker1.icon = OverlayImage.fromResource(R.drawable.blue_marker)
-                    }
-                    if (dishList[1].dishWeight < 30) {
-                        marker2.icon = OverlayImage.fromResource(R.drawable.red_marker)
-                    } else if (dishList[1].dishWeight < 70) {
-                        marker2.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
-                    } else {
-                        marker2.icon = OverlayImage.fromResource(R.drawable.blue_marker)
-                    }
-                    if (dishList[2].dishWeight < 30) {
-                        marker3.icon = OverlayImage.fromResource(R.drawable.red_marker)
-                    } else if (dishList[2].dishWeight < 70) {
-                        marker3.icon = OverlayImage.fromResource(R.drawable.yellow_marker)
-                    } else {
-                        marker3.icon = OverlayImage.fromResource(R.drawable.blue_marker)
-                    }
-
-                    marker1.map = naverMap
-                    marker2.map = naverMap
-                    marker3.map = naverMap
                 } else {
                     // 응답이 성공적으로 오지 않았을 때의 처리를 해야 합니다.
                 }
@@ -117,7 +85,10 @@ class MainFragment : Fragment(), OnMapReadyCallback {
             override fun onFailure(call: Call<ContentsMyDishList>, t: Throwable) {
                 // 예를 들어 네트워크 연결이 없는 등의 이유로 요청이 실패했을 때의 처리를 해야 합니다.
             }
+
         })
+
+
     }
 
     override fun onCreateView(
@@ -130,20 +101,37 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         // 뒤로가기 버튼을 비활성화합니다.
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        mapView = rootView.findViewById(com.naver.maps.map.R.id.navermap_map_view)
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
-
         return rootView
     }
 
     override fun onMapReady(@NonNull naverMap: NaverMap) {
         this.naverMap = naverMap
+        val cameraPosition = CameraPosition(
+            LatLng(centerLat, centerLong),  // 위치 지정
+            11.0 // 줌 레벨
+        )
+        // 지도 중심좌표 재설정
+        updateMarker(dishList)
+        naverMap.setCameraPosition(cameraPosition);
+    }
 
-//        marker.position = LatLng(37.5670135, 126.9783740)
-//        marker.map = naverMap
+    private fun updateMarker(dish: List<Dish>) {
+        TedNaverClustering.with<Dish>(mContext, naverMap).customMarker {
+            Marker().apply {
+                icon = when {
+                    it.dishWeight < 30 -> OverlayImage.fromResource(R.drawable.red_marker)
+                    it.dishWeight < 70 -> OverlayImage.fromResource(R.drawable.yellow_marker)
+                    else -> OverlayImage.fromResource(R.drawable.blue_marker)
+                }
+                width = 150
+                height = 150
+                captionText = it.dishName
+            }
+        }.items(dish).make()
+
     }
 }
+
 
 
 

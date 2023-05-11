@@ -25,6 +25,8 @@ class SplashActivity : AppCompatActivity() {
 
         val service = retrofitInstance.getDishList()
 
+        val mActionBar = supportActionBar
+        mActionBar!!.hide()
 
         // 2초 후에 실행될 코드 설정
         Handler().postDelayed({

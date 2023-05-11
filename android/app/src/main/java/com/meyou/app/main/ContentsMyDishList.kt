@@ -1,5 +1,9 @@
 package com.meyou.app.main
 
+import ted.gun0912.clustering.clustering.TedClusterItem
+import ted.gun0912.clustering.geometry.TedLatLng
+import java.io.Serializable
+
 data class ContentsMyDishList(
     val data: List<Dish>,
     val centerLat: Double,
@@ -27,4 +31,8 @@ data class Dish(
     val isDeleted: Boolean,
     val createdDate: String,
     val updatedDate: String
-)
+):Serializable, TedClusterItem {
+    override fun getTedLatLng(): TedLatLng {
+        return TedLatLng(dishLat, dishLong)
+    }
+}
