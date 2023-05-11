@@ -22,10 +22,20 @@ import News03 from "../assets/news03.png";
 import News04 from "../assets/news04.png";
 
 export default function Landing() {
+
+    // Create a new Date object with today's date
+    const today = new Date(); 
+    const dates = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() - (index +1) );
+      const dayString = date.toLocaleDateString('ko-KR', { day: 'numeric' });
+      return `${date.toLocaleDateString('ko-KR', { month: 'short' })} ${dayString}`;
+    }).reverse();
+
   const series = [
     {
       name: "전체",
-      data: [6, 7, 7, 7, 8, 10, 12],
+      data: [12, 13, 9, 7, 5, 7, 3],
     },
     {
       name: "중성화 X",
@@ -261,8 +271,116 @@ export default function Landing() {
             <img src={Haeundae} alt="" className="h-20 mx-auto" />
           </div>
         </div>
+        {/* 길고양이 관련 뉴스 */}
+        <div data-aos="zoom-in" className="mt-40 text-center">
+          <h1 className="text-black text-2xl font-semibold">
+          <span className="text-yellow-500">길고양이 </span> 관련 최근 뉴스
+          </h1>
+        </div>
+        <div
+          data-aos="zoom-in-up"
+          className="my-14 flex flex-col lg:flex-row lg:space-x-20"
+        >
+          <div className="lg:w-6/12">
+            <img className="w-full mb-6 rounded-xl" src={News01} alt="" />
+            <a
+              href="https://www.seoul.co.kr/news/newsView.php?id=20221007015004"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <h1 className="text-gray-800 font-semibold my-3 text-xl cursor-pointer">
+                <span className="hover:border-b-[2px]">
+                  [단독] 수술대에서 죽은 아기 고양이… 포획업자·수의사 통장엔 나랏돈 꽂혔다
+                </span>
+              </h1>
+            </a>
+            <p
+              className="content-detail text-gray-500 mb-3 w-full overflow-hidden"
+              dangerouslySetInnerHTML={{
+                __html: `<div>지난해 목포시가 위탁해 5개 동물병원이 중성화 수술을 한 길고양이 325마리 중 약 27%(87마리)가 임신묘 등 규정상 수술하면 안 되는 대상이었다.</div>`,
+              }}
+            ></p>
+          </div>
+          <div className="lg:w-7/12 flex flex-col justify-between mt-12 space-y-5 lg:space-y-0 lg:mt-0">
+            <div className="flex space-x-5">
+              <div className="w-4/12">
+                <div className="relative">
+                  <img className="rounded-xl w-full" src={News02} alt="" />
+                </div>
+              </div>
+              <div className="w-8/12">
+                <a
+                  href="https://www.iusm.co.kr/news/articleView.html?idxno=955985"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      10년째 TNR 하면서 ‘개체 수 조사’도 없었다
+                    </span>
+                  </h1>
+                </a>
+                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
+                현재 길고양이 목시조사는 정해진 장소에서 5회 이상, 1회에 3∼4시간씩 눈으로 관찰해 기록하는 방법으로 이뤄지고 있다.
+                </p>
+              </div>
+            </div>
+            <div className="flex space-x-5">
+              <div className="w-4/12">
+                <div className="relative">
+                  <img className="rounded-xl w-full" src={News03} alt="" />
+                </div>
+              </div>
+              <div className="w-8/12">
+                <a
+                  href="http://www.joongboo.com/news/articleView.html?idxno=363589741"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      농식품부, 길고양이 중성화 효과성·전문성 강화
+                    </span>
+                  </h1>
+                </a>
+                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
+                농림축산식품부는 길고양이 개체 수 조절을 위해 길고양이 중성화(TNR) 사업의 개선방안을 3.10.(금) 발표하였다.
+                - 정부는 중성화 사업을 통해 ’18~22년까지 길고양이 35만 8천여 마리에 대해 중성화를 실시하였고, 
+                7대 특·광역시(세종 제외)의 길고양이 개체 수(㎢당 마릿수)를 조사한 결과 
+                길고양이 숫자는 ’20년도 273마리에서 ’22년도 233마리로 감소하였으며, 자묘(새끼 고양이)의 비율은 ’20년도 29.7%에서 ’22년도 19.6%로 감소한 것으로 파악되었음.
+                </p>
+              </div>
+            </div>
+            <div className="flex space-x-5">
+              <div className="w-4/12">
+                <div className="relative">
+                  <img className="rounded-xl w-full" src={News04} alt="" />
+                </div>
+              </div>
+              <div className="w-8/12">
+                <a
+                  href="http://www.civicnews.com/news/articleView.html?idxno=35273"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
+                    <span className="hover:border-b-[2px]">
+                      길냥이들의 보금자리 설치로 입주민-길고양이 서로 ‘윈윈’
+                    </span>
+                  </h1>
+                </a>
+                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
+                  길고양이가 차를 긁거나 지나가는 시민에게 공격을 하는 등의
+                  피해를 입히는 경우가 계속 발생하고 있다. 그런 가운데 몇몇
+                  아파트는 길고양이들의 보금자리를 설치해 입주민들의 피해가
+                  오히려 줄었다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* 하는 일 */}
-        <div data-aos="flip-up" className="max-w-xl mx-auto text-center mt-24">
+        <div data-aos="flip-up" className="max-w-xl mx-auto text-center mt-48">
           <h1 className="font-bold text-black my-3 text-2xl">
             냥그릇은 <span className="text-yellow-500">어떤 일</span>을 하나요?
           </h1>
@@ -282,10 +400,10 @@ export default function Landing() {
             >
               <img src={CatFood} alt="" className="w-8 h-8" />
             </div>
-            <h1 className="text-xl mb-3 lg:px-14 text-black font-bold">
+            <h1 className="text-xl mb-8 lg:px-14 text-black font-bold">
               길고양이 자동 급식소
             </h1>
-            <p className="px-4 text-gray-500 text-center">
+            <p className="px-4 text-sm text-gray-500 text-left">
               무분별한 급식소 운영으로 인한 갈등을 줄이고자 지자체와의 사회적
               합의를 통해 위치를 지정하고, 관리인을 선별하여 급식소가 방치되지
               않게 지속적인 관리를 목적으로 하고 있습니다.
@@ -302,13 +420,12 @@ export default function Landing() {
             >
               <img src={SittingCat} alt="" className="w-8 h-8" />
             </div>
-            <h1 className="text-xl mb-3 lg:px-14 text-black font-bold">
-              자동 개체수 파악
+            <h1 className="text-xl mb-8 lg:px-14 text-black font-bold">
+              개체 수 파악 자동화
             </h1>
-            <p className="px-4 text-gray-500">
-              이미지 분류 기술을 통해 길고양이들의 개체 수를 파악하고, 고도화된
-              AI 모델을 통해 길고양이들의 중성화 여부를 판단해줍니다. 차트를
-              통해 시각화하여 관리 편의성을 높여주는 것을 목적으로 하고
+            <p className="px-4 text-sm text-gray-500 text-left">
+              AI 모델을 통해 길고양이들의 개체 수와 중성화 여부를 판단해줍니다. 
+              차트를 통해 시각화하여 관리 편의성을 높여주는 것을 목적으로 하고
               있습니다.
             </p>
           </div>
@@ -322,17 +439,17 @@ export default function Landing() {
             >
               <img src={People} alt="" className="w-8 h-8" />
             </div>
-            <h1 className="text-xl mb-3 lg:px-14 text-black font-bold">
+            <h1 className="text-xl mb-8 lg:px-14 text-black font-bold">
               실시간 소통
             </h1>
-            <p className="px-4 text-gray-500 text-center">
-              "냥그릇" 어플 이용자들간의 실시간 커뮤니티 기능을 통해
+            <p className="px-4 text-gray-500 text-sm text-left">
+              "냥그릇" 어플로 이용자들간의 실시간 커뮤니티 기능을 통해
               길고양이들의 현재 상태를 공유하고 이용자들간의 유대감을 쌓을뿐만
               아니라 쉽고 간단한 절차를 통해 관리자와도 소통할 수 있습니다.
             </p>
           </div>
         </div>
-        <div className="mt-28">
+        <div className="mt-36">
           <div
             data-aos="flip-down"
             className="text-center max-w-screen-md mx-auto"
@@ -384,18 +501,19 @@ export default function Landing() {
           </div>
         </div>
         {/* 차트 */}
-        <div className="sm:flex items-center sm:space-x-8 mt-36">
-          <div data-aos="fade-right" className="sm:w-1/2 relative">
+        <div className="sm:flex items-center sm:space-x-8 mt-36 mb-36">
+          <div data-aos="fade-right" className="sm:w-1/2 relative ml-12">
             <div className="bg-yellow-500 rounded-full absolute w-12 h-12 z-0 -left-4 -top-3 animate-pulse" />
-            <h1 className="font-semibold text-2xl relative z-50 text-black lg:pr-10">
+            <h1 className="font-semibold text-2xl relative z-50 text-black lg:pr-10 mb-8">
               2023년 5월 3째 주{" "}
               <span className="text-yellow-500">개체수 현황</span>
             </h1>
             <p className="py-5 lg:pr-32">
-              해운대구에 설치된 냥그릇 개체 수 현황입니다.
+              <span className="text-yellow-500 font-bold text-2xl">해운대구</span>
+              에 설치된 냥그릇이 파악한 길고양이 개체 수 <br/> 및 중성화 수 현황입니다.
             </p>
             <p className="py-5 lg:pr-32">
-              좌측 상단 아이콘 버튼을 클릭하면 개체 수 현황 정보를 이미지 또는
+              우측 상단 버튼(≡)을 클릭하면 개체 수 현황 정보를 이미지 또는
               엑셀 파일로 다운로드 할 수 있습니다.
             </p>
             <span className="underline">더보기</span>
@@ -440,16 +558,7 @@ export default function Landing() {
                     },
                   },
                   xaxis: {
-                    categories: [
-                      "11일",
-                      "12일",
-                      "13일",
-                      "14일",
-                      "15일",
-                      "16일",
-                      "17일",
-                      "18일",
-                    ],
+                    categories: dates,
                     labels: {
                       style: {
                         colors: "black",
@@ -469,7 +578,7 @@ export default function Landing() {
             <div className="bg-yellow-500 w-40 h-40 animate-floating absolute rounded-lg z-10 -bottom-3 -right-3" />
           </div>
         </div>
-        {/* 중성화 실태 */}
+        {/* 중성화 실태
         <div className="md:flex mt-40 md:space-x-10 items-start">
           <div data-aos="fade-down" className="md:w-7/12 relative">
             <div
@@ -544,9 +653,9 @@ export default function Landing() {
               <p>포획 후 협약된 인근 동물병원에서 중성화 완료 후 풀어줍니다.</p>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* 기술 전체 */}
-        <div className="mt-24 flex flex-col md:flex-row items-start md:space-x-10">
+        <div className="mt-24 mb-32 flex flex-col md:flex-row items-start md:space-x-10">
           <div data-aos="zoom-in-right" className="md:w-6/12">
             <img
               className="w-full h-[35vh] md:w-12/12 mx-auto"
@@ -584,122 +693,6 @@ export default function Landing() {
             <button className="px-5 py-3 border border-yellow-500 text-yellow-500 font-medium my-4 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out rounded-full">
               사용기술 전체
             </button>
-          </div>
-        </div>
-        {/* 길고양이 관련 뉴스 */}
-        <div data-aos="zoom-in" className="mt-40 text-center">
-          <h1 className="text-black text-2xl font-semibold">
-            길고양이 관련 최근 뉴스
-          </h1>
-        </div>
-        <div
-          data-aos="zoom-in-up"
-          className="my-14 flex flex-col lg:flex-row lg:space-x-20"
-        >
-          <div className="lg:w-6/12">
-            <img className="w-full mb-6 rounded-xl" src={News01} alt="" />
-            <a
-              href="https://www.hankyung.com/society/article/2023050317677"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <h1 className="text-gray-800 font-semibold my-3 text-xl cursor-pointer">
-                <span className="hover:border-b-[2px]">
-                  "캣맘 싫어서"…인천 길고양이 급식소 훼손한 중학생 검거
-                </span>
-              </h1>
-            </a>
-            <p
-              className="content-detail text-gray-500 mb-3 w-full overflow-hidden"
-              dangerouslySetInnerHTML={{
-                __html: `<div>인천의 한 중학생이 길고양이 급식소를 둔기로 파손하는 일이 벌어졌다. 3일 경찰 등에 따르면 인천 서부경찰서는 길고양이 급식소를 둔기로 파손한 혐의(특수재물손괴)로 중학생 A 군(14)을 불구속 입건해 검찰에 송치했다. A 군은 지난 2월 인천시 서구 청라동의 한 아파트 단지에서 쇠 파이프를 휘둘러 길고양이 급식소 2개를 잇달아 훼손한 혐의를 받는다.</div>`,
-              }}
-            ></p>
-          </div>
-          <div className="lg:w-7/12 flex flex-col justify-between mt-12 space-y-5 lg:space-y-0 lg:mt-0">
-            <div className="flex space-x-5">
-              <div className="w-4/12">
-                <div className="relative">
-                  <img className="rounded-xl w-full" src={News02} alt="" />
-                </div>
-              </div>
-              <div className="w-8/12">
-                <a
-                  href="https://www.chosun.com/national/weekend/2023/04/29/P3UGS5FWPNBDREXH5ZGQAQ424M/?utm_source=naver&utm_medium=referral&utm_campaign=naver-news"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                    <span className="hover:border-b-[2px]">
-                      길고양이와 공존하는 법
-                    </span>
-                  </h1>
-                </a>
-                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
-                  서울 강남의 한 아파트 단지에 설치된 길고양이 급식소.
-                  길고양이에게 밥을 주는 사람을 지칭하는 ‘캣맘’이 약속된 시간에
-                  먹이를 갖다 놓자, 잠시 후 길고양이가 와서 맛있게 밥을 먹는다.
-                  아파트 단지 안에 이렇게 길고양이 급식소를 들이는 과정은 간단치
-                  않다. 아파트 대표 회의에서 과반수의 동의를 얻고 나면
-                  지자체에서는 관리자로 캣맘을 지정하고 교육한다. 설치 후에도
-                  캣맘은 급식소로 찾아오는 길고양이의 중성화 수술을 도와야 한다.
-                </p>
-              </div>
-            </div>
-            <div className="flex space-x-5">
-              <div className="w-4/12">
-                <div className="relative">
-                  <img className="rounded-xl w-full" src={News03} alt="" />
-                </div>
-              </div>
-              <div className="w-8/12">
-                <a
-                  href="http://www.joongboo.com/news/articleView.html?idxno=363589741"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                    <span className="hover:border-b-[2px]">
-                      길고양이 급식소 설치… 주민들끼리 날선 신경전
-                    </span>
-                  </h1>
-                </a>
-                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
-                  최근 일부 아파트 단지를 드나드는 길고양이의 관리 문제를 두고
-                  주민들이 이견을 보이고 있다. 27일 중부일보 취재진이 수원시 내
-                  아파트 단지들을 살펴본 결과, 다수의 단지에 길고양이를 위한
-                  보금자리와 급식소가 설치돼 있었다. 이와 함께 단지를
-                  돌아다니거나 화단에 앉아 있고, 설치된 급식소로 들어가는
-                  길고양이들도 목격됐다.
-                </p>
-              </div>
-            </div>
-            <div className="flex space-x-5">
-              <div className="w-4/12">
-                <div className="relative">
-                  <img className="rounded-xl w-full" src={News04} alt="" />
-                </div>
-              </div>
-              <div className="w-8/12">
-                <a
-                  href="http://www.civicnews.com/news/articleView.html?idxno=35273"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <h1 className="text-gray-800 text-sm sm:text-lg font-semibold">
-                    <span className="hover:border-b-[2px]">
-                      길냥이들의 보금자리 설치로 입주민-길고양이 서로 ‘윈윈’
-                    </span>
-                  </h1>
-                </a>
-                <p className="text-gray-500 my-2 sm:my-4 text-xs sm:text-md truncate">
-                  길고양이가 차를 긁거나 지나가는 시민에게 공격을 하는 등의
-                  피해를 입히는 경우가 계속 발생하고 있다. 그런 가운데 몇몇
-                  아파트는 길고양이들의 보금자리를 설치해 입주민들의 피해가
-                  오히려 줄었다.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -745,28 +738,6 @@ export default function Landing() {
                   strokeWidth={2}
                 />
               </svg>
-            </div>
-          </div>
-          <div className="text-center pb-16 pt-5">
-            <label className="text-white font-semibold">
-              냥그릇 소식 알림받기
-            </label>
-            <div className="px-5 sm:px-0 flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0 justify-center mt-3">
-              <input
-                type="text"
-                placeholder="연락처 입력"
-                className="rounded-full py-2 pl-5 bg-white border border-white outline-none"
-              />
-              <button
-                type="submit"
-                className="text-white w-40 sm:w-auto mx-auto sm:mx-0 font-semibold px-5 py-2 rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(105.5deg, #FFCD4A 19.57%, #F48C06 78.85%)",
-                }}
-              >
-                알림 받기
-              </button>
             </div>
           </div>
           <div className="flex items-center text-sm justify-center text-white">
