@@ -13,16 +13,16 @@
 // ===========================
 
 // // 아이유정 WIFI 정보
-// const char* ssid = "EDU-ELR22-861823"; // 라우터
-// const char* password = "12345678";
+const char* ssid = "EDU-ELR22-861823"; // 라우터
+const char* password = "12345678";
 
 // 정호 개인 WIFI 정보
 // const char* ssid = "Jeoungho’s iPhone"; // 라우터
 // const char* password = "jayPak12";
 
-// // 정호네 WIFI 정보
-const char* ssid = "EDU-ELR22-851139"; // 라우터
-const char* password = "12345678";
+// // // 정호네 WIFI 정보
+// const char* ssid = "EDU-ELR22-851139"; // 라우터
+// const char* password = "12345678";
 
 // 미현이네 WIFI 정보
 // const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
@@ -35,8 +35,8 @@ const char* password = "12345678";
 // AI 서버 도메인
 String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
 
-// String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
-String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
+String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
+// String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
 // String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
 
 String serverPath = "/upload-google";     // serverPath 기입
@@ -139,15 +139,15 @@ void setup() {
   config.fb_count = 2;
   
   // init with high specs to pre-allocate larger buffers
-  // if(psramFound()){
-  //   config.jpeg_quality = 10;
-  //   config.fb_count = 2;
-  //   config.grab_mode = CAMERA_GRAB_LATEST;
-  // } else {
-  //   // Limit the frame size when PSRAM is not available
-  //   config.frame_size = FRAMESIZE_SVGA; // 800 600
-  //   config.fb_location = CAMERA_FB_IN_DRAM;
-  // }
+  if(psramFound()){
+    config.jpeg_quality = 10;
+    config.fb_count = 2;
+    config.grab_mode = CAMERA_GRAB_LATEST;
+  } else {
+    // Limit the frame size when PSRAM is not available
+    config.frame_size = FRAMESIZE_SVGA; // 800 600
+    config.fb_location = CAMERA_FB_IN_DRAM;
+  }
   
   // camera init
   esp_err_t err = esp_camera_init(&config);
@@ -194,7 +194,7 @@ void setup() {
 
 void loop() {
   sendPhoto();
-  delay(1000);
+  // delay(1000);
 }
 
 String sendPhoto() {
@@ -205,6 +205,7 @@ String sendPhoto() {
   enable_led(true);
   vTaskDelay(1000 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   fb = esp_camera_fb_get();             // or it won't be visible in the frame. A better way to do this is needed.
+  vTaskDelay(500 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   enable_led(false);
 
   if(!fb) {
