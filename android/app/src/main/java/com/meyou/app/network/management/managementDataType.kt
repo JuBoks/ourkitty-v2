@@ -1,7 +1,7 @@
 package com.meyou.app.network.management
 
 data class ManagementResponse(
-    val data: Data,
+    val data: List<Data>,
     val totalCount: Int
 )
 

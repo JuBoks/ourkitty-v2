@@ -30,7 +30,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-data class Dish(val code: String, val name: String)
+data class Dish(val code: String?, val name: String){
+    override fun toString(): String {
+        return name
+    }
+}
+
 class HintAdapter(context: Context, resource: Int, objects: List<Dish>): ArrayAdapter<Dish>(context, resource, objects) {
     override fun getCount(): Int {
         // 마지막 항목은 힌트로 간주하므로, 실제 항목 수는 전체 길이에서 1을 뺀 값입니다.
@@ -176,7 +181,7 @@ class CreateManagementActivity : AppCompatActivity() {
 
                     // API를 호출합니다.
                     val createCall = createManagementService.createManagement(
-                        selectedDishCode.code.toInt(), selectedStatusCode.code, files, uploadedText
+                        selectedDishCode.code?.toInt(), selectedStatusCode.code.toString(), files, uploadedText
                     )
                     createCall.enqueue(object : Callback<ManagementResponse> {
                         override fun onResponse(call: Call<ManagementResponse>, response: Response<ManagementResponse>) {
