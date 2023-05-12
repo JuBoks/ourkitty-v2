@@ -13,5 +13,5 @@ class ReportImageEntity(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val reportImageId: Long? = null,
-) : ImageEntity() {
+) : BaseEntity() {
 }

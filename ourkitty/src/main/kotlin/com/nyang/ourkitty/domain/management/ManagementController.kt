@@ -1,8 +1,7 @@
 package com.nyang.ourkitty.domain.management
 
-import com.nyang.ourkitty.common.LocationCode
-import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.management.dto.ManagementCommentRequestDto
 import com.nyang.ourkitty.domain.management.dto.ManagementRequestDto
 import com.nyang.ourkitty.domain.management.dto.ManagementResponseDto
@@ -10,7 +9,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @Api(tags = ["관리일지 관련 API"])
 @RestController
@@ -20,14 +18,7 @@ class ManagementController(
     private val managementService: ManagementService,
 ) {
 
-    private val testToken = mapOf(
-        "clientId" to 1L,
-        "userCode" to UserCode.지자체.code,
-        "locationCode" to LocationCode.해운대구.code,
-    )
-
     /**
-     * TODO : JWT
      * @param limit Long
      * @param offset Long
      * @param id Long?      : 냥그릇 ID
@@ -40,7 +31,7 @@ class ManagementController(
     ): ResponseEntity<ResultDto<List<ManagementResponseDto>>> {
         val managementList = managementService.getManagementList(
             dishId = dishId,
-            locationCode = testToken["locationCode"].toString(),
+            locationCode = JwtContextHolder.locationCode!!,
             limit = limit, offset = offset,
         )
 
@@ -64,11 +55,11 @@ class ManagementController(
     @ApiOperation(value = "관리일지 작성")
     @PostMapping
     fun createManagement(
-        managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<MultipartFile>?
+        managementRequestDto: ManagementRequestDto, @RequestParam(required = false) files: List<String>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         val managementResponseDto = managementService.createManagement(
-            clientId = testToken["clientId"].toString().toLong(),
-            locationCode = testToken["locationCode"].toString(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
+            locationCode = JwtContextHolder.locationCode!!,
             managementRequestDto = managementRequestDto,
             files = files
         )
@@ -87,7 +78,7 @@ class ManagementController(
         @PathVariable("managementId") managementId: Long,
         managementRequestDto: ManagementRequestDto,
         @RequestParam(required = false) deleteList: List<Long>?,
-        @RequestParam(required = false) insertList: List<MultipartFile>?
+        @RequestParam(required = false) insertList: List<String>?
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         val managementResponseDto = managementService.modifyManagement(
             managementId = managementId,
@@ -106,10 +97,10 @@ class ManagementController(
     @DeleteMapping("/{managementId}")
     fun deleteManagement(@PathVariable("managementId") managementId: Long): ResponseEntity<ResultDto<Boolean>> {
         managementService.deleteManagement(
-            clientId = testToken["clientId"].toString().toLong(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
             managementId = managementId,
-            userCode = testToken["userCode"].toString(),
-            locationCode = testToken["locationCode"].toString()
+            userCode = JwtContextHolder.userCode!!,
+            locationCode = JwtContextHolder.locationCode!!,
         )
 
         return ResponseEntity.ok(ResultDto(true))
@@ -128,7 +119,7 @@ class ManagementController(
     ): ResponseEntity<ResultDto<ManagementResponseDto>> {
         val managementResponseDto = managementService.createManagementComment(
             managementId = managementId,
-            clientId = testToken["clientId"].toString().toLong(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
             managementCommentRequestDto = managementCommentRequestDto,
         )
 
@@ -144,10 +135,10 @@ class ManagementController(
     @DeleteMapping("/{managementId}/comment/{managementCommentId}")
     fun deleteManagementComment(@PathVariable("managementId") managementId: Long, @PathVariable("managementCommentId") managementCommentId: Long): ResponseEntity<ResultDto<Boolean>> {
         val result = managementService.deleteManagementComment(
-            clientId = testToken["clientId"].toString().toLong(),
+            clientId = JwtContextHolder.clientId!!.toLong(),
             managementId = managementId,
-            userCode = testToken["userCode"].toString(),
-            locationCode = testToken["locationCode"].toString(),
+            userCode = JwtContextHolder.userCode!!,
+            locationCode = JwtContextHolder.locationCode!!,
             managementCommentId = managementCommentId,
         )
 

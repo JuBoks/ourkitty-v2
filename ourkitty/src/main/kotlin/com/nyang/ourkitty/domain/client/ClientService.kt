@@ -1,6 +1,6 @@
 package com.nyang.ourkitty.domain.client
 
-import com.nyang.ourkitty.common.AwsS3ImageUploader
+import com.nyang.ourkitty.common.UserState
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientListResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientRequestDto
@@ -13,10 +13,9 @@ import com.nyang.ourkitty.entity.ClientEntity
 import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
-import org.apache.commons.logging.LogFactory
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 
@@ -32,16 +31,23 @@ class ClientService(
 
     private val dishQuerydslRepository: DishQuerydslRepository,
 
-    private val imageUploader: AwsS3ImageUploader,
+    private val passwordEncoder: PasswordEncoder,
 ) {
-
-    val log = LogFactory.getLog(ClientService::class.java)!!
-
 
     @Transactional
     fun createAccount(locationCode: String, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
-        val client = clientRequestDto.toEntity()
+        val client = clientRequestDto.toEntity(passwordEncoder)
+
+        if (clientRepository.existsByClientEmail(client.clientEmail)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
+        }
+
+        if (clientRepository.existsByClientPhone(client.clientPhone)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_PHONE)
+        }
+
         client.updateLocationCode(locationCode)
+        client.updateLastPostingDate()
 
         clientRepository.save(client)
 
@@ -61,7 +67,27 @@ class ClientService(
         )
     }
 
-    fun getClientList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
+    fun checkEmailDuplication(clientEmail: String): ResultDto<Boolean> {
+        if (clientRepository.existsByClientEmail(clientEmail)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    fun checkPhoneDuplication(clientPhone: String): ResultDto<Boolean> {
+        if (clientRepository.existsByClientPhone(clientPhone)) {
+            throw CustomException(ErrorCode.DUPLICATE_CLIENT_PHONE)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
+    fun getAccountList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
         val clientListResponseDto = clientQuerydslRepository.getClientList(
             locationCode = locationCode,
             dishId = dishId,
@@ -73,10 +99,10 @@ class ClientService(
         val result = ClientListResultDto()
 
         clientListResponseDto.forEach {
-            when {
-                it.isDeleted -> result.deletedList.add(it)
-                it.isActive -> result.activeList.add(it)
-                else -> result.inactiveList.add(it)
+            when (it.userState) {
+                UserState.정상.code -> result.activeList.add(it)
+                UserState.비활성화.code -> result.inactiveList.add(it)
+                UserState.탈퇴.code -> result.deletedList.add(it)
             }
         }
         /*
@@ -92,27 +118,30 @@ class ClientService(
         return result
     }
 
-    fun getClient(clientId: Long): ResultDto<ClientResponseDto> {
+    fun getAccountById(clientId: Long): ResultDto<ClientResponseDto> {
 
         return ResultDto(
             data = ClientResponseDto.of(
-                getClientById(clientId)
+                getAllClientById(clientId)
             ),
         )
     }
 
-    //TODO : 휴대폰 번호 변경
+    fun getAccountByEmail(clientEmail: String): ResultDto<ClientResponseDto> {
+
+        return ResultDto(
+            data = ClientResponseDto.of(
+                getClientByEmail(clientEmail)
+            ),
+        )
+    }
 
     @Transactional
-    fun modifyMyAccount(clientId: Long, clientRequestDto: ClientRequestDto, file: MultipartFile?): ResultDto<ClientResponseDto> {
-        val client = getClientById(clientId)
-        val updateParam = clientRequestDto.toEntity()
+    fun modifyMyAccount(clientId: Long, clientRequestDto: ClientRequestDto, file: String?): ResultDto<ClientResponseDto> {
+        val client = getAllClientById(clientId)
+        val updateParam = clientRequestDto.toEntity(passwordEncoder)
 
-        if (file != null) {
-            val imagePath = imageUploader.uploadImage(file)
-            client.updateProfileImage(imagePath)
-        }
-
+        file?.run(client::updateProfileImage)
         client.updateMyAccount(updateParam)
 
         return ResultDto(
@@ -124,8 +153,8 @@ class ClientService(
 
     @Transactional
     fun modifyAccount(clientId: Long, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
-        val client = getClientById(clientId)
-        val updateParam = clientRequestDto.toEntity()
+        val client = getAllClientById(clientId)
+        val updateParam = clientRequestDto.toEntity(passwordEncoder)
 
         client.updateAccount(updateParam)
 
@@ -159,7 +188,7 @@ class ClientService(
 
     @Transactional
     fun deleteAccount(clientId: Long, clientDescription: String): ResultDto<Boolean> {
-        getClientById(clientId).let {
+        getAllClientById(clientId).let {
             it.delete(clientDescription)
             clientRepository.save(it)
         }
@@ -171,7 +200,7 @@ class ClientService(
 
     @Transactional
     fun cancelDeleteAccount(clientId: Long): ResultDto<Boolean>? {
-        getClientById(clientId).let {
+        getAllClientById(clientId).let {
             it.cancelDelete()
             clientRepository.save(it)
         }
@@ -188,7 +217,7 @@ class ClientService(
             clientRepository.save(it)
         }
 
-        val block = BlockEntity(
+        val block = blockRepository.findByClientId(clientId)?.apply { this.updateBlockDate(unBlockDate) } ?: BlockEntity(
             clientId = clientId,
             unBlockDate = unBlockDate,
         )
@@ -203,12 +232,10 @@ class ClientService(
     @Transactional
     fun activateAccount() {
         val now = LocalDateTime.now()
-        log.info(now)
         val unBlockList = blockQuerydslRepository.getUnblockList(now)
-        log.info(unBlockList)
 
         unBlockList
-            .map { getClientById(it.clientId) }
+            .map { getAllClientById(it.clientId) }
             .forEach { it.activate() }
 
         unBlockList.forEach(blockRepository::delete)
@@ -216,6 +243,14 @@ class ClientService(
 
     private fun getClientById(clientId: Long): ClientEntity {
         return clientQuerydslRepository.getClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    }
+
+    private fun getAllClientById(clientId: Long): ClientEntity {
+        return clientQuerydslRepository.getAllClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    }
+
+    private fun getClientByEmail(clientEmail: String): ClientEntity {
+        return clientQuerydslRepository.getClientByEmail(clientEmail) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
 
     private fun getDishById(dishId: Long): DishEntity {

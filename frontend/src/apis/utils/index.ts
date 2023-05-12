@@ -1,4 +1,5 @@
 import axios from "axios";
+import { error } from "console";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -9,4 +10,44 @@ const axiosApi = (baseURL: any) => {
   });
   return instance;
 };
+
+const axiosAuthApi = (baseURL: any) => {
+  const instance = axios.create({
+    baseURL,
+    // withCredentials: true,
+  });
+
+  instance.interceptors.request.use(
+    (config) => {
+      const access_token = localStorage.getItem("accessToken");
+      if (access_token) {
+        config.headers.Authorization = "Bearer " + access_token;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async (error) => {
+      const {
+        config,
+        response: { status },
+      } = error;
+      if (status === 403) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      }
+    }
+  );
+
+  return instance;
+};
+
 export const defaultInstance = axiosApi(BASE_URL);
+export const authInstance = axiosAuthApi(BASE_URL);

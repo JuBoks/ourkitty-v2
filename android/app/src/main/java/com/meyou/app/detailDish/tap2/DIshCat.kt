@@ -13,7 +13,6 @@ import com.meyou.app.detailDish.tap3.VisiteCatActivity
 
 class DIshCat : AppCompatActivity() {
     private var catList = mutableListOf<DIshCatInfo>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         catList.add(
             DIshCatInfo(

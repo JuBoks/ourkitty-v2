@@ -1,8 +1,8 @@
 package com.nyang.ourkitty.domain.dish
 
-import com.nyang.ourkitty.common.LocationCode
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
+import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
@@ -22,21 +22,14 @@ class DishController(
     private val dishService: DishService,
 ) {
 
-    private val testToken = mapOf(
-        "clientId" to 1L,
-        "userCode" to UserCode.지자체.code,
-        "locationCode" to LocationCode.해운대구.code,
-    )
-
     /**
      * 해당 유저의 locationCode 를 통해 dishList 를 반환한다.
-     * TODO : 인증 기능 - 현재 로그인한 유저의 id 를 받아와서 (jwt 토큰 까서?) 전달해야함
      * @return ResponseEntity<List<DishResponseDto>>
      */
     @ApiOperation(value = "냥그릇 목록 조회")
     @GetMapping
     fun getDishList(): ResponseEntity<DishListResultDto> {
-        val dishList = dishService.getDishList(testToken["locationCode"].toString())
+        val dishList = dishService.getDishList(JwtContextHolder.locationCode!!)
 
         return ResponseEntity.ok(dishList)
     }
@@ -67,12 +60,12 @@ class DishController(
         dishRequestDto: DishRequestDto, @RequestParam(required = false) file: MultipartFile?
     ): ResponseEntity<ResultDto<DishResponseDto>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) {
+        if (JwtContextHolder.userCode != UserCode.지자체.code) {
             throw CustomException(ErrorCode.NO_ACCESS)
         }
 
         val dishResponseDto = dishService.createDish(
-            locationCode = testToken["locationCode"].toString(),
+            locationCode = JwtContextHolder.locationCode!!,
             dishRequestDto = dishRequestDto,
             file = file
         )
@@ -95,7 +88,7 @@ class DishController(
         @PathVariable("dishId") dishId: Long, dishRequestDto: DishRequestDto, @RequestParam(required = false) file: MultipartFile?
     ): ResponseEntity<ResultDto<DishResponseDto>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) {
+        if (JwtContextHolder.userCode != UserCode.지자체.code) {
             throw CustomException(ErrorCode.NO_ACCESS)
         }
 
@@ -118,7 +111,7 @@ class DishController(
     @DeleteMapping("/{dishId}")
     fun deleteDish(@PathVariable("dishId") dishId: Long): ResponseEntity<ResultDto<Boolean>> {
 
-        if (testToken["userCode"].toString() != UserCode.지자체.code) {
+        if (JwtContextHolder.userCode != UserCode.지자체.code) {
             throw CustomException(ErrorCode.NO_ACCESS)
         }
 

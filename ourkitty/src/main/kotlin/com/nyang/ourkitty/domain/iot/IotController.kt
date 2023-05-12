@@ -23,6 +23,7 @@ class IotController(
             dishService.updateDishWeight(
                 dishSerialNum = dishWeightRequestDto.dishSerialNum,
                 dishWeight = dishWeightRequestDto.dishWeight,
+                dishBatteryState = dishWeightRequestDto.dishBatteryState,
             )
         )
     }

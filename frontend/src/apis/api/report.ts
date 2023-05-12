@@ -1,4 +1,4 @@
-import { defaultInstance } from "../utils";
+import { authInstance } from "../utils";
 
 // GET
 /**
@@ -21,56 +21,56 @@ export const getReportList = async (
 ) => {
   // 냥그릇 선택
   if (dishId !== 0 && reportCategory === "" && searchWord === "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&dishId=${dishId}`
     );
     return data;
   }
   // 민원 카테고리 선택
   else if (dishId === 0 && reportCategory !== "" && searchWord === "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&reportCategory=${reportCategory}`
     );
     return data;
   }
   // 검색어 입력
   else if (dishId === 0 && reportCategory === "" && searchWord !== "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&searchKey=${searchKey}&searchWord=${searchWord}`
     );
     return data;
   }
   // 냥그릇 & 민원 카테고리
   else if (dishId !== 0 && reportCategory !== "" && searchWord === "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&dishId=${dishId}&reportCategory=${reportCategory}`
     );
     return data;
   }
   // 냥그릇 & 검색어
   else if (dishId !== 0 && reportCategory === "" && searchWord !== "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&dishId=${dishId}&searchKey=${searchKey}&searchWord=${searchWord}`
     );
     return data;
   }
   // 민원 카테고리 & 검색어
   else if (dishId === 0 && reportCategory !== "" && searchWord !== "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&reportCategory=${reportCategory}&searchKey=${searchKey}&searchWord=${searchWord}`
     );
     return data;
   }
   // 냥그릇 & 민원 카테고리 & 검색어
   else if (dishId !== 0 && reportCategory !== "" && searchWord !== "") {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}&dishId=${dishId}&reportCategory=${reportCategory}&searchKey=${searchKey}&searchWord=${searchWord}`
     );
     return data;
   }
   // 선택 X
   else {
-    const data = await defaultInstance.get(
+    const data = await authInstance.get(
       `report?limit=${limit}&offset=${offset}`
     );
     return data;
@@ -83,7 +83,7 @@ export const getReportList = async (
  * @returns
  */
 export const getReportItem = async (reportId: number) => {
-  const data = await defaultInstance.get(`report/${reportId}`);
+  const data = await authInstance.get(`report/${reportId}`);
   return data;
 };
 
@@ -101,7 +101,7 @@ interface reportRequestDto {
  * @returns true/false
  */
 export const registReport = async (reportRequestDto: reportRequestDto) => {
-  const data = await defaultInstance.post(`report`, reportRequestDto, {
+  const data = await authInstance.post(`report`, reportRequestDto, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -117,7 +117,7 @@ export const registReportComment = async (
   reportId: number,
   formData: FormData
 ) => {
-  const { data } = await defaultInstance.put(`report/${reportId}`, formData, {
+  const { data } = await authInstance.put(`report/${reportId}`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;

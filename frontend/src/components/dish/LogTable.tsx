@@ -120,8 +120,8 @@ export default function LogTable() {
           <table className="w-full">
             <thead className="w-full">
               <tr className="w-full flex flex-row justify-center bg-LightMain text-white dark:bg-DarkMain">
-                <th className="w-[10%] py-2 px-2">그릇명</th>
-                <th className="w-[10%] py-2 px-2">작성자</th>
+                <th className="w-[10%] py-2 px-2 text-left">그릇명</th>
+                <th className="w-[10%] py-2 px-2 text-left">작성자</th>
                 <th className="w-[10%] py-2 px-2">상태</th>
                 <th className="w-[50%] text-left py-2 px-2">상세 내용</th>
                 <th className="w-[20%] py-2 px-2">작성일자</th>
@@ -139,11 +139,11 @@ export default function LogTable() {
                     setManagementId(item.managementId);
                   }}
                 >
-                  <td className="w-[10%] text-center py-1.5 px-2">
+                  <td className="w-[10%] text-left py-1.5 px-2 truncate">
                     {item.dish.dishName}
                   </td>
-                  <td className="w-[10%] text-center py-1.5 px-2">
-                    {item.client.clientName}
+                  <td className="w-[10%] text-left py-1.5 px-2 truncate">
+                    {item.client.clientNickname}
                   </td>
                   <td className="w-[10%] text-center py-1.5 px-2 flex justify-center">
                     {item.dishState === "0030001" ? (

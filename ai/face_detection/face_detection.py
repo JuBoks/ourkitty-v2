@@ -130,13 +130,13 @@ for index, f in enumerate(file_list):
   # cv2.rectangle(ori_img, pt1=(x2, y2), pt2=(int(x2 + new_w2), int(y2 + new_h2)), color=(0, 255, 0), thickness=2)
   # cv2.imwrite('./Desktop/S08P31E203/ai/face_detection/output/%s.jpg' % (filename), ori_img)
 
-  # #save .txt file
-  # x_center = (x2 + new_w2 // 2) / ori_img.shape[1]
-  # y_center = (y2 + new_h2 // 2) / ori_img.shape[0]
-  # width = new_w2 / ori_img.shape[1]
-  # height = abs(new_h2 / ori_img.shape[0])
+  #save .txt file
+  x_center = (x2 + new_w2 // 2) / ori_img.shape[1]
+  y_center = (y2 + new_h2 // 2) / ori_img.shape[0]
+  width = new_w2 / ori_img.shape[1]
+  height = abs(new_h2 / ori_img.shape[0])
 
   # data = str(x_center) + ' ' + str(y_center) + ' ' + str(width) + ' ' + str(height)
-  # with open('./output/%s.txt' % (filename), 'w') as file:
+  # with open('../tnr_filtering/input/%s.txt' % (filename), 'w') as file:
   #   file.write(data)
 

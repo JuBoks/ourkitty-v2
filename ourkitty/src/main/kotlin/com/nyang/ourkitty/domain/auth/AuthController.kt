@@ -2,34 +2,48 @@ package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
+import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
+import com.nyang.ourkitty.domain.client.ClientService
+import com.nyang.ourkitty.domain.dish.DishService
+import com.nyang.ourkitty.exception.CustomException
+import com.nyang.ourkitty.exception.ErrorCode
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @Api(tags = ["인증 관련 API"])
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = ["*"])
 class AuthController(
-    private val authService: AuthService
-) {
+    private val authService: AuthService,
+    private val dishService: DishService,
+    private val clientService: ClientService,
+
+    ) {
 
     /**
-     * TODO : 로그인
      * @param loginRequestDto LoginRequestDto
      * @return ClientResponseDto
      */
-    @ApiOperation(value = "로그인")
-    @PostMapping("/signin")
-    fun signIn(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<ResultDto<Boolean>> {
-        return ResponseEntity.ok(ResultDto(true))
+    @ApiOperation(value = "지자체 로그인")
+    @PostMapping("/login")
+    fun signIn(loginRequestDto: LoginRequestDto): ResponseEntity<LoginResultDto<Any>> {
+        return ResponseEntity.ok(authService.signIn(loginRequestDto))
+    }
+
+    @ApiOperation(value = "캣맘 로그인")
+    @PostMapping("/login/phone")
+    fun signInWithPhone(clientPhone: String): ResponseEntity<LoginResultDto<Any>> {
+        return ResponseEntity.ok(authService.signInWithPhone(clientPhone))
     }
 
     /**
-     * TODO : 로그아웃
      */
     @ApiOperation(value = "로그아웃")
-    @GetMapping("/signout")
+    @GetMapping("/logout")
     fun signOut() {
     }
 
@@ -59,6 +73,25 @@ class AuthController(
     @PutMapping("/find/password")
     fun resetPassword() {
 
+    }
+
+    @ApiOperation(value = "휴대전화 번호 중복 확인")
+    @PostMapping("/check/phone")
+    fun checkPhoneDuplication(clientPhone: String): ResponseEntity<ResultDto<Boolean>> {
+
+        return ResponseEntity.ok(clientService.checkPhoneDuplication(clientPhone))
+    }
+
+    @RequestMapping("/error", method = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
+    fun authError(request: HttpServletRequest) {
+        when (request.getAttribute("exception").toString()) {
+            "AuthenticationException" -> throw CustomException(ErrorCode.NEED_LOGIN_EXCEPTION)
+            "JWTException" -> throw CustomException(ErrorCode.JWT_TOKEN_EXCEPTION)
+        }
+    }
+
+    @GetMapping("/test")
+    fun test() {
     }
 
 }

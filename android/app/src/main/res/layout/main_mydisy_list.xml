@@ -27,6 +27,7 @@
         android:layout_marginTop="10dp"
         android:text="냥그릇 이름"
         android:textSize="15sp"
+        android:fontFamily="@font/yeonsung"
         android:layout_width="match_parent"
         android:layout_height="25dp" />
     <LinearLayout
@@ -42,6 +43,7 @@
         android:id="@+id/dishAddressText"
         android:text="냥그릇 주소"
         android:textSize="12sp"
+        android:fontFamily="@font/yeonsung"
         android:layout_width="match_parent"
         android:layout_height="20dp" />
     </LinearLayout>

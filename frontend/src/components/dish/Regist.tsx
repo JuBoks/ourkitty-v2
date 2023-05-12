@@ -20,7 +20,7 @@ export default function Regist() {
 
   // 그릇 정보
   const [dish, setDish] = useRecoilState(dishInfo);
-
+  console.log(dish);
   // 등록 여부 판별
   const [dishCount, setDishCount] = useRecoilState(dishCountState);
 
@@ -109,38 +109,38 @@ export default function Regist() {
       cancelButtonText: "취소",
       reverseButtons: true,
     }).then((result) => {
-      URL.revokeObjectURL(image);
-      setImage("");
-      setImageUrl("");
+      if (result.isConfirmed) {
+        URL.revokeObjectURL(image);
+        setImage("");
+        setImageUrl("");
+      }
     });
   };
 
   // 초기화
   const handleInitInfo = () => {
     setIsRegist(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setDish({
-          dishId: 0,
-          dishAddress: "",
-          dishLat: position.coords.latitude,
-          dishLong: position.coords.longitude,
-          dishName: "",
-          dishSerialNum: "",
-          file: "",
-        });
-        setDishSerialNum("");
-        setDishAddress("");
-        setDishName("");
-        setImage("");
-        setDishPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+    setDishSerialNum("");
+    setDishAddress("");
+    setDishName("");
+    setImage("");
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      setDish({
+        dishId: 0,
+        dishAddress: "",
+        dishLat: position.coords.latitude,
+        dishLong: position.coords.longitude,
+        dishName: "",
+        dishSerialNum: "",
+        file: "",
       });
-    } else {
-      console.log("Geolocation Error");
-    }
+
+      setDishPosition({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
   };
 
   // 기기 등록
@@ -260,32 +260,30 @@ export default function Regist() {
   };
   useEffect(() => {
     setIsRegist(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setDish({
-          dishId: 0,
-          dishAddress: "",
-          dishLat: position.coords.latitude,
-          dishLong: position.coords.longitude,
-          dishName: "",
-          dishSerialNum: "",
-          file: "",
-        });
-        setDishSerialNum("");
-        setDishAddress("");
-        setDishName("");
-        setImage("");
-        setDishPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+    console.log("실행됨");
+    navigator.geolocation.getCurrentPosition((position) => {
+      setDish({
+        dishId: 0,
+        dishAddress: "",
+        dishLat: position.coords.latitude,
+        dishLong: position.coords.longitude,
+        dishName: "",
+        dishSerialNum: "",
+        file: "",
       });
-    } else {
-      console.log("Geolocation Error");
-    }
+      setDishSerialNum("");
+      setDishAddress("");
+      setDishName("");
+      setImage("");
+      setDishPosition({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
   }, []);
 
   useEffect(() => {
+    console.log("데이터 바뀜");
     setDishSerialNum(dish.dishSerialNum);
     setDishAddress(dish.dishAddress);
     setDishName(dish.dishName);

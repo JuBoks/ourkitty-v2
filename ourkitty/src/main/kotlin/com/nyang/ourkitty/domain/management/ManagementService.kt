@@ -1,6 +1,5 @@
 package com.nyang.ourkitty.domain.management
 
-import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.repository.ClientRepository
@@ -21,7 +20,6 @@ import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 @Transactional(readOnly = true)
@@ -32,9 +30,8 @@ class ManagementService(
     private val managementImageRepository: ManagementImageRepository,
     private val dishRepository: DishRepository,
     private val clientRepository: ClientRepository,
-
-    private val imageUploader: AwsS3ImageUploader,
 ) {
+
     fun getManagementList(locationCode: String, limit: Long, offset: Long, dishId: Long?): ResultDto<List<ManagementResponseDto>> {
         val managementList = managementQuerydslRepository.getManagementList(locationCode, limit, offset, dishId)
         val totalCount = managementQuerydslRepository.countManagementList(locationCode, dishId)
@@ -57,11 +54,11 @@ class ManagementService(
         )
     }
 
-
     @Transactional
-    fun createManagement(clientId: Long, locationCode: String, managementRequestDto: ManagementRequestDto, files: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
+    fun createManagement(clientId: Long, locationCode: String, managementRequestDto: ManagementRequestDto, files: List<String>?): ResultDto<ManagementResponseDto> {
         val dish = dishRepository.findByIdOrNull(managementRequestDto.dishId) ?: throw CustomException(ErrorCode.NOT_FOUND_DISH)
         val client = clientRepository.findByIdOrNull(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
 
         val management = managementRequestDto.toEntity(
             dish = dish,
@@ -72,8 +69,7 @@ class ManagementService(
         val managementResponseDto = ManagementResponseDto.of(managementRepository.save(management))
 
         if (files != null) {
-            val imagePaths = imageUploader.uploadImageList(files)
-            val managementImageList = imagePaths
+            val managementImageList = files
                 .map { imagePath ->
                     ManagementImageEntity(
                         management = management,
@@ -95,8 +91,11 @@ class ManagementService(
     }
 
     @Transactional
-    fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<MultipartFile>?): ResultDto<ManagementResponseDto> {
+    fun modifyManagement(managementId: Long, managementRequestDto: ManagementRequestDto, deleteList: List<Long>?, insertList: List<String>?): ResultDto<ManagementResponseDto> {
         val management = getManagementById(managementId)
+        val client = clientRepository.findByIdOrNull(management.client.clientId!!.toLong()) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
+
         management.update(
             managementContent = managementRequestDto.managementContent,
             dishState = managementRequestDto.dishState,
@@ -109,9 +108,7 @@ class ManagementService(
 
         // 추가된 이미지가 있으면 업데이트 한다.
         if (insertList != null) {
-            val newImagePaths = imageUploader.uploadImageList(insertList)
-
-            val newImageList = newImagePaths
+            val newImageList = insertList
                 .map { imagePath ->
                     ManagementImageEntity(
                         management = management,
@@ -153,6 +150,7 @@ class ManagementService(
     fun createManagementComment(managementId: Long, clientId: Long, managementCommentRequestDto: ManagementCommentRequestDto): ResultDto<ManagementResponseDto> {
         val management = managementRepository.findByIdOrNull(managementId) ?: throw CustomException(ErrorCode.NOT_FOUND_MANAGEMENT)
         val client = clientRepository.findByIdOrNull(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        client.updateLastPostingDate()
 
         managementCommentRequestDto.toEntity(
             management = management,
@@ -195,4 +193,5 @@ class ManagementService(
         }
         return managementComment
     }
+
 }

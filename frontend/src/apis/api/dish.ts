@@ -1,4 +1,4 @@
-import { defaultInstance } from "../utils";
+import { authInstance } from "../utils";
 
 // GET
 
@@ -7,7 +7,7 @@ import { defaultInstance } from "../utils";
  * @returns
  */
 export const getDishList = async () => {
-  const { data } = await defaultInstance.get(`dish`);
+  const { data } = await authInstance.get(`dish`);
   return data;
 };
 
@@ -17,7 +17,7 @@ export const getDishList = async () => {
  * @returns
  */
 export const getDishItem = async (dishId: number) => {
-  const { data } = await defaultInstance.get(`dish/${dishId}`);
+  const { data } = await authInstance.get(`dish/${dishId}`);
   return data;
 };
 
@@ -29,7 +29,7 @@ export const getDishItem = async (dishId: number) => {
  */
 
 export const registDish = async (formData: FormData) => {
-  const { data } = await defaultInstance.post(`dish`, formData, {
+  const { data } = await authInstance.post(`dish`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -45,7 +45,7 @@ export const registDish = async (formData: FormData) => {
  */
 
 export const modifyDish = async (dishId: number, formData: FormData) => {
-  const { data } = await defaultInstance.put(`dish/${dishId}`, formData, {
+  const { data } = await authInstance.put(`dish/${dishId}`, formData, {
     headers: { "Content-type": "multipart/form-data" },
   });
   return data;
@@ -58,6 +58,6 @@ export const modifyDish = async (dishId: number, formData: FormData) => {
  * @returns true/false
  */
 export const deleteDish = async (dishId: number) => {
-  const { data } = await defaultInstance.delete(`dish/${dishId}`);
+  const { data } = await authInstance.delete(`dish/${dishId}`);
   return data;
 };

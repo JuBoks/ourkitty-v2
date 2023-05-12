@@ -26,5 +26,5 @@ code {
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #ff8e9d22; /*스크롤바 뒷 배경 색상*/
+  background: #ffffff00; /*스크롤바 뒷 배경 색상*/
 }
