@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInstance(private val accessToken: String = "") {
 
-    private val BASE_URL = "https://k8e203.p.ssafy.io/api/"
+    private val BASE_URL = "https://k8e2031.p.ssafy.io/api/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
