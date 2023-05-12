@@ -32,22 +32,12 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
       curve: "straight",
       width: 5,
     },
-    colors: ["#EC5E98", '#29325B'],
+    colors: ["#ffcd4a", '#c495fd'],
     grid: {
       row: {
         colors: ["#f5f5f5f5", "transparent"],
         opacity: 0.5,
       },
-    },
-    markers: {
-      size: 3,
-      colors: ["#EC5E98", '#29325B'],
-      shape: "circle",
-      radius: 2,
-      hover: {
-        size: 4,
-        sizeOffset: 3
-      }
     },
     legend: {
       labels: {
@@ -80,7 +70,7 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
     data: catCountList
   },
   {
-    name: "중성화가 필요한 고양이",
+    name: "중성화 x",
     data: noTnrCountList
   }
   ]
