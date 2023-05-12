@@ -1,12 +1,12 @@
 #include "WiFi.h"
 
+#define BATTERY 33
+
 // 배터리 충전삳태 상수. 0V ~ 5V 의 값을 1024단계로 나누어 단계를 표현
 // 특정 전압 이상일 때 표시가 바뀌는 형식
 // 아래 수치는 50000mA 배터리 기준
 #define FULL        1000
-#define SAFE        950
-#define WARNING     850
-#define DANGER      750
+#define EMPTY      750
 // ===========================
 // Enter your WiFi credentials
 // ===========================
@@ -23,61 +23,100 @@ const int serverPort = 8000; // 포트번호
 
 WiFiClient client;
 
+
+String checkBattery();
+
 void setup() {
   Serial.begin(115200);
   Serial.begin(115200);
   Serial.setDebugOutput(true);
 
-  WiFi.mode(WIFI_STA);
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  delay(100);
-  WiFi.begin(ssid, password);  
+  // WiFi.mode(WIFI_STA);
+  // Serial.println();
+  // Serial.print("Connecting to ");
+  // Serial.println(ssid);
+  // delay(100);
+  // WiFi.begin(ssid, password);  
 
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
-    delay(500);
-  }
-  Serial.println();
-  Serial.print("ESP32-CAM IP Address: ");
-  Serial.println(WiFi.localIP());
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   Serial.print(".");
+  //   delay(500);
+  // }
+  // Serial.println();
+  // Serial.print("ESP32-CAM IP Address: ");
+  // Serial.println(WiFi.localIP());
+
+
 }
 
 void loop() {
+  Serial.println(analogRead(33));
+  delay(5000);
+}
+
+
+String checkBattery() {
   int sum, avg;
   uint8_t count = 0;
+  int term = (FULL / EMPTY) / 10;
   // 20회 측정 후 평균치 사용
-  while(count < 20) {
-    int sensorValue = analogRead(A0);
-    sum += sensorValue ;
-    delay(100);
+  while (count < 20) {
+    int sensorValue = analogRead(BATTERY);
+    sum += sensorValue;
+    delay(10);
     count++;
   }
   avg = sum / count;
   // 평균값에 맞는 전송수치 보내기
   String code;
-  Serial.println(sensorValue);
   // 배터리 완충
   if (avg > FULL) {
-    code = "0100001";
+    code = "0100011";
   }
-  // 배터리 안정적
-  else if (avg > SAFE) {
-    code = "0100002";
+  // 배터리 90%
+  else if (avg > FULL - (1 * term)) {
+    code = "0100010";
   }
-  // 배터리 경고
-  else if (avg > WARNING) {
-    code = "0100003";
+  // 배터리 80%
+  else if (avg > FULL - (2 * term)) {
+    code = "0100009";
   }
-  // 배터리 위험
-  else {
+  // 배터리 70%
+  else if (avg > FULL - (3 * term)) {
+    code = "0100008";
+  }
+  // 배터리 60%
+  else if (avg > FULL - (4 * term)) {
+    code = "0100007";
+  }
+  // 배터리 50%
+  else if (avg > FULL - (5 * term)) {
+    code = "0100006";
+  }
+  // 배터리 40%
+  else if (avg > FULL - (6 * term)) {
+    code = "0100005";
+  }
+  // 배터리 30%
+  else if (avg > FULL - (7 * term)) {
     code = "0100004";
   }
+  // 배터리 20%
+  else if (avg > FULL - (8 * term)) {
+    code = "0100003";
+  }
+  // 배터리 10%
+  else if (avg > FULL - (9 * term)) {
+    code = "0100002";
+  }
+  // 배터리 0%
+  else {
+    code = "0100001";
+  }
 
-  sendData(code)
-  delay(1000);
+  return code;
 }
+
 
 String sendData(String sensor_data) {
   String getAll;

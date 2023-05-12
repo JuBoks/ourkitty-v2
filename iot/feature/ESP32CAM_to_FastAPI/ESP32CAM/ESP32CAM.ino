@@ -1,12 +1,12 @@
-#include <Arduino.h>
+// #include <Arduino.h>
 #include <WiFi.h>
-#include <base64.h>
-#include <esp32cam.h>
-#include "soc/soc.h"
-#include "soc/rtc_cntl_reg.h"
+// #include <base64.h>
+// #include <esp32cam.h>
+// #include "soc/soc.h"
+// #include "soc/rtc_cntl_reg.h"
 #include "esp_camera.h"
 #include "esp32-hal-ledc.h"
-#include "driver/rtc_io.h"
+// #include "driver/rtc_io.h"
 
 // ===========================
 // Enter your WiFi credentials
