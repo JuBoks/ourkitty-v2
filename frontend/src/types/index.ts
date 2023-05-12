@@ -1,0 +1,1 @@
+export type { DateInfo, DateInfoArray } from './Dates';

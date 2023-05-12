@@ -1,99 +1,108 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { isLoginState } from "../recoil/states/user";
-import { categoryState } from "../recoil/states/page";
+import Swal from "sweetalert2";
 import DashBoard from "./DashBoard";
 import User from "./User";
-import CatBowl from "./CatBowl";
+import Dish from "./Dish";
 import Report from "./Report";
 import Chart from "./Chart";
-import LockIcon from "@mui/icons-material/Lock";
+import { useRecoilState } from "recoil";
+import { categoryState, darkState } from "../recoil/page";
+import { isLoginState } from "../recoil/auth";
+import { useMutation } from "react-query";
+import { login } from "../apis/api/auth";
+import DishDetail from "./DishDetail";
 
 export default function Main() {
-  const [userId, setUserId] = useState("");
-  const [userPw, setUserPw] = useState("");
-
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const currentCategory = useRecoilState(categoryState)[0];
+  const isDark = useRecoilState(darkState)[0];
+  const category = useRecoilState(categoryState)[0];
+  const [userId, setUserId] = useState("admin");
+  const [userPw, setUserPw] = useState("1234");
 
-  const handleUserId = (e: any) => {
-    setUserId(e.target.value);
+  const loginRequest = useMutation(
+    ["login"],
+    (formData: FormData) => login(formData),
+    {
+      onSuccess: () => {
+        setIsLogin(true);
+        const Toast = Swal.mixin({
+          toast: true, // 토스트 형식
+          position: "bottom-end", // 알림 위치
+          showConfirmButton: false, // 확인버튼 생성 유무
+          timer: 1500, // 지속 시간
+          timerProgressBar: true, // 지속시간바 생성 여부
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "로그인되었습니다.",
+        });
+      },
+    }
+  );
+  const handleLogin = () => {
+    const formData = new FormData();
+    formData.append("clientEmail", userId);
+    formData.append("clientPassword", userPw);
+
+    loginRequest.mutate(formData);
   };
 
-  const handleUserPw = (e: any) => {
+  const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserId(e.target.value);
+  };
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserPw(e.target.value);
   };
 
-  const handleLogin = () => {
-    setIsLogin(true);
-  };
   return (
-    <>
+    <div className="w-[1620px] h-full">
       {isLogin ? (
-        currentCategory[0] ? (
+        category[0] ? (
           <DashBoard />
-        ) : currentCategory[1] ? (
+        ) : category[1] ? (
           <User />
-        ) : currentCategory[2] ? (
-          <CatBowl />
-        ) : currentCategory[3] ? (
-          <Report />
-        ) : (
+        ) : category[2] ? (
+          <Dish />
+        ) : category[3] ? (
+          <DishDetail />
+        ) : category[4] ? (
           <Chart />
+        ) : (
+          <Report />
         )
       ) : (
-        <div className="flex flex-col gap-10 justify-center w-screen">
-          <div className="relative w-[80%] h-72 flex flex-col mx-auto rounded-xl max-w-[1000px] shadow-xl justify-center dark:bg-WebDarkBackground2">
-            <div className="flex flex-row gap-8 mb-10">
-              <div className="flex flex-col basis-1/5 text-right gap-[53px] mt-3 text-WebMain font-bold dark:text-white">
-                <span>아이디</span>
-                <span>패스워드</span>
-              </div>
-              <div className="flex flex-col basis-3/5 gap-10">
-                <input
-                  className="w-[80%] h-10 bg-LightGray rounded-xl bg-pghtGray outpne-none pl-2"
-                  type="text"
-                  onChange={handleUserId}
-                />
-                <input
-                  className="w-[80%] h-10 bg-LightGray rounded-xl bg-pghtGray outpne-none pl-2"
-                  type="password"
-                  onChange={handleUserPw}
-                />
-              </div>
-              <div
-                className="login-btn opacity-80 flex flex-col w-[130px] h-[120px] mr-16 justify-center text-center rounded-[50%] bg-WebMain text-white font-bold cursor-pointer hover:opacity-100 dark:bg-WebDarkMain dark:hover:opacity-100"
-                onClick={handleLogin}
-              >
-                로그인
-              </div>
+        <div className="w-full h-full ml-[10%]">
+          <div className="w-[60%] h-[20%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
+            <div className="flex flex-col justify-center gap-10 ml-[10%] mt-2 text-[1.2rem] text-white font-bold">
+              <div>아이디</div>
+              <div>비밀번호</div>
             </div>
-            <div className="absolute flex flex-row  gap-5 bottom-5 right-5 h-6">
-              <div>
-                <LockIcon sx={{ color: "#B0B0B0" }} />
-              </div>
-              <div>
-                <button className="hover:border-b-4">아이디 찾기</button>
-              </div>
-              <div>
-                <button className="hover:border-b-4">비밀번호 찾기</button>
-              </div>
+            <div className="flex flex-col gap-7 w-[300px] h-[60px] mt-[4%]">
+              <input
+                type="text"
+                value={userId}
+                onChange={handleId}
+                className="pl-2 rounded-lg py-2"
+              />
+              <input
+                type="password"
+                value={userPw}
+                onChange={handlePassword}
+                className="pl-2 rounded-lg py-2"
+              />
             </div>
-          </div>
-          <div className="w-[80%] h-[70%] flex flex-col mx-auto max-w-[1000px] justify-center rounded-xl dark:bg-WebDarkBackground2">
-            <h1 className="text-WebMain text-[2rem] font-bold ml-5 dark:text-WebDarkMain">
-              냥그릇 등록 절차
-            </h1>
-            <div className="flex flex-col gap-10 text-[1.5rem] ml-10 mt-10 font-semibold dark:text-white">
-              <p>1. 설치 장소로 이동 후 IoT 기기를 켠다.</p>
-              <p>2. 냥그릇 관리 탭으로 이동한다.</p>
-              <p>3. 시리얼 번호, 급식소 이름, 기타 비고 정보를 입력한다.</p>
-              <p>4. 현재 위치를 재점검한다.</p>
-              <p>5. 설치된 급식소 사진을 촬영 후 업로드 한다.</p>
-            </div>
+            <button
+              className="w-[100px] h-[80px] bg-DarkMainHover text-[1.3rem] text-white font-bold mt-[5%] rounded-xl hover:bg-DarkMain"
+              onClick={handleLogin}
+            >
+              로그인
+            </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

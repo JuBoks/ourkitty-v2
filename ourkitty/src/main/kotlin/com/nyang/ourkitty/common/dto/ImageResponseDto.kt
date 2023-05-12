@@ -13,14 +13,4 @@ data class ImageResponseDto(
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     val updatedDate: LocalDateTime,
-
-    ) {
-
-    constructor() : this(
-        1,
-        "./default.png",
-        false,
-        LocalDateTime.now(),
-        LocalDateTime.now()
-    )
-}
+)

@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/common/Header";
 import { Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { darkModeState } from "../recoil/states/page";
+import { darkState } from "../recoil/page";
+import { isLoginState } from "../recoil/auth";
 
-function MainLayout() {
-  const isDark = useRecoilState(darkModeState)[0];
+export default function MainLayout() {
+  const isDark = useRecoilState(darkState)[0];
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
+  const login = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    if (login) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [login]);
 
   return (
     <div
-      className={
-        isDark
-          ? "flex flex-row w-screen h-screen dark bg-WebDarkBackground"
-          : "flex flex-row w-screen h-screen"
-      }
+      className={`flex flex-row w-screen h-screen overflow-y-hidden ${
+        isDark ? "dark bg-DarkBackground" : "bg-LightBackground"
+      }`}
     >
-      <Header />
-      <Outlet />
+      <div>
+        <Header />
+      </div>
+      <div className="w-full h-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
-
-export default MainLayout;

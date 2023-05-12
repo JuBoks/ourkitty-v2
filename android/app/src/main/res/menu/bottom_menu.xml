@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/mainFragment"
-        android:icon="@drawable/navi_person"
-        android:title="Main"
+        android:icon="@drawable/menu_home"
+        android:title="@string/menu_home"
         />
     <item android:id="@+id/mapFragment"
-        android:title="Map"
-        android:icon="@drawable/navi_person"
+        android:title="@string/menu_dish"
+        android:icon="@drawable/menu_dish"
         />
     <item android:id="@+id/managementFragment"
-        android:title="Mamagement"
-        android:icon="@drawable/navi_person"
+        android:title="@string/menu_manage"
+        android:icon="@drawable/menu_manage"
         />
     <item android:id="@+id/userFragment"
-        android:title="User"
-        android:icon="@drawable/navi_person"
+        android:title="@string/menu_profile"
+        android:icon="@drawable/menu_profile"
         />
 </menu>

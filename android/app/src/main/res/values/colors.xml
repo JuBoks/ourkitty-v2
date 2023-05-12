@@ -12,6 +12,7 @@
     <color name="hotPink">#EC5E98</color>
     <color name="red">#ff0000</color>
     <color name="gray">#B0B0B0</color>
+    <color name="lightGray">#F5F5F5</color>
 
 
 </resources>

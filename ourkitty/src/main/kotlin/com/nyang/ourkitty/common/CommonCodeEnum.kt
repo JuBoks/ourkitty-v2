@@ -1,5 +1,10 @@
 package com.nyang.ourkitty.common
 
+enum class Authority {
+    ROLE_USER, ROLE_ADMIN
+    ;
+}
+
 enum class UserCode(
     val code: String,
 ) {
@@ -7,9 +12,6 @@ enum class UserCode(
     지자체("0010002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class LocationCode(
@@ -21,9 +23,6 @@ enum class LocationCode(
     강서구("0020004"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class DishState(
@@ -34,9 +33,6 @@ enum class DishState(
     파손("0030003"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class ReportCategory(
@@ -46,9 +42,6 @@ enum class ReportCategory(
     테러위험("0040002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class ReportState(
@@ -58,9 +51,6 @@ enum class ReportState(
     답변완료("0050002"),
     ;
 
-    override fun toString(): String {
-        return code
-    }
 }
 
 enum class AlertState(
@@ -68,7 +58,73 @@ enum class AlertState(
 ) {
     ;
 
-    override fun toString(): String {
-        return code
-    }
+}
+
+enum class ReportSearchKey(
+    val code: String,
+) {
+    제목("0070001"),
+    내용("0070002"),
+    ;
+
+}
+
+enum class ClientSearchKey(
+    val code: String,
+) {
+    이름("0090001"),
+    닉네임("0090002"),
+    이메일("0090003"),
+    전화번호("0090004"),
+    주소("0090005"),
+    ;
+
+}
+
+enum class BatteryState(
+    val code: String,
+    val amount: Int,
+) {
+    ZERO("0100001", 0),
+    PERCENT_10("0100002", 10),
+    PERCENT_20("0100003", 20),
+    PERCENT_30("0100004", 30),
+    PERCENT_40("0100005", 40),
+    PERCENT_50("0100006", 50),
+    PERCENT_60("0100007", 60),
+    PERCENT_70("0100008", 70),
+    PERCENT_80("0100009", 80),
+    PERCENT_90("0100010", 90),
+    PERCENT_100("0100011", 100),
+    ;
+
+}
+
+enum class UserState(
+    val code: String,
+) {
+    정상("0110001"),
+    비활성화("0110002"),
+    탈퇴("0110003"),
+    ;
+
+}
+
+enum class DishWeight(
+    val code: String,
+    val amount: Int,
+) {
+    ZERO("0120001", 0),
+    PERCENT_10("0120002", 10),
+    PERCENT_20("0120003", 20),
+    PERCENT_30("0120004", 30),
+    PERCENT_40("0120005", 40),
+    PERCENT_50("0120006", 50),
+    PERCENT_60("0120007", 60),
+    PERCENT_70("0120008", 70),
+    PERCENT_80("0120009", 80),
+    PERCENT_90("0120010", 90),
+    PERCENT_100("0120011", 100),
+    ;
+
 }

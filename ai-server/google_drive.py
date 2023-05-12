@@ -31,15 +31,14 @@ def connect_to_google_drive():
         # TODO(developer) - Handle errors from drive API.
         print(f'An error occurred: {error}')
 
-async def upload_photo(service, commonFileName, serial_number, imageFile: UploadFile or None = None):
-    # 폴더 아이디 가져오기
-    folder_id = os.environ[serial_number]
-    # Upload a file to google drive
-    fileName = datetime.today().strftime("%Y%m%d%H%M%S")  
-    file_metadata = {'name': fileName, 'parents': [folder_id], 'uploadType': 'multipart'}
-    media = MediaFileUpload('static/img/'+commonFileName+".png", mimetype='image/png')
-    file = service.files().create(body=file_metadata, media_body=media, fields='id,webViewLink').execute()
-    
-    # 구글드라이브 링크 얻기
-    print("File webViewLink :",file.get('webViewLink'))
-    webviewlink = file.get('webViewLink')
+async def upload_photo(service, path, googleFileName, folder_id):
+    try:
+        # Upload a file to google drive
+        file_metadata = {'name': googleFileName, 'parents': [folder_id], 'uploadType': 'multipart'}
+        media = MediaFileUpload(path, mimetype='image/png')
+        file = service.files().create(body=file_metadata, media_body=media, fields='id,webViewLink').execute()
+        # 구글드라이브 링크 얻기
+        # webviewlink = file.get('webViewLink')
+        return True
+    except:
+        return False

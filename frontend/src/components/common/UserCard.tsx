@@ -1,12 +1,8 @@
 import React from "react";
+import "../../css/UserCard.css";
 
-interface cartState {
-  isDisabled: boolean;
-}
-export default function UserCard({ isDisabled }: cartState) {
+export default function UserCard({ children }: any) {
   return (
-    <div className="inline-block overflow-x-auto shadow-lg w-[400px] h-[360px]">
-      <div>d</div>
-    </div>
+    <div className="user-card dark:bg-neutral-500 relative">{children}</div>
   );
 }

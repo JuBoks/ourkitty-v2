@@ -1,18 +1,20 @@
 import React from "react";
-import MyUser from "../components/User/MyUser";
-import DisabledUser from "../components/User/DisabledUser";
-import ProfileHistory from "../components/User/ProfileHistory";
+import ActivateUser from "../components/user/ActivateUser";
+import DeactivateUser from "../components/user/DeactivateUser";
+import DeletedUser from "../components/user/DeletedUser";
 
 export default function User() {
   return (
-    <div className="flex flex-col gap-1 mx-5 w-full px-1">
-      <MyUser />
-      <div className="flex flex-row my-2 gap-3 h-full w-[950px] rounded-xl">
-        <div className="h-full">
-          <DisabledUser />
+    <div className="w-full h-full flex flex-col gap-2 p-3">
+      <div className="w-full h-[50%] bg-white pt-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+        <ActivateUser />
+      </div>
+      <div className="w-full h-[50%] flex flex-row gap-5">
+        <div className="w-[50%] h-full bg-white pt-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <DeactivateUser />
         </div>
-        <div className="h-full">
-          <ProfileHistory />
+        <div className="w-[50%] h-full bg-white pt-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <DeletedUser />
         </div>
       </div>
     </div>

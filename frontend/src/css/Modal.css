@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
   z-index: 999999;
-  background-color: rgba(0, 0, 0, 0.09);
+  background-color: rgba(101, 101, 101, 0.445);
 }
 .modal button {
   outline: none;

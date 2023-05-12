@@ -1,25 +1,32 @@
 import os.path
+import datetime
+from glob import glob
+import requests
+import json
+import shutil
 
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-import requests
-import cv2
-import numpy as np
-from PIL import Image
+import asyncio
 # Google
 from google_drive import connect_to_google_drive, upload_photo
 from dotenv import load_dotenv
-from detr import detect_cat
+from detr import detectCatByDetr
+# YOLO
+from yolov5.yolo import detectCatByYolo
+# s3
+from s3upload import upload_image
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-app = FastAPI()
+app = FastAPI(static_directory="static")
 
 app.mount("/fastapi", app)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/fastapi/static", StaticFiles(directory="static"), name="static")
 
 origins = ["*"]
 app.add_middleware(
@@ -34,141 +41,137 @@ app.add_middleware(
 googleService = connect_to_google_drive()
 
 # Spring 서버 URL
-SERVER_URL = 'https://ourkitty.site/api/pictures/'
+SERVER_URL = 'https://k8e2031.p.ssafy.io/api'
 
-# OpenCV 설정
-winName = 'ESP32 CAMERA'
-infoPath = './infor/'
-
-classNames = []
-classFile = infoPath+'coco.names'
-with open(classFile,'rt') as f:
-    classNames = f.read().rstrip('\n').split('\n')
-
-configPath = infoPath+'ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt' #YOLO 환경설정파일
-weightsPath = infoPath+'frozen_inference_graph.pb'#사전 훈련된 가중치들
-
-net = cv2.dnn_DetectionModel(weightsPath,configPath)
-# net.setInputSize(320,320)
-#net.setInputSize(480,480)
-net.setInputSize(608, 608)
-net.setInputScale(1.0/127.5)
-net.setInputMean((127.5, 127.5, 127.5))
-net.setInputSwapRB(True)
-
+# 전역 시간
+REALTIME = {'iujeong': '', 'jeongho': '', 'mihyeon': ''}
 
 @app.get("/")
 async def index():
     return "Hello World!"
 
+@app.get("/yolo/pics")
+def yolo_pics():
+    return display_yolo_pics("static/yolov5/*.png", "Cats Detected By YOLO")
+
+@app.get("/img/pics")
+def img_pics():
+    return display_pics("static/realtime/*.png", "실시간 사진들")
+
 @app.post("/upload-google/{serial_number}")
-async def upload_google(serial_number, imageFile: UploadFile or None = None):
+async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or None = None):
     if not imageFile:
-        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
-    else:
-        # 이미지 파일인지 식별하기
-        contentType, ext = imageFile.content_type.split('/')
-        if(contentType != 'image'):
-            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
-        
-        # 이미지 파일 읽기
-        contents = await imageFile.read()
+        return {'status': 400, 'message': 'There is no file'}
 
-        # 이미지 파일 이름 설정
-        commonFileName = os.environ[serial_number+"_NAME"]
-        commonFileName = commonFileName
-        filepath = "static/img/"+commonFileName+".png"
+    # 이미지 파일인지 식별하기
+    contentType, ext = imageFile.content_type.split('/')
+    if(contentType != 'image'):
+        return {'status': 400, 'message': 'Not a image file'}
 
-        # 읽은 파일 서버에 저장
-        with open("./static/img/"+commonFileName+".png", 'wb') as f:
+    # 이미지 파일 읽기
+    contents = await imageFile.read()
+
+    # 실시간 이미지 파일 이름 설정
+    siteId = os.environ[serial_number]
+    siteName = os.environ[serial_number+"_NAME"]
+
+    # 구글에 업로드할 구글 파일 이름 설정
+    googleFileName = datetime.datetime.today().strftime("%Y-%m-%d_%H-%M-%S")
+    REALTIME[siteName] = googleFileName
+    googleFileName = f"{siteName}_{googleFileName}"
+
+    # 읽은 파일을 보내기 위해 서버에 저장
+    realtimeFilePath = f"static/realtime/{siteName}.png"
+    inputFilePath = f"static/input/{googleFileName}.png"
+
+    paths = [realtimeFilePath, inputFilePath]
+    for path in paths:
+        with open(path, 'wb') as f:
             f.write(contents)
 
-        # 이미지 파일을 detr로 고양이 사진 필터링
-        status, isDone = await detect_cat(filepath, commonFileName)
-        # 이미지 파일을 openCV로 고양이 사진 필터링 
-        # status, isDone = await filter_cat(contents, commonFileName)
+    status = await filterCatByYolo(inputFilePath, googleFileName)
 
-        # 고양이사진 인 경우 spring 서버로 보내기
-        if isDone is False:
-            if status == 0:
-                msg = '고양이 사진이 아닙니다.'
-            elif status == -1:
-                msg = '사물인식 중 에러 발생'
-            return {'status': 500, 'message': msg}
-        
-        # 구글에 사진 전송
-        await upload_photo(googleService, commonFileName, serial_number, imageFile)
+    if status:
+        # 파일 포인터를 파일의 처음으로 옮겨줍니다.
+        await imageFile.seek(0)
 
-        return {'status': 200, 'message': "google serivce is done"}
+        # 구글에 사진 전송, S3로 파일 업로드 및 객체 정보 저장
+        tasks = [
+            asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId)),
+            asyncio.create_task(upload_s3(serial_number, imageFile))
+        ]
 
-@app.post("/upload-s3/{serial_number}")
-async def create_upload_file(serial_number, imageFile: UploadFile or None = None):
-    if not imageFile:
-        return {'status': 400, 'message': '업로드한 파일이 없습니다.'}
+        results = await asyncio.gather(*tasks)
+
+        if results[0] and results[1]:
+            return {'status': 200, 'message': "cat detection and upload images are successful."}
+        else:
+            return {'status': 500, 'message': "Image Uploading is failed."}
     else:
-        # 1. 이미지 파일인지 식별하기
-        contentType, ext = imageFile.content_type.split('/')
-        if(contentType != 'image'):
-            return {'status': 500, 'message': '사진 파일만 올릴 수 있습니다.'}
-        
-        # 2. 이미지 파일 읽기
-        contents = await imageFile.read()
+        return {'status': 200, 'message': "No Cat."}
 
-        # 읽은 파일 서버에 저장 (임시 추후 삭제)
-        with open("./static/img/uploaded.jpg", 'wb') as f:
-            f.write(contents)
-
-        # 3. 이미지 파일을 openCV로 고양이 사진 필터링 
-        status, isDone = await filter_cat(contents)
-
-        # 4. 고양이사진 인 경우 spring 서버로 보내기
-        if isDone is False:
-            if status == 0:
-                msg = '고양이 사진이 아닙니다.'
-            elif status == -1:
-                msg = '사물인식 중 에러 발생'
-            return {'status': 500, 'message': msg}
-
-        # 모션인식된 결과물 전송 (임시 추후 삭제)
-        # with open("./static/img/output.jpg", 'rb') as f:
-        #     contents = f.read()
-
-        response = await send_image(contents, ext, serial_number)
-
-        # return json.loads(response.content)
-        return {'status': response.status_code}
-
-async def filter_cat(contents, commonFileName):
+# @app.post("/upload-s3/{serial_number}")
+async def upload_s3(serial_number, imageFile: UploadFile or None = None):
     try:
-        imgNp = np.fromstring(contents, np.uint8)
-        img = cv2.imdecode(imgNp,-1) #decodificamos
+        imagePath = await upload_image(serial_number, imageFile)
+    except Exception as e:
+        print('이미지 업로드 도중 에러 발생', e)
+        return {'status': 500, 'message': '이미지 업로드 도중 에러 발생'}
+    
+    # back에 정보 보내기
+    # POST 요청을 보낼 URL
+    url = f'{SERVER_URL}/ai/image'
 
-        #사물인식
-        classIds, confs, bbox = net.detect(img,confThreshold=0.5)
+    # POST 요청에 포함할 데이터
+    data = {
+        "dishSerialNum": serial_number,
+        "imagePath": imagePath,
+    }
 
-        # classId 가 17(cat)이 아니면 return false
-        if 17 not in classIds:
-            return 0, False
+    # 요청 본문에 포함할 데이터를 JSON 형식으로 인코딩
+    json_data = json.dumps(data)
 
-        #사물인식된 경우 박스 및 테스트 입력
-        if len(classIds) != 0:
-            for classId, confidence,box in zip(classIds.flatten(),confs.flatten(),bbox):
-                cv2.rectangle(img,box,color=(0,255,0),thickness = 3) #mostramos en rectangulo lo que se encuentra
-                cv2.putText(img, classNames[classId-1], (box[0]+10,box[1]+30), cv2.FONT_HERSHEY_COMPLEX, 1, (0,255,0),2)
+    # 요청 본문과 함께 POST 요청 보내기
+    response = requests.post(url, data=json_data, headers={"Content-Type": "application/json"})
+
+    # print(response.text)
+    # 응답 결과 출력
+    if response.status_code >= 400:
+        return False
+    else:
+        return True
+
+def display_pics(filePath, title):
+    image_list = glob(filePath)
+
+    html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list:
+        dirpath, filename = os.path.split(image)
+        filename = filename.split('.')[0]
+        html_content += f'<div><div>{filename}_{REALTIME[filename]}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
+    html_content += "</div></body></html>"
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+def display_yolo_pics(filePath, title):
+    image_list = glob(filePath)
+
+    html_content = f"<html><body><h3>{title}</h3><div style='display: flex; gap: 10px; flex-wrap: wrap;'>"
+    for image in image_list:
+        dirpath, filename = os.path.split(image)
+        filename = filename.split('.')[0]
+        html_content += f'<div><div>{filename}</div><img src="/fastapi/{image}" alt="{filename}" width="416" ></div>'
+    html_content += "</div></body></html>"
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+
+async def filterCatByYolo(inputFilePath, googleFileName):
+    # 1. 이미지 파일을 yolo로 고양이 사진 필터링
+    isCat = await detectCatByYolo(inputFilePath)
+    if isCat :
+        # yolo로 통과된 사진을 보여주기 위해 yolo폴더에 저장
+        yoloFilePath = f"static/yolov5/{googleFileName}.png"
+        shutil.copyfile(inputFilePath, yoloFilePath)
         
-        # 인식한 결과를 로컬에 저장함(임시)
-        fileName = commonFileName + "_output.png"
-        cv2.imwrite("./static/img/"+fileName, img)
-
-        return 1, True
-    except:
-        return -1, False
-
-
-async def send_image(img, ext, serial_number):
-    return requests.post(SERVER_URL + serial_number, files={'imageFile': img}, data={'extension': ext})
-
-@app.get("/white-balance")
-def white_balance():
-    white_balance_photo("test")
-    return "white-balancing is done"
+    return isCat

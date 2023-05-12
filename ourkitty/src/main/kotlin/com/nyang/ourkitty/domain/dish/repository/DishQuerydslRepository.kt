@@ -1,12 +1,13 @@
 package com.nyang.ourkitty.domain.dish.repository
 
+import com.nyang.ourkitty.common.dto.PositionDto
 import com.nyang.ourkitty.entity.DishEntity
 import com.nyang.ourkitty.entity.QDishEntity.dishEntity
-import com.querydsl.core.Tuple
+import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
-@Component
+@Repository
 class DishQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
 ) {
@@ -15,33 +16,55 @@ class DishQuerydslRepository(
         return queryFactory.select(dishEntity)
             .from(dishEntity)
             .where(
+                dishEntity.isDeleted.isFalse,
                 locationCode?.let { dishEntity.locationCode.eq(locationCode) },
             )
             .fetch()
     }
 
-    fun getCenterPos(locationCode: String?): Pair<Double, Double> {
-        val result: Tuple? = queryFactory.select(dishEntity.dishLat.avg(), dishEntity.dishLong.avg())
+    fun getCenterPos(locationCode: String?): PositionDto {
+        return queryFactory.select(
+            Projections.constructor(
+                PositionDto::class.java,
+                dishEntity.dishLat.avg(),
+                dishEntity.dishLong.avg(),
+            )
+        )
             .from(dishEntity)
             .where(
+                dishEntity.isDeleted.isFalse,
                 locationCode?.let { dishEntity.locationCode.eq(locationCode) },
             )
-            .fetchOne()
-
-        return if (result == null) {
-            Pair(0.0, 0.0)
-        } else {
-            Pair(result.get(dishEntity.dishLat.avg())!!, result.get(dishEntity.dishLong.avg())!!)
-        }
+            .fetchOne()!!
     }
 
-    fun countDishList(locationCode: String): Int {
-        return queryFactory.select(dishEntity.dishId.count())
-            .from(dishEntity)
+    fun getDishById(dishId: Long): DishEntity? {
+        return queryFactory
+            .selectFrom(dishEntity)
             .where(
-                dishEntity.locationCode.eq(locationCode)
+                dishEntity.isDeleted.isFalse,
+                dishEntity.dishId.eq(dishId),
             )
-            .fetchOne()?.toInt() ?: 0
+            .fetchOne()
     }
+
+    fun getDishBySerialNum(dishSerialNum: String): DishEntity? {
+        return queryFactory
+            .selectFrom(dishEntity)
+            .where(
+                dishEntity.isDeleted.isFalse,
+                dishEntity.dishSerialNum.eq(dishSerialNum),
+            )
+            .fetchOne()
+    }
+
+//    fun countDishList(locationCode: String): Int {
+//        return queryFactory.select(dishEntity.dishId.count())
+//            .from(dishEntity)
+//            .where(
+//                dishEntity.locationCode.eq(locationCode)
+//            )
+//            .fetchOne()?.toInt() ?: 0
+//    }
 
 }

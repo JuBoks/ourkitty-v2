@@ -18,8 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "baseUrl": "./src",
   },
+  "types": [
+    "kakao.maps.d.ts"
+  ],
   "include": [
     "src"
   ]

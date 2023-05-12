@@ -1,39 +1,38 @@
 package com.nyang.ourkitty.domain.management.repository
 
 import com.nyang.ourkitty.entity.ManagementEntity
-import com.nyang.ourkitty.entity.QClientEntity.clientEntity
-import com.nyang.ourkitty.entity.QDishEntity.dishEntity
 import com.nyang.ourkitty.entity.QManagementEntity.managementEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
-//@Component
 @Repository
 class ManagementQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
 ) {
 
-    fun getManagementList(locationCode: String, limit: Long, offset: Long, id: Long?): List<ManagementEntity> {
+    fun getManagementList(locationCode: String, limit: Long, offset: Long, dishId: Long?): List<ManagementEntity> {
         return queryFactory
             .selectFrom(managementEntity)
             .leftJoin(managementEntity.dish).fetchJoin()
             .leftJoin(managementEntity.client).fetchJoin()
             .where(
+                managementEntity.isDeleted.isFalse,
                 managementEntity.locationCode.eq(locationCode),
-                id?.let { managementEntity.dish.dishId.eq(id) },
+                dishId?.let { managementEntity.dish.dishId.eq(dishId) },
             )
             .limit(limit)
             .offset(offset)
             .fetch()
     }
 
-    fun countManagementList(locationCode: String, id: Long?): Long {
+    fun countManagementList(locationCode: String, dishId: Long?): Long {
         return queryFactory.select(managementEntity.managementId.count())
             .from(managementEntity)
             .leftJoin(managementEntity.dish)
             .where(
+                managementEntity.isDeleted.isFalse,
                 managementEntity.locationCode.eq(locationCode),
-                id?.let { managementEntity.dish.dishId.eq(id) },
+                dishId?.let { managementEntity.dish.dishId.eq(dishId) },
             )
             .fetchOne() ?: 0L
     }

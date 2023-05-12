@@ -5,14 +5,13 @@ import javax.persistence.*
 @Entity
 @Table(name = "management_image_table")
 class ManagementImageEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val managementImageId: Long? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "management_id")
     val management: ManagementEntity,
 
-    val fileName: String,
-    val filePath: String,
-) : ImageEntity() {
+    val imagePath: String,
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val managementImageId: Long? = null,
+) : BaseEntity() {
 }

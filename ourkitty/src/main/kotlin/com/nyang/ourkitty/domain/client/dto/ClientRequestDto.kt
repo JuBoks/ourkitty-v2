@@ -1,31 +1,26 @@
 package com.nyang.ourkitty.domain.client.dto
 
-import com.nyang.ourkitty.common.LocationCode
-import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.entity.ClientEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 
 data class ClientRequestDto(
     val clientEmail: String,
-    val clientPassword: String,
     val clientName: String,
-    val clientNickname: String = "default",
-    val clientProfileImagePath: String = "./default.png",
-    val clientAddress: String,
     val clientPhone: String,
-    val locationCode: String,
-    val dishList: List<DishRequestDto> = emptyList(),
+    val clientAddress: String,
+    val clientPassword: String = "",
+    val clientNickname: String = "user",
+    val dishList: List<Long> = emptyList(),
 ) {
 
-    fun toEntity(): ClientEntity {
+    fun toEntity(passwordEncoder: PasswordEncoder): ClientEntity {
         return ClientEntity(
-            clientEmail = clientEmail,
-            clientPassword = clientPassword,
-            clientName = clientName,
-            clientNickname = clientNickname,
-            clientProfileImagePath = clientProfileImagePath,
-            clientAddress = clientAddress,
-            clientPhone = clientPhone,
-            locationCode = locationCode,
+            clientEmail = this.clientEmail,
+            clientPassword = if (this.clientPassword != "") passwordEncoder.encode(this.clientPassword) else "",
+            clientName = this.clientName,
+            clientNickname = this.clientNickname,
+            clientAddress = this.clientAddress,
+            clientPhone = this.clientPhone,
         )
     }
 

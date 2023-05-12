@@ -6,4 +6,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ClientRepository : CrudRepository<ClientEntity, Long> {
+
+    fun existsByClientEmail(clientEmail: String): Boolean
+
+    fun existsByClientPhone(clientPhone: String): Boolean
+
 }

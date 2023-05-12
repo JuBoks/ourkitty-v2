@@ -20,6 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val mActionBar = supportActionBar
+        mActionBar!!.hide()
 
         // 내비게이션 컨트롤러
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

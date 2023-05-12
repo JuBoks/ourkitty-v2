@@ -7,7 +7,7 @@ spring:
   # MySQL
   datasource:
     driver-class-name: ${DB_MYSQL_DRIVER}
-    url: jdbc:mysql://${DB_MYSQL_URL}:${DB_MYSQL_PORT}/${DB_MYSQL_DATABASE}?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${DB_MYSQL_URL}:${DB_MYSQL_PORT}/${DB_MYSQL_DATABASE}?characterEncoding=UTF-8
     username: ${DB_MYSQL_USERNAME}
     password: ${DB_MYSQL_PASSWORD}
 
@@ -44,6 +44,7 @@ cloud:
       secretKey: ${AWS_S3_SECRET_KEY}
     s3:
       bucket: ${AWS_S3_BUCKET}
+      dir: ${AWS_S3_DIRECTORY}
     region:
       static: ${AWS_S3_REGION}
     stack:
@@ -59,3 +60,6 @@ logging:
     sql: error
     jdbc: off
     jdbc.sqlonly: debug
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
