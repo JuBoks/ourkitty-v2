@@ -116,8 +116,8 @@ void setup() {
 
 void loop() {
   long time_now = millis();
-  if (digitalRead(MOTOR_ENABLE) && time_now - feed_time > 900000) {
-    Serial.println("motor enable");
+  // if (digitalRead(MOTOR_ENABLE) && time_now - feed_time > 900000) {
+  if (digitalRead(MOTOR_ENABLE)) {
     pwm.setPWM(servonum, 0, DOOR_OPEN);
     // 사료출구 열려있는 시간. 사료량을 이 값으로 조절
     delay(600);
@@ -136,7 +136,7 @@ String sendData(String sensor_data, String code) {
   String getAll;
   String getBody;
 
-  String body = "{\"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": \"" + sensor_data + "\", \"dishBatteryState\": \"" + code + " \"}";
+  String body = "{ \"dishSerialNum\": \"" + serialNumber + "\", \"dishWeight\": \"" + sensor_data + "\", \"dishBatteryState\": \"" + code + "\" }";
 
   Serial.println("Connecting to server: " + serverName);
 
@@ -172,12 +172,10 @@ String sendData(String sensor_data, String code) {
       }
       if (getBody.length() > 0) { break; }
     }
-    Serial.println();
     client.stop();
     Serial.println(getBody);
   } else {
     getBody = "Connection to " + serverName + " failed.";
-    Serial.println(getBody);
   }
   return getBody;
 }
