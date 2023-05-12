@@ -30,7 +30,8 @@ class ChartQuerydslRepository(
         return queryFactory
             .from(dishImageEntity)
             .where(
-                dishImageEntity.createdDate.between(start, LocalDateTime.now())
+                dishImageEntity.dish.dishId.eq(dishId),
+                dishImageEntity.createdDate.between(start, LocalDateTime.now()),
             )
             .transform(
                 groupBy(dishImageEntity.createdDate.hour()).`as`(list(dishImageEntity))
