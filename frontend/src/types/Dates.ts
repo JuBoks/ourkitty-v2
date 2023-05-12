@@ -1,5 +1,5 @@
 export type DateInfo = {
-  date: string,
+  date: number,
   status: number,
 }
 

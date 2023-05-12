@@ -62,8 +62,8 @@ def crop_dataset(f):
   center = np.mean(ori_bb, axis=0)
   face_size = max(np.abs(ori_bb[1] - ori_bb[0]))
   new_bb = np.array([
-    center - face_size * 0.6,
-    center + face_size * 0.6
+    center - face_size * 0.8,
+    center + face_size * 0.8
   ]).astype(int)
   new_bb = np.clip(new_bb, 0, 99999)
 
