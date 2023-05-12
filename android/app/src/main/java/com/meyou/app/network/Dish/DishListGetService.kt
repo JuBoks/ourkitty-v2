@@ -1,8 +1,9 @@
 package com.meyou.app.network.Dish
 
 import com.meyou.app.main.ContentsDetailDishList
-import retrofit2.Call
 import com.meyou.app.main.ContentsMyDishList
+import retrofit2.Call
+import com.meyou.app.user.ContentsUserInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 

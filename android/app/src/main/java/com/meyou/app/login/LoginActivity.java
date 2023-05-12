@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneNum = inputPhoneNum.getText().toString();
-                phoneNum = phoneNum.substring(0, 3) + "-" + phoneNum.substring(3, 7) + "-" + phoneNum.substring(7, 11);
+                phoneNum = phoneNum.substring(0, 3) + "-" + phoneNum.substring(3, 7) + "-" + phoneNum.substring(7, 10);
                 Phone phone = new Phone(phoneNum);
 
                 LoginApiService service = new RetrofitInstance().getPhoneCheckApi();
