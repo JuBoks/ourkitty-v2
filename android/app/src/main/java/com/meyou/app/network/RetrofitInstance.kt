@@ -4,6 +4,9 @@ import com.meyou.app.network.Dish.DetailDishGetService
 import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
+import com.meyou.app.network.management.CreateManagementService
+import com.meyou.app.network.management.ReadManagementService
+import com.meyou.app.network.management.Uploadimage
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -47,6 +50,17 @@ class RetrofitInstance(private val accessToken: String = "") {
     }
     fun getDetailDish(): DetailDishGetService {
         return retrofit.create(DetailDishGetService::class.java)
+    }
+
+    fun postCreateManagement(): CreateManagementService {
+        return retrofit.create(CreateManagementService::class.java)
+    }
+
+    fun postUploadImage(): Uploadimage {
+        return retrofit.create(Uploadimage::class.java)
+    }
+    fun getReadManagement(): ReadManagementService {
+        return retrofit.create(ReadManagementService::class.java)
     }
 }
 
