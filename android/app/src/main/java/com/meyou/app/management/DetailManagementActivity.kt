@@ -57,7 +57,7 @@ class DetailManagementActivity : AppCompatActivity() {
 
 
         // 클릭시 넘어온 managementId
-        val managementId: String? = intent.getStringExtra("managementId")
+        val managementId = intent.getIntExtra("managementId", -1)
 
         // ViewPager2와 DotsIndicator 초기화
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
