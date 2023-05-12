@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface DishListGetService {
-    @GET("dish")
+    @GET("dish/mydish")
     fun getDishes(): Call<ContentsMyDishList>
 }
 
