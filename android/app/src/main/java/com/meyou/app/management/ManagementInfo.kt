@@ -10,3 +10,18 @@ data class ManagementInfo(
     val managementId : Int = 0,
     val isEdit : Boolean
 )
+data class DetailManagementInfo(
+    val imageUrls: List<String>,
+    val userName: String,
+    val userProfileImage: String,
+    val location: String,
+    val message: String,
+    val comments: List<UserComment>
+)
+
+data class UserComment(
+    val userProfileImage: String,
+    val userName: String,
+    val comment: String,
+    val date: String
+)

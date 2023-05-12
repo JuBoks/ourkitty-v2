@@ -12,7 +12,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @Api(tags = ["문의 관련 API"])
 @RestController
@@ -28,7 +27,7 @@ class ReportController(
      */
     @ApiOperation(value = "신고 작성")
     @PostMapping
-    fun createReport(reportRequestDto: ReportRequestDto, @RequestParam(required = false) files: List<MultipartFile>?): ResponseEntity<ResultDto<Boolean>> {
+    fun createReport(reportRequestDto: ReportRequestDto, @RequestParam(required = false) files: List<String>?): ResponseEntity<ResultDto<Boolean>> {
         val result = reportService.createReport(
             clientId = JwtContextHolder.clientId!!.toLong(),
             locationCode = JwtContextHolder.locationCode!!,
@@ -79,7 +78,6 @@ class ReportController(
     }
 
     /**
-     * TODO : 신고 답변 완료 - return Entity
      * @param reportId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */

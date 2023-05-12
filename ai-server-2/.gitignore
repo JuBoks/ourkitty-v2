@@ -1,6 +1,7 @@
 env
 **/__pycache__
 venv
+.venv
 
 datasets/crop/input/*
 datasets/tnr/input/*

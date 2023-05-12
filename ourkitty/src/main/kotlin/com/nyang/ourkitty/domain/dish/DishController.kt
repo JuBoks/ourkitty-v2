@@ -24,7 +24,6 @@ class DishController(
 
     /**
      * 해당 유저의 locationCode 를 통해 dishList 를 반환한다.
-     * TODO : 인증 기능 - 현재 로그인한 유저의 id 를 받아와서 (jwt 토큰 까서?) 전달해야함
      * @return ResponseEntity<List<DishResponseDto>>
      */
     @ApiOperation(value = "냥그릇 목록 조회")

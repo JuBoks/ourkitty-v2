@@ -136,7 +136,7 @@ for index, f in enumerate(file_list):
   width = new_w2 / ori_img.shape[1]
   height = abs(new_h2 / ori_img.shape[0])
 
-  data = str(x_center) + ' ' + str(y_center) + ' ' + str(width) + ' ' + str(height)
-  with open('../tnr_filtering/input/%s.txt' % (filename), 'w') as file:
-    file.write(data)
+  # data = str(x_center) + ' ' + str(y_center) + ' ' + str(width) + ' ' + str(height)
+  # with open('../tnr_filtering/input/%s.txt' % (filename), 'w') as file:
+  #   file.write(data)
 

@@ -25,18 +25,24 @@ class SplashActivity : AppCompatActivity() {
 
         val service = retrofitInstance.getDishList()
 
+        val mActionBar = supportActionBar
+        mActionBar!!.hide()
 
         // 2초 후에 실행될 코드 설정
         Handler().postDelayed({
             service.getDishes().enqueue(object : Callback<ContentsMyDishList> {
                 // 응답이 성공적으로 왔을 때
                 override fun onResponse(call: Call<ContentsMyDishList>, response: Response<ContentsMyDishList>) {
-                    if (response.isSuccessful) {
-                        Log.d("accessToken",accessToken)
-                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-
-                    } else {
-                        // 응답이 성공적으로 오지 않았을 때의 처리를 해야 합니다.
+                    try {
+                        if (response.isSuccessful) {
+                            Log.d("accessToken", accessToken)
+                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                        } else {
+                            throw Exception("Response is not successful")
+                        }
+                    } catch (e: Exception) {
+                        // Log exception e
+                        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
                 }
 
@@ -45,9 +51,10 @@ class SplashActivity : AppCompatActivity() {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 }
             })
-//             현재 액티비티 종료
+            // 현재 액티비티 종료
             finish()
         }, 2000)
+
 
     }
 }

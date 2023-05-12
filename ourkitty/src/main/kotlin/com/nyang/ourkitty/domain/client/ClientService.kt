@@ -1,6 +1,5 @@
 package com.nyang.ourkitty.domain.client
 
-import com.nyang.ourkitty.common.AwsS3ImageUploader
 import com.nyang.ourkitty.common.UserState
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.client.dto.ClientListResultDto
@@ -17,7 +16,6 @@ import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 
@@ -33,13 +31,12 @@ class ClientService(
 
     private val dishQuerydslRepository: DishQuerydslRepository,
 
-    private val imageUploader: AwsS3ImageUploader,
     private val passwordEncoder: PasswordEncoder,
 ) {
 
     @Transactional
     fun createAccount(locationCode: String, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
-        val client = clientRequestDto.toEntity()
+        val client = clientRequestDto.toEntity(passwordEncoder)
 
         if (clientRepository.existsByClientEmail(client.clientEmail)) {
             throw CustomException(ErrorCode.DUPLICATE_CLIENT_EMAIL)
@@ -51,7 +48,6 @@ class ClientService(
 
         client.updateLocationCode(locationCode)
         client.updateLastPostingDate()
-        client.updatePassword(passwordEncoder.encode(client.clientPassword))
 
         clientRepository.save(client)
 
@@ -140,18 +136,12 @@ class ClientService(
         )
     }
 
-    //TODO : 휴대폰 번호 변경
-
     @Transactional
-    fun modifyMyAccount(clientId: Long, clientRequestDto: ClientRequestDto, file: MultipartFile?): ResultDto<ClientResponseDto> {
+    fun modifyMyAccount(clientId: Long, clientRequestDto: ClientRequestDto, file: String?): ResultDto<ClientResponseDto> {
         val client = getAllClientById(clientId)
-        val updateParam = clientRequestDto.toEntity()
+        val updateParam = clientRequestDto.toEntity(passwordEncoder)
 
-        if (file != null) {
-            val imagePath = imageUploader.uploadImage(file)
-            client.updateProfileImage(imagePath)
-        }
-
+        file?.run(client::updateProfileImage)
         client.updateMyAccount(updateParam)
 
         return ResultDto(
@@ -164,7 +154,7 @@ class ClientService(
     @Transactional
     fun modifyAccount(clientId: Long, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
         val client = getAllClientById(clientId)
-        val updateParam = clientRequestDto.toEntity()
+        val updateParam = clientRequestDto.toEntity(passwordEncoder)
 
         client.updateAccount(updateParam)
 
@@ -227,7 +217,7 @@ class ClientService(
             clientRepository.save(it)
         }
 
-        val block = blockRepository.findByClientId(clientId)?.apply{ this.updateBlockDate(unBlockDate) } ?: BlockEntity(
+        val block = blockRepository.findByClientId(clientId)?.apply { this.updateBlockDate(unBlockDate) } ?: BlockEntity(
             clientId = clientId,
             unBlockDate = unBlockDate,
         )
@@ -254,6 +244,7 @@ class ClientService(
     private fun getClientById(clientId: Long): ClientEntity {
         return clientQuerydslRepository.getClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
+
     private fun getAllClientById(clientId: Long): ClientEntity {
         return clientQuerydslRepository.getAllClientById(clientId) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
     }
