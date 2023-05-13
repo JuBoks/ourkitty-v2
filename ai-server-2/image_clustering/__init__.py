@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 from common.util import resize_img, empty_directory
 
 img_size = 224
-base_path = os.path.abspath('datasets/crop/input')
-tnr_image_path = os.path.abspath('datasets/tnr/input')
+base_path = os.path.abspath('datasets/2_crop')
+tnr_image_path = os.path.abspath('datasets/3_tnr/input')
 
 # 이미지 속 특징 추출 함수
 def extract_features(directory):
@@ -115,13 +115,13 @@ def cluster_images():
   for i, img_path in enumerate(image_paths):
     img_name = os.path.basename(img_path)
     distances = euclidean_distances(features[i].reshape(1, -1), centroids)
-    closest_centroid = np.argmin(distances)
+    closest_centroid = int(np.argmin(distances))
     if len(representative_images) < num_clusters:
       # Add the first image for this centroid
-      representative_images.append((closest_centroid, img_name))
+      representative_images.append([closest_centroid, img_name])
     elif distances[0, closest_centroid] < distances[0, representative_images[closest_centroid][0]]:
       # Replace the current representative image with a closer one
-      representative_images[closest_centroid] = (closest_centroid, img_name)
+      representative_images[closest_centroid] = [closest_centroid, img_name]
 
   # # Print the representative images for each cluster
   # for i in range(num_clusters):
@@ -131,7 +131,7 @@ def cluster_images():
   closest_images = [[] for _ in range(num_clusters)]
   for i, img_path in enumerate(image_paths):
     distances = euclidean_distances(features[i].reshape(1, -1), centroids)
-    closest_centroid = np.argmin(distances)
+    closest_centroid = int(np.argmin(distances))
     dist_to_centroid = distances[0, closest_centroid]
     closest_images[closest_centroid].append((dist_to_centroid, os.path.basename(img_path)))
   for i in range(num_clusters):
@@ -196,13 +196,13 @@ def cluster_images():
   file_feature_info = []
   for i, img_path in enumerate(image_paths):
     img_name = os.path.basename(img_path)
-    file_feature_info.append([img_name, kmeans.labels_[i], pca_features[i, 0] + abs(x_min) , pca_features[i, 1] + abs(y_min)])
+    file_feature_info.append([img_name, int(kmeans.labels_[i]), float(pca_features[i, 0] + abs(x_min)) , float(pca_features[i, 1] + abs(y_min))])
 
   result = {
     'num_clusters': num_clusters,                   # K
     'representative_images': representative_images, # 대표사진
-    'width': width,                                 # width
-    'height': height,                               # height
+    'width': float(width),                                 # width
+    'height': float(height),                               # height
     'file_feature_info': file_feature_info,         # 경로, index, x, y
     'closest_images': closest_images                # index의 대표사진
   }
