@@ -45,6 +45,10 @@ class DishService(
         )
     }
 
+    fun getMyDishList(clientId: Long): DishListResultDto {
+        return dishQuerydslRepository.getMyDishList(clientId)
+    }
+
     @Transactional
     fun createDish(
         locationCode: String,
