@@ -22,32 +22,29 @@ lmks_path = 'face_detection/models/lmks_1.h5'
 bbs_model = load_model(bbs_path)
 lmks_model = load_model(lmks_path)
 
-# print('hi',os.getcwd())
-# print('hi',os.path.abspath('./input'))
-base_path = os.path.abspath('face_detection/input')
-crop_path = os.path.abspath('datasets/crop/input')
+crop_path = os.path.abspath('datasets/2_crop')
 
-def detection():
+def detection(file_path):
   # 폴더 비우기
   empty_directory(f'{crop_path}/*')
 
   # 이미지 load
-  file_list = os.listdir(base_path)
+  file_list = os.listdir(file_path)
 
   crop_list = []
   # 얼굴 인식 후 crop 및 흑백처리 후 저장
   for _, f in enumerate(file_list):
-    crop_list.append(crop_dataset(f))
+    crop_list.append(crop_dataset(f, file_path))
   
   # 고양이 귀 auto labeling
   for crop in crop_list:
     auto_labeling(crop)
 
-def crop_dataset(f):
+def crop_dataset(f, file_path):
   # 파일 이름, 확장자
   filename, _ = os.path.splitext(f)
 
-  img = cv2.imread(os.path.join(base_path, f))
+  img = cv2.imread(os.path.join(file_path, f))
   ori_img = img.copy()
 
   # predict cat Face

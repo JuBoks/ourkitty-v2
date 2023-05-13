@@ -1,6 +1,8 @@
 import glob
 import os
 import cv2
+import shutil
+import requests
 
 # 이미지 전처리 함수
 def resize_img(im, img_size):
@@ -20,4 +22,15 @@ def resize_img(im, img_size):
 # 산출물 일괄 삭제
 def empty_directory(path):
   for file in glob.glob(path):
-      os.remove(file)
+      try:
+        os.remove(file)
+      except:
+        shutil.rmtree(file)
+
+def save_image_from_url(url, file_path):
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+
+    with open(file_path, 'wb') as file:
+        for chunk in response.iter_content(chunk_size=8192):
+            file.write(chunk)

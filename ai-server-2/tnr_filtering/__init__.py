@@ -11,14 +11,13 @@ import ast
 import subprocess
 from common.util import empty_directory
 
-test_img_list = 'datasets/tnr/input/iujeong_2023-04-28_23-11-29.jpg'
-tnr_input_path = 'datasets/tnr/input'
-tnr_output_path = 'datasets/tnr/output'
+tnr_input_path = 'datasets/3_tnr/input'
+tnr_output_path = 'datasets/3_tnr/output'
 tnr_output_result_path = f'{tnr_output_path}/labels'
 
 def is_tnr():
     try:
-      cmd = f'python tnr_filtering/yolov5/detect.py --weights tnr_filtering/yolov5/weight/best.pt --img 416 --conf 0.7 --source {tnr_input_path} --project datasets/tnr/ --name output --save-txt --save-conf --exist-ok'
+      cmd = f'python tnr_filtering/yolov5/detect.py --weights tnr_filtering/yolov5/weight/best.pt --img 416 --conf 0.7 --source {tnr_input_path} --project datasets/3_tnr/ --name output --save-txt --save-conf --exist-ok'
       output = subprocess.check_output(cmd, shell=True)
       output = output.decode('utf-8')
       result_arr = ast.literal_eval(output)
@@ -42,7 +41,6 @@ def detect_tnr(closest_images):
   analyze_results(closest_images)
 
 def analyze_results(closest_images):
-  print('param :: ', closest_images)
   for img_name in os.listdir(tnr_output_result_path):
     # 파일 읽기
     with open(f'{tnr_output_result_path}/{img_name}', 'r') as file:
