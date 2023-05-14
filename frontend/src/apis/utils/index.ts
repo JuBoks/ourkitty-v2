@@ -2,6 +2,7 @@ import axios from "axios";
 import { error } from "console";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
+const AI_BASE_URL = process.env.REACT_APP_AI_API_URL;
 
 const axiosApi = (baseURL: any) => {
   const instance = axios.create({
@@ -51,3 +52,4 @@ const axiosAuthApi = (baseURL: any) => {
 
 export const defaultInstance = axiosApi(BASE_URL);
 export const authInstance = axiosAuthApi(BASE_URL);
+export const aiInstance = axiosApi(AI_BASE_URL);

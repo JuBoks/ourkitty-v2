@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from "react";
 import * as d3 from 'd3';
 import { useRecoilState } from "recoil";
 import { selectedButtonState, selectedDateState } from "../../recoil/chart";
+import { useQuery } from "react-query";
+import { getClusterInfo } from "apis/api/cluster";
 
-const data = [
+const datas = [
   { x: 10, y: 20, image: 'https://picsum.photos/800/600?random=1' },
   { x: 20, y: 30, image: 'https://picsum.photos/800/600?random=2' },
   { x: 30, y: 40, image: 'https://picsum.photos/800/600?random=3' },
@@ -22,6 +24,14 @@ const yScale = d3.scaleLinear()
 export default function ClusteringChart() {
   const resultRef = useRef(null);
 
+  // 클러스터 정보 가져오기
+  const dishSerialNum = "EZZwEhRzzs9LvyZ";
+  const dishDate = "2023-05-10";
+  const { data, isLoading } = useQuery({
+    queryKey: ["getClusterInfo", dishSerialNum, dishDate],
+    queryFn: () => getClusterInfo(dishSerialNum, dishDate),
+  });
+  console.log("dd", data)
 
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
   const [selectedDish, setSelectedDish] = useRecoilState(selectedButtonState);
@@ -46,7 +56,7 @@ export default function ClusteringChart() {
 
     // 데이터 점 생성
     const points = svg.selectAll("image")
-      .data(data)
+      .data(datas)
       .enter()
       .append("image")
       .attr("x", function (d) { return xScale(d.x); })
