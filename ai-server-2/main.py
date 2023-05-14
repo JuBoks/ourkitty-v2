@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 # from face_detection import detection
 from face_detection import detection
-from image_clustering import cluster_images, copy_images
-from tnr_filtering import detect_tnr, analyze_results, is_tnr
-from common.util import save_image_from_url, empty_directory
+from image_clustering import cluster_images
+from tnr_filtering import detect_tnr
+from common.util import save_image_from_url, empty_directory, save_json_file, get_json_file
 import requests
 import os
 from dotenv import load_dotenv
@@ -14,6 +14,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 FILE_SAVE_PATH = os.path.abspath('datasets/0_files')
+JSON_PATH = os.path.abspath('datasets/4_result')
 BACK_URL = os.environ['BACK_URL']
 
 @app.get("/")
@@ -48,6 +49,13 @@ def get_files(serial_number, date, file_path):
 
   return img_info
 
+@app.get("/info")
+def face_detection(serial_number, date):
+  file_name = f'{date}_{serial_number}.json'
+  result = get_json_file(file_name)
+
+  return result
+
 @app.get("/detection")
 def face_detection(serial_number, date):
   folder_name = os.environ[f'{serial_number}']
@@ -73,5 +81,9 @@ def face_detection(serial_number, date):
   for images in result['closest_images']:
     for i in range(len(images)):
       images[i] = img_info[images[i]]
+
+  # 6. 데이터(result) 저장
+  file_name = f'{date}_{serial_number}'
+  save_json_file(result, file_name)
 
   return result
