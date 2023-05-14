@@ -31,7 +31,7 @@ def extract_features(directory):
   features = []
   for img_name in os.listdir(directory):
     # Check if the file is a valid image file
-    if os.path.splitext(img_name)[1].lower() not in ('.jpg'):
+    if img_name.split('.')[-1].lower() not in ('.jpg'):
         continue
 
     # Load the image and preprocess it
