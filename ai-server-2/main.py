@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+# FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
+from fastapi.middleware.cors import CORSMiddleware
 # from face_detection import detection
 from face_detection import detection
 from image_clustering import cluster_images
@@ -18,6 +20,16 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 FILE_SAVE_PATH = os.path.abspath('datasets/0_files')
 JSON_PATH = os.path.abspath('datasets/4_result')
 BACK_URL = os.environ['BACK_URL']
+
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True, # cookie 포함 여부를 설정한다. 기본은 False
+    allow_methods=["*"],    # 허용할 method를 설정할 수 있으며, 기본값은 'GET'이다.
+    allow_headers=["*"],	# 허용할 http header 목록을 설정할 수 있으며 Content-Type, Accept, Accept-Language, Content-Language은 항상 허용된다.
+)
+
 
 @app.get("/")
 def index():
