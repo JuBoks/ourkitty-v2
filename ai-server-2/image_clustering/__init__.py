@@ -83,12 +83,12 @@ def calculate_num_of_cluster(features):
 
   return num_of_cluster
 
-def copy_images(closest_images):
+def copy_images(representative_images):
   empty_directory(f'{tnr_image_path}/*')
 
-  for k in closest_images:
-    for img in k:
-      shutil.copy(f'{base_path}/{img}', f'{tnr_image_path}/{img}')
+  for el in representative_images:
+    img = el[1]
+    shutil.copy(f'{base_path}/{img}', f'{tnr_image_path}/{img}')
 
 # 특징을 기반으로 클러스터 수 계산하는 함수
 def cluster_images():
@@ -123,6 +123,9 @@ def cluster_images():
       # Replace the current representative image with a closer one
       representative_images[closest_centroid] = [closest_centroid, img_name]
 
+  # Save representative images for tnr model
+  copy_images(representative_images)
+
   # # Print the representative images for each cluster
   # for i in range(num_clusters):
   #     print(f"Cluster {i}: {representative_images[i][1]}")
@@ -137,9 +140,6 @@ def cluster_images():
   for i in range(num_clusters):
     closest_images[i] = sorted(closest_images[i], key=lambda x: x[0])[:5]
     closest_images[i] = [img[1] for img in closest_images[i]]
-
-  # Save closest images for tnr model
-  copy_images(closest_images)
 
   # Reduce the dimensionality of the features to 2 dimensions using PCA(차원 flatten)
   pca = PCA(n_components=2)
@@ -199,6 +199,7 @@ def cluster_images():
     file_feature_info.append([img_name, int(kmeans.labels_[i]), float(pca_features[i, 0] + abs(x_min)) , float(pca_features[i, 1] + abs(y_min))])
 
   result = {
+    'status': 0,                                    # 0: AI가 판별, 1: 유저가 수정, -1: invalid
     'num_clusters': num_clusters,                   # K
     'representative_images': representative_images, # 대표사진
     'width': float(width),                                 # width

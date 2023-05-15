@@ -46,7 +46,9 @@ def save_json_file(data, file_name):
 
 # json파일 읽기
 def get_json_file(file_name):
-  with open(f'{JSON_PATH}/{file_name}', "r") as file:
-    data = json.load(file)
-
+  try:
+    with open(f'{JSON_PATH}/{file_name}', "r") as file:
+      data = json.load(file)
+  except Exception as e:
+    return
   return data

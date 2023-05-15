@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from pydantic import BaseModel
 # FastAPI에서 CORSMiddleware라는 모듈로 CORS를 제어한다.
 from fastapi.middleware.cors import CORSMiddleware
 # from face_detection import detection
@@ -9,6 +10,23 @@ from common.util import save_image_from_url, empty_directory, save_json_file, ge
 import requests
 import os
 from dotenv import load_dotenv
+
+class Cluster(BaseModel):
+  status: int
+  num_clusters: int
+  representative_images: list
+  width: float
+  height: float
+  file_feature_info: list
+  closest_images: list
+  tnr_info: list
+  tnr_count: int
+
+class ClusterRequest(BaseModel):
+  serial_number: object
+  date: object
+  result: Cluster
+
 
 app = FastAPI()
 
@@ -29,7 +47,6 @@ app.add_middleware(
     allow_methods=["*"],    # 허용할 method를 설정할 수 있으며, 기본값은 'GET'이다.
     allow_headers=["*"],	# 허용할 http header 목록을 설정할 수 있으며 Content-Type, Accept, Accept-Language, Content-Language은 항상 허용된다.
 )
-
 
 @app.get("/")
 def index():
@@ -63,13 +80,22 @@ def get_files(serial_number, date, file_path):
 
   return img_info
 
+# cluster 관련 정보 조회
 @app.get("/info")
 def face_detection(serial_number, date):
   file_name = f'{date}_{serial_number}.json'
   result = get_json_file(file_name)
-
+  print(file_name)
   return result
 
+# cluster 관련 정보 수정
+@app.put("/info")
+async def modify_cluster_info(cluster: ClusterRequest):
+  file_name = f'{cluster.date}_{cluster.serial_number}'
+  result_json = cluster.result.dict()
+  save_json_file(result_json, file_name)
+
+# [batch] 이미지 전처리, Clustering, TNR, Back으로 전송
 @app.get("/detection")
 def face_detection(serial_number, date):
   folder_name = os.environ[f'{serial_number}']
@@ -85,7 +111,7 @@ def face_detection(serial_number, date):
   result = cluster_images()
 
   # 4. tnr판별
-  detect_tnr(result['closest_images'])
+  result_tnr, tnrCount = detect_tnr()
 
   # 5. 데이터 정제
   for el in result['representative_images']:
@@ -95,9 +121,27 @@ def face_detection(serial_number, date):
   for images in result['closest_images']:
     for i in range(len(images)):
       images[i] = img_info[images[i]]
+  result['tnr_info'] = []
+  for el in result_tnr:
+    result['tnr_info'].append([img_info[el[0]], el[1]])
+  result['tnr_count'] = tnrCount
 
   # 6. 데이터(result) 저장
   file_name = f'{date}_{serial_number}'
   save_json_file(result, file_name)
 
+  # 7. Back서버에 개체 수와 tnr 수 update하기
+  url = "/ai/count"
+  data = {
+    "catCount": result['num_clusters'],
+    "date": date,
+    "dishSerialNum": serial_number,
+    "tnrCount": tnrCount
+  }
+  response = requests.put(BACK_URL + url, json=data)
+  # 응답 처리
+  if response.status_code != 200:
+     return {'status': 500, 'message': "send cluster information is failed." }
+
   return result
+
