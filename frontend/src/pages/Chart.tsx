@@ -8,6 +8,8 @@ import { selectedButtonState } from "../recoil/chart";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
+import Loading from "../components/common/Loading";
+
 
 export default function Chart() {
 
@@ -30,6 +32,8 @@ export default function Chart() {
       setNoTnrCountList(data["noTnrCountList"])
     }
   }, [data, selectedButton]);
+
+  if (isLoading || data === undefined) return (<div><Loading/></div>);
 
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-2">

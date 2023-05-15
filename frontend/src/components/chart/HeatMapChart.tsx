@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { selectedButtonState } from "../../recoil/chart";
 import { getCatUserList } from "../../apis/api/chart";
 import CatImages from './CatImages';
+import Loading from "../common/Loading";
 
 
 interface ImgType {
@@ -95,7 +96,7 @@ export default function HeatMapChart() {
     setModalOpen(false);
   };
 
-  if (isLoading || data === undefined) return null;
+  if (isLoading || data === undefined) return (<div className="loading-parent"><Loading/></div>);
 
   return (
     <div className="w-full h-full flex flex-col gap-1">
