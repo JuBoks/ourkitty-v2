@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/Modal.css";
+import "../../css/Modal2.css";
 
 export default function Modal(props: any) {
   const { open, close, header } = props;
@@ -17,14 +17,6 @@ export default function Modal(props: any) {
           <main className="h-[680px] dark:bg-DarkBackground2 overflow-y-auto overflow-x-hidden dark:text-white">
             {props.children}
           </main>
-          <footer className="relative h-[70px] dark:bg-DarkBackground2">
-            <button
-              className="w-[80px] h-[50px] close bg-LightMain opacity-70 hover:opacity-100 dark:bg-DarkMain"
-              onClick={close}
-            >
-              등록
-            </button>
-          </footer>
         </section>
       ) : null}
     </div>

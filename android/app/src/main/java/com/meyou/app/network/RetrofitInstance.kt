@@ -4,10 +4,22 @@ import com.meyou.app.network.Dish.DetailDishGetService
 import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
+<<<<<<< HEAD
 import com.meyou.app.network.management.*
+=======
+import com.meyou.app.network.management.CreateManagementService
+import com.meyou.app.network.management.ReadDetailManagementService
+import com.meyou.app.network.management.ReadManagementService
+import com.meyou.app.network.management.Uploadimage
+import com.meyou.app.network.User.UserDeleteService
+import com.meyou.app.network.User.UserListGetService
+import com.meyou.app.network.User.UserProfileModifyService
+import com.meyou.app.network.User.UserProfileService
+>>>>>>> 83f8528c86af0159094b54db66a548ee1c4e1799
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 
 class RetrofitInstance(private val accessToken: String = "") {
@@ -17,7 +29,7 @@ class RetrofitInstance(private val accessToken: String = "") {
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer $accessToken")
+                .addHeader("Authorization", "Bearer ${accessToken}")
                 .build()
             chain.proceed(newRequest)
         }
@@ -63,11 +75,28 @@ class RetrofitInstance(private val accessToken: String = "") {
     fun getReadDetailManagement(): ReadDetailManagementService {
         return retrofit.create(ReadDetailManagementService::class.java)
     }
+<<<<<<< HEAD
     fun postManagementComment(): CreateManagementCommentService {
         return retrofit.create(CreateManagementCommentService::class.java)
     }
     fun deleteManagementComment(): DeleteManagementCommentService {
         return retrofit.create(DeleteManagementCommentService::class.java)
+=======
+    fun getUserList(): UserListGetService {
+        return retrofit.create(UserListGetService::class.java)
+    }
+
+    fun deleteUser(): UserDeleteService {
+        return retrofit.create(UserDeleteService::class.java)
+    }
+
+    fun uploadSingleImage(): UserProfileService {
+        return retrofit.create(UserProfileService::class.java)
+    }
+
+    fun modifyProfile(): UserProfileModifyService {
+        return retrofit.create(UserProfileModifyService::class.java)
+>>>>>>> 83f8528c86af0159094b54db66a548ee1c4e1799
     }
 }
 

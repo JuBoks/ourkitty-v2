@@ -12,7 +12,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define USMAX 2400     // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
 #define SERVO_FREQ 50  // Analog servos run at ~50 Hz updates
 #define DOOR_OPEN 400  //
-#define DOOR_CLOSE 247
+#define DOOR_CLOSE 246
 
 const uint8_t servonum = 4;
 
@@ -42,7 +42,8 @@ String serverName = "k8e203.p.ssafy.io";  // 아이피 주소 기입
 
 // String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
 // String serialNumber = "EZZwEhRzzs9LvyZ";  // 정호네
-String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
+// String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
+String serialNumber = "asdf";
 
 // String serialNumber = "serial-1234-0001";
 String serverPath = "/api/iot/weight";  // serverPath 기입

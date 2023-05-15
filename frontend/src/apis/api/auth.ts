@@ -14,7 +14,9 @@ export const login = async (formData: FormData) => {
     const refreshToken = res.data.data.refreshToken;
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-  } catch (e) {}
+  } catch (e) {
+    throw new Error("아이디 또는 비밀번호를 확인해주세요"); // Throw an error if login fails
+  }
 };
 
 /**
