@@ -13,8 +13,8 @@
 // ===========================
 
 // // 아이유정 WIFI 정보
-const char* ssid = "EDU-ELR22-861823"; // 라우터
-const char* password = "12345678";
+// const char* ssid = "EDU-ELR22-861823"; // 라우터
+// const char* password = "12345678";
 
 // 정호 개인 WIFI 정보
 // const char* ssid = "Jeoungho’s iPhone"; // 라우터
@@ -25,8 +25,8 @@ const char* password = "12345678";
 // const char* password = "12345678";
 
 // 미현이네 WIFI 정보
-// const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
-// const char* password = "55343033"; // 와이파이 비밀번호
+const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
+const char* password = "55343033"; // 와이파이 비밀번호
 
 // 테스트용 WIFI 정보
 // const char* ssid = "KPHONE"; // 와이파이 이름
@@ -35,8 +35,8 @@ const char* password = "12345678";
 // AI 서버 도메인
 String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
 
-String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
-// String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
+// String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
+String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
 // String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
 
 String serverPath = "/upload-google";     // serverPath 기입
