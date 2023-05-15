@@ -17,7 +17,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define USMAX  2400 // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
 #define DOOR_OPEN 400
-#define DOOR_CLOSE 247
+#define DOOR_CLOSE 230
 
 // pin config
 #define MOTOR_ENABLE 25
@@ -68,7 +68,7 @@ void setServoPulse(uint8_t n, double pulse) {
   pulse *= 1000000;  // convert input seconds to us
   pulse /= pulselength;
   Serial.println(pulse);
-  pwm.setPWM(n, 0, pulse);
+  pwm.setPWM(servonum, 0, DOOR_CLOSE);
 }
 
 void loop() {
