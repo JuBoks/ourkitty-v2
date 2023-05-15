@@ -11,6 +11,7 @@ import com.meyou.app.network.management.Uploadimage
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 
 class RetrofitInstance(private val accessToken: String = "") {
@@ -20,7 +21,7 @@ class RetrofitInstance(private val accessToken: String = "") {
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer $accessToken")
+                .addHeader("Authorization", "Bearer ${accessToken}")
                 .build()
             chain.proceed(newRequest)
         }
