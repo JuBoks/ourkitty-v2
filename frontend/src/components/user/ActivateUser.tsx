@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "../common/Modal";
+import Modal from "../common/Modal2";
 import addUserLight from "../../assets/add_user_light.svg";
 import addUserDark from "../../assets/add_user_dark.svg";
 import { useRecoilState } from "recoil";
