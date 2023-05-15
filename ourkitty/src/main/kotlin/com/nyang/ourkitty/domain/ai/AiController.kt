@@ -40,4 +40,41 @@ class AiController(
         return ResponseEntity.ok(dishService.updateDishCatCount(catCountRequestDto))
     }
 
+    @ApiOperation(value = "테스트")
+    @PutMapping("/haha1")
+    fun putTest1(testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test1 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
+    @ApiOperation(value = "테스트")
+    @PutMapping("/haha2")
+    fun putTest2(@RequestBody testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test2 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
+    @ApiOperation(value = "테스트")
+    @PutMapping("/haha3")
+    fun putTest3(@RequestParam testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test3 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
+
 }
