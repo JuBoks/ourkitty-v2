@@ -53,27 +53,32 @@ class UserFragment : Fragment() {
                 call: Call<ContentsUserInfo>,
                 response: Response<ContentsUserInfo>
             ) {
+                if (response.isSuccessful) {
+                    val info = response.body()?.data
 
-                val info = response.body()?.data
-                if (info != null) {
+                    if (info != null) {
 
-                    clientId = info.clientId
+                        clientId = info.clientId
 
-                    val imageUrl = info.clientProfileImagePath
-                    if (imageUrl != "") {
-                        Glide.with(view).load(imageUrl).into(profileImage)
+                        val imageUrl = info.clientProfileImagePath
+                        if (imageUrl != "") {
+                            Glide.with(view).load(imageUrl).into(profileImage)
+                        }
+                        profileNickname.text = info.clientNickname
+                        profilePhone.text = info.clientPhone
+                        profileEmail.text = info.clientEmail
+                        profileAddress.text = info.clientAddress
+                        val myDishList = mutableListOf<String>()
+                        for (dish in info.dishList) {
+                            myDishList.add(dish.dishName)
+                        }
+                        // 리스트 내부 아이템만 표시
+                        profileDishes.text = myDishList.joinToString(",","","",-1)
                     }
-                    profileNickname.text = info.clientNickname
-                    profilePhone.text = info.clientPhone
-                    profileEmail.text = info.clientEmail
-                    profileAddress.text = info.clientAddress
-                    val myDishList = mutableListOf<String>()
-                    for (dish in info.dishList) {
-                        myDishList.add(dish.dishName)
-                    }
-                    // 리스트 내부 아이템만 표시
-                    profileDishes.text = myDishList.joinToString(",","","",-1)
+                } else {
+
                 }
+
             }
 
             override fun onFailure(call: Call<ContentsUserInfo>, t: Throwable) {
@@ -102,7 +107,12 @@ class UserFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
         }
-        modifyButton.setOnClickListener {  }
+        // 회원정보 수정
+        modifyButton.setOnClickListener {
+            val intent = Intent(activity, ModifyUserActivity::class.java)
+            startActivity(intent)
+        }
+        // 탈퇴
         deleteButton.setOnClickListener {
 
             val sharedPreferences = requireActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE)
@@ -112,10 +122,10 @@ class UserFragment : Fragment() {
 
             val service = retrofitInstance.deleteUser()
 
-            service.deleteUser(clientId).enqueue(object : Callback<DeleteRequest> {
+            service.deleteUser(clientId).enqueue(object : Callback<ResultData> {
                 override fun onResponse(
-                    call: Call<DeleteRequest>,
-                    response: Response<DeleteRequest>
+                    call: Call<ResultData>,
+                    response: Response<ResultData>
                 ) {
                     Log.d("SUCCESS", "!!!")
                     val res = response.body()?.data
@@ -136,7 +146,7 @@ class UserFragment : Fragment() {
 
                 }
 
-                override fun onFailure(call: Call<DeleteRequest>, t: Throwable) {
+                override fun onFailure(call: Call<ResultData>, t: Throwable) {
                 }
             })
 

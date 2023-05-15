@@ -1,7 +1,7 @@
 package com.meyou.app.network.User
 
 import com.meyou.app.user.ContentsUserInfo
-import com.meyou.app.user.DeleteRequest
+import com.meyou.app.user.ResultData
 import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -14,5 +14,5 @@ interface UserListGetService {
 
 interface UserDeleteService {
     @DELETE("client/{clientId}")
-    fun deleteUser(@Path("clientId") clientId: Int): Call<DeleteRequest>
+    fun deleteUser(@Path("clientId") clientId: Int): Call<ResultData>
 }

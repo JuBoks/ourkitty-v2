@@ -18,15 +18,29 @@ data class Data (
     val userCode: String,
     val userState: String
         )
-data class ContentsUserInfo (
-    val data:Data,
-    val totalCount:Int,
-)
+data class ModifyUserInfo (
+    val clientAddress: String,
+    val clientEmail: String,
+    val clientName: String,
+    val clientNickname: String,
+    val clientPassword: String,
+    val clientPhone: String,
+    val file: String
+        )
 data class Dish(
     val dishId: Int,
     val dishName: String
 )
-data class DeleteRequest(
+data class ContentsUserInfo (
+    val data:Data,
+    val totalCount:Int,
+)
+
+data class ResultData(
     val data: Boolean,
+    val totalCount: Int
+)
+data class ResultImage(
+    val data: String,
     val totalCount: Int
 )

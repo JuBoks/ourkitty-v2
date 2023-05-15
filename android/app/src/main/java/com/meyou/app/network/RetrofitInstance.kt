@@ -6,6 +6,8 @@ import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
 import com.meyou.app.network.User.UserDeleteService
 import com.meyou.app.network.User.UserListGetService
+import com.meyou.app.network.User.UserProfileModifyService
+import com.meyou.app.network.User.UserProfileService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,6 +60,14 @@ class RetrofitInstance(private val accessToken: String = "") {
 
     fun deleteUser(): UserDeleteService {
         return retrofit.create(UserDeleteService::class.java)
+    }
+
+    fun uploadSingleImage(): UserProfileService {
+        return retrofit.create(UserProfileService::class.java)
+    }
+
+    fun modifyProfile(): UserProfileModifyService {
+        return retrofit.create(UserProfileModifyService::class.java)
     }
 
 }
