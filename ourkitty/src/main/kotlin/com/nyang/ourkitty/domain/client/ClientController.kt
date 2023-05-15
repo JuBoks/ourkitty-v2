@@ -106,6 +106,19 @@ class ClientController(
         return ResponseEntity.ok(client)
     }
 
+    @ApiOperation(value = "본인 닉네임 수정 (캣맘용)")
+    @PutMapping("/nickname")
+    fun modifyMyNickname(nickname: String): ResponseEntity<ResultDto<ClientResponseDto>> {
+
+        val client = clientService.modifyMyNickname(
+            clientId = JwtContextHolder.clientId!!.toLong(),
+            nickname = nickname,
+        )
+
+        return ResponseEntity.ok(client)
+    }
+
+
     /**
      * @param clientId Long
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
