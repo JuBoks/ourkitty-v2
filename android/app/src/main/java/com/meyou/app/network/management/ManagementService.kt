@@ -28,3 +28,20 @@ interface ReadDetailManagementService {
     fun readDetailManagement(
         @Path("managementId") id: Int): Call<ManagementDetailResponse>
 }
+
+interface CreateManagementCommentService {
+    @FormUrlEncoded
+    @POST("management/{managementId}/comment")
+    fun createCommentManagement(
+        @Field("managementCommentContent") managementCommentContent: String,
+        @Path("managementId") id: Int
+    ): Call<ManagementDetailResponse>
+}
+interface DeleteManagementCommentService {
+    @FormUrlEncoded
+    @DELETE("management/{managementId}/comment/{managementCommentId}")
+    fun deleteCommentManagement(
+        @Path("managementId") managementId: Int,
+        @Path("managementCommentId") managementCommentId: Int
+    ): Call<UploadImageData>
+}
