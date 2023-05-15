@@ -6,7 +6,9 @@ import ClusteringChartImage from "./ClusteringChartImage";
 import ClusteringChartModal from "./ClusteringChartModal";
 import Swal from "sweetalert2";
 import { darkState } from "recoil/page";
-import { Cluster } from "types";
+import { Cluster, ClusterFeature } from "types";
+import { ClusterRepresentative } from "types/Clusters";
+import { selectedClusterState } from "recoil/chart";
 
 type Props = {
   data?: Cluster;
@@ -15,7 +17,9 @@ type Props = {
 export default function ClusteringChart({ data }: Props) {
   const resultRef = useRef<HTMLDivElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState<ClusterFeature>();
+  // const [clusterData, setClusterData] = useState(data);
+  const [selectedCluster, setSelectedCluster] = useRecoilState(selectedClusterState);
   const isDark = useRecoilState(darkState)[0];
 
   const openModal = () => {
@@ -52,6 +56,12 @@ export default function ClusteringChart({ data }: Props) {
     }).then((result) => {
       if (result.isConfirmed) {
         // 대표 고양이 사진으로 추가하는 로직
+        let isSuccess = addRepresentative();
+
+        if (!isSuccess) {
+          Swal.fire('이미 대표로 추가된 사진입니다.', '', 'error');
+          return;
+        }
 
         // Okay
         Toast.fire({
@@ -59,10 +69,35 @@ export default function ClusteringChart({ data }: Props) {
           title: "대표 고양이로 추가되었습니다.",
         });
 
-        // close modal
-        setModalOpen(false);
+        console.log('[modified] clusterData', selectedCluster)
       }
+    }).finally(() => {
+      // close modal
+      setModalOpen(false);
     });
+  }
+
+  const addRepresentative = () => {
+    // 1. 해당 이미지의 url이 이미 추가된 url인지 확인
+    console.log('selectedImg', selectedImg)
+    console.log('clusterData', selectedCluster)
+    if (selectedImg && selectedCluster) {
+      for (let el of selectedCluster.represetatives) {
+        if (el.image === selectedImg.image) {
+          return false;
+        }
+      }
+    }
+
+    // 2. 추가된 것이 아니면 representatives에 해당 이미지 추가
+    let _selectedCluster = { ...selectedCluster, represetatives: [...selectedCluster.represetatives] };
+    _selectedCluster?.represetatives.push({
+      cls: selectedImg?.cls,
+      image: selectedImg?.image,
+    });
+    setSelectedCluster(_selectedCluster);
+
+    return true;
   }
 
 
@@ -117,7 +152,7 @@ export default function ClusteringChart({ data }: Props) {
   return (
     <div className="w-full h-full gap-1">
       <div className="w-full h-full">
-        <h1 className="text-[1.3rem] font-bold" >클러스터링 결과</h1>
+        <h1 className="text-[1.3rem] font-bold" >클러스터링 결과: {data?.clusters}마리</h1>
         <div className="w-full h-[calc(100%-30px)]" ref={resultRef}></div>
       </div>
       <ClusteringChartModal okay={modalOkay} open={modalOpen} close={closeModal} header="대표 고양이 추가">

@@ -14,6 +14,6 @@ export type ClusterFeature = {
 }
 
 export type ClusterRepresentative = {
-  cls: number,
-  image: string,
+  cls?: number,
+  image?: string,
 }

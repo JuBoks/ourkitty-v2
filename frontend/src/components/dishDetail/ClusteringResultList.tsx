@@ -8,7 +8,7 @@ type Props = {
 export default function ClusteringResultList({ data }: Props) {
 
   return (
-    <div className="w-full h-full flex flex-col gap-2">
+    <div className="w-full h-full flex flex-col gap-2 pb-4 overflow-scroll">
       {!data || data.length === 0 ?
         <div className="grid grid-cols-3 gap-2 p-3">사진 없음</div>
         :

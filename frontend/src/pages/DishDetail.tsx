@@ -4,21 +4,24 @@ import ClusteringChart from "../components/dishDetail/ClusteringChart";
 import DateList from "../components/dishDetail/DateList";
 import ClusteringResult from '../components/dishDetail/ClusteringResult';
 import { useRecoilState } from "recoil";
-import { selectedDateState, selectedSerialNumberState } from "recoil/chart";
+import { selectedClusterState, selectedDateState, selectedSerialNumberState } from "recoil/chart";
 import { useQuery } from "react-query";
 import { getClusterInfo } from "apis/api/cluster";
 
 export default function DishDetail() {
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
   const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
+  const [selectedCluster, setSelectedCluster] = useRecoilState(selectedClusterState);
 
   const { data, isLoading } = useQuery({
     queryKey: ["getClusterInfo", selectedSerialNumber, selectedButton],
     queryFn: () => getClusterInfo(selectedSerialNumber, selectedButton),
   });
 
-  console.log('daa', data);
-  // if (isLoading || data === undefined) return null;
+  useEffect(() => {
+    console.log('[start]', data);
+    data && setSelectedCluster(data);
+  }, [data]);
 
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-2">
@@ -36,11 +39,11 @@ export default function DishDetail() {
             {isLoading || data === undefined ?
               <div></div>
               :
-              <ClusteringChart data={data} />
+              <ClusteringChart data={selectedCluster} />
             }
           </div>
           <div className="w-[30%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <ClusteringResult data={data?.represetatives} />
+            <ClusteringResult data={selectedCluster.represetatives} />
           </div>
         </div>
       </div>
