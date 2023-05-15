@@ -107,7 +107,7 @@ class ClientController(
     }
 
     @ApiOperation(value = "본인 닉네임 수정 (캣맘용)")
-    @PostMapping("/nickname")
+    @PutMapping("/nickname")
     fun modifyMyNickname(nickname: String): ResponseEntity<ResultDto<ClientResponseDto>> {
 
         val client = clientService.modifyMyNickname(
