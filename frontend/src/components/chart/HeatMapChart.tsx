@@ -127,25 +127,25 @@ export default function HeatMapChart() {
                         from: -1,
                         to: 2,
                         color: "#E1E5F4",
-                        name: "0~2회"
+                        name: `${isDark ? "<span style='color: white;'>0~2회</span>" : "<span style='color: #373D3F;'>0~2회</span>"}`,
                     },
                     {
                         from: 3,
                         to: 5,
                         color: "#BFC7E5",
-                        name: "3~5회"
+                        name: `${isDark ? "<span style='color: white;'>0~2회</span>" : "<span style='color: #373D3F;'>3~5회</span>"}`,
                     },
                     {
                         from: 6,
                         to: 9,
                         color: "#C8CFE8",
-                        name: "6~9회"
+                        name: `${isDark ? "<span style='color: white;'>0~2회</span>" : "<span style='color: #373D3F;'>6~9회</span>"}`,
                     },
                     {
                         from: 10,
                         to: 100,
                         color: "#97A4D2",
-                        name: "10회 이상"
+                        name: `${isDark ? "<span style='color: white;'>0~2회</span>" : "<span style='color: #373D3F;'>10회 이상</span>"}`,
                     }
                 ]
             }
