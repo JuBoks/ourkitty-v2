@@ -159,7 +159,7 @@ class ClientController(
      * @param clientId Long
      * @return ResponseEntity<ResultDto<Boolean>>
      */
-    @ApiOperation(value = "사용자 아이디 탈퇴")
+    @ApiOperation(value = "사용자 아이디 탈퇴 취소")
     @PutMapping("/{clientId}/cancel")
     fun cancelDeleteAccount(@PathVariable clientId: Long): ResponseEntity<ResultDto<Boolean>> {
 

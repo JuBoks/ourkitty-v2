@@ -87,6 +87,16 @@ class ClientService(
         )
     }
 
+    fun checkPhoneExist(clientPhone: String): ResultDto<Boolean> {
+        if (!clientRepository.existsByClientPhone(clientPhone)) {
+            throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+        }
+
+        return ResultDto(
+            data = true,
+        )
+    }
+
     fun getAccountList(locationCode: String, dishId: Long?, searchKey: String?, searchWord: String): ClientListResultDto {
         val clientListResponseDto = clientQuerydslRepository.getClientList(
             locationCode = locationCode,
