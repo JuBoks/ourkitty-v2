@@ -6,7 +6,12 @@ export const selectedButtonState = atom({
   default: 1,
 });
 
+export const selectedSerialNumberState = atom({
+  key: "selectedSerialNumberState",
+  default: "",
+});
+
 export const selectedDateState = atom({
   key: "selectedDateState",
-  default: 0,
+  default: "",
 });

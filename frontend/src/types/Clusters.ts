@@ -3,6 +3,7 @@ export type Cluster = {
   height: number,
   features: ClusterFeature[],
   clusters: number,
+  represetatives: ClusterRepresentative[],
 }
 
 export type ClusterFeature = {
@@ -10,4 +11,9 @@ export type ClusterFeature = {
   y: number,
   image: string,
   cls: number
+}
+
+export type ClusterRepresentative = {
+  cls: number,
+  image: string,
 }

@@ -1,26 +1,72 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as d3 from 'd3';
 import { useRecoilState } from "recoil";
-import { selectedButtonState, selectedDateState } from "../../recoil/chart";
-import { useQuery } from "react-query";
-import { getClusterInfo } from "apis/api/cluster";
+import "css/Cluster.css";
+import ClusteringChartImage from "./ClusteringChartImage";
+import ClusteringChartModal from "./ClusteringChartModal";
+import Swal from "sweetalert2";
+import { darkState } from "recoil/page";
+import { Cluster } from "types";
 
-export default function ClusteringChart() {
+type Props = {
+  data?: Cluster;
+};
+
+export default function ClusteringChart({ data }: Props) {
   const resultRef = useRef<HTMLDivElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(null);
+  const isDark = useRecoilState(darkState)[0];
 
-  const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
-  const [selectedDish, setSelectedDish] = useRecoilState(selectedButtonState);
+  const openModal = () => {
+    setModalOpen(true);
+  };
 
-  // 클러스터 정보 가져오기
-  const dishSerialNum = "EZZwEhRzzs9LvyZ";
-  const dishDate = "2023-05-10";
-  const { data, isLoading } = useQuery({
-    queryKey: ["getClusterInfo", dishSerialNum, dishDate],
-    queryFn: () => getClusterInfo(dishSerialNum, dishDate),
+  const closeModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setModalOpen(false);
+  };
+
+  const Toast = Swal.mixin({
+    toast: true, // 토스트 형식
+    position: "bottom-end", // 알림 위치
+    showConfirmButton: false, // 확인버튼 생성 유무
+    timer: 1500, // 지속 시간
+    timerProgressBar: true, // 지속시간바 생성 여부
+    background: isDark ? "#262D33" : "white",
+    color: isDark ? "white" : "black",
   });
 
-  useEffect(() => {
+  const modalOkay = () => {
+    Swal.fire({
+      title: "대표 고양이로 등록하시겠습니까?",
+      icon: "info",
+      background: isDark ? "#262D33" : "white",
+      color: isDark ? "white" : "black",
+      showCancelButton: true,
+      confirmButtonColor: isDark ? "#29325B" : "#9FA9D8",
+      cancelButtonColor: "#B0B0B0",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 대표 고양이 사진으로 추가하는 로직
 
+        // Okay
+        Toast.fire({
+          icon: "success",
+          title: "대표 고양이로 추가되었습니다.",
+        });
+
+        // close modal
+        setModalOpen(false);
+      }
+    });
+  }
+
+
+  useEffect(() => {
     // 초기화
     const result = d3.select(resultRef.current);
     result.selectAll("svg").remove(); // SVG 요소를 모두 삭제
@@ -43,12 +89,6 @@ export default function ClusteringChart() {
         .attr("width", "100%")
         .attr("height", "100%");
 
-      // 이미지 파일 로드
-      // const image = svg.append("svg:image")
-      //   .attr("xlink:href", "point.png")
-      //   .attr("width", 60)
-      //   .attr("height", 80);
-
       // 데이터 점 생성
       const points = svg.selectAll("image")
         .data(data.features)
@@ -60,8 +100,10 @@ export default function ClusteringChart() {
         .attr("width", 100)
         .attr("height", 120)
         .on("click", function (d) {
-          // 클릭 이벤트 핸들러 함수
-          console.log("click!", d)
+          // 1. selected image 갱신
+          setSelectedImg(d.target.__data__);
+          // imgsrc = d.target.__data__.image;
+          openModal();
         })
         .on("mouseover", function () {
           d3.select(this).classed("hovered", true);
@@ -76,9 +118,11 @@ export default function ClusteringChart() {
     <div className="w-full h-full gap-1">
       <div className="w-full h-full">
         <h1 className="text-[1.3rem] font-bold" >클러스터링 결과</h1>
-        {/* <div>{selectedButton}, {selectedDish}</div> */}
         <div className="w-full h-[calc(100%-30px)]" ref={resultRef}></div>
       </div>
+      <ClusteringChartModal okay={modalOkay} open={modalOpen} close={closeModal} header="대표 고양이 추가">
+        <ClusteringChartImage selectedImg={selectedImg} />
+      </ClusteringChartModal>
     </div>
   );
 }
