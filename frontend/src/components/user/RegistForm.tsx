@@ -246,12 +246,6 @@ export default function RegistForm({ setModalOpen }: any) {
 
   return (
     <div className="w-full h-full flex flex-col relative">
-      <button
-        className="absolute right-10 px-4 py-2 rounded-lg text-[1.5rem] text-white bg-LightMainHover hover:bg-LightMain dark:bg-DarkMainHover dark:hover:bg-DarkMain"
-        onClick={handleRegistClient}
-      >
-        등록
-      </button>
       <div className="flex justify-center">
         <AccountCircleIcon
           sx={{ fontSize: "250px", color: isDark ? "#29325B" : "#9FA9D8" }}
@@ -317,7 +311,6 @@ export default function RegistForm({ setModalOpen }: any) {
               중복확인
             </button>
           </div>
-
           <input
             type="text"
             className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
@@ -334,6 +327,14 @@ export default function RegistForm({ setModalOpen }: any) {
             <MyDishButtons buttons={buttons} setButtons={setButtons} />
           </div>
         </div>
+      </div>
+      <div>
+      <button
+            className="absolute right-10 px-4 mt-6 py-2 rounded-lg text-[1.5rem] text-white bg-LightMainHover hover:bg-LightMain dark:bg-DarkMainHover dark:hover:bg-DarkMain"
+            onClick={handleRegistClient}
+          >
+            등록
+      </button>
       </div>
     </div>
   );

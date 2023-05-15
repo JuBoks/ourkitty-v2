@@ -162,6 +162,19 @@ class ClientService(
     }
 
     @Transactional
+    fun modifyMyNickname(clientId: Long, nickname: String): ResultDto<ClientResponseDto> {
+        val client = getAllClientById(clientId)
+
+        client.clientNickname = nickname
+
+        return ResultDto(
+            data = ClientResponseDto.of(
+                clientRepository.save(client)
+            ),
+        )
+    }
+
+    @Transactional
     fun modifyAccount(clientId: Long, clientRequestDto: ClientRequestDto): ResultDto<ClientResponseDto> {
         val client = getAllClientById(clientId)
         val updateParam = clientRequestDto.toEntity(passwordEncoder)
