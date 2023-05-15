@@ -4,7 +4,6 @@ import com.meyou.app.network.Dish.DetailDishGetService
 import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
-import com.meyou.app.network.management.*
 import com.meyou.app.network.management.CreateManagementService
 import com.meyou.app.network.management.ReadDetailManagementService
 import com.meyou.app.network.management.ReadManagementService
