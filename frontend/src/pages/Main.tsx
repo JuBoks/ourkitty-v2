@@ -16,8 +16,9 @@ export default function Main() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const isDark = useRecoilState(darkState)[0];
   const category = useRecoilState(categoryState)[0];
-  const [userId, setUserId] = useState("admin");
-  const [userPw, setUserPw] = useState("1234");
+  const [userId, setUserId] = useState("");
+  const [userPw, setUserPw] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const loginRequest = useMutation(
     ["login"],
@@ -25,28 +26,46 @@ export default function Main() {
     {
       onSuccess: () => {
         setIsLogin(true);
+        setIsLoggingIn(false); // Reset the login status
         const Toast = Swal.mixin({
-          toast: true, // 토스트 형식
-          position: "bottom-end", // 알림 위치
-          showConfirmButton: false, // 확인버튼 생성 유무
-          timer: 1500, // 지속 시간
-          timerProgressBar: true, // 지속시간바 생성 여부
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
           background: isDark ? "#262D33" : "white",
           color: isDark ? "white" : "black",
         });
-
         Toast.fire({
           icon: "success",
           title: "로그인되었습니다.",
         });
       },
+      onError: () => {
+        setIsLoggingIn(false); // Reset the login status
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          background: isDark ? "#262D33" : "white",
+          color: isDark ? "white" : "black",
+        });
+        Toast.fire({
+          icon: "error",
+          title: "아이디 비밀번호 확인 바랍니다",
+        });
+      },
     }
   );
+
+
   const handleLogin = () => {
     const formData = new FormData();
     formData.append("clientEmail", userId);
     formData.append("clientPassword", userPw);
-
+    setIsLoggingIn(true); 
     loginRequest.mutate(formData);
   };
 
