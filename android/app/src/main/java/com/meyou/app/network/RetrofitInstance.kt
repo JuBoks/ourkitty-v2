@@ -5,6 +5,7 @@ import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
 import com.meyou.app.network.management.CreateManagementService
+import com.meyou.app.network.management.ReadDetailManagementService
 import com.meyou.app.network.management.ReadManagementService
 import com.meyou.app.network.management.Uploadimage
 import okhttp3.OkHttpClient
@@ -61,6 +62,9 @@ class RetrofitInstance(private val accessToken: String = "") {
     }
     fun getReadManagement(): ReadManagementService {
         return retrofit.create(ReadManagementService::class.java)
+    }
+    fun getReadDetailManagement(): ReadDetailManagementService {
+        return retrofit.create(ReadDetailManagementService::class.java)
     }
 }
 

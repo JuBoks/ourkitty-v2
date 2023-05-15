@@ -24,7 +24,6 @@ import com.meyou.app.MainActivity;
 import com.meyou.app.R;
 import com.meyou.app.network.Login.LoginApiService;
 import com.meyou.app.network.Login.LoginGetToken;
-import com.meyou.app.network.Login.Phone;
 import com.meyou.app.network.Login.PhoneCheck;
 import com.meyou.app.network.RetrofitInstance;
 import com.meyou.app.network.Login.TokenResponse;
@@ -85,11 +84,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneNum = inputPhoneNum.getText().toString();
+                if (phoneNum.length() != 11) {
+                    Toast.makeText(getApplicationContext(), "번호를 다시 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 phoneNum = phoneNum.substring(0, 3) + "-" + phoneNum.substring(3, 7) + "-" + phoneNum.substring(7, 11);
-                Phone phone = new Phone(phoneNum);
+//                Phone phone = new Phone(phoneNum);
 
                 LoginApiService service = new RetrofitInstance().getPhoneCheckApi();
-                Call<PhoneCheck> call = service.checkPhone(phone);
+                Call<PhoneCheck> call = service.checkPhone(phoneNum);
 
                 // back으로 inputPhoneNum 보내서 등록된 캣맘인지 확인하기
                 call.enqueue(new Callback<PhoneCheck>() {
@@ -114,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "관리자 인증이 되지 않은 유저입니다.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "서버 오류", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "서버오류.", Toast.LENGTH_SHORT).show();
                         }
                     }
 

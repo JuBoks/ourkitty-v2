@@ -22,3 +22,9 @@ interface ReadManagementService {
         @Query("offset") offset: Int = 0,
     ): Call<ManagementResponse>
 }
+
+interface ReadDetailManagementService {
+    @GET("management/{managementId}")
+    fun readDetailManagement(
+        @Path("managementId") id: Int): Call<ManagementDetailResponse>
+}

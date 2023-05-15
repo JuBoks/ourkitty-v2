@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 public interface LoginApiService {
     @FormUrlEncoded
     @POST("auth/check/phone")
-    Call<PhoneCheck> checkPhone(@Field("clientPhone") Phone phone);
+    Call<PhoneCheck> checkPhone(@Field("clientPhone") String phone);
 }
 
 
