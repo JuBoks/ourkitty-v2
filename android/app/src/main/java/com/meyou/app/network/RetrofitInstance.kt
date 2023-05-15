@@ -4,10 +4,10 @@ import com.meyou.app.network.Dish.DetailDishGetService
 import com.meyou.app.network.Dish.DishListGetService
 import com.meyou.app.network.Login.LoginApiService
 import com.meyou.app.network.Login.LoginGetToken
-import com.meyou.app.network.User.UserDeleteService
-import com.meyou.app.network.User.UserListGetService
-import com.meyou.app.network.User.UserProfileModifyService
-import com.meyou.app.network.User.UserProfileService
+import com.meyou.app.network.management.CreateManagementService
+import com.meyou.app.network.management.ReadDetailManagementService
+import com.meyou.app.network.management.ReadManagementService
+import com.meyou.app.network.management.Uploadimage
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +16,7 @@ import retrofit2.create
 
 class RetrofitInstance(private val accessToken: String = "") {
 
-    private val BASE_URL = "https://k8e203.p.ssafy.io/api/"
+    private val BASE_URL = "https://k8e2031.p.ssafy.io/api/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
@@ -54,21 +54,18 @@ class RetrofitInstance(private val accessToken: String = "") {
         return retrofit.create(DetailDishGetService::class.java)
     }
 
-    fun getUserList(): UserListGetService {
-        return retrofit.create(UserListGetService::class.java)
+    fun postCreateManagement(): CreateManagementService {
+        return retrofit.create(CreateManagementService::class.java)
     }
 
-    fun deleteUser(): UserDeleteService {
-        return retrofit.create(UserDeleteService::class.java)
+    fun postUploadImage(): Uploadimage {
+        return retrofit.create(Uploadimage::class.java)
     }
-
-    fun uploadSingleImage(): UserProfileService {
-        return retrofit.create(UserProfileService::class.java)
+    fun getReadManagement(): ReadManagementService {
+        return retrofit.create(ReadManagementService::class.java)
     }
-
-    fun modifyProfile(): UserProfileModifyService {
-        return retrofit.create(UserProfileModifyService::class.java)
+    fun getReadDetailManagement(): ReadDetailManagementService {
+        return retrofit.create(ReadDetailManagementService::class.java)
     }
-
 }
 

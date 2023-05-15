@@ -1,12 +1,12 @@
-#include <Arduino.h>
+// #include <Arduino.h>
 #include <WiFi.h>
-#include <base64.h>
-#include <esp32cam.h>
-#include "soc/soc.h"
-#include "soc/rtc_cntl_reg.h"
+// #include <base64.h>
+// #include <esp32cam.h>
+// #include "soc/soc.h"
+// #include "soc/rtc_cntl_reg.h"
 #include "esp_camera.h"
 #include "esp32-hal-ledc.h"
-#include "driver/rtc_io.h"
+// #include "driver/rtc_io.h"
 
 // ===========================
 // Enter your WiFi credentials
@@ -20,13 +20,13 @@
 // const char* ssid = "Jeoungho’s iPhone"; // 라우터
 // const char* password = "jayPak12";
 
-// // 정호네 WIFI 정보
-const char* ssid = "EDU-ELR22-851139"; // 라우터
-const char* password = "12345678";
+// // // 정호네 WIFI 정보
+// const char* ssid = "EDU-ELR22-851139"; // 라우터
+// const char* password = "12345678";
 
 // 미현이네 WIFI 정보
-// const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
-// const char* password = "55343033"; // 와이파이 비밀번호
+const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
+const char* password = "55343033"; // 와이파이 비밀번호
 
 // 테스트용 WIFI 정보
 // const char* ssid = "KPHONE"; // 와이파이 이름
@@ -139,15 +139,15 @@ void setup() {
   config.fb_count = 2;
   
   // init with high specs to pre-allocate larger buffers
-  // if(psramFound()){
-  //   config.jpeg_quality = 10;
-  //   config.fb_count = 2;
-  //   config.grab_mode = CAMERA_GRAB_LATEST;
-  // } else {
-  //   // Limit the frame size when PSRAM is not available
-  //   config.frame_size = FRAMESIZE_SVGA; // 800 600
-  //   config.fb_location = CAMERA_FB_IN_DRAM;
-  // }
+  if(psramFound()){
+    config.jpeg_quality = 10;
+    config.fb_count = 2;
+    config.grab_mode = CAMERA_GRAB_LATEST;
+  } else {
+    // Limit the frame size when PSRAM is not available
+    config.frame_size = FRAMESIZE_SVGA; // 800 600
+    config.fb_location = CAMERA_FB_IN_DRAM;
+  }
   
   // camera init
   esp_err_t err = esp_camera_init(&config);
@@ -194,7 +194,7 @@ void setup() {
 
 void loop() {
   sendPhoto();
-  delay(1000);
+  // delay(1000);
 }
 
 String sendPhoto() {
@@ -205,6 +205,7 @@ String sendPhoto() {
   enable_led(true);
   vTaskDelay(1000 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   fb = esp_camera_fb_get();             // or it won't be visible in the frame. A better way to do this is needed.
+  vTaskDelay(500 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   enable_led(false);
 
   if(!fb) {

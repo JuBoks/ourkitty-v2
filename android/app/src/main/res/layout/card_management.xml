@@ -52,10 +52,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </androidx.cardview.widget.CardView>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/userName"
@@ -65,16 +61,7 @@
                 android:fontFamily="@font/yeonsung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/userAddress"
-                android:text="상세 주소"
-                android:fontFamily="@font/yeonsung"
-                android:textSize="12sp"
-                android:layout_marginLeft="5sp"
-                android:textColor="@color/gray"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+
     </LinearLayout>
     <TextView
         android:id="@+id/text"

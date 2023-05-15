@@ -1,13 +1,7 @@
 env
 **/__pycache__
-venv
-.venv
 
-datasets/crop/input/*
-datasets/tnr/input/*
-datasets/tnr/output/*
+.venv/
+.env
 
-face_detection/input/*
-face_detection/output/*
-
-image_clustering/input/*
+datasets/

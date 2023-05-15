@@ -1,7 +1,11 @@
 package com.nyang.ourkitty.domain.dish.repository
 
 import com.nyang.ourkitty.common.dto.PositionDto
+import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
+import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
+import com.nyang.ourkitty.entity.ClientDishEntity
 import com.nyang.ourkitty.entity.DishEntity
+import com.nyang.ourkitty.entity.QClientDishEntity.clientDishEntity
 import com.nyang.ourkitty.entity.QDishEntity.dishEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -36,6 +40,22 @@ class DishQuerydslRepository(
                 locationCode?.let { dishEntity.locationCode.eq(locationCode) },
             )
             .fetchOne()!!
+    }
+
+    fun getMyDishList(clientId: Long): DishListResultDto {
+        val dishList = queryFactory.selectFrom(clientDishEntity)
+            .leftJoin(clientDishEntity.dish).fetchJoin()
+            .where(
+                clientDishEntity.client.clientId.eq(clientId),
+            )
+            .fetch()
+            .map { it.dish }
+
+        return DishListResultDto(
+            data = dishList.map(DishResponseDto::of),
+            centerLat = dishList.map { it.dishLat }.average(),
+            centerLong = dishList.map { it.dishLong }.average(),
+        )
     }
 
     fun getDishById(dishId: Long): DishEntity? {

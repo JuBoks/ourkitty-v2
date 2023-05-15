@@ -34,6 +34,14 @@ class DishController(
         return ResponseEntity.ok(dishList)
     }
 
+    @ApiOperation(value = "본인 냥그릇 목록 조회")
+    @GetMapping("/mydish")
+    fun getMyDishList(): ResponseEntity<DishListResultDto> {
+        val dishList = dishService.getMyDishList(JwtContextHolder.clientId!!.toLong())
+
+        return ResponseEntity.ok(dishList)
+    }
+
     /**
      * 입력으로 들어온 dishId 값을 기준으로 냥그릇을 조회한 뒤 반환한다.
      *

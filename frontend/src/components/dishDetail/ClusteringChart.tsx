@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from 'd3';
+import { useRecoilState } from "recoil";
+import { selectedButtonState, selectedDateState } from "../../recoil/chart";
 
 const data = [
   { x: 10, y: 20, image: 'https://picsum.photos/800/600?random=1' },
@@ -19,6 +21,11 @@ const yScale = d3.scaleLinear()
 
 export default function ClusteringChart() {
   const resultRef = useRef(null);
+
+
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
+  const [selectedDish, setSelectedDish] = useRecoilState(selectedButtonState);
+
 
   useEffect(() => {
     // 초기화
@@ -53,6 +60,7 @@ export default function ClusteringChart() {
     <div className="w-full h-full gap-1">
       <h1 className="text-[1.3rem] font-bold" >클러스터링 결과</h1>
       <div className="w-full h-full">
+        <div>{selectedButton}, {selectedDish}</div>
         <div className="w-full h-full" ref={resultRef}></div>
       </div>
     </div>

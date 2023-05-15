@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ApexCharts from "react-apexcharts";
 import Carousel from "react-material-ui-carousel";
 import "./landing.css";
@@ -22,7 +22,14 @@ import News03 from "../assets/news03.png";
 import News04 from "../assets/news04.png";
 
 export default function Landing() {
-
+    
+    const [webPage, setWebPage] = useState(true);
+    const openWebPage = () => {
+      setWebPage(true)
+    };
+    const openAppPage = () => {
+      setWebPage(false)
+    };
     // Create a new Date object with today's date
     const today = new Date(); 
     const dates = Array.from({ length: 7 }, (_, index) => {
@@ -459,7 +466,7 @@ export default function Landing() {
             </h1>
             <p className="text-gray-500">
               개체수 및 중성화 여부 파악을 위한 IoT 기술과 여러 AI 모델들 뿐만
-              아니라 관리자를 위한 Web, 사용자들을 위한 App 등 다양한 분야의
+              아니라 관리자를 위한 Web, <br/> 사용자들을 위한 App 등 다양한 분야의
               기술들을 사용하고 있습니다.
             </p>
           </div>
@@ -488,10 +495,10 @@ export default function Landing() {
               <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <div className="flex flex-col gap-3 w-60">
-                    <button className="rounded-full text-white text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out bg-yellow">
+                    <button onClick={openWebPage} className="rounded-full text-white text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out bg-yellow">
                       Web
                     </button>
-                    <button className="rounded-full text-white border text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">
+                    <button onClick={openAppPage} className="rounded-full text-white border text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">
                       App
                     </button>
                   </div>
@@ -501,7 +508,7 @@ export default function Landing() {
           </div>
         </div>
         {/* 차트 */}
-        <div className="sm:flex items-center sm:space-x-8 mt-36 mb-36">
+        {webPage ? <div className="sm:flex items-center sm:space-x-8 mt-36 mb-36">
           <div data-aos="fade-right" className="sm:w-1/2 relative ml-12">
             <div className="bg-yellow-500 rounded-full absolute w-12 h-12 z-0 -left-4 -top-3 animate-pulse" />
             <h1 className="font-semibold text-2xl relative z-50 text-black lg:pr-10 mb-8">
@@ -509,7 +516,7 @@ export default function Landing() {
               <span className="text-yellow-500">개체수 현황</span>
             </h1>
             <p className="py-5 lg:pr-32">
-              <span className="text-yellow-500 font-bold text-2xl">해운대구</span>
+              <span className="text-yellow-500 font-bold text-2xl">부산시</span>
               에 설치된 냥그릇이 파악한 길고양이 개체 수 <br/> 및 중성화 수 현황입니다.
             </p>
             <p className="py-5 lg:pr-32">
@@ -578,6 +585,9 @@ export default function Landing() {
             <div className="bg-yellow-500 w-40 h-40 animate-floating absolute rounded-lg z-10 -bottom-3 -right-3" />
           </div>
         </div>
+          : 
+          <div>bye</div>
+        }
         {/* 중성화 실태
         <div className="md:flex mt-40 md:space-x-10 items-start">
           <div data-aos="fade-down" className="md:w-7/12 relative">

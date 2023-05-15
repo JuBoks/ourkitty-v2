@@ -1,6 +1,11 @@
 import glob
 import os
 import cv2
+import shutil
+import requests
+import json
+
+JSON_PATH = os.path.abspath('datasets/4_result')
 
 # 이미지 전처리 함수
 def resize_img(im, img_size):
@@ -20,4 +25,28 @@ def resize_img(im, img_size):
 # 산출물 일괄 삭제
 def empty_directory(path):
   for file in glob.glob(path):
+    try:
       os.remove(file)
+    except:
+      shutil.rmtree(file)
+
+# 이미지 파일 저장
+def save_image_from_url(url, file_path):
+  response = requests.get(url, stream=True)
+  response.raise_for_status()
+
+  with open(file_path, 'wb') as file:
+    for chunk in response.iter_content(chunk_size=8192):
+      file.write(chunk)
+
+# json파일 저장하기
+def save_json_file(data, file_name):
+  with open(f"datasets/4_result/{file_name}.json", "w") as file:
+    json.dump(data, file)
+
+# json파일 읽기
+def get_json_file(file_name):
+  with open(f'{JSON_PATH}/{file_name}', "r") as file:
+    data = json.load(file)
+
+  return data

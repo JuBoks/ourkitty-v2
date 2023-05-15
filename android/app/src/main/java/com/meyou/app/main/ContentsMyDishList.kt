@@ -13,8 +13,6 @@ data class ContentsDetailDishList(
     val data: Dish,
     val totalCount: Int,
 )
-
-
 data class Dish(
     val dishId: Int,
     val dishName: String,

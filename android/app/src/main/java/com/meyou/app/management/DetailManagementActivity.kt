@@ -23,69 +23,89 @@ import com.bumptech.glide.Glide
 import com.meyou.app.MainActivity
 import com.meyou.app.R
 import com.meyou.app.detailDish.tap1.DetailDIshInfo
+import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network.management.Data
+import com.meyou.app.network.management.ManagementDetailResponse
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailManagementActivity : AppCompatActivity() {
-    private var dataList = mutableListOf<DetailManagementInfo>()
+
+    // 관리 정보를 저장할 데이터 리스트
+    private var dataList = mutableListOf<Data>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        dataList.add(
-            DetailManagementInfo(
-                listOf("https://dummyimage.com/600x400/000/fff","https://dummyimage.com/600x400/111/fff", "https://dummyimage.com/600x400/222/fff"),
-                "홍길동",
-                "https://dummyimage.com/100x100/000/fff",
-                "서울시 강남구",
-                "오늘 하루도 힘내세요!",
-                listOf(
-                    UserComment( "https://dummyimage.com/100x100/333/fff",
-                        "김철수",
-                        " 말씀대로입니다!",
-                         "2022-05-03 14:32:01"),
-                    UserComment("https://dummyimage.com/100x100/444/fff",
-                         "이영희",
-                         "감사합니다!",
-                        "2022-05-02 09:15:42")
-                )
-            )
-        )
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_management)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // 이전 활동에서 전달된 managementId를 가져옵니다.
+        val managementId = intent.getIntExtra("managementId", -1)
 
-        // 클릭시 넘어온 managementId
-        val managementId: String? = intent.getStringExtra("managementId")
+        // API 호출을 위한 서비스 인스턴스를 생성합니다.
+        val sharedPreferences = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
+        val retrofitInstance = RetrofitInstance(accessToken)
+        val service = retrofitInstance.getReadDetailManagement()
+
+        // API 호출을 수행합니다.
+        val call = service.readDetailManagement(managementId)
+
+        call.enqueue(object : Callback<ManagementDetailResponse> {
+            override fun onResponse(
+                call: Call<ManagementDetailResponse>,
+                response: Response<ManagementDetailResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val detailResponse = response.body()
+                    detailResponse?.let {
+                        dataList.add(it.data)
+                        updateUI()
+                    }
+                } else {
+                    Log.e(
+                        "DetailManagementActivity",
+                        "API 호출이 성공하지 못했습니다: ${response.message()}"
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<ManagementDetailResponse>, t: Throwable) {
+                Log.e("DetailManagementActivity", "API 호출이 실패했습니다: ${t.message}")
+            }
+        })
+    }
+
+    // 가져온 데이터로 UI 업데이트
+    private fun updateUI() {
+        val detailInfo = dataList[0]
 
         // ViewPager2와 DotsIndicator 초기화
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
         val dotsIndicator: DotsIndicator = findViewById(R.id.dots_indicator)
 
         // ImageAdapter를 생성하고 ViewPager2에 연결합니다.
-        val imageUrls = dataList[0].imageUrls ?: emptyList()
+        val imageUrls = detailInfo.managementImageList.map { it.imagePath } ?: emptyList()
         val imageAdapter = ImageAdapter(this, imageUrls)
         viewPager.adapter = imageAdapter
 
         // DotsIndicator와 ViewPager2를 연결합니다.
         dotsIndicator.setViewPager2(viewPager)
 
-
-        // 더미 데이터를 레이아웃에 설정
-        val detailInfo = dataList[0]
-
+        // 레이아웃에 가져온 데이터를 설정합니다.
         findViewById<ImageView>(R.id.userProfileImage).apply {
-            Glide.with(this@DetailManagementActivity).load(detailInfo.userProfileImage).into(this)
+            Glide.with(this@DetailManagementActivity).load(detailInfo.client.clientProfileImagePath)
+                .into(this)
         }
-
-        findViewById<TextView>(R.id.userName).text = detailInfo.userName
-        findViewById<TextView>(R.id.text).text = detailInfo.message
+        findViewById<TextView>(R.id.userName).text = detailInfo.client.clientNickname
+        findViewById<TextView>(R.id.text).text = detailInfo.managementContent
 
         // RecyclerView에 CommentAdapter 설정
         val recyclerView: RecyclerView = findViewById(R.id.rv)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = CommentAdapter(this, detailInfo.comments)
+        recyclerView.adapter = CommentAdapter(this, detailInfo.managementCommentList ?: emptyList())
 
         // 댓글 작성 창 및 전송 버튼 찾기
         val commentInput: EditText = findViewById(R.id.comment_input)
@@ -105,10 +125,10 @@ class DetailManagementActivity : AppCompatActivity() {
             val intent = Intent(this@DetailManagementActivity, DetailManagementEdit::class.java)
 
             val detailInfo = dataList[0]
-            intent.putStringArrayListExtra("imageUrls", ArrayList(detailInfo.imageUrls))
-            intent.putExtra("userName", detailInfo.userName)
-            intent.putExtra("userProfileImage", detailInfo.userProfileImage)
-            intent.putExtra("message", detailInfo.message)
+//            intent.putStringArrayListExtra("imageUrls", ArrayList(detailInfo.imageUrls))
+            intent.putExtra("userName", detailInfo.client.clientNickname)
+            intent.putExtra("userProfileImage", detailInfo.client.clientProfileImagePath)
+            intent.putExtra("message", detailInfo.managementContent)
 
             startActivity(intent)
         }
@@ -142,10 +162,12 @@ class DetailManagementActivity : AppCompatActivity() {
         }
     }
 
-    class ImageAdapter(private val context: Context, private val imageUrls: List<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+    class ImageAdapter(private val context: Context, private val imageUrls: List<String>) :
+        RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.slide_image_item, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.slide_image_item, parent, false)
             return ImageViewHolder(view)
         }
 
@@ -163,6 +185,7 @@ class DetailManagementActivity : AppCompatActivity() {
         }
 
     }
+
     // 뒤로가기 활성화
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -173,6 +196,5 @@ class DetailManagementActivity : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
 
 }

@@ -29,7 +29,7 @@
             <Spinner
                 android:id="@+id/dish_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50sp"
                 android:entries="@array/spinner_dish_items"
                 android:padding="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             <Spinner
                 android:id="@+id/status_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50sp"
                 android:layout_marginLeft="20sp"
                 android:entries="@array/spinner_dish_status_items"
                 android:padding="10sp"

@@ -300,6 +300,10 @@ export default function ModifyForm({ setModalOpen }: any) {
             formData.append("clientName", name);
             formData.append("clientNickname", nickname);
             formData.append("clientEmail", email);
+            formData.append(
+              "clientPhone",
+              phone1 + "-" + phone2 + "-" + phone3
+            );
             formData.append("clientPassword", password);
             formData.append("clientAddress", address);
             formData.append("dishList", String(dishes));

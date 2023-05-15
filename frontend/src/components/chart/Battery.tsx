@@ -33,22 +33,12 @@ export default function Battery({ batteryAmountList }: { batteryAmountList: numb
       curve: "straight",
       width: 5,
     },
-    colors: ["#9FA9D8"],
+    colors: ["#c495fd"],
     grid: {
       row: {
         colors: ["#f5f5f5f5", "transparent"],
         opacity: 0.5,
       },
-    },
-    markers: {
-      size: 3,
-      colors: ["#9FA9D8"],
-      shape: "circle",
-      radius: 2,
-      hover: {
-        size: 4,
-        sizeOffset: 3
-      }
     },
     legend: {
       labels: {
