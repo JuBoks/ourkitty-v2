@@ -60,6 +60,7 @@ class ManagementAdapter(val context: Context, val list: MutableList<Data>) :
                 viewPager2.visibility = View.GONE  // ViewPager2를 숨깁니다.
                 dotsIndicator.visibility = View.GONE  // dotsIndicator를 숨깁니다.
             }
+
             //클릭시 이동
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailManagementActivity::class.java)

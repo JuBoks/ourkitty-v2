@@ -15,8 +15,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
+import com.meyou.app.network.management.ManagementComment
 
-class CommentAdapter(private val context: Context, private val comments: List<UserComment>) :
+class CommentAdapter(private val context: Context, private val comments: List<ManagementComment>) :
     RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -27,10 +28,10 @@ class CommentAdapter(private val context: Context, private val comments: List<Us
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = comments[position]
 
-        Glide.with(holder.itemView.context).load(comment.userProfileImage).into(holder.userProfileImage)
-        holder.userName.text = comment.userName
-        holder.date.text = comment.date
-        holder.comment.text = comment.comment
+        Glide.with(holder.itemView.context).load(comment.client.clientProfileImagePath).into(holder.userProfileImage)
+        holder.userName.text = comment.client.clientNickname
+        holder.date.text = comment.updatedDate
+        holder.comment.text = comment.managementCommentContent
 
         holder.delete.setOnClickListener {
             // 커스텀 뷰를 inflate

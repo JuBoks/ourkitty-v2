@@ -4,7 +4,10 @@ data class ManagementResponse(
     val data: List<Data>,
     val totalCount: Int
 )
-
+data class ManagementDetailResponse(
+    val data: Data,
+    val totalCount: Int
+)
 data class Data(
     val client: Client,
     val createdDate: String,

@@ -77,9 +77,9 @@ class AuthController(
 
     @ApiOperation(value = "휴대전화 번호 중복 확인")
     @PostMapping("/check/phone")
-    fun checkPhoneDuplication(clientPhone: String): ResponseEntity<ResultDto<Boolean>> {
+    fun checkPhoneExist(clientPhone: String): ResponseEntity<ResultDto<Boolean>> {
 
-        return ResponseEntity.ok(clientService.checkPhoneDuplication(clientPhone))
+        return ResponseEntity.ok(clientService.checkPhoneExist(clientPhone))
     }
 
     @RequestMapping("/error", method = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])

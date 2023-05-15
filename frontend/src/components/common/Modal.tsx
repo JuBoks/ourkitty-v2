@@ -22,7 +22,7 @@ export default function Modal(props: any) {
               className="w-[80px] h-[50px] close bg-LightMain opacity-70 hover:opacity-100 dark:bg-DarkMain"
               onClick={close}
             >
-              닫기
+              등록
             </button>
           </footer>
         </section>

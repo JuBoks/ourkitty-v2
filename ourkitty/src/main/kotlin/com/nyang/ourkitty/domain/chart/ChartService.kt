@@ -21,8 +21,8 @@ class ChartService(
 
         for (x in 0..23) {
             val map = data[x]?.groupBy { it.createdDate.dayOfMonth } ?: continue
-            for (y in (today - 6)..today) {
-                result[x][y - (today - 6)] = map[y]?.let { it ->
+            for (y in (today - 7)..(today - 1)) {
+                result[x][y - (today - 7)] = map[y]?.let { it ->
                     DishImageListResponseDto(
                         size = it.size,
                         imageList = it.map { it.imagePath },
