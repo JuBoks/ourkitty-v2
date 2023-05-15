@@ -76,5 +76,41 @@ class AiController(
         )
     }
 
+    @ApiOperation(value = "테스트")
+    @PostMapping("/haha11")
+    fun postTest1(testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test1 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
+    @ApiOperation(value = "테스트")
+    @PostMapping("/haha22")
+    fun postTest2(@RequestBody testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test2 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
+    @ApiOperation(value = "테스트")
+    @PostMapping("/haha33")
+    fun postTest3(@RequestParam testStr: String): ResponseEntity<ResultDto<String>> {
+        println("test3 $testStr")
+
+        return ResponseEntity.ok(
+            ResultDto(
+                data = testStr,
+            )
+        )
+    }
+
 
 }
