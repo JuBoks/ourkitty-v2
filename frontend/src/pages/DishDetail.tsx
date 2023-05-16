@@ -6,7 +6,7 @@ import ClusteringResult from '../components/dishDetail/ClusteringResult';
 import { useRecoilState } from "recoil";
 import { selectedClusterOriginalState, selectedClusterState, selectedDateState, selectedSerialNumberState } from "recoil/chart";
 import { useQuery } from "react-query";
-import { getClusterInfo } from "apis/api/cluster";
+import { getClusterInfo, getClusterStatus } from "apis/api/cluster";
 
 export default function DishDetail() {
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
@@ -19,6 +19,11 @@ export default function DishDetail() {
     queryFn: () => getClusterInfo(selectedSerialNumber, selectedButton),
   });
 
+  const { data: status } = useQuery({
+    queryKey: ["getClusterStatus", selectedSerialNumber],
+    queryFn: () => getClusterStatus(selectedSerialNumber),
+  });
+
   useEffect(() => {
     console.log('[start]', data);
     if (data) {
@@ -26,6 +31,10 @@ export default function DishDetail() {
       setSelectedClusterOriginal(data.original);
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log('CHANGED!!', status);
+  }, [status])
 
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-2">
