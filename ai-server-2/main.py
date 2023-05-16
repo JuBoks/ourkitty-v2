@@ -105,44 +105,52 @@ async def modify_cluster_info(cluster: ClusterRequest):
 # [batch] 이미지 전처리, Clustering, TNR, Back으로 전송
 @app.get("/detection")
 async def face_detection(serial_number, date):
-  folder_name = os.environ[f'{serial_number}']
-  file_path = os.path.abspath(f'{FILE_SAVE_PATH}/{folder_name}')
+  try:
+    folder_name = os.environ[f'{serial_number}']
+    file_path = os.path.abspath(f'{FILE_SAVE_PATH}/{folder_name}')
 
-  # 1. back으로부터 사진 파일 다운로드 하기
-  img_info = get_files(serial_number, date, file_path)
+    # 1. back으로부터 사진 파일 다운로드 하기
+    img_info = get_files(serial_number, date, file_path)
 
-  # 2. 다운로드 받은 사진들에 대해서 detection 진행하기
-  detection(file_path)
+    # 2. 다운로드 받은 사진들에 대해서 detection 진행하기
+    detection(file_path)
 
-  # 3. cluster 진행
-  result = cluster_images()
+    # 3. cluster 진행
+    result = cluster_images()
 
-  # 4. tnr판별
-  result_tnr, tnrCount = detect_tnr()
+    # 4. tnr판별
+    result_tnr, tnrCount = detect_tnr()
 
-  # 5. 데이터 정제
-  for el in result['representative_images']:
-    el[1] = img_info[el[1]]
-  for el in result['file_feature_info']:
-    el[0] = img_info[el[0]]
-  for images in result['closest_images']:
-    for i in range(len(images)):
-      images[i] = img_info[images[i]]
-  result['tnr_info'] = []
-  for el in result_tnr:
-    result['tnr_info'].append([img_info[el[0]], el[1]])
-  result['tnr_count'] = tnrCount
+    # 5. 데이터 정제
+    for el in result['representative_images']:
+      el[1] = img_info[el[1]]
+    for el in result['file_feature_info']:
+      el[0] = img_info[el[0]]
+    for images in result['closest_images']:
+      for i in range(len(images)):
+        images[i] = img_info[images[i]]
+    result['tnr_info'] = []
+    for el in result_tnr:
+      result['tnr_info'].append([img_info[el[0]], el[1]])
+    result['tnr_count'] = tnrCount
 
-  # 6. 데이터(result) 저장
-  file_name = f'{date}_{serial_number}'
-  await save_json_file(result, file_name)
+    # 6. 데이터(result) 저장
+    file_name = f'{date}_{serial_number}'
+    await save_json_file(result, file_name)
 
-  # 7. Back서버에 개체 수와 tnr 수 update하기
-  isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, result['num_clusters'], tnrCount)
+    # 7. Back서버에 개체 수와 tnr 수 update하기
+    isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, result['num_clusters'], tnrCount)
 
-  # 응답 처리
-  if isSuccess == False:
-     return {'status': 500, 'message': "send cluster information is failed." }
+    # 응답 처리
+    if isSuccess == False:
+      return {'status': 500, 'message': "send cluster information is failed." }
+  except:
+    file_name = f'{date}_{serial_number}'
+    result = {
+      'status': -1
+    }
+    await save_json_file(result, file_name)
+    return {'status': 500, 'message': "Internal Server Error, status: -1" }
 
   return result
 
@@ -176,7 +184,7 @@ async def get_representatives(serial_number):
 
 @app.get("/info/status")
 def get_info_status(serial_number):
-  result = {}
+  result = []
   for json_name in os.listdir(JSON_PATH):
     json_split = json_name.split('.')
     json_file_name = json_split[0]
@@ -195,6 +203,15 @@ def get_info_status(serial_number):
     json_file = get_json_file(json_name)
 
     # '날짜': [] 형태로 result 만들기
-    result[f'{json_file_date}'] = json_file['status']
+    try:
+      status = json_file['status']
+    except:
+      status = -1
+
+    dateObj = {
+      'date': f'{json_file_date}',
+      'status': status,
+    }
+    result.append(dateObj)
   
   return result
