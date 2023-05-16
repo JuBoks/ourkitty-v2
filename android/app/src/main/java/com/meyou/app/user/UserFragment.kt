@@ -3,6 +3,7 @@ package com.meyou.app.user
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -42,48 +43,7 @@ class UserFragment : Fragment() {
         profileAddress = view.findViewById(R.id.profile_address)
         profileDishes = view.findViewById(R.id.profile_dishes)
 
-        val sharedPreferences = this.activity?.getSharedPreferences("user_info", Context.MODE_PRIVATE)
-        val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
-        val retrofitInstance = RetrofitInstance(accessToken)
 
-        val service = retrofitInstance.getUserList()
-
-        service.getUserList().enqueue(object : Callback<ContentsUserInfo> {
-            override fun onResponse(
-                call: Call<ContentsUserInfo>,
-                response: Response<ContentsUserInfo>
-            ) {
-                if (response.isSuccessful) {
-                    val info = response.body()?.data
-
-                    if (info != null) {
-
-                        clientId = info.clientId
-
-                        val imageUrl = info.clientProfileImagePath
-                        if (imageUrl != "") {
-                            Glide.with(view).load(imageUrl).into(profileImage)
-                        }
-                        profileNickname.text = info.clientNickname
-                        profilePhone.text = info.clientPhone
-                        profileEmail.text = info.clientEmail
-                        profileAddress.text = info.clientAddress
-                        val myDishList = mutableListOf<String>()
-                        for (dish in info.dishList) {
-                            myDishList.add(dish.dishName)
-                        }
-                        // 리스트 내부 아이템만 표시
-                        profileDishes.text = myDishList.joinToString(",","","",-1)
-                    }
-                } else {
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<ContentsUserInfo>, t: Throwable) {
-            }
-        })
     }
 
     override fun onCreateView(
@@ -155,6 +115,54 @@ class UserFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        Handler().postDelayed({
+            Log.d("RESUME", "start")
+            val sharedPreferences = this.activity?.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+            val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
+            val retrofitInstance = RetrofitInstance(accessToken)
 
+            val service = retrofitInstance.getUserList()
+
+            service.getUserList().enqueue(object : Callback<ContentsUserInfo> {
+                override fun onResponse(
+                    call: Call<ContentsUserInfo>,
+                    response: Response<ContentsUserInfo>
+                ) {
+                    if (response.isSuccessful) {
+                        val info = response.body()?.data
+
+                        if (info != null) {
+
+                            clientId = info.clientId
+
+                            val imageUrl = info.clientProfileImagePath
+                            if (imageUrl != "") {
+                                Glide.with(this@UserFragment).load(imageUrl).into(profileImage)
+                            }
+                            profileNickname.text = info.clientNickname
+                            profilePhone.text = info.clientPhone
+                            profileEmail.text = info.clientEmail
+                            profileAddress.text = info.clientAddress
+                            val myDishList = mutableListOf<String>()
+                            for (dish in info.dishList) {
+                                myDishList.add(dish.dishName)
+                            }
+                            // 리스트 내부 아이템만 표시
+                            profileDishes.text = myDishList.joinToString(",","","",-1)
+                        }
+                    } else {
+
+                    }
+
+                }
+
+                override fun onFailure(call: Call<ContentsUserInfo>, t: Throwable) {
+                }
+            })
+        }, 400)
+
+    }
 
 }
