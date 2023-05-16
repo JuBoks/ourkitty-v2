@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
 import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network.management.ManagementDetailResponse
 import com.meyou.app.network.management.ManagementResponse
 import com.meyou.app.network.management.UploadImageData
 import okhttp3.MediaType
@@ -183,8 +184,8 @@ class CreateManagementActivity : AppCompatActivity() {
                     val createCall = createManagementService.createManagement(
                         selectedDishCode.code?.toInt(), selectedStatusCode.code.toString(), files, uploadedText
                     )
-                    createCall.enqueue(object : Callback<ManagementResponse> {
-                        override fun onResponse(call: Call<ManagementResponse>, response: Response<ManagementResponse>) {
+                    createCall.enqueue(object : Callback<ManagementDetailResponse> {
+                        override fun onResponse(call: Call<ManagementDetailResponse>, response: Response<ManagementDetailResponse>) {
                             if (response.isSuccessful) {
                                 Log.d("API Call", "Success")
                                 Toast.makeText(getApplicationContext(), "글 작성 완료", Toast.LENGTH_SHORT).show();
@@ -195,7 +196,7 @@ class CreateManagementActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onFailure(call: Call<ManagementResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<ManagementDetailResponse>, t: Throwable) {
                             Log.d("API Call", "Error: ${t.message}")
                         }
                     })

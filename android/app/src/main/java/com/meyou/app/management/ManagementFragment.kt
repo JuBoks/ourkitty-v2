@@ -24,36 +24,34 @@ import retrofit2.Response
 
 class ManagementFragment : Fragment() {
     private var dataList = mutableListOf<Data>()
+    private lateinit var manageAdapter: ManagementAdapter
+    private var selectedDishCode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    override fun onCreateView(
 
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_management, container, false)
-
 
         val dishSpinner = view.findViewById<Spinner>(R.id.home_spinner)
 
-        // 데이터 배열을 만듭니다.
-        val dish =  listOf(Dish(null, "전체"), Dish("1", "미현이네"), Dish("2", "아이유정"), Dish("3", "정호네"))
+        val dish = listOf(Dish(null, "전체"), Dish("1", "미현이네"), Dish("2", "아이유정"), Dish("3", "정호네"))
 
-        // HintAdapter 생성합니다.
         val dishAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, dish)
 
-        // 생성한 ArrayAdapter를 Spinner에 설정합니다.
         dishSpinner.adapter = dishAdapter
 
-
-        // 선택된 dish의 code 값을 가져옵니다.
         val selectedDishCode = dishSpinner.selectedItem as Dish
         dishSpinner.setSelection(0)
 
         val ManageData = view.findViewById<RecyclerView>(R.id.rv_management)
-        val manageAdapter = ManagementAdapter(requireContext(), dataList)
+        manageAdapter = ManagementAdapter(requireContext(), dataList)
         ManageData.adapter = manageAdapter
         ManageData.layoutManager = LinearLayoutManager(requireContext())
 
@@ -61,37 +59,14 @@ class ManagementFragment : Fragment() {
         val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
         val retrofitInstance = RetrofitInstance(accessToken)
 
-        // 힌트를 마지막 항목으로 설정합니다.
         dishSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedDish = dishAdapter.getItem(position) // 선택된 Dish 객체를 가져옵니다.
-                val selectedDishCode = selectedDish?.code // 선택된 Dish 객체의 code를 가져옵니다.
+                val selectedDish = dishAdapter.getItem(position) as? Dish
+                val selectedDishCode = selectedDish?.code
 
-                // 선택된 Dish의 code를 로그에 출력합니다.
                 Log.d("CreateManagementActivity", "Selected dish code: $selectedDishCode")
 
-                // Retrofit 인스턴스를 가져와서
-                val service = retrofitInstance.getReadManagement()
-                service.readManagement(if (selectedDishCode == null) null else selectedDishCode.toInt()).enqueue(object : Callback<ManagementResponse> {
-                    override fun onResponse(call: Call<ManagementResponse>, response: Response<ManagementResponse>) {
-                        if (response.isSuccessful) {
-                            val managementResponse = response.body()
-                            if (managementResponse != null) {
-                                dataList.clear()
-                                dataList.addAll(managementResponse.data)
-                                manageAdapter.notifyDataSetChanged()
-                            } else {
-                                Log.e("ManagementFragment1", "ManagementResponse is null")
-                            }
-                        } else {
-                            Log.e("ManagementFragment2", "Response not successful. Code: ${response.code()}")
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ManagementResponse>, t: Throwable) {
-                        Log.e("ManagementFragment3", "Error fetching data: ${t.message}", t)
-                    }
-                })
+                refreshData()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -99,7 +74,6 @@ class ManagementFragment : Fragment() {
             }
         }
 
-        // 클릭시 CreageManagementActivity 로 이동
         val createFormImageView: ImageView = view.findViewById(R.id.create_form)
         createFormImageView.setOnClickListener {
             val intent = Intent(requireContext(), CreateManagementActivity::class.java)
@@ -107,5 +81,33 @@ class ManagementFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun refreshData() {
+        val sharedPreferences = this.activity?.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
+        val retrofitInstance = RetrofitInstance(accessToken)
+
+        val service = retrofitInstance.getReadManagement()
+        service.readManagement(if (selectedDishCode == null) null else selectedDishCode?.toInt()).enqueue(object : Callback<ManagementResponse> {
+            override fun onResponse(call: Call<ManagementResponse>, response: Response<ManagementResponse>) {
+                if (response.isSuccessful) {
+                    val managementResponse = response.body()
+                    if (managementResponse != null) {
+                        dataList.clear()
+                        dataList.addAll(managementResponse.data)
+                        manageAdapter.notifyDataSetChanged()
+                    } else {
+                        Log.e("ManagementFragment1", "ManagementResponse is null")
+                    }
+                } else {
+                    Log.e("ManagementFragment2", "Response not successful. Code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ManagementResponse>, t: Throwable) {
+                Log.e("ManagementFragment3", "Error fetching data: ${t.message}", t)
+            }
+        })
     }
 }

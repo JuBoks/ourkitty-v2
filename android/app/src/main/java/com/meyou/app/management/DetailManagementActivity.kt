@@ -26,6 +26,8 @@ import com.meyou.app.detailDish.tap1.DetailDIshInfo
 import com.meyou.app.network.RetrofitInstance
 import com.meyou.app.network.management.Data
 import com.meyou.app.network.management.ManagementDetailResponse
+import com.meyou.app.network.management.UploadImageData
+import com.meyou.app.user.ContentsUserInfo
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,45 +37,73 @@ class DetailManagementActivity : AppCompatActivity() {
 
     // 관리 정보를 저장할 데이터 리스트
     private var dataList = mutableListOf<Data>()
-
+    private var managementId: Int = -1
+    lateinit var addButton: Button
+    lateinit var editButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_management)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        addButton = findViewById(R.id.delete)
+        editButton = findViewById(R.id.edit)
         // 이전 활동에서 전달된 managementId를 가져옵니다.
-        val managementId = intent.getIntExtra("managementId", -1)
-
+        managementId = intent.getIntExtra("managementId", -1)
         // API 호출을 위한 서비스 인스턴스를 생성합니다.
         val sharedPreferences = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
         val retrofitInstance = RetrofitInstance(accessToken)
         val detailService = retrofitInstance.getReadDetailManagement()
+        val service = retrofitInstance.getUserList()
 
-        // API 호출을 수행합니다.
-        val call = detailService.readDetailManagement(managementId)
-
-        call.enqueue(object : Callback<ManagementDetailResponse> {
+        service.getUserList().enqueue(object : Callback<ContentsUserInfo> {
             override fun onResponse(
-                call: Call<ManagementDetailResponse>,
-                response: Response<ManagementDetailResponse>
+                call: Call<ContentsUserInfo>,
+                response: Response<ContentsUserInfo>
             ) {
                 if (response.isSuccessful) {
-                    val detailResponse = response.body()
-                    detailResponse?.let {
-                        dataList.add(it.data)
-                        updateUI()
+                    val info = response.body()?.data
+
+                    if (info != null) {
+                        val clientId = info.clientId
+
+                        // 관리 정보 API 호출을 수행합니다.
+                        val managementCall = detailService.readDetailManagement(managementId)
+
+                        managementCall.enqueue(object : Callback<ManagementDetailResponse> {
+                            override fun onResponse(
+                                call: Call<ManagementDetailResponse>,
+                                response: Response<ManagementDetailResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    val detailResponse = response.body()
+                                    detailResponse?.let {
+                                        dataList.add(it.data)
+                                        // 로그인한 사용자의 clientId와 관리일지 작성자의 clientId가 일치하면 삭제, 수정 버튼을 보여줍니다.
+                                        if(clientId == dataList[0].client.clientId) {
+                                            addButton.visibility = View.VISIBLE
+                                            editButton.visibility = View.VISIBLE
+                                        } else {
+                                            addButton.visibility = View.GONE
+                                            editButton.visibility = View.GONE
+                                        }
+                                        updateUI()
+                                    }
+                                } else {
+                                    Log.e(
+                                        "DetailManagementActivity",
+                                        "API 호출이 성공하지 못했습니다: ${response.message()}"
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ManagementDetailResponse>, t: Throwable) {
+                                Log.e("DetailManagementActivity", "API 호출이 실패했습니다: ${t.message}")
+                            }
+                        })
                     }
-                } else {
-                    Log.e(
-                        "DetailManagementActivity",
-                        "API 호출이 성공하지 못했습니다: ${response.message()}"
-                    )
                 }
             }
-
-            override fun onFailure(call: Call<ManagementDetailResponse>, t: Throwable) {
-                Log.e("DetailManagementActivity", "API 호출이 실패했습니다: ${t.message}")
+            override fun onFailure(call: Call<ContentsUserInfo>, t: Throwable) {
             }
         })
         // 댓글 작성 창 및 전송 버튼 찾기
@@ -118,8 +148,10 @@ class DetailManagementActivity : AppCompatActivity() {
                 Log.d("Comment", "댓글 내용이 비어있습니다.")
             }
         }
-        // 수정 버튼
-        val editButton: Button = findViewById(R.id.edit)
+
+
+
+
 
         editButton.setOnClickListener {
             val intent = Intent(this@DetailManagementActivity, DetailManagementEdit::class.java)
@@ -134,7 +166,7 @@ class DetailManagementActivity : AppCompatActivity() {
         }
 
 
-        val addButton: Button = findViewById(R.id.delete)
+
         addButton.setOnClickListener {
             // 커스텀 뷰를 inflate합니다.
             val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_modal, null)
@@ -153,6 +185,27 @@ class DetailManagementActivity : AppCompatActivity() {
             val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
             dialogConfirmButton.setOnClickListener {
                 Log.d("Modal", "삭제완료")
+                val deleteService = retrofitInstance.deleteManagement()
+                // API 호출을 수행합니다.
+                val call = deleteService.deleteManagement(managementId)
+                call.enqueue(object : Callback<UploadImageData> {
+                    override fun onResponse(
+                        call: Call<UploadImageData>,
+                        response: Response<UploadImageData>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d("CommentDelete", "관리일지 삭제 성공")
+                            finish()
+                        } else {
+                            Log.e("CommentDelete", "관리일지 삭제 실패: ${response.message()}")
+                        }
+                    }
+                    override fun onFailure(call: Call<UploadImageData>, t: Throwable) {
+                        Log.e("CommentDelete", "API 호출에 실패했습니다: ${t.message}")
+                    }
+                })
+
+
                 customDialog.dismiss()
             }
 
@@ -162,6 +215,7 @@ class DetailManagementActivity : AppCompatActivity() {
                 customDialog.dismiss()
             }
         }
+
     }
 
     // 가져온 데이터로 UI 업데이트
@@ -191,7 +245,7 @@ class DetailManagementActivity : AppCompatActivity() {
         // RecyclerView에 CommentAdapter 설정
         val recyclerView: RecyclerView = findViewById(R.id.rv)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = CommentAdapter(this, detailInfo.managementCommentList ?: emptyList())
+        recyclerView.adapter = CommentAdapter(this, detailInfo.managementCommentList ?: emptyList(), managementId)
     }
 
     class ImageAdapter(private val context: Context, private val imageUrls: List<String>) :
