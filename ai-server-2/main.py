@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from face_detection import detection
 from image_clustering import cluster_images
 from tnr_filtering import detect_tnr
-from common.util import save_image_from_url, empty_directory, save_json_file, get_json_file
+from common.util import save_image_from_url, empty_directory, save_json_file, get_json_file, send_cat_tnr_info
 import requests
 import os
 from dotenv import load_dotenv
@@ -94,6 +94,9 @@ async def modify_cluster_info(cluster: ClusterRequest):
   result_json = cluster.result.dict()
   isSuccess = await save_json_file(result_json, file_name)
   if isSuccess:
+    isUpdateSuccess = send_cat_tnr_info(cluster.serial_number, cluster.date, result_json['num_clusters'], result_json['tnr_count'])
+    if isUpdateSuccess == False:
+      return {'status': 500, 'message': "send cluster information is failed." }
     return {'status': 200, 'message': "cluster information is modified." }
   else:
     return {'status': 500, 'message': "Internal Server Error."}
@@ -134,16 +137,10 @@ def face_detection(serial_number, date):
   save_json_file(result, file_name)
 
   # 7. Back서버에 개체 수와 tnr 수 update하기
-  url = "/ai/count"
-  data = {
-    "catCount": result['num_clusters'],
-    "date": date,
-    "dishSerialNum": serial_number,
-    "tnrCount": tnrCount
-  }
-  response = requests.put(BACK_URL + url, json=data)
+  isSuccess = send_cat_tnr_info(serial_number, date, result['num_clusters'], tnrCount)
+
   # 응답 처리
-  if response.status_code != 200:
+  if isSuccess == False:
      return {'status': 500, 'message': "send cluster information is failed." }
 
   return result
