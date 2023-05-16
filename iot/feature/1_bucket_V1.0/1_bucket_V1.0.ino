@@ -22,8 +22,8 @@ const uint8_t servonum = 4;
 // ===========================
 
 // 아이유정 WIFI 정보
-// const char* ssid = "EDU-ELR22-861823";  // 라우터
-// const char* password = "12345678";
+const char* ssid = "EDU-ELR22-861823";  // 라우터
+const char* password = "12345678";
 
 // 정호네 WIFI 정보
 // const char* ssid = "EDU-ELR22-851139";  // 라우터
@@ -34,8 +34,8 @@ const uint8_t servonum = 4;
 // const char* password = "55343033"; // 와이파이 비밀번호
 
 // 테스트용 WIFI 정보
-const char* ssid = "KPHONE";        // 와이파이 이름
-const char* password = "12348765";  // 와이파이 비밀번호
+// const char* ssid = "KPHONE";        // 와이파이 이름
+// const char* password = "12348765";  // 와이파이 비밀번호
 
 // AI 서버 도메인
 String serverName = "k8e203.p.ssafy.io";  // 아이피 주소 기입
@@ -129,7 +129,7 @@ void loop() {
     sendData(checkBucket(), checkBattery());
     start_time = time_now;
   }
-  delay(5000);
+  delay(1000);
 }
 
 // 통신코드. 바디를 생성해서 넣어주면 알아서 작동
