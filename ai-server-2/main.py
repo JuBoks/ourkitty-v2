@@ -176,15 +176,16 @@ async def get_representatives(serial_number):
 
     # '날짜': [] 형태로 result 만들기
     image_arr = []
-    for el in json_file['representative_images']:
-      image_arr.append(el[1])
-    result[f'{json_file_date}'] = image_arr
+    if 'representative_images' in json_file:
+      for el in json_file['representative_images']:
+        image_arr.append(el[1])
+      result[f'{json_file_date}'] = image_arr
   
   return result
 
 @app.get("/info/status")
 def get_info_status(serial_number):
-  result = []
+  result = {}
   for json_name in os.listdir(JSON_PATH):
     json_split = json_name.split('.')
     json_file_name = json_split[0]
@@ -208,10 +209,6 @@ def get_info_status(serial_number):
     except:
       status = -1
 
-    dateObj = {
-      'date': f'{json_file_date}',
-      'status': status,
-    }
-    result.append(dateObj)
+    result[f'{json_file_date}'] = status
   
   return result
