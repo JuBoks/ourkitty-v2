@@ -94,25 +94,8 @@ class ClientController(
      * @return ResponseEntity<ResultDto<ClientResponseDto>>
      */
     @ApiOperation(value = "본인 아이디 정보 수정 (캣맘용)")
-    @PutMapping("/mypage/1")
-    fun modifyMyAccount1(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
-
-        val client = clientService.modifyMyAccount(
-            clientId = JwtContextHolder.clientId!!.toLong(),
-            clientRequestDto = clientRequestDto,
-            file = file
-        )
-
-        return ResponseEntity.ok(client)
-    }
-
-    /**
-     * @param clientRequestDto ClientRequestDto
-     * @return ResponseEntity<ResultDto<ClientResponseDto>>
-     */
-    @ApiOperation(value = "본인 아이디 정보 수정 (캣맘용)")
-    @PutMapping("/mypage/2")
-    fun modifyMyAccount2(@RequestBody clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
+    @PutMapping("/mypage")
+    fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
 
         val client = clientService.modifyMyAccount(
             clientId = JwtContextHolder.clientId!!.toLong(),
