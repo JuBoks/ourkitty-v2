@@ -78,6 +78,9 @@ class RetrofitInstance(private val accessToken: String = "") {
     fun deleteManagementComment(): DeleteManagementCommentService {
         return retrofit.create(DeleteManagementCommentService::class.java)
     }
+    fun deleteManagement(): DeleteManagementService {
+        return retrofit.create(DeleteManagementService::class.java)
+    }
     fun getUserList(): UserListGetService {
         return retrofit.create(UserListGetService::class.java)
     }

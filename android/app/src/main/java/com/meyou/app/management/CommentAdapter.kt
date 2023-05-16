@@ -15,9 +15,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
+import com.meyou.app.network.RetrofitInstance
 import com.meyou.app.network.management.ManagementComment
+import com.meyou.app.network.management.UploadImageData
+import com.meyou.app.user.ContentsUserInfo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class CommentAdapter(private val context: Context, private val comments: List<ManagementComment>) :
+class CommentAdapter(private val context: Context, private val comments: List<ManagementComment>, private val managementId: Int) :
     RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -28,10 +34,43 @@ class CommentAdapter(private val context: Context, private val comments: List<Ma
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = comments[position]
 
+        val sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
+        val retrofitInstance = RetrofitInstance(accessToken)
+
+        val service = retrofitInstance.getUserList()
+
+        service.getUserList().enqueue(object : Callback<ContentsUserInfo> {
+            override fun onResponse(
+                call: Call<ContentsUserInfo>,
+                response: Response<ContentsUserInfo>
+            ) {
+                if (response.isSuccessful) {
+                    val info = response.body()?.data
+
+                    if (info != null) {
+                        val clientId = info.clientId
+
+                        // 로그인한 사용자의 clientId와 댓글 작성자의 clientId가 일치하면 삭제 버튼을 보여줍니다.
+                        if(clientId == comment.client.clientId) {
+                            holder.delete.visibility = View.VISIBLE
+                        } else {
+                            holder.delete.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ContentsUserInfo>, t: Throwable) {
+            }
+        })
+
+
+
         Glide.with(holder.itemView.context).load(comment.client.clientProfileImagePath).into(holder.userProfileImage)
         holder.userName.text = comment.client.clientNickname
         holder.date.text = comment.updatedDate
         holder.comment.text = comment.managementCommentContent
+        val managementCommentId = comment.managementCommentId
 
         holder.delete.setOnClickListener {
             // 커스텀 뷰를 inflate
@@ -50,7 +89,32 @@ class CommentAdapter(private val context: Context, private val comments: List<Ma
             // 확인 버튼에 대한 클릭 리스너를 설정
             val dialogConfirmButton: Button = dialogView.findViewById(R.id.dialogConfirmButton)
             dialogConfirmButton.setOnClickListener {
-                Log.d("Modal", "삭제완료")
+                // API 호출을 위한 서비스 인스턴스를 생성합니다.
+                val sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+                val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
+                val retrofitInstance = RetrofitInstance(accessToken)
+                val deleteService = retrofitInstance.deleteManagementComment()
+
+                // API 호출을 수행합니다.
+                val call = deleteService.deleteCommentManagement(managementId, managementCommentId)
+                call.enqueue(object : Callback<UploadImageData> {
+                    override fun onResponse(
+                        call: Call<UploadImageData>,
+                        response: Response<UploadImageData>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d("CommentDelete", "댓글 삭제 성공")
+                            // UI 업데이트 어케하노..
+                        } else {
+                            Log.e("CommentDelete", "댓글 삭제 실패: ${response.message()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<UploadImageData>, t: Throwable) {
+                        Log.e("CommentDelete", "API 호출에 실패했습니다: ${t.message}")
+                    }
+                })
+
                 customDialog.dismiss()
             }
 

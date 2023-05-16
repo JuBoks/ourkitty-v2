@@ -11,7 +11,7 @@ interface CreateManagementService {
         @Field("dishState") dishState: String,
         @Field("files") files: List<String>,
         @Field("managementContent") managementContent: String
-    ): Call<ManagementResponse>
+    ): Call<ManagementDetailResponse>
 }
 
 interface ReadManagementService {
@@ -38,10 +38,16 @@ interface CreateManagementCommentService {
     ): Call<ManagementDetailResponse>
 }
 interface DeleteManagementCommentService {
-    @FormUrlEncoded
     @DELETE("management/{managementId}/comment/{managementCommentId}")
     fun deleteCommentManagement(
         @Path("managementId") managementId: Int,
         @Path("managementCommentId") managementCommentId: Int
+    ): Call<UploadImageData>
+}
+
+interface DeleteManagementService {
+    @DELETE("management/{managementId}")
+    fun deleteManagement(
+        @Path("managementId") managementId: Int,
     ): Call<UploadImageData>
 }
