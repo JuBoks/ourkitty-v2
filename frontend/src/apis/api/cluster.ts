@@ -34,6 +34,7 @@ export const getClusterInfo = async (dishSerialNum: string, clusterDate: string)
 
 // PUT
 export const modifyClusterInfo = async (body: ClusterModifyRequest) => {
+  console.log('boody', body)
   const { data } = await aiInstance.put(`info`, body);
   console.log('modifyClusterInfo: ', data)
 }
