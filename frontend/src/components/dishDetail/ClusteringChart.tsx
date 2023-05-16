@@ -95,8 +95,6 @@ export default function ClusteringChart({ data }: Props) {
 
   const addRepresentative = async () => {
     // 1. 해당 이미지의 url이 이미 추가된 url인지 확인
-    console.log('selectedImg', selectedImg)
-    console.log('clusterData', selectedCluster)
     if (selectedImg && selectedCluster) {
       for (let el of selectedCluster.represetatives) {
         if (el.image === selectedImg.image) {
@@ -141,17 +139,16 @@ export default function ClusteringChart({ data }: Props) {
       _selectedOriginal.num_clusters++;
 
       const body: ClusterModifyRequest = {
-        serial_number: 'string',
-        date: 'string',
+        serial_number: selectedSerialNumber,
+        date: selectedButton,
         result: _selectedOriginal,
       };
       modifyCluster.mutate(body);
-      console.log("updateing...", _selectedOriginal)
     }
 
     // 4. get cluster info
     const response = await getClusterInfo(selectedSerialNumber, selectedButton)
-    console.log("Updated!! >> ", response);
+    setSelectedClusterOriginal(response.original);
 
     return true;
   }
