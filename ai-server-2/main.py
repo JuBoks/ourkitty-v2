@@ -38,6 +38,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 FILE_SAVE_PATH = os.path.abspath('datasets/0_files')
 JSON_PATH = os.path.abspath('datasets/4_result')
 BACK_URL = os.environ['BACK_URL']
+BACK_AI_URL = BACK_URL + "/ai/count"
 
 origins = ["*"]
 app.add_middleware(
@@ -94,7 +95,7 @@ async def modify_cluster_info(cluster: ClusterRequest):
   result_json = cluster.result.dict()
   isSuccess = await save_json_file(result_json, file_name)
   if isSuccess:
-    isUpdateSuccess = send_cat_tnr_info(cluster.serial_number, cluster.date, result_json['num_clusters'], result_json['tnr_count'])
+    isUpdateSuccess = send_cat_tnr_info(BACK_AI_URL, cluster.serial_number, cluster.date, result_json['num_clusters'], result_json['tnr_count'])
     if isUpdateSuccess == False:
       return {'status': 500, 'message': "send cluster information is failed." }
     return {'status': 200, 'message': "cluster information is modified." }
@@ -137,7 +138,7 @@ def face_detection(serial_number, date):
   save_json_file(result, file_name)
 
   # 7. Back서버에 개체 수와 tnr 수 update하기
-  isSuccess = send_cat_tnr_info(serial_number, date, result['num_clusters'], tnrCount)
+  isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, result['num_clusters'], tnrCount)
 
   # 응답 처리
   if isSuccess == False:
