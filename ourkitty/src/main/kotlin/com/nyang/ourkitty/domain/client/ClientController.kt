@@ -95,7 +95,7 @@ class ClientController(
      */
     @ApiOperation(value = "본인 아이디 정보 수정 (캣맘용)")
     @PutMapping("/mypage")
-    fun modifyMyAccount(clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
+    fun modifyMyAccount(@RequestBody clientRequestDto: ClientRequestDto, @RequestParam(required = false) file: String?): ResponseEntity<ResultDto<ClientResponseDto>> {
 
         val client = clientService.modifyMyAccount(
             clientId = JwtContextHolder.clientId!!.toLong(),
@@ -105,19 +105,6 @@ class ClientController(
 
         return ResponseEntity.ok(client)
     }
-
-    @ApiOperation(value = "본인 닉네임 수정 (캣맘용)")
-    @PutMapping("/nickname")
-    fun modifyMyNickname(nickname: String): ResponseEntity<ResultDto<ClientResponseDto>> {
-
-        val client = clientService.modifyMyNickname(
-            clientId = JwtContextHolder.clientId!!.toLong(),
-            nickname = nickname,
-        )
-
-        return ResponseEntity.ok(client)
-    }
-
 
     /**
      * @param clientId Long
