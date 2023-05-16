@@ -45,3 +45,8 @@ export const selectedClusterOriginalState = atom<ClusterOriginal>({
   key: "selectedClusterOriginalState",
   default: _original,
 });
+
+export const statusInfoState = atom({
+  key: "statusInfoState",
+  default: {},
+});

@@ -8,9 +8,9 @@ import Swal from "sweetalert2";
 import { darkState } from "recoil/page";
 import { Cluster, ClusterFeature } from "types";
 import { ClusterModifyRequest, ClusterRepresentative } from "types/Clusters";
-import { selectedClusterOriginalState, selectedClusterState, selectedDateState, selectedSerialNumberState } from "recoil/chart";
+import { selectedClusterOriginalState, selectedClusterState, selectedDateState, selectedSerialNumberState, statusInfoState } from "recoil/chart";
 import { useMutation } from "react-query";
-import { getClusterInfo, modifyClusterInfo } from "apis/api/cluster";
+import { getClusterInfo, getClusterStatus, modifyClusterInfo } from "apis/api/cluster";
 
 type Props = {
   data?: Cluster;
@@ -25,6 +25,7 @@ export default function ClusteringChart({ data }: Props) {
   const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(selectedClusterOriginalState);
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
   const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
+  const [statusInfo, setStatusInfo] = useRecoilState(statusInfoState);
   const isDark = useRecoilState(darkState)[0];
 
   const openModal = () => {
@@ -74,8 +75,6 @@ export default function ClusteringChart({ data }: Props) {
           icon: "success",
           title: "대표 고양이로 추가되었습니다.",
         });
-
-        console.log('[modified] clusterData', selectedCluster)
       }
     }).finally(() => {
       // close modal
@@ -87,8 +86,14 @@ export default function ClusteringChart({ data }: Props) {
     ["modifyClusterInfo"],
     (body: ClusterModifyRequest) => modifyClusterInfo(body),
     {
-      onSuccess: () => {
-        console.log("Success!!!")
+      onSuccess: async () => {
+        // 4. get cluster info
+        const response = await getClusterInfo(selectedSerialNumber, selectedButton)
+        setSelectedClusterOriginal(response.original);
+        setSelectedCluster(response.refined);
+
+        const response_status = await getClusterStatus(selectedSerialNumber)
+        setStatusInfo(response_status);
       }
     }
   )
@@ -114,13 +119,7 @@ export default function ClusteringChart({ data }: Props) {
     }
 
     // 3. 추가된 고양이로 update
-    let _selectedOriginal = {
-      ...selectedClusterOriginal,
-      representative_images: [...selectedClusterOriginal.representative_images],
-      file_feature_info: [...selectedClusterOriginal.file_feature_info],
-      closest_images: [...selectedClusterOriginal.closest_images],
-      tnr_info: [...selectedClusterOriginal.tnr_info],
-    }
+    let _selectedOriginal = JSON.parse(JSON.stringify(selectedClusterOriginal));
 
     if (selectedImg) {
       let isTnr = tnrRadioValue === "no-tnr" ? false : true;
@@ -132,10 +131,18 @@ export default function ClusteringChart({ data }: Props) {
       if (isTnr) {
         _selectedOriginal.tnr_count++;
       }
-      // 3) representative_images
+      // 4) representative_images
       _selectedOriginal.representative_images.push(
         [_selectedOriginal.num_clusters, selectedImg.image]
       );
+      // 5) file_feature_info
+      for (let el of _selectedOriginal.file_feature_info) {
+        if (el[0] === selectedImg.image) {
+          el[1] = _selectedOriginal.num_clusters;
+          break;
+        }
+      }
+      // 6) num_clusters++
       _selectedOriginal.num_clusters++;
 
       const body: ClusterModifyRequest = {
@@ -145,10 +152,6 @@ export default function ClusteringChart({ data }: Props) {
       };
       modifyCluster.mutate(body);
     }
-
-    // 4. get cluster info
-    const response = await getClusterInfo(selectedSerialNumber, selectedButton)
-    setSelectedClusterOriginal(response.original);
 
     return true;
   }
@@ -178,19 +181,33 @@ export default function ClusteringChart({ data }: Props) {
         .attr("height", "100%");
 
       // 데이터 점 생성
-      const points = svg.selectAll("image")
+
+      const color = ["#FDEAE4", "#C4ECFF", "#E3E3E3", "#C4FFE4", "#FFE0EE", "#C6FCCE", "#F8FFC4", "#D7B6B6", "#B6C1D7", "#B8D7B6", "white"]
+      const points = svg.selectAll("g")
         .data(data.features)
         .enter()
-        .append("image")
-        .attr("x", function (d) { return xScale(d.x); })
-        .attr("y", function (d) { return yScale(d.y); })
+        .append("g")
+        .attr("transform", function (d) {
+          return `translate(${xScale(d.x)}, ${yScale(d.y)})`;
+        });
+
+      points.append("rect")
+        .attr("width", 100)
+        .attr("height", 120)
+        .attr("stroke", function (d) { return color[d.cls]; }) // 테두리 색상 지정
+        .attr("stroke-width", 30) // 테두리 두께 지정
+        .attr("rx", 20) // 가로 방향 border-radius 지정
+        .attr("ry", 10) // 세로 방향 border-radius 지정
+        .style("opacity", 1)
+        .attr("fill", function (d) { return color[d.cls]; })
+        .style("mix-blend-mode", "darken"); // 배경색 지정
+
+      points.append("image")
         .attr("xlink:href", function (d) { return d.image; })
         .attr("width", 100)
         .attr("height", 120)
         .on("click", function (d) {
-          // 1. selected image 갱신
           setSelectedImg(d.target.__data__);
-          // imgsrc = d.target.__data__.image;
           openModal();
         })
         .on("mouseover", function () {

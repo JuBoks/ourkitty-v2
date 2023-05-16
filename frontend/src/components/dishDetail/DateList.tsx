@@ -1,14 +1,11 @@
 import React from "react";
-import { useRecoilState } from "recoil";
-import { selectedDateState } from "recoil/chart";
-import { DateInfo, DateInfoArray } from "types";
 import DateListElement from "./DateListElement";
 
 type Props = {
-  statusList: DateInfoArray
+  statusInfo: any
 }
 
-export default function DateList({ statusList }: Props) {
+export default function DateList({ statusInfo }: Props) {
   const today = new Date();
   let _dates: string[] = [];
 
@@ -27,12 +24,10 @@ export default function DateList({ statusList }: Props) {
     return `${month} ${day} ${weekday}`;
   }).reverse();
 
-  console.log('tttt', dates)
-
   return (
     <div className="w-full h-full gap-1 flex flex-row">
-      {dates && dates.map((el) =>
-        <DateListElement date={1} status={1} dateDisplay={el} />
+      {dates && dates.map((el, index) =>
+        <DateListElement key={index} date={_dates[index]} statusInfo={statusInfo} dateDisplay={el} />
       )}
     </div>
   );
