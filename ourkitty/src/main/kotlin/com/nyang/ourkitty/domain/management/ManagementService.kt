@@ -135,7 +135,7 @@ class ManagementService(
     fun deleteManagement(managementId: Long, clientId: Long, userCode: String, locationCode: String): ResultDto<Boolean> {
         val management = getManagementById(managementId)
 
-        if (management.client.clientId != clientId || !(userCode == UserCode.지자체.code && management.locationCode == locationCode)) throw CustomException(ErrorCode.NO_ACCESS)
+        if (management.client.clientId != clientId && !(userCode == UserCode.지자체.code && management.locationCode == locationCode)) throw CustomException(ErrorCode.NO_ACCESS)
 
         management.delete()
 
@@ -166,7 +166,7 @@ class ManagementService(
     fun deleteManagementComment(managementId: Long, clientId: Long, userCode: String, locationCode: String, managementCommentId: Long): ResultDto<Boolean> {
         val managementComment = getManagementCommentById(managementCommentId)
 
-        if (managementComment.client.clientId != clientId || userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
+        if (managementComment.client.clientId != clientId && userCode != UserCode.지자체.code) throw CustomException(ErrorCode.NO_ACCESS)
 
         managementComment.delete()
         managementCommentRepository.save(managementComment)
