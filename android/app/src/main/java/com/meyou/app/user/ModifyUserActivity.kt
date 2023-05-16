@@ -7,12 +7,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +26,6 @@ import com.meyou.app.network.RetrofitInstance
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +43,6 @@ class ModifyUserActivity : AppCompatActivity() {
     private lateinit var profileEmail: TextView // 이메일
     private lateinit var profileAddress: TextView // 거주지
     private lateinit var profileDishes: TextView // 담당 냥그릇
-    private var mydish: List<Dish> = listOf()
     private var profileName = ""
     private var profileImageUrl = ""
     private var clientId = 0
@@ -78,6 +78,7 @@ class ModifyUserActivity : AppCompatActivity() {
                                 profileImageUrl = img
                                 Glide.with(this@ModifyUserActivity).load(img).into(profileImage)
                             }
+                            Log.d("IMAGEURL: ", profileImageUrl)
                         }
                     }
                     override fun onFailure(call: Call<ResultImage>, t: Throwable) {
@@ -113,6 +114,7 @@ class ModifyUserActivity : AppCompatActivity() {
                         clientId = info.clientId
 
                         val imageUrl = info.clientProfileImagePath
+
                         if (imageUrl != "") {
                             Glide.with(this@ModifyUserActivity).load(imageUrl).into(profileImage)
                         }
@@ -121,7 +123,7 @@ class ModifyUserActivity : AppCompatActivity() {
                         profilePhone.text = info.clientPhone
                         profileEmail.text = info.clientEmail
                         profileAddress.text = info.clientAddress
-                        mydish = info.dishList
+                        profileImageUrl = info.clientProfileImagePath
                         val myDishList = mutableListOf<String>()
                         for (dish in info.dishList) {
                             myDishList.add(dish.dishName)
@@ -140,7 +142,6 @@ class ModifyUserActivity : AppCompatActivity() {
 
         // 프로필 이미지 수정
         profileImage.setOnClickListener{
-            Log.d("TEST", "PROFILE")
 
             // 권한 설정
             // 쓰기 권한
@@ -172,40 +173,54 @@ class ModifyUserActivity : AppCompatActivity() {
 
         // 회원정보 수정 완료 요청
         modifyButton.setOnClickListener {
-            val address = RequestBody.create(MediaType.parse("text/plain"), "${profileAddress}")
-            val email = RequestBody.create(MediaType.parse("text/plain"), "${profileEmail}")
-            val name = RequestBody.create(MediaType.parse("text/plain"), "${profileName}")
-            val  nickname = RequestBody.create(MediaType.parse("text/plain"), "${profileNickname}")
-            val password = RequestBody.create(MediaType.parse("text/plain"), "password")
-            val phone = RequestBody.create(MediaType.parse("text/plain"), "${profilePhone}")
-            val file = RequestBody.create(MediaType.parse("text/plain"), "${profileImageUrl}")
-
-            val requestMap = HashMap<String, RequestBody>()
-            requestMap["clientAddress"] = address
-            requestMap["clientEmail"] = email
-            requestMap["clientName"] = name
-            requestMap["clientNickname"] =nickname
-            requestMap["clientPassword"] = password
-            requestMap["clientPhone"] = phone
-            requestMap["file"] = file
-
             val sharedPreferences = this?.getSharedPreferences("user_info", Context.MODE_PRIVATE)
             val accessToken = sharedPreferences?.getString("accessToken", "") ?: ""
             val retrofitInstance = RetrofitInstance(accessToken)
 
             val service = retrofitInstance.modifyProfile()
 
+            Log.d("TEST", "${profileAddress.text.toString()}")
 
+            val requestBody: RequestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("clientAddress",  profileAddress.text.toString())
+                .addFormDataPart("clientEmail",  profileEmail.text.toString())
+                .addFormDataPart("clientName",  profileName)
+                .addFormDataPart("clientNickname",  profileNickname.text.toString())
+                .addFormDataPart("clientPassword",  "ourkitty")
+                .addFormDataPart("clientPhone",  profilePhone.text.toString())
+                .addFormDataPart("file", profileImageUrl)
+                .build()
+
+
+            val modifyService = service.modifyProfile(
+                requestBody
+            )
+
+            modifyService.enqueue(object : Callback<ModifyResponse> {
+                override fun onResponse(call: Call<ModifyResponse>, response: Response<ModifyResponse>) {
+                    Log.d("SUCCESS", "${response}")
+
+                }
+
+                override fun onFailure(call: Call<ModifyResponse>, t: Throwable) {
+                    Log.d("FAIL", "${t}")
+                }
+            })
             // 프로필 페이지로 이동
-            val intent = Intent(this, UserFragment::class.java)
-            startActivity(intent)
+
+            Handler().postDelayed({
+                Toast.makeText(this, "수정 완료!", Toast.LENGTH_SHORT).show()
+                finish()
+            }, 500)
+
+
         }
 
         // 수정 취소
         cancelButton.setOnClickListener {
             // 프로필 페이지로 이동
-            val intent = Intent(this, UserFragment::class.java)
-            startActivity(intent)
+            finish()
         }
 
     }
