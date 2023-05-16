@@ -40,9 +40,13 @@ def save_image_from_url(url, file_path):
       file.write(chunk)
 
 # json파일 저장하기
-def save_json_file(data, file_name):
-  with open(f"datasets/4_result/{file_name}.json", "w") as file:
-    json.dump(data, file)
+async def save_json_file(data, file_name):
+  try:
+    with open(f"datasets/4_result/{file_name}.json", "w") as file:
+      json.dump(data, file)
+    return True
+  except Exception as e:
+    return False
 
 # json파일 읽기
 def get_json_file(file_name):
