@@ -8,7 +8,7 @@ import { selectedButtonState } from "../recoil/chart";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import Loading from "../components/common/Loading";
+import Loading from "../components/common/LoadingHeatMap";
 
 
 export default function Chart() {
