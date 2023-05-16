@@ -1,6 +1,7 @@
 export type DateInfo = {
-  date: number,
-  status: number,
+  date: string,
+  statusInfo: any,
+  dateDisplay: string,
 }
 
 export type DateInfoArray = DateInfo[];

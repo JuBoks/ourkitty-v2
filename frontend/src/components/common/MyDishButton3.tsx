@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getDishList } from "../../apis/api/dish";
 import { useRecoilState } from "recoil";
-import { selectedButtonState } from "../../recoil/chart";
+import { selectedButtonState, selectedSerialNumberState } from "../../recoil/chart";
 
 interface detailData {
   createdData: string;
@@ -29,20 +29,23 @@ export default function MyDishButtons() {
 
   const [button, setButton] = useState<detailData[]>([]);
   const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
 
   useEffect(() => {
     if (data !== undefined) {
-      const newButtons = data.data.map((item: { dishId:any, dishName: any }) => ({
+      const newButtons = data.data.map((item: { dishId: any, dishName: any, dishSerialNum: any }) => ({
         dishId: item.dishId,
         dishName: item.dishName,
+        dishSerialNum: item.dishSerialNum,
       }));
       setButton(newButtons);
     }
   }, [data]);
 
 
-  const handleClick = (id: number) => {
-    setSelectedButton(id);
+  const handleClick = (el: any) => {
+    setSelectedButton(el.dishId);
+    setSelectedSerialNumber(el.dishSerialNum);
   };
 
   if (isLoading || data === undefined) return null;
@@ -52,12 +55,11 @@ export default function MyDishButtons() {
       {button.map((item) => (
         <button
           key={item.dishId}
-          className={`w-full h-[3rem] px-3 rounded-lg text-black font-bold hover:bg-LightMain dark:hover:bg-DarkMain border border-LightMain ${
-            selectedButton === item.dishId
-              ? "bg-LightMain text-white"
-              : "bg-white"
-          }`}
-          onClick={() => handleClick(item.dishId)}
+          className={`w-full h-[3rem] px-3 rounded-lg text-black font-bold hover:bg-LightMain dark:hover:bg-DarkMain border border-LightMain ${selectedButton === item.dishId
+            ? "bg-LightMain text-white"
+            : "bg-white"
+            }`}
+          onClick={() => handleClick(item)}
         >
           {item.dishName}
         </button>
