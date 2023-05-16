@@ -4,6 +4,7 @@ import cv2
 import shutil
 import requests
 import json
+import asyncio
 
 JSON_PATH = os.path.abspath('datasets/4_result')
 
@@ -44,6 +45,7 @@ async def save_json_file(data, file_name):
   try:
     with open(f"datasets/4_result/{file_name}.json", "w") as file:
       json.dump(data, file)
+    await asyncio.sleep(0)  # 파일이 실제로 디스크에 저장되기까지 대기
     return True
   except Exception as e:
     return False
