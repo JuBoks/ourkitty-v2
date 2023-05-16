@@ -6,7 +6,7 @@ export default function ClusteringChartImage({ selectedImg }: any) {
   }, [selectedImg]);
 
   return (
-    <div className="flex flex-row justify-center w-full h-full">
+    <div className="flex flex-row justify-center w-full h-[calc(100%-55px)]">
       <img src={selectedImg.image} className="w-full h-full" />
     </div>
   )

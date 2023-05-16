@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { selectedDateState } from "../../recoil/chart";
 
 export default function DateListElement({ date, status }: DateInfo) {
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const today = new Date();
   let _dates: string[] = [];
   const dates = Array.from({ length: 7 }, (_, index) => {
@@ -17,18 +18,17 @@ export default function DateListElement({ date, status }: DateInfo) {
     const _day = date.toLocaleDateString('en-US', { day: '2-digit' });
     const weekday = date.toLocaleDateString('ko-KR', { weekday: 'long' });
 
-    _dates.push(`${_year}-${_month}-${_day}`);
+    _dates.unshift(`${_year}-${_month}-${_day}`);
     return `${month} ${day} ${weekday}`;
   }).reverse();
 
   let color = 'bg-LightInput'
-  if (status === 0) {
-    color = "bg-pink-200"
-  } else if (status === 1) {
-    color = "bg-blue-200"
-  }
+  // if (status === 0) {
+  //   color = "bg-pink-200"
+  // } else if (status === 1) {
+  //   color = "bg-blue-200"
+  // }
 
-  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
 
 
   const handleClick = (date: number) => {

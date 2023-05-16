@@ -1,13 +1,12 @@
 import { Cluster, ClusterFeature } from "types";
-import { ClusterRepresentative } from "types/Clusters";
+import { ClusterModifyRequest, ClusterRepresentative } from "types/Clusters";
 import { aiInstance } from "../utils";
 
 // GET
-
-
 export const getClusterInfo = async (dishSerialNum: string, clusterDate: string) => {
   const { data } = await aiInstance.get(`info?serial_number=${dishSerialNum}&date=${clusterDate}`);
   console.log('original', data);
+
   let features: ClusterFeature[] = [];
   let represetatives: ClusterRepresentative[] = [];
   let result: Cluster = {
@@ -30,5 +29,11 @@ export const getClusterInfo = async (dishSerialNum: string, clusterDate: string)
   }));
 
   console.log('refined', result);
-  return result;
+  return { 'original': data, 'refined': result };
 };
+
+// PUT
+export const modifyClusterInfo = async (body: ClusterModifyRequest) => {
+  const { data } = await aiInstance.put(`info`, body);
+  console.log('modifyClusterInfo: ', data)
+}
