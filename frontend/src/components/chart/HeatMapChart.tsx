@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { selectedButtonState } from "../../recoil/chart";
 import { getCatUserList } from "../../apis/api/chart";
 import CatImages from './CatImages';
-import Loading from "../common/Loading";
+import Loading from "../common/LoadingHeatMap";
 
 
 interface ImgType {

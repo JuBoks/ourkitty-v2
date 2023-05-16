@@ -30,9 +30,10 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
     },
     stroke: {
       curve: "straight",
-      width: 5,
+      width: [5, 5, 3], // Set different widths for each line
+      dashArray: [0, 0, 5], // Set the dash array for the third line
     },
-    colors: ["#ffcd4a", '#c495fd'],
+    colors: ["#ffcd4a", '#c495fd', '#ff0000'], 
     grid: {
       row: {
         colors: ["#f5f5f5f5", "transparent"],
@@ -57,6 +58,9 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
       max : 10,
       tickAmount: 5,
       labels: {
+        formatter: function (value) {
+          return Math.round(value).toString(); // Convert the label to an integer
+        },
         style: {
           colors: `${isDark ? "#FFFFFF" : "#000000"}`,
         },
@@ -72,6 +76,10 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
   {
     name: "중성화 x",
     data: noTnrCountList
+  },
+  {
+    name: "권역별 TNR 목표",
+    data: catCountList.map(num => Math.round(num * 0.75))
   }
   ]
 
