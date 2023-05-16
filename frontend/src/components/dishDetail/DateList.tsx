@@ -3,9 +3,8 @@ import { DateInfo, DateInfoArray } from "types";
 import DateListElement from "./DateListElement";
 
 
-export default function DateList() {
 
-
+export default function DateList({ status }: any) {
   const status_dummy = [0, 1, -1, 1, 1, 0, 1]
   let dummy: DateInfoArray = []
   for (let i = 0; i < 7; i++) {

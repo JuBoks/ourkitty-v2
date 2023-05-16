@@ -35,6 +35,7 @@ export const getClusterInfo = async (dishSerialNum: string, clusterDate: string)
 export const getClusterStatus = async (dishSerialNum: string) => {
   const { data } = await aiInstance.get(`info/status?serial_number=${dishSerialNum}`);
   console.log('getClusterStatus', data);
+  return data;
 }
 
 // PUT
