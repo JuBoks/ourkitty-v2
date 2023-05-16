@@ -12,6 +12,8 @@ import com.meyou.app.network.User.UserDeleteService
 import com.meyou.app.network.User.UserListGetService
 import com.meyou.app.network.User.UserProfileModifyService
 import com.meyou.app.network.User.UserProfileService
+import com.meyou.app.network.management.CreateManagementCommentService
+import com.meyou.app.network.management.DeleteManagementCommentService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
