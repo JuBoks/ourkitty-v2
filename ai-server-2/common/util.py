@@ -7,7 +7,6 @@ import json
 import asyncio
 
 JSON_PATH = os.path.abspath('datasets/4_result')
-BACK_URL = os.environ['BACK_URL']
 
 # 이미지 전처리 함수
 def resize_img(im, img_size):
@@ -60,15 +59,14 @@ def get_json_file(file_name):
     return
   return data
 
-async def send_cat_tnr_info(serial_number, date, catCount, tnrCount):
-  url = "/ai/count"
+def send_cat_tnr_info(url, serial_number, date, catCount, tnrCount):
   data = {
     "catCount": catCount,
     "date": date,
     "dishSerialNum": serial_number,
     "tnrCount": tnrCount
   }
-  response = requests.put(BACK_URL + url, json=data)
+  response = requests.put(url, json=data)
 
   # 응답 처리
   if response.status_code != 200:
