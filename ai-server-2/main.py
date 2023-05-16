@@ -104,7 +104,7 @@ async def modify_cluster_info(cluster: ClusterRequest):
 
 # [batch] 이미지 전처리, Clustering, TNR, Back으로 전송
 @app.get("/detection")
-def face_detection(serial_number, date):
+async def face_detection(serial_number, date):
   folder_name = os.environ[f'{serial_number}']
   file_path = os.path.abspath(f'{FILE_SAVE_PATH}/{folder_name}')
 
@@ -135,7 +135,7 @@ def face_detection(serial_number, date):
 
   # 6. 데이터(result) 저장
   file_name = f'{date}_{serial_number}'
-  save_json_file(result, file_name)
+  await save_json_file(result, file_name)
 
   # 7. Back서버에 개체 수와 tnr 수 update하기
   isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, result['num_clusters'], tnrCount)
