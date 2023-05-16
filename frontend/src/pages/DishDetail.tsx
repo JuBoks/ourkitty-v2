@@ -45,7 +45,7 @@ export default function DishDetail() {
       </div>
       <div className="w-[84%] h-full flex flex-col gap-2">
         <div className="w-full h-[60px] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <DateList status={status} />
+          <DateList statusList={status} />
         </div>
         <div className="w-full h-[calc(100%-60px)] flex flex-row gap-2">
           <div className="w-[70%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
