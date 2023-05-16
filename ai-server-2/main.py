@@ -83,7 +83,7 @@ def get_files(serial_number, date, file_path):
 
 # cluster 관련 정보 조회
 @app.get("/info")
-async def face_detection(serial_number, date):
+async def get_info(serial_number, date):
   file_name = f'{date}_{serial_number}.json'
   result = get_json_file(file_name)
   return result
@@ -171,5 +171,30 @@ async def get_representatives(serial_number):
     for el in json_file['representative_images']:
       image_arr.append(el[1])
     result[f'{json_file_date}'] = image_arr
+  
+  return result
+
+@app.get("/info/status")
+def get_info_status(serial_number):
+  result = {}
+  for json_name in os.listdir(JSON_PATH):
+    json_split = json_name.split('.')
+    json_file_name = json_split[0]
+    # Check if the file is a valid json file
+    if json_split[-1].lower() not in ('.json'):
+        continue
+    
+    json_split = json_file_name.split('_')
+    json_file_date = json_split[0]
+    json_file_serialNumber = json_split[1]
+
+    # Serial Number가 다르면 Pass
+    if json_file_serialNumber != serial_number: continue
+
+    # 파일 읽어오기
+    json_file = get_json_file(json_name)
+
+    # '날짜': [] 형태로 result 만들기
+    result[f'{json_file_date}'] = json_file['status']
   
   return result
