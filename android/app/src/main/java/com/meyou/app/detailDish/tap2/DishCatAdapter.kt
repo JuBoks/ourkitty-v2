@@ -9,34 +9,28 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
+import com.meyou.app.main.DishDayPhotoData
 
-class DishCatAdapter(val context: Context, val dishCatList : List<DIshCatInfo>):
+class DishCatAdapter(val context: Context, val imageList: List<String>):
     RecyclerView.Adapter<DishCatAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishCatAdapter.ViewHolder {
-        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap2_cat_list, parent, false)
 
-        return ViewHolder(v)    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishCatAdapter.ViewHolder {
+        var v = LayoutInflater.from(parent.context).inflate(R.layout.detail_tap2_cat_card, parent, false)
+        return ViewHolder(v)
+    }
 
     override fun onBindViewHolder(holder: DishCatAdapter.ViewHolder, position: Int) {
-        holder.bindItems(dishCatList[position])
+        holder.bindItems(imageList[position])
     }
 
     override fun getItemCount(): Int {
-        return dishCatList.size
+        return imageList.size
     }
-    inner class ViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView){
-        fun bindItems(item : DIshCatInfo) {
-            val rv_img = itemView.findViewById<ImageView>(R.id.catImage)
-            val rv_tnr = itemView.findViewById<TextView>(R.id.tnr)
-            val rv_time = itemView.findViewById<TextView>(R.id.time)
-            rv_time.text = item.time
-            if (item.isTNR) {rv_tnr.text = "O" }
-            else {rv_tnr.text = "X" }
 
-            Glide.with(context)
-                .load(item.dishProfileImagePath)
-                .into(rv_img)
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(imageUrl: String) {
+            val img = itemView.findViewById<ImageView>(R.id.catImage)
+            Glide.with(context).load(imageUrl).into(img)
         }
     }
 }

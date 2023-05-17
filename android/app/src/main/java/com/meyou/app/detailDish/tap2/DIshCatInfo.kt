@@ -1,6 +1,6 @@
 package com.meyou.app.detailDish.tap2
 
-data class DIshCatInfo(
+data class IshCatInfo(
     val dishProfileImagePath : String = "",
     val dishName : String = "",
     val isTNR : Boolean = true,
