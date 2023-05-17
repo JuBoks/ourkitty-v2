@@ -1,0 +1,683 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IOT Porting Manual</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3dcde268-548b-4cc7-8ecb-e8697984e1ab" class="page sans"><header><h1 class="page-title">IOT <em><strong>Porting Manual</strong></em></h1></header><div class="page-body"><nav id="e96abc9c-0d46-4158-aeb6-ba4ce4b6c058" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4819df09-d741-421f-820c-e1884cb95c5c">사용 장비</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a68c3937-ed15-4cd3-9c16-ebcb8f95113b">사용 하드웨어</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dc8f25e6-688a-4be4-b725-11b16ade0ca3">사용 소프트웨어</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4bfc28b3-d9b0-49f3-8ddf-5fab6d77ca9d">사전설치</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#37028a80-3241-4d54-ad65-c7884bc62b26">ESP32CAM USB to UART Driver</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fdd3798b-d8ba-4aa3-861f-3bf71123e277">ESP32 칩셋 보드매니저</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5b788d13-af02-4fc2-802b-82e4d496ddb2">서보모터 드라이버 라이브러리 (Adafruit-PWM-Servo-Driver-Library)</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#502b2b7e-353b-4be8-861f-024fc26c54dc">Arduino IDE 설정</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#11b1398e-f552-42aa-bcbf-839e75c1b70d">공통</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9880ff54-95fc-4418-88a2-8e9e252772b0">ESP32CAM.ino 설정</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#25290488-dd96-40c0-b29a-97e48f37a9bd">1_bucket_V1.0.ino 설정</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aefde92a-5ace-4ceb-8bff-273971641d28">ESP32 선 연결</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2bfdc10b-df65-413c-8b7e-49cad0a61296">ESP32 - PCA9685</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f672dc39-8172-4a47-9fea-20c429310304">ESP32 - HC-SR04</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1672d1c8-baa8-4249-bd46-d54b01463dbb">배터리 잔량 측정 핀</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b8c97537-9847-411c-9bcd-26d351e855a8">밥그릇 인식 핀</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ccf49c0c-35c0-4635-b9f1-00ccf63f570a">SG-90 서보모터 핀 연결</a></div></nav><p id="37985362-cf74-4444-88fa-31eab88653c3" class="">
+</p><h1 id="4819df09-d741-421f-820c-e1884cb95c5c" class="">사용 장비</h1><h2 id="a68c3937-ed15-4cd3-9c16-ebcb8f95113b" class="">사용 하드웨어</h2><p id="96c3d438-156a-44e3-9cf3-efdd3b4323ea" class="">ESP32-CAM</p><p id="18ca14ed-ebc9-4ac3-9980-3efa029de654" class="">PCA9685 16-Channel 12-bit Driver</p><p id="79410507-7aaf-4a63-abc1-0a986f4431e6" class="">SG-90 서보모터</p><p id="af1ee3eb-23ac-44d2-87fd-ffc032491827" class="">HC-SR04</p><p id="d3000a5a-6caf-4f49-9653-adfc83590a3b" class="">CdS Cell (GL5537)</p><p id="0df82c22-cbd4-482e-848c-c6ef65bf76e2" class="">저항</p><h2 id="dc8f25e6-688a-4be4-b725-11b16ade0ca3" class="">사용 소프트웨어</h2><p id="527494be-6606-4788-bd9c-d8422f14bccd" class="">Arduino IDE 2.1.0</p><p id="ffc748a0-72c0-4f4c-9132-849860483330" class="">
+</p><hr id="647c99e0-0ba0-47d9-b882-700d20e333e0"/><h1 id="4bfc28b3-d9b0-49f3-8ddf-5fab6d77ca9d" class="">사전설치</h1><h3 id="37028a80-3241-4d54-ad65-c7884bc62b26" class="">ESP32CAM USB to UART Driver</h3><ul id="ff54cdee-b5b8-4673-a0b5-2a2718ef6457" class="bulleted-list"><li style="list-style-type:disc">CH340 칩셋 드라이버</li></ul><ul id="49977e30-a6ea-4583-95d2-131f296cb6cd" class="bulleted-list"><li style="list-style-type:disc"><a href="https://sparks.gogo.co.nz/assets/_site_/downloads/CH34x_Install_Windows_v3_4.zip">https://sparks.gogo.co.nz/assets/_site_/downloads/CH34x_Install_Windows_v3_4.zip</a></li></ul><ul id="6a6df834-64be-488b-910f-d78dac2c7260" class="bulleted-list"><li style="list-style-type:disc">압축해제 후 실행</li></ul><ul id="126d44c1-aed2-4494-86b9-935b9ac23029" class="bulleted-list"><li style="list-style-type:disc"><code>ch341ser.inf</code> 파일 선택</li></ul><ul id="591921cb-ecd6-4b99-818e-4cff8b1b6f79" class="bulleted-list"><li style="list-style-type:disc">uninstall 작업 수행 후 install 작업 수행</li></ul><ol type="1" id="05a6ffef-3175-4116-a60b-59970ffc3992" class="numbered-list" start="1"><li>ESP32 USB to UART Driver<ul id="06769a11-1dd5-4a3b-bcce-899f63151d8e" class="bulleted-list"><li style="list-style-type:disc">CP2102 칩셋 드라이버</li></ul><ul id="44f18817-71d4-464f-81f3-6054cfa4437c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads">https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads</a></li></ul><ul id="137e4b0c-2e9b-46a6-9ee5-d74a000236d7" class="bulleted-list"><li style="list-style-type:disc">CP210x Universal Windows Driver 다운로드</li></ul><ul id="bf67d54f-6b1c-4552-8844-edfb9e76b890" class="bulleted-list"><li style="list-style-type:disc">압축해제 후 silabser.inf 파일 우클릭 -&gt; 설치 선택</li></ul></li></ol><p id="d8cf1a7a-9580-4602-9eeb-6925192f9522" class="">
+</p><h3 id="fdd3798b-d8ba-4aa3-861f-3bf71123e277" class="">ESP32 칩셋 보드매니저</h3><ul id="58019bcd-75b0-415c-b07a-8e7274cb4ca4" class="bulleted-list"><li style="list-style-type:disc">Arduino IDE 실행</li></ul><ul id="d1d87aac-1db7-4466-a846-5dd57b87f87c" class="bulleted-list"><li style="list-style-type:disc">BoardManager 탭에서 ESP32 검색</li></ul><ul id="aafd42ba-9da6-4a51-aef0-7212b25c9507" class="bulleted-list"><li style="list-style-type:disc">2.0.9 버전 다운로드</li></ul><p id="7842192b-7cfb-48f2-b6a0-39748dcffa81" class="">
+</p><h3 id="5b788d13-af02-4fc2-802b-82e4d496ddb2" class="">서보모터 드라이버 라이브러리 (Adafruit-PWM-Servo-Driver-Library)</h3><ul id="230bcd99-49ff-4f2b-9959-1ec22d56d08e" class="bulleted-list"><li style="list-style-type:disc">서보모터 드라이버 라이브러리</li></ul><p id="a7e8a6af-3076-44b9-ba6f-c0c89e1437fb" class="">방법 1<div class="indented"><ul id="858a029b-89d3-44c7-af5e-4eb8e879ea02" class="bulleted-list"><li style="list-style-type:disc">Arduino IDE 실행</li></ul><ul id="3a92145c-b7e8-4ae8-b89f-54040951a432" class="bulleted-list"><li style="list-style-type:disc">Library Manager 탭에서 Adafruit PWM Servo Driver Library 검색</li></ul><ul id="2d02db17-ae0d-4a97-b381-493d180ed03f" class="bulleted-list"><li style="list-style-type:disc">2.4.1 버전 다운로드</li></ul></div></p><p id="8b600f8a-61f2-4366-8f08-3e1a970247c0" class="">방법 2<div class="indented"><ul id="7ff780f2-b7dd-4761-ae29-c3bb5b7b128e" class="bulleted-list"><li style="list-style-type:disc"><code><a href="https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library">https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library</a></code> 사이트에서 레포지토리 zip파일로 저장</li></ul><ul id="1d1406ac-5564-4159-b19b-95e426645495" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바에서 Sketch -&gt; Include Library -&gt; Add .Zip Library 선택</li></ul><ul id="395ddd89-6875-4612-a470-7ca27fe594e0" class="bulleted-list"><li style="list-style-type:disc">다운로드받은 zip파일 선택</li></ul></div></p><p id="a1476df5-157a-473d-ba33-084d38241519" class="">
+</p><hr id="6dce4bf9-0a66-4018-9e3a-c51503297ed9"/><h1 id="502b2b7e-353b-4be8-861f-024fc26c54dc" class="">Arduino IDE 설정</h1><h2 id="11b1398e-f552-42aa-bcbf-839e75c1b70d" class="">공통</h2><ul id="c6f3b733-a205-4b2b-971d-f2706c4fe003" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 file → Perferences… → Additional Board Manager URLs. 란에 <code><a href="https://espressif.github.io/arduino-esp32/package_esp32_index.json">https://espressif.github.io/arduino-esp32/package_esp32_index.json</a></code> 입력</li></ul><p id="5317c3f3-a485-4571-8df0-dcceb129dc6d" class="">
+</p><h2 id="9880ff54-95fc-4418-88a2-8e9e252772b0" class="">ESP32CAM.ino 설정</h2><ul id="03b61669-e604-408c-bbbb-7db70fb967fe" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools → Board → esp32 → AI Thinker ESP32-CAM 선택</li></ul><ul id="61205f4c-c8ec-4cae-8e19-fe243a97d1cd" class="bulleted-list"><li style="list-style-type:disc">ESP32-CAM 연결</li></ul><ul id="43068d43-0393-428b-ab4d-70ea7bf5c199" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools → Port 에서 연결된 기기 선택</li></ul><ul id="56bf1d79-f49b-471d-8ac2-f7b4275cb0af" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools 에서 ESP32-CAM 세부설정 변경<ul id="430216e9-33d6-469d-86f2-1b42a2b22acf" class="bulleted-list"><li style="list-style-type:circle">CPU Frequency: “240MHz”</li></ul><ul id="cc736ffc-4ca6-46a4-9edd-17b34a7c1beb" class="bulleted-list"><li style="list-style-type:circle">Core Debug Level: “None”</li></ul><ul id="b712f006-7ece-4b26-a76a-adf57d40637c" class="bulleted-list"><li style="list-style-type:circle">Erase All Flash Before Sketch Upload: “Disable”</li></ul><ul id="f3d9f0c2-91bb-4737-b82c-728587a91bf2" class="bulleted-list"><li style="list-style-type:circle">Flash Frequency: “80MHz”</li></ul><ul id="8267266a-b3e3-46ce-b7f0-74d4bfc13ece" class="bulleted-list"><li style="list-style-type:circle">Flash Mode: “QIO”</li></ul><ul id="487031d4-4688-4bdb-8deb-37a517006201" class="bulleted-list"><li style="list-style-type:circle">Partition Scheme: “Huge APP (3MP No OTA/1MB SPIFFS)”</li></ul></li></ul><ul id="fe0bf7d8-6279-460e-8186-2c6e2bacc5b5" class="bulleted-list"><li style="list-style-type:disc">업로드 전 Download 모드로 재부팅(IO0핀 접지 또는 호환보드 IO0버튼 누른 상태에서 리셋)</li></ul><ul id="aa7f0c01-c6fe-41a6-bf86-bd9b1197dc6e" class="bulleted-list"><li style="list-style-type:disc">컴파일 후 업로드</li></ul><h2 id="25290488-dd96-40c0-b29a-97e48f37a9bd" class="">1_bucket_V1.0.ino 설정</h2><ul id="a4b58956-e3d9-40da-9d23-d81c49286128" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools → Board → esp32 → ESP32 Dev Module 선택</li></ul><ul id="31c30d1b-76a3-43e6-a553-fd978c9bf529" class="bulleted-list"><li style="list-style-type:disc">ESP32 연결</li></ul><ul id="36e43464-8876-4f26-aa36-529da3dac4d2" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools → Port 에서 연결된 기기 선택</li></ul><ul id="f4e00044-fd3e-4a77-8659-35caa5323abf" class="bulleted-list"><li style="list-style-type:disc">상단 메뉴바 Tools 에서 ESP32 세부설정 변경<ul id="f1473c42-6fec-40cc-b7d5-a124cadd98b6" class="bulleted-list"><li style="list-style-type:circle">CPU Frequency: “240MHz(WiFi/BT)”</li></ul><ul id="fa81309b-eb38-4ba1-b2de-219b466d2a7a" class="bulleted-list"><li style="list-style-type:circle">Core Debug Level: “None”</li></ul><ul id="ecd92e5b-d028-4379-9a9b-eb3ed3dc0c2b" class="bulleted-list"><li style="list-style-type:circle">Erase All Flash Before Sketch Upload: “Disable”</li></ul><ul id="4850e3f7-8055-414c-a84a-6a439568bec0" class="bulleted-list"><li style="list-style-type:circle">Events Run On: “Core 1”</li></ul><ul id="8a04aa4d-42eb-4071-ad08-a4156313d9e4" class="bulleted-list"><li style="list-style-type:circle">Flash Frequency: “80MHz”</li></ul><ul id="2cec46c4-d663-4bc7-aa2e-0ee4e2e86f36" class="bulleted-list"><li style="list-style-type:circle">Flash Mode: “QIO”</li></ul><ul id="b7c6a6c5-6680-4c33-bf24-0564b15b4cec" class="bulleted-list"><li style="list-style-type:circle">Flash Size: “4MB (32Mb)”</li></ul><ul id="993adc13-3a7c-4a74-a1b7-44529c4ac6cd" class="bulleted-list"><li style="list-style-type:circle">JTAG Adapter: “Disabled”</li></ul><ul id="0b8cff71-0bbd-442f-b126-7715478eed58" class="bulleted-list"><li style="list-style-type:circle">Arduino Runs On “Core 1”</li></ul><ul id="87677994-8a50-4c3e-8083-41ce1f43462d" class="bulleted-list"><li style="list-style-type:circle">Partition Scheme: “Default 4MB with spiffs (1.2MB app/1.5MB SPIFFS)”</li></ul><ul id="c2eb4d52-5dc4-41a9-872d-3212f9c876cc" class="bulleted-list"><li style="list-style-type:circle">PSRAM: “Disabled”</li></ul><ul id="fa67e9c9-d58e-4a60-aec5-4824b2680758" class="bulleted-list"><li style="list-style-type:circle">Upload Speed: “921600”</li></ul></li></ul><ul id="d4e4a44e-21b6-40f5-a0da-92a50aed9ae0" class="bulleted-list"><li style="list-style-type:disc">업로드 전 Download 모드로 재부팅(IO0핀 접지 또는 BOOT버튼 누른 상태에서 리셋)</li></ul><ul id="1ae69027-cc36-4675-97e1-9c29aec00cc8" class="bulleted-list"><li style="list-style-type:disc">컴파일 후 업로드</li></ul><p id="e2547ccf-43df-46cc-be1f-7426c9434da2" class="">
+</p><p id="32466ad9-430c-4c7d-80d6-448d895ad385" class="">
+</p><hr id="2f164e2c-e8f1-4d3c-b389-fe66736ec7c3"/><h1 id="aefde92a-5ace-4ceb-8bff-273971641d28" class="">ESP32 선 연결</h1><figure id="c1e9d1e8-be7a-4ce0-86e9-f9cf801d2f3d" class="image"><a href="IOT%20Porting%20Manual%203dcde268548b4cc78ecbe8697984e1ab/Untitled.png"><img style="width:750px" src="IOT%20Porting%20Manual%203dcde268548b4cc78ecbe8697984e1ab/Untitled.png"/></a></figure><p id="8d517dcd-390c-46f0-863e-2edb2a7d6ef8" class="">ESP32 전원은 5V/2A 이상의 전원에서 안정적으로 동작함</p><p id="006deeff-b061-4101-a820-ad251c53e336" class="">PCA9685는 PWM, V+, GND로 이루어진 확장 핀 16세트가 0~15번까지 존재함. 4번 핀은 서보모터용으로 사용됨.</p><p id="8df28dbb-f6c1-482b-934e-7056539d45b8" class="">모든 전원부는 5V로 통일.  PCA9685의 4번을 제외한 확장핀 V+와 GND핀을 활용해서 5V와 GND를 연결</p><h2 id="2bfdc10b-df65-413c-8b7e-49cad0a61296" class="">ESP32 - PCA9685</h2><table id="0ef8d01a-c388-45e3-a62e-dc8857cef937" class="simple-table"><tbody><tr id="b67f46c6-4be8-45ad-b6b9-d30a87d72629"><td id="[U?C" class="block-color-gray_background">ESP32</td><td id="?ryp" class="block-color-gray_background">PCA9685</td></tr><tr id="16527586-481d-46c4-9ed2-093c3a9c96fd"><td id="[U?C" class="">3.3V</td><td id="?ryp" class="">VCC</td></tr><tr id="e78d71d6-a37c-4b4e-a54b-3ef5c561c716"><td id="[U?C" class="">GND</td><td id="?ryp" class="">GND</td></tr><tr id="a3b816de-3916-4bf8-b426-261cead300f3"><td id="[U?C" class="">IO21</td><td id="?ryp" class="">SDA</td></tr><tr id="4ece1c98-fe85-4d61-8b65-2981af1422b8"><td id="[U?C" class="">IO22</td><td id="?ryp" class="">SCL</td></tr><tr id="9b224f1c-3789-4011-9b0c-dc86337a4775"><td id="[U?C" class="">Vin</td><td id="?ryp" class="">V+(5V 전원부 연결)</td></tr></tbody></table><h2 id="f672dc39-8172-4a47-9fea-20c429310304" class="">ESP32 - HC-SR04</h2><table id="cb19c5cd-ce30-4c60-bace-547bc963ddda" class="simple-table"><tbody><tr id="5166927a-0844-4c48-8cb9-43d64d1301e0"><td id="yoLT" class="block-color-gray_background">ESP32</td><td id=":uRW" class="block-color-gray_background">HC-SR04</td></tr><tr id="ef9f6824-c513-438c-955d-45e4a87c539f"><td id="yoLT" class=""></td><td id=":uRW" class="">VCC(5V 전원부 연결)</td></tr><tr id="9ef92708-1a4c-4738-a6ae-98a77b6f8e60"><td id="yoLT" class="">IO5</td><td id=":uRW" class="">TRIG</td></tr><tr id="470c86d5-adc8-4b6e-82cf-81912a988f0b"><td id="yoLT" class="">IO18</td><td id=":uRW" class="">ECHO</td></tr><tr id="ceaf4d7e-94bf-49f7-b6e7-92bad1059ef7"><td id="yoLT" class="">GND</td><td id=":uRW" class="">GND</td></tr></tbody></table><h2 id="1672d1c8-baa8-4249-bd46-d54b01463dbb" class="">배터리 잔량 측정 핀</h2><p id="670b1397-8a73-44c6-a082-7833132ab03e" class="">
+</p><p id="629d5cd1-9e60-41d9-b752-31c84b1848bb" class="">5V - 저항 - 저항<strong> - GND 순으로 직렬연결. 두 저항은 100</strong>K<strong>Ω 이상의 같은 값</strong></p><p id="0bb62629-77fd-4d4c-aac8-b19ee1f25f57" class="">두 저항 사이의 절반의 전압을 가진 노드를 ESP32 IO33핀에 연결</p><p id="63204c28-b528-4c56-9a26-6b9955790124" class="">
+</p><h2 id="b8c97537-9847-411c-9bcd-26d351e855a8" class="">밥그릇 인식 핀</h2><p id="984ffe0d-4595-4c84-8a08-6f822abc5d21" class="">
+</p><p id="2d041fda-b32f-413d-aceb-a99357ddb2bd" class="">5V - CDS - 200K<strong>Ω - GND 순으로 직렬연결</strong></p><p id="77b38d8d-e00d-4cc5-8972-5dfeffcf9998" class="">CDS 소자와 저항 사이의 노드를 ESP32 IO25 핀에 연결</p><p id="01a9ac4f-97cc-4c09-81a3-b259a9b3162a" class="">
+</p><h1 id="ccf49c0c-35c0-4635-b9f1-00ccf63f570a" class="">SG-90 서보모터 핀 연결</h1><p id="b2c56358-b7a5-4de4-83cb-1ce1304cee0d" class="">서보모터는 3가닥으로 이루어진 연결선이 제공됨. </p><p id="d2abba79-c8af-44d2-ab03-286458221687" class="">주황색(PWM),빨강색(전원선),갈색(GND)로 이루어져 있음</p><table id="ba29db2d-669f-4092-a400-264ca770bce6" class="simple-table"><tbody><tr id="db12852a-710b-42aa-828e-a556354df38b"><td id="bQd?" class="block-color-gray_background">SG-90</td><td id="pU~z" class="block-color-gray_background">PCA9685</td></tr><tr id="8caae8f1-539c-4a3a-9f18-7b4e23ce914f"><td id="bQd?" class="">주황색(PWM)</td><td id="pU~z" class="">PWM (4)</td></tr><tr id="0f8afa6b-1f63-4ca3-b7cb-fd6c715d5e6c"><td id="bQd?" class="">빨강색(전원선)</td><td id="pU~z" class="">V+    (4)</td></tr><tr id="5b3a78ae-7dc9-4ef2-ad17-99892561784a"><td id="bQd?" class="">갈색(GND)</td><td id="pU~z" class="">GND (4)</td></tr></tbody></table><p id="9609460d-e527-4bb8-bac0-da4ce4b246e6" class="">
+</p><p id="ab22dd70-fabc-43d3-a908-77ea819dca0c" class="">
+</p></div></article></body></html>
