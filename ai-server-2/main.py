@@ -158,6 +158,14 @@ async def face_detection(serial_number, date):
       'tnr_count': 0
     }
     await save_json_file(result, file_name)
+
+    # 7. Back서버에 개체 수와 tnr 수 update하기
+    isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, 0, 0)
+
+    # 응답 처리
+    if isSuccess == False:
+      return {'status': 500, 'message': "send cluster information is failed." }
+    
     return {'status': 500, 'message': "Internal Server Error, status: -1" }
 
   return result
