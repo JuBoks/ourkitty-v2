@@ -42,11 +42,11 @@ export default function Landing() {
   const series = [
     {
       name: "전체",
-      data: [5,6,7,10,9,8,6],
+      data: [8,8,10,11,11,12,11],
     },
     {
       name: "중성화 X",
-      data: [2,3,3,5,5,5,5],
+      data: [2,1,2,2,3,2,3],
     },
   ];
 
@@ -574,7 +574,7 @@ export default function Landing() {
                   },
                   yaxis: {
                     min : 0,
-                    max : 12,
+                    max : 14,
                     labels: {
                       style: {
                         colors: "#FFFFFF",
