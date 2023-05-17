@@ -147,7 +147,15 @@ async def face_detection(serial_number, date):
   except:
     file_name = f'{date}_{serial_number}'
     result = {
-      'status': -1
+      'status': -1,
+      'num_clusters': 0,
+      'representative_images': [],
+      'width': 0,
+      'height': 0,
+      'file_feature_info': [],
+      'closest_images': [],
+      'tnr_info': [],
+      'tnr_count': 0
     }
     await save_json_file(result, file_name)
     return {'status': 500, 'message': "Internal Server Error, status: -1" }
