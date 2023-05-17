@@ -20,4 +20,14 @@ class DishImageQuerydslRepository(
             .fetch()
     }
 
+    fun getVisitCatList(dishId: Long): List<DishImageEntity> {
+        return queryFactory.selectFrom(dishImageEntity)
+            .where(
+                dishImageEntity.dish.dishId.eq(dishId),
+            )
+            .orderBy(dishImageEntity.createdDate.desc())
+            .limit(20)
+            .fetch()
+    }
+
 }
