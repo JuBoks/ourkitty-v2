@@ -260,7 +260,7 @@ export default function ActivateUserItem({
               <div className="flex flex-row justify-center gap-2 mb-5">
                 <div className="text-[1.2rem] font-bold">{item.clientName}</div>
                 <div className="text-[1.2rem] text-gray-400">
-                  ({item.clientName})
+                  ({item.clientNickname})
                 </div>
               </div>
               <div className="flex flex-row gap-8 justify-center">

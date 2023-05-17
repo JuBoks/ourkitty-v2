@@ -60,12 +60,11 @@ export default function Main() {
     }
   );
 
-
   const handleLogin = () => {
     const formData = new FormData();
     formData.append("clientEmail", userId);
     formData.append("clientPassword", userPw);
-    setIsLoggingIn(true); 
+    setIsLoggingIn(true);
     loginRequest.mutate(formData);
   };
 
@@ -104,13 +103,13 @@ export default function Main() {
                 type="text"
                 value={userId}
                 onChange={handleId}
-                className="pl-2 rounded-lg py-2"
+                className="pl-2 rounded-lg py-2 outline-none"
               />
               <input
                 type="password"
                 value={userPw}
                 onChange={handlePassword}
-                className="pl-2 rounded-lg py-2"
+                className="pl-2 rounded-lg py-2 outline-none"
               />
             </div>
             <button

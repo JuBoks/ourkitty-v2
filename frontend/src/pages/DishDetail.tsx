@@ -2,17 +2,28 @@ import React, { useEffect } from "react";
 import CatButton from "../components/chart/CatButton";
 import ClusteringChart from "../components/dishDetail/ClusteringChart";
 import DateList from "../components/dishDetail/DateList";
-import ClusteringResult from '../components/dishDetail/ClusteringResult';
+import ClusteringResult from "../components/dishDetail/ClusteringResult";
 import { useRecoilState } from "recoil";
-import { selectedClusterOriginalState, selectedClusterState, selectedDateState, selectedSerialNumberState, statusInfoState } from "recoil/chart";
+import {
+  selectedClusterOriginalState,
+  selectedClusterState,
+  selectedDateState,
+  selectedSerialNumberState,
+  statusInfoState,
+} from "recoil/chart";
 import { useQuery } from "react-query";
 import { getClusterInfo, getClusterStatus } from "apis/api/cluster";
 
 export default function DishDetail() {
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
-  const [selectedCluster, setSelectedCluster] = useRecoilState(selectedClusterState);
-  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(selectedClusterOriginalState);
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(
+    selectedSerialNumberState
+  );
+  const [selectedCluster, setSelectedCluster] =
+    useRecoilState(selectedClusterState);
+  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(
+    selectedClusterOriginalState
+  );
   const [statusInfo, setStatusInfo] = useRecoilState(statusInfoState);
 
   const { data, isLoading } = useQuery({
@@ -36,7 +47,7 @@ export default function DishDetail() {
     if (statuss) {
       setStatusInfo(statuss);
     }
-  }, [statuss])
+  }, [statuss]);
 
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-2">
@@ -51,11 +62,22 @@ export default function DishDetail() {
         </div>
         <div className="w-full h-[calc(100%-60px)] flex flex-row gap-2">
           <div className="w-[70%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            {isLoading || data === undefined ?
-              <div></div>
-              :
+            {isLoading || data === undefined ? (
+              <div className="w-full h-full flex flex-row justify-center m-auto gap-20">
+                <div className="flex flex-col my-auto gap-10">
+                  <div className="w-40 h-20 bg-LightInput rounded-lg dark:bg-DarkBackground"></div>
+                  <div className="w-40 h-20 bg-red-200 rounded-lg dark:bg-red-500"></div>
+                  <div className="w-40 h-20 bg-LightMainHover rounded-lg dark:bg-DarkMainHover"></div>
+                </div>
+                <div className="flex flex-col my-auto gap-20 text-[30px]">
+                  <div className="">: 데이터 없음</div>
+                  <div className="">: 클러스터링 미완료</div>
+                  <div className="">: 클러스터링 완료</div>
+                </div>
+              </div>
+            ) : (
               <ClusteringChart data={selectedCluster} />
-            }
+            )}
           </div>
           <div className="w-[30%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
             <ClusteringResult data={selectedCluster.represetatives} />

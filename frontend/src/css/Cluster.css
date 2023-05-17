@@ -1,5 +1,5 @@
 .hovered {
-  width: 120px;
-  height: 140px;
+  transform: translateY(-6px);
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
