@@ -77,11 +77,13 @@ class DetailActivity : AppCompatActivity() {
         val tap2 = findViewById<TextView>(R.id.tap2)
         tap2.setOnClickListener {
             val intent = Intent(this, DIshCat::class.java)
+            intent.putExtra("dishId", dishId)
             startActivity(intent)
         }
         val tap3 = findViewById<TextView>(R.id.tap3)
         tap3.setOnClickListener {
             val intent = Intent(this, VisiteCatActivity::class.java)
+            intent.putExtra("dishId", dishId)
             startActivity(intent)
         }
 

@@ -34,3 +34,26 @@ data class Dish(
         return TedLatLng(dishLat, dishLong)
     }
 }
+
+data class DishImagesResponse(
+    val data: List<DishImageData>,
+    val totalCount: Int
+)
+
+data class DishImageData(
+    val createdDate: String,
+    val dishImageId: Int,
+    val imagePath: String,
+    val isDeleted: Boolean,
+    val updatedDate: String
+)
+
+data class VisiteCatInfo(
+    val createdDate: String,
+    val imagePath: String
+)
+
+data class DishDayPhotoData(
+    val date: String,
+    val photos: List<String>
+)

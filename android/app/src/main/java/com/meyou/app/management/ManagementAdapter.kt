@@ -44,6 +44,9 @@ class ManagementAdapter(val context: Context, val list: MutableList<Data>) :
             isEdit.visibility = if (item.updatedDate != item.createdDate) View.VISIBLE else View.GONE
             userName.text = item.client.clientNickname
             text.text = item.managementContent
+            Glide.with(itemView)
+                .load(item.client.clientProfileImagePath)
+                .into(userProfileImage)
 
             // managementImageList가 비어있지 않다면 이미지를 불러오고, 비어있다면 ViewPager2를 숨깁니다.
             if (item.managementImageList.isNotEmpty()) {
