@@ -3,6 +3,7 @@ package com.nyang.ourkitty.domain.dish
 import com.nyang.ourkitty.common.UserCode
 import com.nyang.ourkitty.common.dto.ResultDto
 import com.nyang.ourkitty.domain.auth.dto.JwtContextHolder
+import com.nyang.ourkitty.domain.dish.dto.DishImageResponseDto
 import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
@@ -32,6 +33,12 @@ class DishController(
         val dishList = dishService.getDishList(JwtContextHolder.locationCode!!)
 
         return ResponseEntity.ok(dishList)
+    }
+
+    @ApiOperation(value = "방문 냥이 목록 조회")
+    @GetMapping("/{id}/image")
+    fun getVisitCatList(@PathVariable("id") dishId: Long): ResponseEntity<ResultDto<List<DishImageResponseDto>>> {
+        return ResponseEntity.ok(dishService.getVisitCatList(dishId))
     }
 
     @ApiOperation(value = "본인 냥그릇 목록 조회")

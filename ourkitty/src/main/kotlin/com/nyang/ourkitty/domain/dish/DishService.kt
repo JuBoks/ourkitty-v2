@@ -187,6 +187,16 @@ class DishService(
         )
     }
 
+    fun getVisitCatList(dishId: Long): ResultDto<List<DishImageResponseDto>> {
+        val dishImageDtoList = dishImageQuerydslRepository.getVisitCatList(dishId)
+            .map(DishImageResponseDto::of)
+
+        return ResultDto(
+            data = dishImageDtoList,
+            totalCount = dishImageDtoList.size.toLong()
+        )
+    }
+
     @Transactional
     fun writeTotalLog() {
         dishQuerydslRepository.getDishList()
