@@ -42,11 +42,11 @@ export default function Landing() {
   const series = [
     {
       name: "전체",
-      data: [12, 13, 9, 7, 5, 7, 3],
+      data: [5,6,7,10,9,8,6],
     },
     {
       name: "중성화 X",
-      data: [4, 4, 3, 3, 2, 1, 1],
+      data: [2,3,3,5,5,5,5],
     },
   ];
 
@@ -573,6 +573,8 @@ export default function Landing() {
                     },
                   },
                   yaxis: {
+                    min : 0,
+                    max : 12,
                     labels: {
                       style: {
                         colors: "#FFFFFF",
@@ -586,7 +588,7 @@ export default function Landing() {
           </div>
         </div>
           : 
-          <div>bye</div>
+          <div></div>
         }
         {/* 중성화 실태
         <div className="md:flex mt-40 md:space-x-10 items-start">
