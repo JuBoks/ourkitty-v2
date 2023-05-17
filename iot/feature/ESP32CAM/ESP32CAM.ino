@@ -1,96 +1,60 @@
-// #include <Arduino.h>
 #include <WiFi.h>
-// #include <base64.h>
-// #include <esp32cam.h>
-// #include "soc/soc.h"
-// #include "soc/rtc_cntl_reg.h"
 #include "esp_camera.h"
 #include "esp32-hal-ledc.h"
-// #include "driver/rtc_io.h"
-
-// ===========================
-// Enter your WiFi credentials
-// ===========================
-
-// // 아이유정 WIFI 정보
-// const char* ssid = "EDU-ELR22-861823"; // 라우터
-// const char* password = "12345678";
-
-// 정호 개인 WIFI 정보
-// const char* ssid = "Jeoungho’s iPhone"; // 라우터
-// const char* password = "jayPak12";
-
-// // // 정호네 WIFI 정보
-// const char* ssid = "EDU-ELR22-851139"; // 라우터
-// const char* password = "12345678";
-
-// 미현이네 WIFI 정보
-const char* ssid = "LGU+_M200_735A07"; // 와이파이 이름
-const char* password = "55343033"; // 와이파이 비밀번호
-
-// 테스트용 WIFI 정보
-// const char* ssid = "KPHONE"; // 와이파이 이름
-// const char* password = "12348765"; // 와이파이 비밀번호
-
-// AI 서버 도메인
-String serverName = "k8e2031.p.ssafy.io";   // 아이피 주소 기입
-
-// String serialNumber = "2kXBPprXEcOdzPB"; // 아이유정
-String serialNumber = "EZZwEhRzzs9LvyZ"; // 정호네
-// String serialNumber = "LpnNFcE3YrQS490"; // 미현이네
-
-String serverPath = "/upload-google";     // serverPath 기입
-
-const int serverPort = 8000; // 포트번호
-
-#define LED_DUTY          100 // 플래시라이트 밝기 (0 ~ 255)
-WiFiClient client;
-
+// #define IU
+// #define JUNGHO
+// #define MIHYUN
+#define SSAFY_TEST
+#include "WiFi_conf.h"
+#define LED_DUTY 100  // 플래시라이트 밝기 (0 ~ 255)
 
 // ===================
 // Select camera model
 // ===================
-#define CAMERA_MODEL_AI_THINKER 
+#define CAMERA_MODEL_AI_THINKER
 
+
+#include "camera_pins.h"
 // CAMERA_MODEL_AI_THINKER
-#define PWDN_GPIO_NUM     32
-#define RESET_GPIO_NUM    -1
-#define XCLK_GPIO_NUM      0
-#define SIOD_GPIO_NUM     26
-#define SIOC_GPIO_NUM     27
+// #define PWDN_GPIO_NUM 32
+// #define RESET_GPIO_NUM -1
+// #define XCLK_GPIO_NUM 0
+// #define SIOD_GPIO_NUM 26
+// #define SIOC_GPIO_NUM 27
 
-#define Y9_GPIO_NUM       35
-#define Y8_GPIO_NUM       34
-#define Y7_GPIO_NUM       39
-#define Y6_GPIO_NUM       36
-#define Y5_GPIO_NUM       21
-#define Y4_GPIO_NUM       19
-#define Y3_GPIO_NUM       18
-#define Y2_GPIO_NUM        5
-#define VSYNC_GPIO_NUM    25
-#define HREF_GPIO_NUM     23
-#define PCLK_GPIO_NUM     22
+// #define Y9_GPIO_NUM 35
+// #define Y8_GPIO_NUM 34
+// #define Y7_GPIO_NUM 39
+// #define Y6_GPIO_NUM 36
+// #define Y5_GPIO_NUM 21
+// #define Y4_GPIO_NUM 19
+// #define Y3_GPIO_NUM 18
+// #define Y2_GPIO_NUM 5
+// #define VSYNC_GPIO_NUM 25
+// #define HREF_GPIO_NUM 23
+// #define PCLK_GPIO_NUM 22
 
 
-#define FLASH_PIN         4
+#define FLASH_PIN 4
+
+#define LED_LEDC_CHANNEL 2  //Using different ledc channel/timer than camera
+#define CONFIG_LED_MAX_INTENSITY 255
+
 
 void startCameraServer();
 void setupLedFlash(int pin);
 
-#define LED_LEDC_CHANNEL 2 //Using different ledc channel/timer than camera
-#define CONFIG_LED_MAX_INTENSITY 255
+WiFiClient client;
 
-void enable_led(bool en)
-{ // Turn LED On or Off
-    int duty = en ? LED_DUTY : 0;
-    if (en && (LED_DUTY > CONFIG_LED_MAX_INTENSITY))
-    {
-        duty = CONFIG_LED_MAX_INTENSITY;
-    }
-    ledcWrite(LED_LEDC_CHANNEL, duty);
-    //ledc_set_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL, duty);
-    //ledc_update_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL);
-    log_i("Set LED intensity to %d", duty);
+void enable_led(bool en) {  // Turn LED On or Off
+  int duty = en ? LED_DUTY : 0;
+  if (en && (LED_DUTY > CONFIG_LED_MAX_INTENSITY)) {
+    duty = CONFIG_LED_MAX_INTENSITY;
+  }
+  ledcWrite(LED_LEDC_CHANNEL, duty);
+  //ledc_set_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL, duty);
+  //ledc_update_duty(CONFIG_LED_LEDC_SPEED_MODE, CONFIG_LED_LEDC_CHANNEL);
+  log_i("Set LED intensity to %d", duty);
 }
 
 void setup() {
@@ -102,7 +66,7 @@ void setup() {
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
-  WiFi.begin(ssid, password);  
+  WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(500);
@@ -131,24 +95,24 @@ void setup() {
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
   config.frame_size = FRAMESIZE_UXGA;
-  config.pixel_format = PIXFORMAT_JPEG; // for streaming
+  config.pixel_format = PIXFORMAT_JPEG;  // for streaming
   //config.pixel_format = PIXFORMAT_RGB565; // for face detection/recognition
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.jpeg_quality = 10;
   config.fb_count = 2;
-  
+
   // init with high specs to pre-allocate larger buffers
-  if(psramFound()){
+  if (psramFound()) {
     config.jpeg_quality = 10;
     config.fb_count = 2;
     config.grab_mode = CAMERA_GRAB_LATEST;
   } else {
     // Limit the frame size when PSRAM is not available
-    config.frame_size = FRAMESIZE_SVGA; // 800 600
+    config.frame_size = FRAMESIZE_SVGA;  // 800 600
     config.fb_location = CAMERA_FB_IN_DRAM;
   }
-  
+
   // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
@@ -180,7 +144,7 @@ void setup() {
   // s->set_dcw(s, 1);            // 0 = disable , 1 = enable
   // s->set_colorbar(s, 0);       // 0 = disable , 1 = enable
 
-  // sendPhoto(); 
+  // sendPhoto();
 
   // esp_sleep_enable_ext0_wakeup(GPIO_NUM_13, 1);
 
@@ -201,14 +165,14 @@ String sendPhoto() {
   String getAll;
   String getBody;
 
-  camera_fb_t * fb = NULL;
+  camera_fb_t *fb = NULL;
   enable_led(true);
-  vTaskDelay(1000 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
-  fb = esp_camera_fb_get();             // or it won't be visible in the frame. A better way to do this is needed.
-  vTaskDelay(500 / portTICK_PERIOD_MS); // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
+  vTaskDelay(300 / portTICK_PERIOD_MS);  // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
+  fb = esp_camera_fb_get();               // or it won't be visible in the frame. A better way to do this is needed.
+  vTaskDelay(200 / portTICK_PERIOD_MS);   // The LED needs to be turned on ~150ms before the call to esp_camera_fb_get()
   enable_led(false);
 
-  if(!fb) {
+  if (!fb) {
     Serial.println("Camera capture failed");
     delay(1000);
     ESP.restart();
@@ -216,63 +180,62 @@ String sendPhoto() {
   Serial.println("Connecting to server: " + serverName);
 
   if (client.connect(serverName.c_str(), serverPort)) {
-    Serial.println("Connection successful!");    
+    Serial.println("Connection successful!");
     String head = "--RandomNerdTutorials\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"esp32-cam.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n";
     String tail = "\r\n--RandomNerdTutorials--\r\n";
 
     uint32_t imageLen = fb->len;
     uint32_t extraLen = head.length() + tail.length();
     uint32_t totalLen = imageLen + extraLen;
-  
+
     client.println("POST " + serverPath + "/" + serialNumber + " HTTP/1.1");
     client.println("Host: " + serverName);
     client.println("Content-Length: " + String(totalLen));
     client.println("Content-Type: multipart/form-data; boundary=RandomNerdTutorials");
     client.println();
     client.print(head);
-  
+
     uint8_t *fbBuf = fb->buf;
     size_t fbLen = fb->len;
-    for (size_t n=0; n<fbLen; n=n+1024) {
-      if (n+1024 < fbLen) {
+    for (size_t n = 0; n < fbLen; n = n + 1024) {
+      if (n + 1024 < fbLen) {
         client.write(fbBuf, 1024);
         fbBuf += 1024;
-      }
-      else if (fbLen%1024>0) {
-        size_t remainder = fbLen%1024;
+      } else if (fbLen % 1024 > 0) {
+        size_t remainder = fbLen % 1024;
         client.write(fbBuf, remainder);
       }
     }
-    digitalWrite(FLASH_PIN, LOW);   
+    digitalWrite(FLASH_PIN, LOW);
     client.print(tail);
-    
+
     esp_camera_fb_return(fb);
-    
+
     int timoutTimer = 5000;
     long startTimer = millis();
     boolean state = false;
-    
+
     while ((startTimer + timoutTimer) > millis()) {
       Serial.print(".");
-      delay(100);      
+      delay(100);
       while (client.available()) {
         char c = client.read();
         if (c == '\n') {
-          if (getAll.length()==0) { state=true; }
+          if (getAll.length() == 0) { state = true; }
           getAll = "";
+        } else if (c != '\r') {
+          getAll += String(c);
         }
-        else if (c != '\r') { getAll += String(c); }
-        if (state==true) { getBody += String(c); }
+        if (state == true) { getBody += String(c); }
         startTimer = millis();
       }
-      if (getBody.length()>0) { break; }
+      if (getBody.length() > 0) { break; }
     }
     Serial.println();
     client.stop();
     Serial.println(getBody);
-  }
-  else {
-    getBody = "Connection to " + serverName +  " failed.";
+  } else {
+    getBody = "Connection to " + serverName + " failed.";
     Serial.println(getBody);
   }
   return getBody;
@@ -361,4 +324,3 @@ String sendPhoto() {
 //   grabImage();
 //   delay(1000);
 // }
-
