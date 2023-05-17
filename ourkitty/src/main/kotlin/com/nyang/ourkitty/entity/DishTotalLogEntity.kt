@@ -14,11 +14,16 @@ class DishTotalLogEntity(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val dishTotalLogId: Long? = null,
-) : BaseEntity() {
     val date: LocalDate = LocalDate.now()
+) : BaseEntity() {
     val batteryAmount: Int = BatteryState.values().first { it.code == dish.dishBatteryState }.amount
     val foodAmount: Int = DishWeight.values().first { it.code == dish.dishWeight }.amount
-    val catCount: Int = dish.dishCatCount
-    val tnrCount: Int = dish.dishTnrCount
+    var catCount: Int = dish.dishCatCount
+    var tnrCount: Int = dish.dishTnrCount
+
+    fun updateCount(catCount: Int, tnrCount: Int) {
+        this.catCount = catCount
+        this.tnrCount = tnrCount
+    }
 
 }

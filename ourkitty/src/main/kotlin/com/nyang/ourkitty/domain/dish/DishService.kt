@@ -10,7 +10,10 @@ import com.nyang.ourkitty.domain.dish.dto.DishListResultDto
 import com.nyang.ourkitty.domain.dish.dto.DishRequestDto
 import com.nyang.ourkitty.domain.dish.dto.DishResponseDto
 import com.nyang.ourkitty.domain.dish.repository.*
-import com.nyang.ourkitty.entity.*
+import com.nyang.ourkitty.entity.DishEntity
+import com.nyang.ourkitty.entity.DishImageEntity
+import com.nyang.ourkitty.entity.DishTotalLogEntity
+import com.nyang.ourkitty.entity.DishWeightLogEntity
 import com.nyang.ourkitty.exception.CustomException
 import com.nyang.ourkitty.exception.ErrorCode
 import org.springframework.stereotype.Service
@@ -156,25 +159,30 @@ class DishService(
     @Transactional
     fun updateDishCatCount(catCountRequestDto: CatCountRequestDto): ResultDto<Boolean> {
         val dish = getDishBySerialNum(catCountRequestDto.dishSerialNum)
+            .apply { updateCatCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount) }
 
-        var countLog = dishCountLogRepository.findByDishAndDate(dish, catCountRequestDto.date)
-
-        if (countLog == null) {
-            dish.updateCatCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
-            countLog = DishCountLogEntity(
+        val log = dishTotalLogRepository.findByDishAndDate(dish, catCountRequestDto.date)
+            ?.apply { updateCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount) }
+            ?: DishTotalLogEntity(
                 dish = dish,
                 date = catCountRequestDto.date,
             )
-        } else {
-            countLog.updateCount(catCountRequestDto.catCount, catCountRequestDto.tnrCount)
-        }
 
         dishRepository.save(dish)
-        dishCountLogRepository.save(countLog)
+        dishTotalLogRepository.save(log)
 
         return ResultDto(
             data = true,
         )
+    }
+
+    @Transactional
+    fun writeTotalLog() {
+        dishQuerydslRepository.getDishList()
+            .map {
+                dishTotalLogRepository.findByDishAndDate(it, LocalDate.now()) ?: DishTotalLogEntity(it)
+            }
+            .forEach(dishTotalLogRepository::save)
     }
 
     fun getDishImageList(dishSerialNum: String, date: LocalDate): ResultDto<List<DishImageResponseDto>> {
@@ -195,13 +203,6 @@ class DishService(
             data = dishImageDtoList,
             totalCount = dishImageDtoList.size.toLong()
         )
-    }
-
-    @Transactional
-    fun writeTotalLog() {
-        dishQuerydslRepository.getDishList()
-            .map(::DishTotalLogEntity)
-            .forEach(dishTotalLogRepository::save)
     }
 
     private fun getDishById(dishId: Long): DishEntity {
