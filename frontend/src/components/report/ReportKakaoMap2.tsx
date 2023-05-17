@@ -47,7 +47,7 @@ export default function ReportKakaoMap2() {
         width: "100%",
         height: "100%",
       }}
-      level={5}
+      level={7}
     >
       <MapMarker
         position={{

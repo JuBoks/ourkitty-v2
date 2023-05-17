@@ -73,7 +73,7 @@ export default function ReportKakaoMap() {
         width: "100%",
         height: "100%",
       }}
-      level={5}
+      level={7}
       onClick={handleMarkerClose}
     >
       {data.data.map((item: detailData, index: number) => {

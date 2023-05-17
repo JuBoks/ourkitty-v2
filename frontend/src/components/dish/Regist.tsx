@@ -20,7 +20,7 @@ export default function Regist() {
 
   // 그릇 정보
   const [dish, setDish] = useRecoilState(dishInfo);
-  console.log(dish);
+
   // 등록 여부 판별
   const [dishCount, setDishCount] = useRecoilState(dishCountState);
 
@@ -260,7 +260,6 @@ export default function Regist() {
   };
   useEffect(() => {
     setIsRegist(true);
-    console.log("실행됨");
     navigator.geolocation.getCurrentPosition((position) => {
       setDish({
         dishId: 0,
@@ -283,7 +282,6 @@ export default function Regist() {
   }, []);
 
   useEffect(() => {
-    console.log("데이터 바뀜");
     setDishSerialNum(dish.dishSerialNum);
     setDishAddress(dish.dishAddress);
     setDishName(dish.dishName);

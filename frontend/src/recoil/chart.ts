@@ -36,6 +36,11 @@ export const selectedDateState = atom({
   default: "",
 });
 
+export const selectedDateIndex = atom({
+  key: "selectedDateIndex",
+  default: -1,
+});
+
 export const selectedClusterState = atom<Cluster>({
   key: "selectedClusterState",
   default: _cluster,

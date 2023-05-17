@@ -437,7 +437,7 @@ export default function ModifyForm({ setModalOpen }: any) {
           </div>
 
           <input
-            type="text"
+            type="password"
             className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
             onChange={handlePassword}
             value={password}
