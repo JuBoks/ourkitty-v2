@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import Swal from "sweetalert2";
-import { Paper } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
@@ -14,6 +13,7 @@ import {
   deleteManagement,
 } from "../../apis/api/manage";
 import DefaultButton from "../common/DefaultButton";
+import Profile from "../../assets/default_profile.png";
 import "../../css/SweetAlert.css";
 
 interface comment {
@@ -238,15 +238,18 @@ export default function LogDetail({
           {data.data.data.updatedDate.split("T")[0]}
         </div>
       </div>
-      <div className="flex flex-col gap-2 mx-auto mt-2">
+      <div className="flex flex-col gap-2 mx-auto mt-8">
         {data.data.data.managementImageList.length === 0 ? null : (
           <div className="w-[600px] h-[400px] m-auto">
             <Carousel autoPlay={false}>
               {data.data.data.managementImageList.map(
-                (item: string, index: number) => (
-                  <Paper>
-                    <img key={index} src={item} alt="" />
-                  </Paper>
+                (item: any, index: number) => (
+                  <img
+                    key={index}
+                    src={item.imagePath}
+                    alt=""
+                    className="w-[600px] h-[400px]"
+                  />
                 )
               )}
             </Carousel>
@@ -267,7 +270,7 @@ export default function LogDetail({
                 <div className="flex flex-row gap-3">
                   <img
                     className="w-16 h-16 rounded-[50%]"
-                    src="https://cdn.pixabay.com/photo/2020/07/04/05/24/cat-5368270__480.jpg"
+                    src={Profile}
                     alt=""
                   />
                   <div className="flex flex-col mt-1">
