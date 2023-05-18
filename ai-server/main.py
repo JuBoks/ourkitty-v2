@@ -89,8 +89,8 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
         with open(path, 'wb') as f:
             f.write(contents)
 
-    # status = await filterCatByYolo(inputFilePath, googleFileName)
-    status = True
+    status = await filterCatByYolo(inputFilePath, googleFileName)
+    # status = True
 
     if status:
         # 파일 포인터를 파일의 처음으로 옮겨줍니다.
