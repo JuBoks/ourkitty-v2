@@ -58,15 +58,13 @@ export default function DateList({ statusInfo }: Props) {
           <button
             key={index}
             onClick={() => handleClick(_dates[index], index)}
-            className={`w-full h-full rounded-md text-[1.2rem] gap-1 text-center basis-1/7 opacity-70 font-medium hover:opacity-100 hover:font-semibold ${
-              statusInfo[_dates[index]] === 0
-                ? "bg-red-200 dark:bg-red-500 py-1"
-                : statusInfo[_dates[index]] === 1
+            className={`w-full h-full rounded-md text-[1.2rem] gap-1 text-center basis-1/7 opacity-70 font-medium hover:opacity-100 hover:font-semibold ${statusInfo[_dates[index]] === 0
+              ? "bg-red-200 dark:bg-red-500 py-1"
+              : statusInfo[_dates[index]] === 1
                 ? "bg-LightMainHover dark:bg-DarkMainHover"
                 : "bg-LightInput dark:bg-DarkInput"
-            } ${
-              buttonState[index] ? "opacity-100 font-semibold" : "opacity-70"
-            }`}
+              } ${buttonState[index] ? "opacity-100 font-semibold outline-none ring ring-purple-300 " : "opacity-70"
+              }`}
           >
             {el}
           </button>

@@ -22,7 +22,7 @@ export const getClusterInfo = async (
     represetatives,
   };
 
-  if (data) {
+  if (data && data.status > -1) {
     data.file_feature_info.forEach((el: any) =>
       result.features.push({
         x: el[2],
