@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "관리자 인증이 되지 않은 유저입니다.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "서버오류.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "관리자 인증이 되지 않은 유저입니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
