@@ -48,7 +48,7 @@ CREATE TABLE `dish_table` (
 
 LOCK TABLES `dish_table` WRITE;
 /*!40000 ALTER TABLE `dish_table` DISABLE KEYS */;
-INSERT INTO `dish_table` VALUES (1,'미현이네','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png',35.13005691369173,128.97642009398038,'부산광역시 사하구 하단동 845-53','0020001','LpnNFcE3YrQS490','0120011','0100011',0,0,0,'2023-05-10 01:11:28','2023-05-18 03:20:13'),(2,'아이유정','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/nyang/6ad23d39-f78c-4c60-a7ac-70a8aef3e9cf.jpg',35.09305758448632,128.85386821816107,'부산광역시 강서구 송정동 1625','0020001','2kXBPprXEcOdzPB','0120005','0100006',3,0,0,'2023-05-10 01:11:28','2023-05-18 04:55:02'),(3,'정호네','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/nyang/b536bfb9-db85-4c80-915d-e88d5f41bcd9.jpg',35.091170080213146,128.85324436607576,'부산광역시 강서구 송정동 1625','0020001','EZZwEhRzzs9LvyZ','0120002','0100003',3,0,0,'2023-05-10 01:11:28','2023-05-18 06:12:02'),(10,'testDish','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png',35.0962444,128.8538,'SSAFY','0020001','asdf','0120011','0100011',5,3,1,'2023-05-12 08:12:02','2023-05-15 07:50:30');
+INSERT INTO `dish_table` VALUES (1,'미현이네','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/nyang/c9c3a540-604b-41f6-90be-4cf28fc025d6.jpg',35.13005691369173,128.97642009398038,'부산광역시 사하구 하단동 845-53','0020001','LpnNFcE3YrQS490','0120011','0100011',0,0,0,'2023-05-10 01:11:28','2023-05-18 07:45:49'),(2,'아이유정','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/nyang/6ad23d39-f78c-4c60-a7ac-70a8aef3e9cf.jpg',35.09305758448632,128.85386821816107,'부산광역시 강서구 송정동 1625','0020001','2kXBPprXEcOdzPB','0120005','0100006',3,0,0,'2023-05-10 01:11:28','2023-05-18 04:55:02'),(3,'정호네','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/nyang/b536bfb9-db85-4c80-915d-e88d5f41bcd9.jpg',35.091170080213146,128.85324436607576,'부산광역시 강서구 송정동 1625','0020001','EZZwEhRzzs9LvyZ','0120002','0100003',4,0,0,'2023-05-10 01:11:28','2023-05-18 08:25:25'),(10,'testDish','https://nyang-s3.s3.ap-northeast-2.amazonaws.com/animals.png',35.0962444,128.8538,'SSAFY','0020001','asdf','0120011','0100011',5,3,1,'2023-05-12 08:12:02','2023-05-15 07:50:30');
 /*!40000 ALTER TABLE `dish_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-18 15:59:51
+-- Dump completed on 2023-05-18 17:50:51
