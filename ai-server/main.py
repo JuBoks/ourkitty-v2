@@ -98,8 +98,8 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
 
         # 구글에 사진 전송, S3로 파일 업로드 및 객체 정보 저장
         tasks = [
-            # asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId))
-            asyncio.create_task(upload_s3(serial_number, imageFile))
+            asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId))
+            # asyncio.create_task(upload_s3(serial_number, imageFile))
         ]
 
         results = await asyncio.gather(*tasks)
