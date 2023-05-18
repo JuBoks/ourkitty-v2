@@ -89,8 +89,8 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
         with open(path, 'wb') as f:
             f.write(contents)
 
-    # status = await filterCatByYolo(inputFilePath, googleFileName)
-    status = True
+    status = await filterCatByYolo(inputFilePath, googleFileName)
+    # status = True
 
     if status:
         # 파일 포인터를 파일의 처음으로 옮겨줍니다.
@@ -98,8 +98,8 @@ async def upload_google_model_yolo_detr(serial_number, imageFile: UploadFile or 
 
         # 구글에 사진 전송, S3로 파일 업로드 및 객체 정보 저장
         tasks = [
-            # asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId))
-            asyncio.create_task(upload_s3(serial_number, imageFile))
+            asyncio.create_task(upload_photo(googleService, inputFilePath, googleFileName, siteId))
+            # asyncio.create_task(upload_s3(serial_number, imageFile))
         ]
 
         results = await asyncio.gather(*tasks)

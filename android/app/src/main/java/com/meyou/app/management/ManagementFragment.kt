@@ -47,7 +47,6 @@ class ManagementFragment : Fragment() {
 
         dishSpinner.adapter = dishAdapter
 
-        val selectedDishCode = dishSpinner.selectedItem as Dish
         dishSpinner.setSelection(0)
 
         val ManageData = view.findViewById<RecyclerView>(R.id.rv_management)
@@ -62,7 +61,7 @@ class ManagementFragment : Fragment() {
         dishSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedDish = dishAdapter.getItem(position) as? Dish
-                val selectedDishCode = selectedDish?.code
+                selectedDishCode = selectedDish?.code
 
                 Log.d("CreateManagementActivity", "Selected dish code: $selectedDishCode")
 
@@ -73,6 +72,7 @@ class ManagementFragment : Fragment() {
                 // Do nothing
             }
         }
+
 
         val createFormImageView: ImageView = view.findViewById(R.id.create_form)
         createFormImageView.setOnClickListener {
