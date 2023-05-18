@@ -50,10 +50,16 @@ class DIshCat : AppCompatActivity() {
 //        dishNewData.layoutManager = GridLayoutManager(this, 2)
 
 
+        val serialNumber = when (dishId) {
+            1 -> "LpnNFcE3YrQS490"
+            2 -> "2kXBPprXEcOdzPB"
+            3 -> "EZZwEhRzzs9LvyZ"
+            else -> "EZZwEhRzzs9LvyZ" // or some default value or throw an error
+        }
 
         // API 호출
         val dishApiService = getDishAiApi()
-        val call = dishApiService.readDishAiApiService("EZZwEhRzzs9LvyZ") // 실제 serial number로 교체하세요
+        var call = dishApiService.readDishAiApiService(serialNumber) // 실제 serial number로 교체하세요
 
         call.enqueue(object : Callback<Map<String, List<String>>> {
             override fun onResponse(
