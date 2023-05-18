@@ -108,7 +108,7 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         this.naverMap = naverMap
         val cameraPosition = CameraPosition(
             LatLng(centerLat, centerLong),  // 위치 지정
-            11.0 // 줌 레벨
+            10.0 // 줌 레벨
         )
         // 지도 중심좌표 재설정
         updateMarker(dishList)
