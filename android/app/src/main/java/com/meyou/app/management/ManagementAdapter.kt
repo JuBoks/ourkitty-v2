@@ -40,7 +40,7 @@ class ManagementAdapter(val context: Context, val list: MutableList<Data>) :
         private lateinit var adapter: ImageAdapter
 
         fun bindItems(item: Data) {
-            date.text = item.createdDate
+            date.text = item.createdDate.substring(0, 10)
             isEdit.visibility = if (item.updatedDate != item.createdDate) View.VISIBLE else View.GONE
             userName.text = item.client.clientNickname
             text.text = item.managementContent

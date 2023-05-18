@@ -10,8 +10,8 @@
     android:id="@+id/detailDiv"
     android:orientation="vertical">
     <androidx.cardview.widget.CardView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:cardCornerRadius="20sp">
         <ImageView
             android:id="@+id/dishImage"
@@ -26,7 +26,7 @@
         android:id="@+id/dishName"
         android:layout_marginTop="10dp"
         android:text="냥그릇 이름"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:fontFamily="@font/yeonsung"
         android:layout_width="match_parent"
         android:layout_height="25dp" />
@@ -44,8 +44,8 @@
         android:text="냥그릇 주소"
         android:textSize="12sp"
         android:fontFamily="@font/yeonsung"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_width="120dp"
+        android:layout_height="wrap_content" />
     </LinearLayout>
 
 

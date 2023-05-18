@@ -35,12 +35,14 @@
             android:exported="false" />
         <activity
             android:name=".management.DetailManagementActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".management.DetailManagementEdit"
             android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".detailDish.tap3.VisiteCatActivity"

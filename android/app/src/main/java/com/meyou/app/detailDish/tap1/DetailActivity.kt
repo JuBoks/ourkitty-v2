@@ -88,11 +88,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // 신고 아이콘 클릭시 신고 페이지로 이동
-        val report = findViewById<ImageView>(R.id.report)
-        report.setOnClickListener {
-            val intent = Intent(this, ReportActivity::class.java)
-            startActivity(intent)
-        }
+//        val report = findViewById<ImageView>(R.id.report)
+//        report.setOnClickListener {
+//            val intent = Intent(this, ReportActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
 }

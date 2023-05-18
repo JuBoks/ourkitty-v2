@@ -72,17 +72,17 @@
             android:id="@+id/titleView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:textStyle="bold"
             android:fontFamily="@font/yeonsung"
             android:textSize="40sp" />
 
-        <ImageView
-            android:id="@+id/report"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_report"
-            android:layout_marginLeft="15sp"
-            android:layout_width="40sp"
-            android:layout_height="40sp"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/report"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_report"-->
+<!--            android:layout_marginLeft="15sp"-->
+<!--            android:layout_width="30sp"-->
+<!--            android:layout_height="30sp"/>-->
 
     </LinearLayout>
 
@@ -118,7 +118,8 @@
         android:layout_height="wrap_content"
         android:text=""
         android:fontFamily="@font/yeonsung"
-        android:layout_marginTop="-36sp"
+        android:layout_marginTop="-34sp"
+        android:layout_marginLeft="20sp"
         android:textSize="25sp"/>
 
     <TextView
@@ -144,7 +145,8 @@
         android:layout_height="wrap_content"
         android:text=""
         android:fontFamily="@font/yeonsung"
-        android:layout_marginTop="-36sp"
+        android:layout_marginTop="-34sp"
+        android:layout_marginLeft="20sp"
         android:textSize="25sp"/>
 </LinearLayout>
 </LinearLayout>
