@@ -62,7 +62,7 @@ export default function DishDetail() {
         </div>
         <div className="w-full h-[calc(100%-60px)] flex flex-row gap-2">
           <div className="w-[70%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            {isLoading || data === undefined ? (
+            {isLoading || data === undefined || data && data.original === null ? (
               <div className="w-full h-full flex flex-row justify-center m-auto gap-20">
                 <div className="flex flex-col my-auto gap-10">
                   <div className="w-40 h-20 bg-LightInput rounded-lg dark:bg-DarkBackground"></div>
@@ -80,7 +80,11 @@ export default function DishDetail() {
             )}
           </div>
           <div className="w-[30%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <ClusteringResult data={selectedCluster.represetatives} />
+            {isLoading || data === undefined || data && data.original === null ? (
+              <div></div>
+            ) : (
+              <ClusteringResult data={selectedCluster.represetatives} />
+            )}
           </div>
         </div>
       </div>
