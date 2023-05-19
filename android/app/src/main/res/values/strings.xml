@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">냥그릇</string>
+    <string name="menu_home">홈</string>
+    <string name="menu_dish">그릇관리</string>
+    <string name="menu_manage">관리일지</string>
+    <string name="menu_profile">내정보</string>
+
+    <string-array name="spinner_dish_items"/>
+
+    <string-array name="spinner_dish_status_items"/>
+
+    <string-array name="spinner_dish_report_items">
+        <item>장비 불량</item>
+        <item>위협 보고</item>
+        <item>서비스 오류</item>
+        <item>기타</item>
+    </string-array>
+</resources>

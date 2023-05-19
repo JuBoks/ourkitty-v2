@@ -1,0 +1,1006 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Jenkins Information</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="43af1949-8537-42d8-a45a-b249459a2ef2" class="page sans"><header><h1 class="page-title">Jenkins Information</h1></header><div class="page-body"><h1 id="0f89e1d5-4012-4d17-84a5-56f805af93ab" class="">🌠주의할점</h1><hr id="96b2805f-9f8a-4d0d-99ad-09f5258f0bcb"/><p id="fea9c6b8-a2d0-4d17-b634-f074d2266f81" class="">Jenkins Pipeline Script에서 아래와 같은 코드가 있다면 다음과 같은 순서로 실행해야 한다.</p><ol type="1" id="3fcab50c-d63b-472a-b2f4-cebe31337add" class="numbered-list" start="1"><li>Jenkins Pipeline Script 에서 최초 실행 시 아래 <span style="border-bottom:0.05em solid"><strong>주석된 두 줄을 해제</strong></span>하고 실행한다.</li></ol><ol type="1" id="9a676691-1a78-4407-8771-525f89693fcc" class="numbered-list" start="2"><li><code>/var/lib/jenkins/workspace</code> 에서 해당 Item의 폴더에 들어가서 관련 env파일 및 있어야 하는 파일들을 넣는다.</li></ol><ol type="1" id="1d9608f8-6801-4328-a315-8a78e9fde864" class="numbered-list" start="3"><li>다시 Jenkins Pipeline Script에서 주석 해제했던 두 줄을 <span style="border-bottom:0.05em solid"><strong>다시 주석처리</strong></span>하고 build한다.</li></ol><pre id="9b49b1b1-76d9-4175-9ab8-0e86213c1aef" class="code"><code>stage(&#x27;Checkout&#x27;) {
+    steps {
+        withCredentials([usernamePassword(credentialsId: &#x27;nyang&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+          // 최초 실행 시, 아래 두줄의 주석을 해제하고 총 다섯 줄을 실행 뒤에
+				  // 그 이후로는 아래 두줄을 주석처리하고 사용
+				  //sh &#x27;git init&#x27; // 현재 디렉토리를 Git 저장소로 초기화합니다.
+          //sh &#x27;git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@lab.ssafy.com/s08-final/S08P31E203.git&#x27; // 원격 저장소를 추가합니다.
+          sh &#x27;git fetch --depth=1 origin develop&#x27; // 브랜치의 최신 변경 사항을 가져옵니다.
+          sh &#x27;git sparse-checkout set ai-server-2&#x27; // 필요한 디렉토리만 가져옵니다.
+          sh &#x27;git checkout origin/develop&#x27; // 가져온 디렉토리를 checkout합니다.
+        }
+    }
+}</code></pre><h1 id="31069e34-1f6f-41c2-b621-bbe697831f2a" class="">🌠Dev</h1><hr id="6db05154-c954-4622-bb7d-95d03594d872"/><h2 id="dbb484a3-2cb8-47fa-95f7-f9685bfcb70f" class="">✨front-dev</h2><ul id="1518fe5d-c89a-4905-a6fd-f0b62c1f7700" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="f7a9a696-395c-4d9c-8f56-586b189b7d34" class="code"><code>pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                // Get some code from a GitHub repository
+                withCredentials([usernamePassword(credentialsId: &#x27;ssafy&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+                  // 최초 실행 시, 아래 두줄의 주석을 해제하고 총 다섯 줄을 실행 뒤에
+				  // 그 이후로는 아래 두줄을 주석처리하고 사용
+				  //sh &#x27;git init&#x27; // 현재 디렉토리를 Git 저장소로 초기화합니다.
+                  //sh &#x27;git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@lab.ssafy.com/s08-final/S08P31E203.git&#x27; // 원격 저장소를 추가합니다.
+                  sh &#x27;git fetch --depth=1 origin develop&#x27; // 브랜치의 최신 변경 사항을 가져옵니다.
+                  sh &#x27;git sparse-checkout set frontend&#x27; // 필요한 디렉토리만 가져옵니다.
+                  sh &#x27;git checkout origin/develop&#x27; // 가져온 디렉토리를 checkout합니다.
+                }
+            }
+        }
+        
+        stage(&#x27;Remove&#x27;) {
+            steps {
+                script {
+                    try {
+                        sh &quot;docker stop front-dev &amp;&amp; docker network disconnect dev front-dev &amp;&amp; docker rm front-dev &amp;&amp; docker rmi front-dev-image&quot;
+                    }
+                    catch(err) {
+                        echo err.getMessage()
+                        echo &quot;front-dev container not exists&quot;
+                    }
+                }
+            }
+        }
+        
+        stage(&#x27;Build Image&#x27;) {
+            steps {
+                dir(&quot;frontend&quot;){
+                    sh &quot;docker build -t front-dev-image .&quot;
+                }
+            }
+        }
+        
+        stage(&quot;run&quot;){
+            steps{
+                dir(&quot;frontend&quot;){
+                    sh &quot;docker run -e TZ=Asia/Seoul --env-file front-dev.env -d -p 3000:3000 --network dev --name front-dev front-dev-image&quot;
+                }
+            }
+        }
+    }
+}</code></pre></details></li></ul><ul id="00535ad6-e1f2-4e9f-8a23-cf94d76f7d10" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="dc85430c-9fb9-4ced-8f67-4d86e5915faf" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-front.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-front.png"/></a></figure><p id="99a2e137-29c8-41fa-b3f9-c38bd2dbbe4d" class="">
+</p></details></li></ul><h2 id="a483bda6-f4ae-407d-83e8-72999c76a0db" class="">✨back-dev</h2><ul id="ece637d0-c61b-4561-bc5c-ce2e39685e75" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="74f32f0a-2a0f-4ce6-9726-9e3910d7010c" class="code"><code>pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                // Get some code from a GitHub repository
+                // git branch: &#x27;develop&#x27;, changelog: false, credentialsId: &#x27;ssafy&#x27;, poll: false, url: &#x27;https://lab.ssafy.com/s08-final/S08P31E203.git&#x27;
+                withCredentials([usernamePassword(credentialsId: &#x27;ssafy&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+                  // 최초 실행 시, 아래 두줄의 주석을 해제하고 총 다섯 줄을 실행 뒤에
+				  // 그 이후로는 아래 두줄을 주석처리하고 사용
+				  // sh &#x27;git init&#x27; // 현재 디렉토리를 Git 저장소로 초기화합니다.
+                  // sh &#x27;git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@lab.ssafy.com/s08-final/S08P31E203.git&#x27; // 원격 저장소를 추가합니다.
+                  sh &#x27;git fetch --depth=1 origin develop&#x27; // 브랜치의 최신 변경 사항을 가져옵니다.
+                  sh &#x27;git sparse-checkout set ourkitty&#x27; // 필요한 디렉토리만 가져옵니다.
+                  sh &#x27;git checkout origin/develop&#x27; // 가져온 디렉토리를 checkout합니다.
+                }
+            }
+        }
+        
+        stage(&#x27;Remove&#x27;) {
+            steps {
+                script {
+                    try {
+                        sh &quot;docker stop back-dev &amp;&amp; docker network disconnect dev back-dev &amp;&amp; docker rm back-dev &amp;&amp; docker rmi back-dev-image&quot;
+                    }
+                    catch(err) {
+                        echo err.getMessage()
+                        echo &quot;back-dev container not exists&quot;
+                    }
+                }
+            }
+        }
+        
+        stage(&#x27;Build Project&#x27;) {
+            steps {
+                dir(&quot;ourkitty&quot;){
+                    sh &#x27;chmod +x gradlew&#x27;
+                    sh  &#x27;./gradlew clean bootjar&#x27;
+                }
+            }
+        }
+        
+        stage(&#x27;Build Image&#x27;) {
+            steps {
+                dir(&quot;ourkitty&quot;){
+                    sh &quot;docker build -t back-dev-image .&quot;
+                }
+            }
+        }
+        
+        stage(&quot;run&quot;){
+            steps{
+                dir(&quot;ourkitty&quot;){
+                    sh &quot;docker run -e TZ=Asia/Seoul --env-file back-dev.env -d -p 8000:8080 --network dev --name back-dev back-dev-image&quot;
+                }
+            }
+        }
+    }
+}</code></pre></details></li></ul><ul id="b7ec0119-d956-4ec3-81ae-2ed5c29e65c5" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="d25004f5-a65e-4121-92d7-41dac105a026" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-back.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-back.png"/></a></figure></details></li></ul><h2 id="f4fa4638-354f-439a-bfc5-ad9af6a6fda4" class="">✨mysql-8.0.31-dev</h2><ul id="849808b9-5f02-4076-aedc-a20df102e0f7" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="fd1a812e-c678-40fd-820e-b319d0a54a2a" class="code"><code>pipeline { 
+  agent any
+
+  stages {
+   stage(&#x27;Remove&#x27;) {
+      steps {
+        script {
+          try {
+              sh &quot;docker stop db-dev &amp;&amp; docker network disconnect dev db-dev &amp;&amp; docker rm db-dev&quot;
+          }
+          catch(err) {
+              echo err.getMessage()
+              echo &quot;db-dev container not exists&quot;
+          }
+        }
+      }
+    }
+
+    stage(&#x27;Build&#x27;) {
+      steps {
+        script {
+          sh(returnStdout: true, script: &quot;docker run -d -e TZ=Asia/Seoul --network dev --name db-dev --env-file .env --restart always -v /home/ubuntu/.dbdata-dev/my.cnf:/etc/mysql/my.cnf -v /home/ubuntu/.dbdata-dev:/var/lib/mysql -p 9306:3306 mysql:8.0.31&quot;)
+        }
+      }
+    }
+  }
+
+}</code></pre></details></li></ul><ul id="68473b4e-c8c6-4a95-badb-300e804b7018" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="c2457298-805a-4b7b-809e-82fa61eea3d0"><div class="source"><a href="https://www.notion.soundefined"></a></div></figure></details></li></ul><ul id="9b32126c-aef7-43c3-8c44-6076c8d78f67" class="toggle"><li><details open=""><summary><strong>📍주의할점</strong></summary><ol type="1" id="5f42c2b2-556e-4475-ac36-d94313d8be12" class="numbered-list" start="1"><li>Docker Volume을 따로 빼놓았기 때문에 해당 경로에 폴더가 생성되어 있어야 한다.<ul id="ad9deb8c-75df-47aa-9720-af4b89da30df" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/.dbdata-dev</li></ul></li></ol><ol type="1" id="c7fbf256-a9d8-478e-b7ee-76628e5e56b7" class="numbered-list" start="2"><li>/home/ubuntu/.dbdata-dev/my.cnf 를 아래 내용으로 작성한다.<ul id="9efdf88f-3158-48b2-9c50-1b60d70e7e5b" class="toggle"><li><details open=""><summary>my.cnf</summary><pre id="2789f8e3-700e-4514-9db5-3e77423a8e3a" class="code"><code>[Client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-character-set-client-handshake
+
+[mysqldump]
+default-character-set=utf8mb4</code></pre></details></li></ul></li></ol></details></li></ul><h2 id="9094ffca-95cc-4462-b886-4ad7f4a36f67" class="">✨SonarQube-develop</h2><ul id="e1969900-7e22-4903-b7ec-8fc3f1598ec6" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="1f91e3b4-7774-40e6-946b-32534e68c5cc" class="code"><code>pipeline {
+  agent any
+
+  stages {
+    stage(&#x27;SCM&#x27;) {
+      steps {
+        git branch: &#x27;develop&#x27;, changelog: false, credentialsId: &#x27;ssafy&#x27;, poll: false, url: &#x27;https://lab.ssafy.com/s08-final/S08P31E203.git&#x27;
+      }
+    }
+
+    stage(&#x27;SonarQube Analysis&#x27;) { 
+      steps {
+        script {
+          def scannerHome = tool &#x27;SonarScanner&#x27;;
+          withSonarQubeEnv() {
+            sh &quot;${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=nyang2-dev -Dsonar.sources=. -Dsonar.host.url=http://k8e203.p.ssafy.io:8888 -Dsonar.login=sqp_3e5ffd1820446e47996b92b1dfc07acbdcc87661&quot; 
+          } 
+        }
+      }
+    }
+  }
+}</code></pre></details></li></ul><ul id="abef6b15-582b-471e-a1c5-0d4624ad1723" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="4109a172-6f17-425e-bb4b-81a17715d6d8" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-sonarqube.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/dev-sonarqube.png"/></a></figure></details></li></ul><h1 id="1851a332-981a-45c8-96db-cc62c49d38b8" class="">🌠Production</h1><hr id="9505459d-64da-414b-bd08-ff2ec55ad0f2"/><h2 id="96a1eee4-28a1-49fa-82e3-688ab8755606" class="">✨ai-server</h2><ul id="8bc63d21-6576-401b-9d32-2991180eb962" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="a2e88c78-ed15-49f2-bf0b-2764c30e2a76" class="code"><code>pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                withCredentials([usernamePassword(credentialsId: &#x27;nyang&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+                  // 최초 실행 시, 아래 두줄의 주석을 해제하고 총 다섯 줄을 실행 뒤에
+									// 그 이후로는 아래 두줄을 주석처리하고 사용
+								  //sh &#x27;git init&#x27; // 현재 디렉토리를 Git 저장소로 초기화합니다.
+                  //sh &#x27;git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@lab.ssafy.com/s08-final/S08P31E203.git&#x27; // 원격 저장소를 추가합니다.
+                  sh &#x27;git fetch --depth=1 origin develop&#x27; // 브랜치의 최신 변경 사항을 가져옵니다.
+                  sh &#x27;git sparse-checkout set ai-server&#x27; // 필요한 디렉토리만 가져옵니다.
+                  sh &#x27;git checkout origin/develop&#x27; // 가져온 디렉토리를 checkout합니다.
+                }
+            }
+        }
+        
+				// 이미 컨테이너가 존재한다면 종료 후 컨테이너 삭제
+        stage(&quot;stop&quot;){
+            steps{
+                script {
+                    try {
+                        sh &quot;docker stop fastapi&quot;
+                        sh &quot;docker rm fastapi&quot;
+												sh &quot;docker rmi fastapi-image&quot;
+                    }
+                    catch(err) {
+                        echo err.getMessage()
+                        echo &quot;fastapi container not exists&quot;
+                    }
+                }
+            }
+        }
+				
+        stage (&quot;Image Build&quot;){
+            steps{
+								// ai-server 폴더 안의 Dockerfile을 통해 이미지 빌드
+                dir(&quot;ai-server&quot;){
+                    sh &quot;docker build -t fastapi-image .&quot; 
+                }
+            }
+        }
+        
+				// 컨테이너 실행
+        stage(&quot;run&quot;){
+            steps{
+                sh &quot;docker run -e TZ=Asia/Seoul -d -v /home/ubuntu/fastapi:/app/static -p 8000:8000 --name fastapi fastapi-image&quot;
+            }
+        } 
+    }
+
+}</code></pre></details></li></ul><ul id="f5c16a7e-839c-4d6f-9eef-40bf14a70b61" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="dcb01825-75ee-42de-8d25-79e03f78adef" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/screencapture-k8e2031-p-ssafy-io-8080-job-ai-server-configure-2023-05-17-10_45_31.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/screencapture-k8e2031-p-ssafy-io-8080-job-ai-server-configure-2023-05-17-10_45_31.png"/></a></figure><p id="09ec4390-ee5a-41b4-b216-13f2f9ebf911" class="">
+</p></details></li></ul><ul id="88daf392-aa1d-4ac7-96d6-922d701ee24f" class="toggle"><li><details open=""><summary><strong>📍주의할점</strong></summary><p id="69b9795e-63cb-4f53-9a98-0bdf4d1ede85" class="">Docker Volume을 따로 빼놓았기 때문에 해당 경로에 폴더가 생성되어 있어야 한다.</p><ul id="b6dfc057-84a4-481d-9c28-6cc0865d9b80" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi/detr</li></ul><ul id="8a178465-b413-4504-a6a0-d3a37733a900" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi/input</li></ul><ul id="0b864a31-d059-4e3f-8ec1-81a57411c00e" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi/realtime</li></ul><ul id="5e344d98-a037-43bb-8d94-c2e43517fabf" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi/yolo</li></ul><ul id="3f52d88c-8d02-4c38-a05d-0461acf1822c" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi/yolov5</li></ul><p id="111d2c2e-7d51-45bf-b2b6-26034a06fa2d" class="">
+</p></details></li></ul><h2 id="15eed3ac-144f-47c1-be56-4efb4306ed9b" class="">✨ai-server-2</h2><ul id="c80266bb-cf59-433f-992a-8e5b28e260aa" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="6dd148e5-3a5a-4f15-a74e-ed7d3c27539f" class="code"><code>pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                withCredentials([usernamePassword(credentialsId: &#x27;nyang&#x27;, usernameVariable: &#x27;GIT_USERNAME&#x27;, passwordVariable: &#x27;GIT_PASSWORD&#x27;)]) {
+                  // 최초 실행 시, 아래 두줄의 주석을 해제하고 총 다섯 줄을 실행 뒤에
+								  // 그 이후로는 아래 두줄을 주석처리하고 사용
+								  //sh &#x27;git init&#x27; // 현재 디렉토리를 Git 저장소로 초기화합니다.
+                  //sh &#x27;git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@lab.ssafy.com/s08-final/S08P31E203.git&#x27; // 원격 저장소를 추가합니다.
+                  sh &#x27;git fetch --depth=1 origin develop&#x27; // 브랜치의 최신 변경 사항을 가져옵니다.
+                  sh &#x27;git sparse-checkout set ai-server-2&#x27; // 필요한 디렉토리만 가져옵니다.
+                  sh &#x27;git checkout origin/develop&#x27; // 가져온 디렉토리를 checkout합니다.
+                }
+            }
+        }
+        
+		// 이미 컨테이너가 존재한다면 종료 후 컨테이너 삭제
+        stage(&quot;stop&quot;){
+            steps{
+                script {
+                    try {
+                        sh &quot;docker stop fastapi-2&quot;
+                        sh &quot;docker rm fastapi-2&quot;
+						sh &quot;docker rmi fastapi-image-2&quot;
+                    }
+                    catch(err) {
+                        echo err.getMessage()
+                        echo &quot;fastapi-2 container not exists&quot;
+                    }
+                }
+            }
+        }
+				
+        stage (&quot;Image Build&quot;){
+            steps{
+				// ai-server 폴더 안의 Dockerfile을 통해 이미지 빌드
+                dir(&quot;ai-server-2&quot;){
+                    sh &quot;docker build -t fastapi-image-2 .&quot; 
+                }
+            }
+        }
+        
+		// 컨테이너 실행
+        stage(&quot;run&quot;){
+            steps{
+                sh &quot;docker run -e TZ=Asia/Seoul -d -v /home/ubuntu/fastapi-2:/app/datasets -p 8100:8000 --name fastapi-2 fastapi-image-2&quot;
+            }
+        } 
+    }
+
+}</code></pre></details></li></ul><ul id="59cc9a75-03e5-4885-b265-494fa65b6b4d" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="03108a42-a023-438c-9263-5446efa4ee7e" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/prod-ai-server-2.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/prod-ai-server-2.png"/></a></figure><p id="0091181b-1b4c-4df6-9a6c-26e0848683b8" class="">
+</p></details></li></ul><ul id="08f201a2-b1e1-4ba7-8d52-c3e2d83c8853" class="toggle"><li><details open=""><summary><strong>📍주의할점</strong></summary><p id="fac3cc31-b271-4edf-b9fe-5010dd1e7fa4" class="">Docker Volume을 따로 빼놓았기 때문에 해당 경로에 폴더가 생성되어 있어야 한다.</p><ul id="7321f1fc-4097-46ef-98e7-bd700f1b2425" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi-2/0_files</li></ul><ul id="c6b78df2-2ed5-4915-936e-0f3bddea93ea" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi-2/1_face_detection</li></ul><ul id="7e010f04-cf16-4144-9d67-1b84cd6c5474" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi-2/2_crop</li></ul><ul id="b616b8c5-5a14-4423-9b28-e4e1094c556b" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi-2/3_tnr<ul id="bb388985-8eb4-47ec-94bf-8542221723c7" class="bulleted-list"><li style="list-style-type:circle">/input</li></ul><ul id="5ce56056-877f-4209-a2c2-37f4ae1fc441" class="bulleted-list"><li style="list-style-type:circle">/output</li></ul></li></ul><ul id="4bad3021-b10e-4a10-84ca-c26587485d45" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/fastapi-2/4_result</li></ul></details></li></ul><h2 id="528a8794-6004-4109-b183-7efc47a466c9" class="">✨production</h2><ul id="0ae70483-06ec-472c-9ec0-c9a9c9291d14" class="toggle"><li><details open=""><summary>Pipeline script</summary><pre id="6a444a45-2633-4f07-97e4-7e6b9524a27b" class="code"><code>pipeline { 
+  agent any
+  
+  stages {
+    stage(&#x27;checkout SCM&#x27;) {
+      steps {
+        git branch: &#x27;develop&#x27;, changelog: false, credentialsId: &#x27;nyang&#x27;, poll: false, url: &#x27;https://lab.ssafy.com/s08-final/S08P31E203.git&#x27;
+      }
+    }
+    
+    stage(&#x27;Remove&#x27;) {
+      steps {
+        sh(returnStdout: false, script: &quot;docker-compose -f docker-compose-prod.yml down --rmi all&quot;)
+      }
+    }
+
+    stage(&#x27;Build Backend Project&#x27;) {
+      steps {
+        dir(&quot;ourkitty&quot;){
+          sh &#x27;chmod +x gradlew&#x27;
+          sh  &#x27;./gradlew clean bootjar&#x27;
+        }
+      }
+    }
+
+    stage(&#x27;Deploy&#x27;) {
+      steps {
+        // 운영서버
+        sh &#x27;docker-compose -f docker-compose-prod.yml up -d&#x27;
+      }
+    }
+
+  }
+
+}</code></pre></details></li></ul><ul id="11d1920a-86bf-4558-b76e-4280662aedf7" class="toggle"><li><details open=""><summary>Jenkins 설정 정보</summary><figure id="54c4bb60-cc75-4b53-963d-42cc8f008848" class="image"><a href="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/prod-production.png"><img style="width:1920px" src="Jenkins%20Information%2043af1949853742d8a45ab249459a2ef2/prod-production.png"/></a></figure><p id="64ad0e67-aab3-42eb-a5a2-f361771d7369" class="">
+</p></details></li></ul><ul id="7772b988-8513-4561-afd0-31ac863d2c41" class="toggle"><li><details open=""><summary><strong>📍주의할점</strong></summary><ol type="1" id="7305e510-b463-4b31-aea3-91409c46cda5" class="numbered-list" start="1"><li>Docker Volume을 따로 빼놓았기 때문에 해당 경로에 폴더가 생성되어 있어야 한다.<ul id="eabe1600-cda0-4bb2-8292-ee22d8b97e4a" class="bulleted-list"><li style="list-style-type:disc">/home/ubuntu/.dbdata-prod</li></ul></li></ol><ol type="1" id="26c9eba1-4477-4d91-bff0-659435ea18cd" class="numbered-list" start="2"><li>/home/ubuntu/my.cnf 를 아래 내용으로 생성한다.<ul id="34dfec88-1070-4973-a877-648b57aa9d6b" class="toggle"><li><details open=""><summary>my.cnf</summary><pre id="871ebc2d-9d74-44fd-a32b-b04a4b8ce0da" class="code"><code>[Client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-character-set-client-handshake
+
+[mysqldump]
+default-character-set=utf8mb4</code></pre></details></li></ul><p id="8e37326c-9aa5-4f0f-9820-7b07e82cd032" class="">
+</p></li></ol></details></li></ul><p id="f5f7a4c0-c383-41a3-a319-61e53a20149f" class="">
+</p></div></article></body></html>

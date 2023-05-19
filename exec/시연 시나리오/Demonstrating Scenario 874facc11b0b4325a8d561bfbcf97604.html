@@ -1,0 +1,669 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Demonstrating Scenario</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="874facc1-1b0b-4325-a8d5-61bfbcf97604" class="page sans"><header><h1 class="page-title">Demonstrating Scenario</h1></header><div class="page-body"><nav id="7d4bbd48-c447-4a12-80d9-408f6539feb9" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#dc904437-2184-4168-8648-5f36d1707e65">1. IoT 급식소 시연</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#641cb52d-eb4a-49d3-b2b4-d5463f7900c9">2. 관리자 페이지 시연(Web)</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#9493e65b-856a-41e0-bff8-8e64000b7c51">3. App 시연</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#62620b8e-0c66-4a70-b992-50be1a9450ce">4. Landing Page</a></div></nav><hr id="f181b7ab-b657-4298-aecc-3f1d03851b31"/><h1 id="dc904437-2184-4168-8648-5f36d1707e65" class="">1. IoT 급식소 시연</h1><div id="58105f94-f67f-4f41-a5c7-e0160ecffbab" class="column-list"><div id="e69a8c8f-a182-4e54-bee1-c0f4fb2811a4" style="width:37.5%" class="column"><figure id="285f7fbc-aa75-4cc5-b595-34c8ad0b38ef" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_01.jpg"><img style="width:288px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_01.jpg"/></a></figure></div><div id="ec76003a-e201-484a-a87e-1f9708df5f00" style="width:62.5%" class="column"><figure id="a3bf9c16-01b9-495b-821b-35ee7112d79e" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/installed.png"><img style="width:432px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/installed.png"/></a></figure></div></div><ol type="1" id="9d7da1d8-5529-4057-acb9-1bf1f291ffcb" class="numbered-list" start="1"><li>카메라</li></ol><ul id="3b4dc1bc-cf30-42ee-bc81-6735b2d18a40" class="bulleted-list"><li style="list-style-type:disc">플래시로 야간 촬영</li></ul><ol type="1" id="9b2c65e1-f53f-4395-b990-311ee4f3addc" class="numbered-list" start="2"><li>광센서로 사료통 문 개폐<figure id="3ee0caa1-ef26-4d71-9702-2bc5d1b85ea9" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/iot_open-dish.gif"><img style="width:450px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/iot_open-dish.gif"/></a><figcaption>발표 시연을 쉽게 하기 위해 임의로 버튼을 통해 개폐함</figcaption></figure><figure id="df3a5f61-ef02-4a9d-a1d9-672464cb7e35" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_02.jpg"><img style="width:384px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_02.jpg"/></a><figcaption>광센서가 부착되어 있는 부분 (초록색)</figcaption></figure><figure id="17c50164-8e02-4c69-b497-b0d60e95cef9" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_05.jpg"><img style="width:384px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_05.jpg"/></a><figcaption>개폐부분 모터</figcaption></figure></li></ol><ol type="1" id="ee7850ad-946d-454c-a13d-324c4cb5fbc5" class="numbered-list" start="3"><li>초음파 센서로 사료 잔여량 측정<figure id="2405225d-c739-47fe-ad9b-3e87d2cf8593" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_03.jpg"><img style="width:240px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/KakaoTalk_20230519_093630328_03.jpg"/></a></figure></li></ol><ol type="1" id="edb82445-4c1f-43a0-8fca-5d2fb65be048" class="numbered-list" start="4"><li>배터리 전압으로 배터리 잔여량 측정<figure id="66ffa1b5-6d92-445a-b683-6c70ac3bf987" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/battery.jpg"><img style="width:240px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/battery.jpg"/></a></figure></li></ol><h1 id="641cb52d-eb4a-49d3-b2b4-d5463f7900c9" class="">2. 관리자 페이지 시연(Web)</h1><ol type="1" id="2d754e76-03d2-46f3-98e5-cdaf0993c8c2" class="numbered-list" start="1"><li>대시보드<ul id="86637d2b-87f1-4883-bc50-0b994b4225b2" class="bulleted-list"><li style="list-style-type:disc">냥그릇 상세정보(급식소 위치, 개체수 정보, 배터리 잔여량, 사료량)<figure id="3e603b1d-9d95-4b60-9066-03872713f409" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_dashboard.gif"><img style="width:1911px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_dashboard.gif"/></a></figure></li></ul></li></ol><ol type="1" id="b92e987b-9173-4220-980a-907b88429860" class="numbered-list" start="2"><li>사용자 관리<ul id="dceec07e-ccdb-4fbf-b4d7-ec5f5b7f44f9" class="bulleted-list"><li style="list-style-type:disc">회원 관리 및 차단, 탈퇴회원 관리<figure id="9acd7425-77f1-4674-955b-9db2df2f37f1" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled.png"><img style="width:1919px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled.png"/></a></figure></li></ul></li></ol><ol type="1" id="1df25c8a-d22c-477c-8ed9-daa23036a917" class="numbered-list" start="3"><li>냥그릇 관리<ul id="9cbc37c7-bc3e-4fb0-a1b2-4ccdc0f53a69" class="bulleted-list"><li style="list-style-type:disc">기기 등록, 수정, 삭제 및 관련 관리일지 조회<figure id="a90ef610-28af-456b-92a6-af6f0025fdbb" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%201.png"><img style="width:1919px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%201.png"/></a></figure></li></ul></li></ol><ol type="1" id="377fbc8a-d42b-45cd-8a48-9a6cb7c8abe1" class="numbered-list" start="4"><li>개체 수 관리<ul id="d164d53c-1dba-419c-8008-eb067e22e126" class="bulleted-list"><li style="list-style-type:disc">인공지능이 파악한 개체 수 파악 및 개체 수, 중성화 수 관리<figure id="aca0d66c-d99a-4051-96c3-e8c54d76b391" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_number-of-unit-management.gif"><img style="width:1911px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_number-of-unit-management.gif"/></a></figure></li></ul></li></ol><ol type="1" id="0b145dc3-a3ac-419f-a676-4ecbba64b890" class="numbered-list" start="5"><li>차트<ul id="5e367dbc-3dfd-423e-9a18-9a0e9e4a7fe6" class="bulleted-list"><li style="list-style-type:disc">차트로 개체 수, 중성화 수 파악<figure id="6f2cd328-4375-4965-877c-1e205a335c54" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_chart.gif"><img style="width:1912px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/web_chart.gif"/></a></figure></li></ul></li></ol><ol type="1" id="81f82302-32bb-4c84-bc36-7129413481eb" class="numbered-list" start="6"><li>민원 관리<ul id="e08ef3af-b5d3-4efb-b86f-c869c8cd1ec8" class="bulleted-list"><li style="list-style-type:disc">냥그릇 별 민원 조회 기능<figure id="7081642f-3000-48ed-9117-6dbe6f11f847" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%202.png"><img style="width:1919px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%202.png"/></a></figure></li></ul></li></ol><ol type="1" id="26fca9d0-764a-416c-9431-93c96d91a9f5" class="numbered-list" start="7"><li>다크모드<figure id="a97acb19-0169-4716-8ee9-11fd7661f997" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%203.png"><img style="width:1919px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/Untitled%203.png"/></a></figure></li></ol><h1 id="9493e65b-856a-41e0-bff8-8e64000b7c51" class="">3. App 시연</h1><ol type="1" id="e529c61f-31b4-4c94-9820-9e19c2e81d1a" class="numbered-list" start="1"><li>로그인 기능<ul id="2a451e51-3602-4d97-8442-814ca01533f3" class="bulleted-list"><li style="list-style-type:disc">인증된 회원만 접속할 수 있도록 휴대폰 번호와 인증번호로 로그인</li></ul><figure id="6a6f7da1-500a-4429-b74a-d1def5da5799" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_login.gif"><img style="width:1913px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_login.gif"/></a></figure></li></ol><ol type="1" id="2ea2ff3c-d488-4e56-a3a6-0165c55b42df" class="numbered-list" start="2"><li>냥그릇 상세 조회<ul id="1f99725c-0989-4209-adff-c6993714ee59" class="bulleted-list"><li style="list-style-type:disc">급식소 위치, 배터리 잔여량, 사료량, 방문 고양이 사진</li></ul><figure id="8c83d110-4436-400d-8b78-2596fc066dde" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-mydish.gif"><img style="width:1913px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-mydish.gif"/></a></figure></li></ol><ol type="1" id="083b01f6-8b55-4b3a-b164-a2f1e81bd059" class="numbered-list" start="3"><li>관리일지<ul id="17b610b5-09d6-48f1-887b-82f2602dec90" class="bulleted-list"><li style="list-style-type:disc">냥그릇 별 관리일지 조회 및 관리일지 작성<figure id="8d340cd1-fb9c-44bb-9c18-546a084c85ba" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-management-1.gif"><img style="width:1910px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-management-1.gif"/></a></figure></li></ul><ul id="72c2f2d8-20cf-4e37-ad00-668c87db7842" class="bulleted-list"><li style="list-style-type:disc">댓글기능<figure id="a54683b5-cb81-431a-a09a-cd886fb3273a" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-management-reply.gif"><img style="width:1910px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/mobile_dish-management-reply.gif"/></a></figure></li></ul></li></ol><h1 id="62620b8e-0c66-4a70-b992-50be1a9450ce" class="">4. Landing Page</h1><p id="bdb2d660-3768-4bb2-a69b-8d169b7dab74" class="">사업화 상황 확인 및 후원하기</p><figure id="a784f451-2d3e-4912-8424-4e8c2be8bdb4" class="image"><a href="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/landing.gif"><img style="width:1910px" src="Demonstrating%20Scenario%20874facc11b0b4325a8d561bfbcf97604/landing.gif"/></a></figure></div></article></body></html>

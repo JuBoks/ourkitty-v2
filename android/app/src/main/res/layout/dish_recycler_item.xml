@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:padding="10dp"
+    android:background="@drawable/dishcard"
+    android:elevation="10dp"
+     android:layout_margin="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+       <TextView
+           android:id="@+id/dish_name"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:text="냥그릇 이름"
+           android:textSize="30dp"
+           android:textStyle="bold"
+           android:fontFamily="@font/yeonsung" />
+        <TextView
+            android:id="@+id/dish_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:fontFamily="@font/yeonsung"
+            android:textColor="@color/gray"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="사료 잔여량"
+            android:fontFamily="@font/yeonsung"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"/>
+
+        <ProgressBar
+            android:id="@+id/remain_food"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+        <TextView
+            android:id="@+id/food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:fontFamily="@font/yeonsung"
+            android:layout_marginTop="-34sp"
+            android:layout_marginLeft="20sp"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="배터리 잔여량"
+            android:fontFamily="@font/yeonsung"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"/>
+
+        <ProgressBar
+            android:id="@+id/remain_battery"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+        <TextView
+            android:id="@+id/battery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:fontFamily="@font/yeonsung"
+            android:layout_marginTop="-34sp"
+            android:layout_marginLeft="20sp"
+            android:textSize="25dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".login.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+    <ImageView
+        android:id="@+id/CatGif"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="핸드폰 번호"
+            android:textAlignment="viewStart"
+            android:layout_marginLeft="40dp"
+            android:fontFamily="@font/yeonsung" />
+        <EditText
+            android:id="@+id/input_phone_num"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@color/lightGray"
+            android:ems="10"
+            android:fontFamily="@font/yeonsung"
+            android:hint="핸드폰 번호를  - 없이 입력해주세요."
+            android:inputType="textPersonName" />
+        <Button
+            android:id="@+id/send_sms_button"
+            android:layout_marginTop="5dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="인증번호 발송"
+            android:textColor="@color/white"
+            android:fontFamily="@font/yeonsung"
+            android:background="@color/hotPink"
+            />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="인증번호 확인"
+            android:textAlignment="viewStart"
+            android:layout_marginLeft="40dp"
+            android:fontFamily="@font/yeonsung" />
+        <EditText
+            android:id="@+id/input_check_num"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@color/lightGray"
+            android:ems="10"
+            android:fontFamily="@font/yeonsung"
+            android:inputType="textPersonName"
+            android:hint="인증번호를 입력해주세요."/>
+        <Button
+            android:id="@+id/check_button"
+            android:layout_marginTop="10dp"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:background="@color/hotPink"
+            android:text="인증번호 확인"
+            android:textColor="@color/white"
+            android:fontFamily="@font/yeonsung"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
