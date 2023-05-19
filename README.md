@@ -20,7 +20,7 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 
 ### 📌 참여 인원(6명)
 
-![Untitled](README/Untitled.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled.png)
 
 ### 📌 UCC
 
@@ -30,7 +30,7 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 
 ---
 
-![Untitled](README/Untitled%201.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%201.png)
 
 정부는 연간 140억 원을 들여 길고양이 문제 해결을 시도하지만 아래와 같은 이유로 사회 이슈가 되는 부분이 있음.
 
@@ -91,65 +91,94 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 1. 대시보드
 - 냥그릇 상세정보(급식소 위치, 개체수 정보, 배터리 잔여량, 사료량)
 
-![web_dashboard.gif](README/web_dashboard.gif)
+![web_dashboard.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/web_dashboard.gif)
 
 1. 사용자 관리
 - 회원 관리 및 차단, 탈퇴회원 관리
 
-![Untitled](README/Untitled%202.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%202.png)
 
 1. 냥그릇 관리
 - 기기 등록, 수정, 삭제 및 관련 관리일지 조회
 
-![Untitled](README/Untitled%203.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%203.png)
 
 1. 개체 수 관리
 - 인공지능이 파악한 개체 수 파악 및 개체 수, 중성화 수 관리
 
-![web_number-of-unit-management.gif](README/web_number-of-unit-management.gif)
+![web_number-of-unit-management.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/web_number-of-unit-management.gif)
 
 1. 차트
 - 차트로 개체 수, 중성화 수 파악
 
-![web_chart.gif](README/web_chart.gif)
+![web_chart.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/web_chart.gif)
 
 1. 민원 관리
 - 냥그릇 별 민원 조회 기능
 
-![Untitled](README/Untitled%204.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%204.png)
 
 1. 다크모드
 
-![Untitled](README/Untitled%205.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%205.png)
 
 ### 🦋 Web-Landing Page (일반유저)
 
 사업화 상황 확인 및 후원하기
 
-![landing.gif](README/landing.gif)
+![landing.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/landing.gif)
 
 ### 🦋 Mobile (캣맘)
 
 1. 로그인 기능
 - 인증된 회원만 접속할 수 있도록 휴대폰 번호와 인증번호로 로그인
 
-![mobile_login.gif](README/mobile_login.gif)
+![mobile_login.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/mobile_login.gif)
 
 1. 냥그릇 상세 조회
 - 급식소 위치, 배터리 잔여량, 사료량, 방문 고양이 사진
 
-![mobile_dish-mydish.gif](README/mobile_dish-mydish.gif)
+![mobile_dish-mydish.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/mobile_dish-mydish.gif)
 
 1. 관리일지
 - 냥그릇 별 관리일지 조회 및 관리일지 작성
 
-![mobile_dish-management-1.gif](README/mobile_dish-management-1.gif)
+![mobile_dish-management-1.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/mobile_dish-management-1.gif)
 
 - 댓글기능
 
-![mobile_dish-management-reply.gif](README/mobile_dish-management-reply.gif)
+![mobile_dish-management-reply.gif](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/mobile_dish-management-reply.gif)
 
 ### 🦋 IoT
+
+![KakaoTalk_20230519_093630328_01.jpg](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/KakaoTalk_20230519_093630328_01.jpg)
+
+![installed.png](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/installed.png)
+
+1. 카메라
+- 플래시로 야간 촬영
+1. 광센서로 사료통 문 개폐
+    
+    ![발표 시연을 쉽게 하기 위해 임의로 버튼을 통해 개폐함](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/iot_open-dish.gif)
+    
+    발표 시연을 쉽게 하기 위해 임의로 버튼을 통해 개폐함
+    
+    ![광센서가 부착되어 있는 부분 (초록색)](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/KakaoTalk_20230519_093630328_02.jpg)
+    
+    광센서가 부착되어 있는 부분 (초록색)
+    
+    ![개폐부분 모터](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/KakaoTalk_20230519_093630328_05.jpg)
+    
+    개폐부분 모터
+    
+2. 초음파 센서로 사료 잔여량 측정
+    
+    ![KakaoTalk_20230519_093630328_03.jpg](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/KakaoTalk_20230519_093630328_03.jpg)
+    
+3. 배터리 전압으로 배터리 잔여량 측정
+    
+    ![battery.jpg](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/battery.jpg)
+    
 
 # 🐱기술 스택
 
@@ -187,6 +216,11 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 ### 🦋 IoT
 
 - ESP32CAM
+- ESP32
+- PCA9685 16-Channel 12-bit Driver
+- SG-90 서보모터
+- HC-SR04
+- CdS Cell (GL5537)
 
 ### 🦋 CI/CD
 
@@ -202,24 +236,25 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 
 ### 🦋 ER Diagram
 
-![[냥그릇2] ER Diagram.png](README/ER_Diagram.png)
+![ERDiagram.png](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/ERDiagram.png)
 
 ### 🦋 Architecture Structure
 
-![[냥그릇2] 아키텍처 설계도.png](README/Architecture.png)
+![Architecture-Structure.png](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Architecture-Structure.png)
 
 ### 🦋 AI Sequence Diagram
 
 - Dataset 쌓기
     
-    ![[냥그릇2] AI Sequence Diagram-Data 쌓기.drawio.png](README/AI_Sequence_Diagram-Data.png)
+    ![AI_Sequence_Diagram-DataCollecting.png](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/AI_Sequence_Diagram-DataCollecting.png)
     
 - Clustering & TNR
-    ![[냥그릇2] AI_Sequence_Diagram-Batch_Clustering_and_TNR.png](README/AI_Sequence_Diagram-Batch_Clustering_and_TNR.png)
+    
+    ![AI_Sequence_Diagram-Batch_Clustering_and_TNR.png](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/AI_Sequence_Diagram-Batch_Clustering_and_TNR.png)
     
 
 ### 🦋 SonarQube
 
 SonarQube를 통해 코드리뷰 진행
 
-![Untitled](README/Untitled%206.png)
+![Untitled](README%20md%20a6c877bdf42d44d1b44b0dbb12924d9c/Untitled%206.png)
