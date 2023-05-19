@@ -202,20 +202,20 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 
 ### 🦋 ER Diagram
 
-![[냥그릇2] ER Diagram.png](README/%25EB%2583%25A5%25EA%25B7%25B8%25EB%25A6%25872_ER_Diagram.png)
+![[냥그릇2] ER Diagram.png](README/ER_Diagram.png)
 
 ### 🦋 Architecture Structure
 
-![[냥그릇2] 아키텍처 설계도.png](README/%25EB%2583%25A5%25EA%25B7%25B8%25EB%25A6%25872_%25EC%2595%2584%25ED%2582%25A4%25ED%2585%258D%25EC%25B2%2598_%25EC%2584%25A4%25EA%25B3%2584%25EB%258F%2584.png)
+![[냥그릇2] 아키텍처 설계도.png](README/Architecture.png)
 
 ### 🦋 AI Sequence Diagram
 
 - Dataset 쌓기
     
-    ![[냥그릇2] AI Sequence Diagram-Data 쌓기.drawio.png](README/%25EB%2583%25A5%25EA%25B7%25B8%25EB%25A6%25872_AI_Sequence_Diagram-Data_%25EC%258C%2593%25EA%25B8%25B0.drawio.png)
+    ![[냥그릇2] AI Sequence Diagram-Data 쌓기.drawio.png](README/AI_Sequence_Diagram-Data.png)
     
 - Clustering & TNR
-    
+    ![[냥그릇2] AI_Sequence_Diagram-Batch_Clustering_and_TNR.png](README/AI_Sequence_Diagram-Batch_Clustering_and_TNR.png)
     
 
 ### 🦋 SonarQube

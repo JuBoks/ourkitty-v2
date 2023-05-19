@@ -78,6 +78,7 @@ export default function Landing() {
               data-aos-delay={700}
               className="w-full flex items-center justify-center"
             >
+            <a href="https://www.youtube.com/watch?v=fRJ7YMKYPlk" target="_blank" rel="noopener noreferrer">
               <button className="flex flex-row gap-5 lg:mx-0 bg-yellow-500 text-white text-xl font-bold rounded-full py-4 px-9 focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">
                 <svg
                   className="w-5 h-5 ml-2 mt-1"
@@ -92,6 +93,7 @@ export default function Landing() {
                 </svg>
                 홍보영상 보러가기
               </button>
+              </a>
             </div>
           </div>
           <div className="w-full lg:w-6/12 lg:-mt-10 relative" id="girl">
