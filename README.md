@@ -5,6 +5,8 @@
 # 🐈‍ 냥그릇 v2
 
 ---
+### 🎉 SSAFY 8기 자율 프로젝트 3등
+![result](README/result.png)
 
 ### 📌 서비스 개요
 
@@ -192,7 +194,7 @@ v2에서는 지자체(Web), 캣맘(App), 일반 사용자(Web-Landing Pag)로 �
 - Recoil - 0.707
 - ReactQuery - 3.39.3
 
-### 🦋 Web Front
+### 🦋 Mobile
 
 - Kotlin - 1.8.0
 - android application - 8.0.0
