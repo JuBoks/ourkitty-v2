@@ -47,12 +47,12 @@ export default function DeactivateUser() {
 
   return (
     <div className="w-full h-full flex flex-col gap-2">
-      <div className="flex flex-row gap-5 pt-1 pl-3">
-        <h1 className="text-[1.4rem] font-bold">임시차단 회원</h1>
+      <div className="flex flex-row justify-center  gap-5 pt-1 pl-3">
+        <h1 className="mt-2 text-[1rem] font-bold">차단 회원</h1>
         <select
           name="selectDish"
           id="selectDish"
-          className="w-[150px] outline-none dark:bg-DarkBackground2"
+          className="w-[5rem] outline-none dark:bg-DarkBackground2"
           onChange={handleSelectDish}
         >
           <option value="0">전체</option>
@@ -77,7 +77,7 @@ export default function DeactivateUser() {
           </select>
           <input
             type="text"
-            className="outline-none pl-2 dark:bg-DarkBackground2"
+            className="w-[10rem] outline-none pl-2 dark:bg-DarkBackground2"
             onChange={handleSearchWord}
           />
         </div>

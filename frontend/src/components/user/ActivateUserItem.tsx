@@ -245,7 +245,7 @@ export default function ActivateUserItem({
                 {item.clientProfileImagePath === "" ? (
                   <AccountCircleIcon
                     sx={{
-                      fontSize: "150px",
+                      fontSize: "5rem",
                       color: `${isDark ? "#29325B" : "#9FA9D8"}`,
                     }}
                   />
@@ -253,24 +253,24 @@ export default function ActivateUserItem({
                   <img
                     src={item.clientProfileImagePath}
                     alt=""
-                    className="w-[150px] h-[150px] rounded-[50%]"
+                    className="w-[5rem] h-[5rem] rounded-[50%]"
                   />
                 )}
               </div>
-              <div className="flex flex-row justify-center gap-2 mb-5">
-                <div className="text-[1.2rem] font-bold">{item.clientName}</div>
-                <div className="text-[1.2rem] text-gray-400">
+              <div className="flex flex-row justify-center gap-2 mt-3 mb-5">
+                <div className="text-[1rem] font-bold">{item.clientName}</div>
+                <div className="text-[1rem] text-gray-400">
                   ({item.clientNickname})
                 </div>
               </div>
-              <div className="flex flex-row gap-8 justify-center">
-                <div className="flex flex-col gap-2">
+              <div className="flex flex-row gap-8 justify-center ml-2">
+                <div className="flex text-[0.7rem] flex-col gap-1">
                   <div>이메일</div>
                   <div>연락처</div>
                   <div>주소</div>
                   <div>최근 활동</div>
                 </div>
-                <div className="flex flex-col gap-2 font-bold w-[170px]">
+                <div className="flex flex-col text-[0.7rem]  gap-1 font-bold w-[170px]">
                   <div className="truncate">: {item.clientEmail}</div>
                   <div className="truncate">: {item.clientPhone}</div>
                   <div className="truncate">: {item.clientAddress}</div>

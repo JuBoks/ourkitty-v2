@@ -75,8 +75,8 @@ export default function Header() {
   };
 
   return (
-    <div className="w-[300px] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
-      <div className="w-full h-[100px] bg-LightMain flex flex-row dark:bg-DarkMain">
+    <div className="w-[18rem] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
+      <div className="w-full h-[6rem] bg-LightMain flex flex-row dark:bg-DarkMain">
         {isDark ? (
           <img className="w-[100px] h-[100px]" src={DarkLogo} alt="" />
         ) : (
@@ -91,7 +91,7 @@ export default function Header() {
           <div
             className={`${
               category[0] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(0)}
           >
             <Dash sx={{ fontSize: "50px", color: "#FFFFFF" }} />
@@ -102,7 +102,7 @@ export default function Header() {
           <div
             className={`${
               category[1] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(1)}
           >
             <User sx={{ fontSize: "50px", color: "#FFFFFF" }} />
@@ -113,7 +113,7 @@ export default function Header() {
           <div
             className={`${
               category[2] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(2)}
           >
             <DishManage sx={{ fontSize: "50px", color: "#FFFFFF" }} />
@@ -124,7 +124,7 @@ export default function Header() {
           <div
             className={`${
               category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(3)}
           >
             <DishDetail sx={{ fontSize: "50px", color: "#FFFFFF" }} />
@@ -135,7 +135,7 @@ export default function Header() {
           <div
             className={`${
               category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(4)}
           >
             <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
@@ -144,7 +144,7 @@ export default function Header() {
           <div
             className={`${
               category[5] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
-            } h-[90px] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
+            } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(5)}
           >
           <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />

@@ -76,7 +76,7 @@ export default function Main() {
   };
 
   return (
-    <div className="w-[1620px] h-full">
+    <div className="w-full h-full">
       {isLogin ? (
         category[0] ? (
           <DashBoard />
