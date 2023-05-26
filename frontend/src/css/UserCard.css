@@ -1,10 +1,10 @@
 .user-card {
-  min-width: 350px;
-  min-height: 350px;
-  max-width: 350px;
-  max-width: 350px;
-  width: 350px;
-  height: 350px;
+  min-width: 17rem;
+  max-width: 17rem;
+  min-height: 98%;
+  max-height: 98%;
+  width: 20rem;
+  height:98%;
   padding: 5px;
   position: relative;
   border-radius: 0.4rem;

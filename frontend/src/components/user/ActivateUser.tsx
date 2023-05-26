@@ -76,7 +76,7 @@ export default function ActivateUser() {
         <select
           name="selectDish"
           id="selectDish"
-          className="w-[150px] outline-none dark:bg-DarkBackground2"
+          className="w-[5rem] outline-none dark:bg-DarkBackground2"
           onChange={handleSelectDish}
         >
           <option value="0">전체</option>
@@ -101,7 +101,7 @@ export default function ActivateUser() {
           </select>
           <input
             type="text"
-            className="outline-none pl-2 dark:bg-DarkBackground2"
+            className="w-[10rem] outline-none pl-2 dark:bg-DarkBackground2"
             value={searchWord}
             onChange={handleSearchWord}
           />
