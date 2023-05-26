@@ -295,7 +295,7 @@ export default function Regist() {
 
   return (
     <div className="flex flex-col relative">
-      <h1 className="text-[1.8rem] font-bold">기기 등록</h1>
+      <h1 className="text-[1.3rem] font-bold">기기 등록</h1>
       {!isRegist ? (
         <>
           <div
@@ -326,8 +326,8 @@ export default function Regist() {
           </div>
         </>
       )}
-      <div className="relative flex flex-row justify-center m-8 mx-20">
-        <div className="flex flex-col gap-3 text-[1.2rem] font-bold absolute top-0 left-0">
+      <div className="relative flex flex-row justify-center m-4 mx-4">
+        <div className="flex flex-col gap-3 text-[1rem] font-bold absolute mt-4 left-0">
           <div className="h-12">
             <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
               시리얼 번호
@@ -348,16 +348,16 @@ export default function Regist() {
               사진 등록
             </span>
           </div>
-          <div className="h-60 mt-10">
+          <div className="h-60 mt-4">
             <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
               위치 설정
             </span>
           </div>
         </div>
-        <div className="flex flex-col gap-3 absolute left-40">
+        <div className="flex flex-col w-[440px] mt-4 gap-3 absolute left-40">
           {isRegist ? (
             <input
-              className="w-[440px] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+              className="w-[80%] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
               type="text"
               value={dishSerialNum}
               onChange={handleSerialNum}
@@ -365,7 +365,7 @@ export default function Regist() {
           ) : (
             <div onClick={handleModifySerialNum}>
               <input
-                className="w-[440px] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+                className="w-[80%] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
                 type="text"
                 value={dishSerialNum}
                 onChange={handleSerialNum}
@@ -374,19 +374,19 @@ export default function Regist() {
             </div>
           )}
           <input
-            className="h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+            className="h-12 w-[80%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
             type="text"
             value={dishName}
             onChange={handleName}
           />
           <input
-            className="h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+            className="h-12 w-[80%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
             type="text"
             value={dishAddress}
             onChange={handleAddress}
           />
           <div
-            className="w-full h-[270px] bg-LightInput relative rounded-lg dark:bg-DarkInput"
+            className="w-full w-[80%] h-[250px] bg-LightInput relative rounded-lg dark:bg-DarkInput"
             onClick={() => file.current.click()}
           >
             {image ? (
@@ -419,7 +419,7 @@ export default function Regist() {
             accept="image/jpg,impge/png,image/jpeg,image/gif"
             onChange={imagePreview}
           />
-          <div className="w-full h-[300px] bg-LightInput rounded-lg dark:bg-DarkInput">
+          <div className="w-[80%] h-[200px] bg-LightInput rounded-lg dark:bg-DarkInput">
             <RegistKakaoMap
               dishPosition={dishPosition}
               setDishPosition={setDishPosition}
