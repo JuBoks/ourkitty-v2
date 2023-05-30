@@ -24,7 +24,8 @@ export default function ManageLog() {
         </div>
       </div>
       <div className="w-full h-full bg-white">
-        <LogTable />
+        <div>hi</div>
+        {/* <LogTable /> */}
       </div>
     </div>
   );
