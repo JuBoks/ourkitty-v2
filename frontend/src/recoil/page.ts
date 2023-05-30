@@ -7,5 +7,5 @@ export const darkState = atom({
 
 export const categoryState = atom({
   key: "recoilSelectCategory",
-  default: [true, false, false, false, false, false],
+  default: [true, false, false, false, false],
 });
