@@ -121,7 +121,7 @@ export default function Header() {
               냥그릇 관리
             </div>
           </div>
-          <div
+          {/* <div
             className={`${
               category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
             } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
@@ -131,10 +131,10 @@ export default function Header() {
             <div className="h-[60px] text-[1.5rem] text-white mt-2">
               개체수 관리
             </div>
-          </div>
+          </div> */}
           <div
             className={`${
-              category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+              category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
             } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(4)}
           >
@@ -143,7 +143,7 @@ export default function Header() {
           </div>
           <div
             className={`${
-              category[5] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
+              category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
             } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
             onClick={() => handleHeaderMenu(5)}
           >
