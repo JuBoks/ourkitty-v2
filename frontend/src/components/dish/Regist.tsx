@@ -386,7 +386,7 @@ export default function Regist() {
             onChange={handleAddress}
           />
           <div
-            className="w-full w-[80%] h-[250px] bg-LightInput relative rounded-lg dark:bg-DarkInput"
+            className="w-[80%] h-[250px] bg-LightInput relative rounded-lg dark:bg-DarkInput"
             onClick={() => file.current.click()}
           >
             {image ? (
