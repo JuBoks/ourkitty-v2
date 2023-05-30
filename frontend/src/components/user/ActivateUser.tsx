@@ -107,12 +107,14 @@ export default function ActivateUser() {
           />
         </div>
       </div>
-      <div className="flex flex-row w-full">
-        <ActivateUserItem
-          dishId={dishId}
-          searchKey={searchKey}
-          searchWord={searchWord}
-        />
+      <div className="flex flex-row w-full h-full">
+        <div className="overflow-auto">
+          <ActivateUserItem
+            dishId={dishId}
+            searchKey={searchKey}
+            searchWord={searchWord}
+          />
+        </div>
       </div>
       <Modal open={modalOpen} close={closeModal} header="회원 등록1">
         <RegistForm setModalOpen={setModalOpen} />
