@@ -26,23 +26,23 @@ export default function Header() {
   const handleHeaderMenu = (num: number) => {
     switch (num) {
       case 0:
-        setCategory([true, false, false, false, false, false]);
+        setCategory([true, false, false, false, false]);
         break;
       case 1:
-        setCategory([false, true, false, false, false, false]);
+        setCategory([false, true, false, false, false]);
         break;
       case 2:
-        setCategory([false, false, true, false, false, false]);
+        setCategory([false, false, true, false, false]);
         break;
       case 3:
-        setCategory([false, false, false, true, false, false]);
+        setCategory([false, false, false, true, false]);
         break;
       case 4:
-        setCategory([false, false, false, false, true, false]);
+        setCategory([false, false, false, false, true]);
         break;
-      case 5:
-        setCategory([false, false, false, false, false, true]);
-        break;
+      // case 5:
+      //   setCategory([false, false, false, false, false, true]);
+      //   break;
       default:
         break;
     }
@@ -136,7 +136,7 @@ export default function Header() {
             className={`${
               category[3] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
             } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-            onClick={() => handleHeaderMenu(4)}
+            onClick={() => handleHeaderMenu(3)}
           >
             <Chart sx={{ fontSize: "50px", color: "#FFFFFF" }} />
             <div className="h-[60px] text-[1.5rem] text-white mt-2">차트</div>
@@ -145,7 +145,7 @@ export default function Header() {
             className={`${
               category[4] ? "bg-LightHeader2 dark:bg-DarkHeader2" : ""
             } h-[5rem] flex flex-row gap-5 relative p-[15px] cursor-pointer hover:bg-LightHeader2 dark:hover:bg-DarkHeader2`}
-            onClick={() => handleHeaderMenu(5)}
+            onClick={() => handleHeaderMenu(4)}
           >
           <Report sx={{ fontSize: "50px", color: "#FFFFFF" }} />
             <div className="h-[60px] text-[1.5rem] text-white mt-2">

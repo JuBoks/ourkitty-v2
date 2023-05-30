@@ -7,10 +7,10 @@ export default function User() {
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-3">
       <div className="w-full h-full flex flex-col gap-2">
-        <div className="w-full h-[50%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+        <div className="w-[81%] h-[50%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <ActivateUser />
         </div>
-        <div className="w-full h-[50%] flex flex-row gap-5">
+        <div className="w-[81%] h-[50%] flex flex-row gap-5">
           <div className="w-[50%] h-full bg-white pt-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
             <DeactivateUser />
           </div>

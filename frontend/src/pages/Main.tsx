@@ -85,9 +85,9 @@ export default function Main() {
         ) : category[2] ? (
           <Dish />
         ) : category[3] ? (
-          <DishDetail />
-        ) : category[4] ? (
           <Chart />
+        ) : category[4] ? (
+          <Report />
         ) : (
           <Report />
         )
