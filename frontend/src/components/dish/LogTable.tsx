@@ -117,7 +117,7 @@ export default function LogTable() {
         <div>등록된 관리 일지가 없습니다.</div>
       ) : (
         <>
-          <table className="w-full">
+          <table className="w-[80%]">
             <thead className="w-full">
               <tr className="w-full flex flex-row justify-center bg-LightMain text-white dark:bg-DarkMain">
                 <th className="w-[10%] py-2 px-2 text-left">그릇명</th>
