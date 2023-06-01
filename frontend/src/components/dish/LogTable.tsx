@@ -117,14 +117,14 @@ export default function LogTable() {
         <div>등록된 관리 일지가 없습니다.</div>
       ) : (
         <>
-          <table className="w-[80%]">
+          <table className="w-[100%] max-w-full"  style={{ tableLayout: 'fixed' }}>
             <thead className="w-full">
               <tr className="w-full flex flex-row justify-center bg-LightMain text-white dark:bg-DarkMain">
-                <th className="w-[10%] py-2 px-2 text-left">그릇명</th>
-                <th className="w-[10%] py-2 px-2 text-left">작성자</th>
-                <th className="w-[10%] py-2 px-2">상태</th>
-                <th className="w-[50%] text-left py-2 px-2">상세 내용</th>
-                <th className="w-[20%] py-2 px-2">작성일자</th>
+                <th className="w-[10%] text-sm py-2 px-2 text-left">그릇명</th>
+                <th className="w-[10%] text-sm py-2 px-2 text-left">작성자</th>
+                <th className="w-[10%] text-sm py-2 px-2">상태</th>
+                <th className="w-[50%] text-sm text-left py-2 px-2">상세 내용</th>
+                <th className="w-[20%] text-sm py-2 px-2">작성일자</th>
               </tr>
             </thead>
             <tbody className="w-full">
