@@ -119,12 +119,12 @@ export default function LogTable() {
         <>
           <table className="w-[100%] max-w-full"  style={{ tableLayout: 'fixed' }}>
             <thead className="w-full">
-              <tr className="w-full flex flex-row justify-center bg-LightMain text-white dark:bg-DarkMain">
-                <th className="w-[10%] text-sm py-2 px-2 text-left">그릇명</th>
-                <th className="w-[10%] text-sm py-2 px-2 text-left">작성자</th>
-                <th className="w-[10%] text-sm py-2 px-2">상태</th>
-                <th className="w-[50%] text-sm text-left py-2 px-2">상세 내용</th>
-                <th className="w-[20%] text-sm py-2 px-2">작성일자</th>
+              <tr className="w-full h-[2rem] flex flex-row bg-LightMain text-white dark:bg-DarkMain">
+                <th className="text-sm py-1 px-2 text-left">그릇명</th>
+                {/* <th className="w-[10%] text-sm py-1 px-2 text-left">작성자</th> */}
+                <th className=" ml-12 text-sm py-1 px-2">상태</th>
+                <th className=" ml-36 text-sm text-left py-1 px-2">상세 내용</th>
+                <th className=" ml-32 text-sm py-1 px-2">작성일자</th>
               </tr>
             </thead>
             <tbody className="w-full">
@@ -139,34 +139,34 @@ export default function LogTable() {
                     setManagementId(item.managementId);
                   }}
                 >
-                  <td className="w-[10%] text-sm text-left py-1.5 px-2 truncate">
+                  <td className="w-[20%] text-sm text-left py-1 px-2 truncate">
                     {item.dish.dishName}
                   </td>
-                  <td className="w-[10%] text-sm text-left py-1.5 px-2 truncate">
+                  {/* <td className="w-[10%] text-sm text-left ml-4 py-1 px-2 truncate">
                     {item.client.clientNickname}
-                  </td>
-                  <td className="w-[10%] text-sm text-center py-1.5 px-2 flex justify-center">
+                  </td> */}
+                  <td className="w-[10%] text-sm text-center ml-2 py-1.5 px-2 flex justify-center">
                     {item.dishState === "0030001" ? (
-                      <div className="w-4 h-4 text-sm mt-1 bg-State1 rounded-[50%]"></div>
+                      <div className="w-2 h-2 text-sm mt-1 bg-State1 rounded-[50%]"></div>
                     ) : item.dishState === "0030002" ? (
-                      <div className="w-4 h-4 text-sm mt-1 bg-State2 rounded-[50%]"></div>
+                      <div className="w-2 h-2 text-sm mt-1 bg-State2 rounded-[50%]"></div>
                     ) : item.dishState === "0030003" ? (
-                      <div className="w-4 h-4 text-sm mt-1 bg-State3 rounded-[50%]"></div>
+                      <div className="w-2 h-2 text-sm mt-1 bg-State3 rounded-[50%]"></div>
                     ) : (
-                      <div className="w-4 h-4 text-sm mt-1 bg-State4 rounded-[50%]"></div>
+                      <div className="w-2 h-2 text-sm mt-1 bg-State4 rounded-[50%]"></div>
                     )}
                   </td>
                   <td className="w-[400px] text-sm py-1 px-2 truncate">
                     {item.managementContent}
                   </td>
-                  <td className="w-[20%] text-sm text-center py-1.5 px-2">
+                  <td className="w-[20%] text-sm text-center py-1 px-2">
                     {item.updatedDate.split("T")[0]}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="absolute bottom-0 left-[40%]">
+          <div className="flex flex-row justify-center ">
             <Pagination
               count={totalPage}
               sx={{ color: "#9FA9D8" }}
