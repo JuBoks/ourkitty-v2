@@ -139,27 +139,27 @@ export default function LogTable() {
                     setManagementId(item.managementId);
                   }}
                 >
-                  <td className="w-[10%] text-left py-1.5 px-2 truncate">
+                  <td className="w-[10%] text-sm text-left py-1.5 px-2 truncate">
                     {item.dish.dishName}
                   </td>
-                  <td className="w-[10%] text-left py-1.5 px-2 truncate">
+                  <td className="w-[10%] text-sm text-left py-1.5 px-2 truncate">
                     {item.client.clientNickname}
                   </td>
-                  <td className="w-[10%] text-center py-1.5 px-2 flex justify-center">
+                  <td className="w-[10%] text-sm text-center py-1.5 px-2 flex justify-center">
                     {item.dishState === "0030001" ? (
-                      <div className="w-4 h-4 mt-1 bg-State1 rounded-[50%]"></div>
+                      <div className="w-4 h-4 text-sm mt-1 bg-State1 rounded-[50%]"></div>
                     ) : item.dishState === "0030002" ? (
-                      <div className="w-4 h-4 mt-1 bg-State2 rounded-[50%]"></div>
+                      <div className="w-4 h-4 text-sm mt-1 bg-State2 rounded-[50%]"></div>
                     ) : item.dishState === "0030003" ? (
-                      <div className="w-4 h-4 mt-1 bg-State3 rounded-[50%]"></div>
+                      <div className="w-4 h-4 text-sm mt-1 bg-State3 rounded-[50%]"></div>
                     ) : (
-                      <div className="w-4 h-4 mt-1 bg-State4 rounded-[50%]"></div>
+                      <div className="w-4 h-4 text-sm mt-1 bg-State4 rounded-[50%]"></div>
                     )}
                   </td>
-                  <td className="w-[400px] py-1 px-2 truncate">
+                  <td className="w-[400px] text-sm py-1 px-2 truncate">
                     {item.managementContent}
                   </td>
-                  <td className="w-[20%] text-center py-1.5 px-2">
+                  <td className="w-[20%] text-sm text-center py-1.5 px-2">
                     {item.updatedDate.split("T")[0]}
                   </td>
                 </tr>
