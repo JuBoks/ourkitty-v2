@@ -93,12 +93,12 @@ export default function Main() {
         )
       ) : (
         <div className="w-full h-full ml-[10%]">
-          <div className="w-[60%] h-[20%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
+          <div className="w-[45rem] h-[20%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
             <div className="flex flex-col justify-center gap-10 ml-[10%] mt-2 text-[1.2rem] text-white font-bold">
               <div>아이디</div>
               <div>비밀번호</div>
             </div>
-            <div className="flex flex-col gap-7 w-[300px] h-[60px] mt-[4%]">
+            <div className="flex flex-col mt-[3.5%] gap-7 w-[45%] h-[10%]">
               <input
                 type="text"
                 value={userId}
