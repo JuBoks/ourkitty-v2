@@ -14,7 +14,7 @@ export default function Modal(props: any) {
               x
             </button>
           </header>
-          <main className="h-[680px] dark:bg-DarkBackground2 overflow-y-auto overflow-x-hidden dark:text-white">
+          <main className="h-[500px] dark:bg-DarkBackground2 overflow-y-auto overflow-x-hidden dark:text-white">
             {props.children}
           </main>
           <footer className="relative h-[70px] dark:bg-DarkBackground2">

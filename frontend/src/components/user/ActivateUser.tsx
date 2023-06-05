@@ -62,7 +62,7 @@ export default function ActivateUser() {
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 relative">
+    <div className="w-full h-full flex flex-col gap-2 relative overflow-hidden">
       <div title="추가">
         <img
           src={`${isDark ? addUserDark : addUserLight}`}
@@ -71,7 +71,7 @@ export default function ActivateUser() {
           onClick={openModal}
         />
       </div>
-      <div className="flex flex-row w-full gap-5 pt-1 pl-3">
+      <div className="flex flex-row w-full gap-5 pt-1 pl-3 mb-[1rem]">
         <h1 className="text-[1.4rem] font-bold">관할 회원</h1>
         <select
           name="selectDish"
@@ -107,14 +107,12 @@ export default function ActivateUser() {
           />
         </div>
       </div>
-      <div className="flex flex-row w-full h-full">
-        <div className="overflow-auto">
+      <div className="flex flex-row w-full h-full overflow-hidden">
           <ActivateUserItem
             dishId={dishId}
             searchKey={searchKey}
             searchWord={searchWord}
           />
-        </div>
       </div>
       <Modal open={modalOpen} close={closeModal} header="회원 등록1">
         <RegistForm setModalOpen={setModalOpen} />

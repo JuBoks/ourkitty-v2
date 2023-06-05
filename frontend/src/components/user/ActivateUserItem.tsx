@@ -223,7 +223,7 @@ export default function ActivateUserItem({
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-full h-full px-4 flex flex-row gap-8 overflow-x-scroll">
+    <div className="w-[74rem] h-full px-4 flex flex-row gap-8 overflow-x-scroll">
       {data.data.activeList.map((item: UserInfo) => (
         <div key={item.clientId}>
           <UserCard>
@@ -263,14 +263,14 @@ export default function ActivateUserItem({
                   ({item.clientNickname})
                 </div>
               </div>
-              <div className="flex flex-row gap-8 justify-center ml-2">
-                <div className="flex text-[0.7rem] flex-col gap-1">
+              <div className="flex flex-row gap-6 justify-center ml-2">
+                <div className="flex text-[0.8rem] flex-col gap-1">
                   <div>이메일</div>
                   <div>연락처</div>
                   <div>주소</div>
                   <div>최근 활동</div>
                 </div>
-                <div className="flex flex-col text-[0.7rem]  gap-1 font-bold w-[170px]">
+                <div className="flex flex-col text-[0.8rem]  gap-1 font-bold w-[170px]">
                   <div className="truncate">: {item.clientEmail}</div>
                   <div className="truncate">: {item.clientPhone}</div>
                   <div className="truncate">: {item.clientAddress}</div>
