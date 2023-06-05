@@ -119,12 +119,12 @@ export default function LogTable() {
         <>
           <table className="w-[100%] max-w-full"  style={{ tableLayout: 'fixed' }}>
             <thead className="w-full">
-              <tr className="w-full h-[2rem] flex flex-row bg-LightMain text-white dark:bg-DarkMain">
+              <tr className="w-full h-[2rem] flex flex-row justify-between bg-LightMain text-white dark:bg-DarkMain">
                 <th className="text-sm py-1 px-2 text-left">그릇명</th>
                 {/* <th className="w-[10%] text-sm py-1 px-2 text-left">작성자</th> */}
-                <th className=" ml-12 text-sm py-1 px-2">상태</th>
-                <th className=" ml-36 text-sm text-left py-1 px-2">상세 내용</th>
-                <th className=" ml-32 text-sm py-1 px-2">작성일자</th>
+                <th className="mr-[9rem] text-sm py-1 px-2">상태</th>
+                <th className="mr-[2rem] text-sm text-left py-1 px-2">상세 내용</th>
+                <th className="mr-[1rem] text-sm py-1 px-2">작성일자</th>
               </tr>
             </thead>
             <tbody className="w-full">

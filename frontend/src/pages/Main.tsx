@@ -10,7 +10,6 @@ import { categoryState, darkState } from "../recoil/page";
 import { isLoginState } from "../recoil/auth";
 import { useMutation } from "react-query";
 import { login } from "../apis/api/auth";
-import DishDetail from "./DishDetail";
 
 export default function Main() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -101,24 +100,23 @@ export default function Main() {
           <Report />
         )
       ) : (
-        <div className="w-full h-full ml-[10%]">
-          <div className="w-[45rem] h-[20%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
+          <div className="w-[45rem] h-[20%] ml-[10%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
             <div className="flex flex-col justify-center gap-8 ml-[10%] mt-2 text-[1.2rem] text-white font-bold">
               <div>아이디</div>
               <div>비밀번호</div>
             </div>
-            <div className="flex flex-col justify-center items-center gap-7 w-[45%]">
+            <div className="flex flex-col justify-center items-center gap-7 w-[20rem]">
               <input
                 type="text"
                 value={userId}
                 onChange={handleId}
-                className="pl-2 rounded-lg py-2 outline-none"
+                className="pl-2 rounded-lg py-2 outline-none w-[15rem]"
               />
               <input
                 type="password"
                 value={userPw}
                 onChange={handlePassword}
-                className="pl-2 rounded-lg py-2 outline-none"
+                className="pl-2 rounded-lg py-2 outline-none w-[15rem]"
               />
             </div>
             <button
@@ -128,7 +126,6 @@ export default function Main() {
               로그인
             </button>
           </div>
-        </div>
       )}
     </div>
   );
