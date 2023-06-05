@@ -25,7 +25,7 @@ export default function MainLayout() {
         isDark ? "dark bg-DarkBackground" : "bg-LightBackground"
       }`}
     >
-      <div>
+      <div className="w-[25%] h-full">
         <Header />
       </div>
       <div className="w-full h-full">

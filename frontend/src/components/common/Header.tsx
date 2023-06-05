@@ -76,7 +76,7 @@ export default function Header() {
   };
 
   return (
-    <div className="w-[18rem] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
+    <div className="w-[100%] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
       <div className="w-full h-[6rem] bg-LightMain flex flex-row dark:bg-DarkMain">
         {isDark ? (
           <img className="w-[100px] h-[100px]" src={DarkLogo} alt="" />
@@ -152,7 +152,7 @@ export default function Header() {
             <div className="h-[60px] text-[1.5rem] text-white mt-2">
               민원 관리
             </div>          </div>
-          <div className="w-full h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
+          <div className="w-[100%] h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
             <div
               title="로그아웃"
               className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"

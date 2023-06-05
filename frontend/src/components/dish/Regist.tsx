@@ -294,7 +294,7 @@ export default function Regist() {
   }, [dish]);
 
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col w-full h-[full] relative">
       <h1 className="text-[1.3rem] font-bold">기기 등록</h1>
       {!isRegist ? (
         <>
@@ -326,104 +326,105 @@ export default function Regist() {
           </div>
         </>
       )}
-      <div className="relative flex flex-row justify-center mt-4 mx-4">
-        <div className="flex flex-col w-[20%] gap-3 text-[1rem] font-bold absolute mt-6 left-4">
-          <div className="h-12">
-            <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
+      <div className="relative flex flex-row w-full h-[85vh] justify-center mt-4 mr-4 ml-4 gap-2">
+        <div className="flex flex-col w-[95%] gap-3 text-[1rem] font-bold  mt-6 overflow-auto">
+          <div className="h-12 flex flex-row gap-4 ">
+            <div className="w-[20%] h-12 border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
               시리얼 번호
-            </span>
-          </div>
-          <div className="h-12">
-            <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
-              냥그릇 이름
-            </span>
-          </div>
-          <div className="h-12">
-            <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
-              상세 주소
-            </span>
-          </div>
-          <div className="h-60 mt-28">
-            <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
-              사진 등록
-            </span>
-          </div>
-          <div className="h-60 mt-4">
-            <span className="border-b-LightMain border-b-[4px] flex flex-wrap content-center dark:border-b-DarkMain">
-              위치 설정
-            </span>
-          </div>
-        </div>
-        <div className="flex flex-col w-[70%] mt-4 gap-3 absolute left-40">
-          {isRegist ? (
-            <input
-              className="w-[100%] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
-              type="text"
-              value={dishSerialNum}
-              onChange={handleSerialNum}
-            />
-          ) : (
-            <div onClick={handleModifySerialNum}>
+            </div>
+            {isRegist ? (
               <input
-                className="w-[100%] h-12 bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+                className="w-[70%] h-[100%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
                 type="text"
                 value={dishSerialNum}
                 onChange={handleSerialNum}
-                disabled={true}
               />
-            </div>
-          )}
-          <input
-            className="h-12 w-[100%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
-            type="text"
-            value={dishName}
-            onChange={handleName}
-          />
-          <input
-            className="h-12 w-[100%]  bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
-            type="text"
-            value={dishAddress}
-            onChange={handleAddress}
-          />
-          <div
-            className="w-[100%] h-[250px] bg-LightInput relative rounded-lg dark:bg-DarkInput"
-            onClick={() => file.current.click()}
-          >
-            {image ? (
-              <div
-                className="absolute right-2 top-2 cursor-pointer"
-                onClick={deleteImage}
-              >
-                <CancelIcon sx={{ color: "white" }} />
-              </div>
             ) : (
               <div
-                title="사진 선택"
-                className="absolute top-[40%] right-[45%] cursor-pointer"
+                className="w-[70%] h-[100%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+                onClick={handleModifySerialNum}
               >
-                <AddPhotoAlternateIcon sx={{ fontSize: "50px" }} />
+                <input
+                  className="h-full text-start"
+                  type="text"
+                  value={dishSerialNum}
+                  onChange={handleSerialNum}
+                  disabled={true}
+                />
               </div>
             )}
-            {image && (
-              <img
-                src={imageUrl}
-                alt="img1"
-                className="w-full h-full rounded-lg"
-              />
-            )}
           </div>
-          <input
-            ref={file}
-            className="hidden"
-            type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
-            onChange={imagePreview}
-          />
-          <div className="w-[100%] h-[200px] bg-LightInput rounded-lg dark:bg-DarkInput">
-            <RegistKakaoMap
-              dishPosition={dishPosition}
-              setDishPosition={setDishPosition}
+          <div className="h-12 flex flex-row gap-4">
+            <div className="w-[20%] h-12 border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
+              냥그릇 이름
+            </div>
+            <input
+              className="h-[100%] w-[70%] bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+              type="text"
+              value={dishName}
+              onChange={handleName}
             />
+          </div>
+          <div className="h-12 flex flex-row gap-4">
+            <div className="w-[20%] h-12 border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
+              상세 주소
+            </div>
+            <input
+              className="h-[100%] w-[70%]  bg-LightInput rounded-lg pl-3 dark:bg-DarkInput"
+              type="text"
+              value={dishAddress}
+              onChange={handleAddress}
+            />
+          </div>
+          <div className="flex flex-row gap-4 h-[15rem]">
+            <div className="w-[20%] border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
+              사진 등록
+            </div>
+            <div
+              className="w-[70%] h-[15rem] bg-LightInput relative rounded-lg dark:bg-DarkInput"
+              onClick={() => file.current.click()}
+            >
+              {image ? (
+                <div
+                  className=" right-2 top-2 cursor-pointer absolute"
+                  onClick={deleteImage}
+                >
+                  <CancelIcon sx={{ color: "white" }} />
+                </div>
+              ) : (
+                <div
+                  title="사진 선택"
+                  className=" absolute inset-0 flex justify-center items-center cursor-pointer"
+                >
+                  <AddPhotoAlternateIcon sx={{ fontSize: "50px" }} />
+                </div>
+              )}
+              {image && (
+                <img
+                  src={imageUrl}
+                  alt="img1"
+                  className="w-full h-full rounded-lg"
+                />
+              )}
+              <input
+                ref={file}
+                className="hidden"
+                type="file"
+                accept="image/jpg,impge/png,image/jpeg,image/gif"
+                onChange={imagePreview}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row gap-4">
+            <div className="w-[20%] border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
+              위치 설정
+            </div>
+            <div className="w-[70%] h-[15rem] bg-LightInput rounded-lg dark:bg-DarkInput">
+              <RegistKakaoMap
+                dishPosition={dishPosition}
+                setDishPosition={setDishPosition}
+              />
+            </div>
           </div>
         </div>
       </div>
