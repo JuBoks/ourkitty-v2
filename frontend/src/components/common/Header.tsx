@@ -65,6 +65,7 @@ export default function Header() {
         icon: "success",
         title: "로그아웃 되었습니다.",
       });
+      localStorage.clear();
       setIsLogin(false);
     },
   });

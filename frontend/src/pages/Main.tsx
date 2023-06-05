@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import DashBoard from "./DashBoard";
 import User from "./User";
@@ -19,6 +19,15 @@ export default function Main() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      setIsLogin(true);
+    }
+    else {
+      setIsLogin(false);
+    }
+  }, [])
 
   const loginRequest = useMutation(
     ["login"],
@@ -94,11 +103,11 @@ export default function Main() {
       ) : (
         <div className="w-full h-full ml-[10%]">
           <div className="w-[45rem] h-[20%] bg-LightMain rounded-lg mt-10 flex flex-row gap-12">
-            <div className="flex flex-col justify-center gap-10 ml-[10%] mt-2 text-[1.2rem] text-white font-bold">
+            <div className="flex flex-col justify-center gap-8 ml-[10%] mt-2 text-[1.2rem] text-white font-bold">
               <div>아이디</div>
               <div>비밀번호</div>
             </div>
-            <div className="flex flex-col mt-[3.5%] gap-7 w-[45%] h-[10%]">
+            <div className="flex flex-col justify-center items-center gap-7 w-[45%]">
               <input
                 type="text"
                 value={userId}
@@ -113,7 +122,7 @@ export default function Main() {
               />
             </div>
             <button
-              className="w-[100px] h-[80px] bg-DarkMainHover text-[1.3rem] text-white font-bold mt-[5%] rounded-xl hover:bg-DarkMain"
+              className="w-[100px] h-[80px] bg-DarkMainHover text-[1.3rem] text-white font-bold rounded-xl hover:bg-DarkMain self-center"
               onClick={handleLogin}
             >
               로그인
