@@ -43,19 +43,31 @@ export default function DashBoard() {
           <ManageLog />
         </div>
       </div>
-      <div className="w-[50%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-        <div className="w-full h-full flex flex-col gap-2">
-          <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <MainChart
-              catCountList={catCountList}
-              noTnrCountList={noTnrCountList}
-            />
+
+      <div className="w-[50%] h-full flex flex-col gap-2">
+        <div className="w-full h-[30%] flex flex-row gap-2">
+          <div className="w-[50%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+              보급 급식소
           </div>
-          <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <DishWeight foodAmountList={foodAmountList} />
+          <div className="w-[50%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+              중성화율
           </div>
-          <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <Battery batteryAmountList={batteryAmountList} />
+        </div>
+        <div className="w-full h-[30%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <div className="w-full h-full flex flex-col gap-2">
+            <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+              급식소 목록
+            </div>
+          </div>
+        </div>
+        <div className="w-full h-[40%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <div className="w-full h-full flex flex-col gap-2">
+            <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+              <MainChart
+                catCountList={catCountList}
+                noTnrCountList={noTnrCountList}
+              />
+            </div>
           </div>
         </div>
       </div>

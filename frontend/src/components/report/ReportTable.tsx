@@ -105,11 +105,11 @@ export default function ReportTable() {
       <table className="mt-3 w-full">
         <thead className="w-full">
           <tr className="w-full flex flex-row justify-center bg-LightMain text-white dark:bg-DarkMain">
-            <th className="w-[10%] py-2 px-2">작성자</th>
-            <th className="w-[25%] py-2 px-2">제목</th>
-            <th className="w-[35%] py-2 px-2 text-left">내용</th>
-            <th className="w-[15%] py-2 px-2">작성일자</th>
-            <th className="w-[10%] py-2 px-2">상태</th>
+            <th className="text-sm w-[10%] py-2 px-2">작성자</th>
+            <th className="text-sm w-[25%] py-2 px-2">제목</th>
+            <th className="text-sm w-[35%] py-2 px-2 text-left">내용</th>
+            <th className="text-sm w-[15%] py-2 px-2">작성일자</th>
+            <th className="text-sm w-[10%] py-2 px-2">상태</th>
           </tr>
         </thead>
         <tbody className="w-full">
