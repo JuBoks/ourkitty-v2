@@ -223,9 +223,13 @@ export default function ActivateUserItem({
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-[74rem] h-full px-4 flex flex-row gap-8 overflow-x-scroll">
+    <div className="w-[74rem] h-full px-4 flex flex-row gap-8 overflow-auto">
       {data.data.activeList.map((item: UserInfo) => (
-        <div key={item.clientId}>
+        <div key={item.clientId}
+          onClick={() => {
+            setUserId(item.clientId);
+            openModal();
+          }}>
           <UserCard>
             <button
               className="absolute top-2 right-[-12px]"
@@ -240,59 +244,51 @@ export default function ActivateUserItem({
               />
             </button>
 
-            <div className="flex flex-col mt-2">
-              <div className="flex flex-row justify-center">
-                {item.clientProfileImagePath === "" ? (
-                  <AccountCircleIcon
-                    sx={{
-                      fontSize: "5rem",
-                      color: `${isDark ? "#29325B" : "#9FA9D8"}`,
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={item.clientProfileImagePath}
-                    alt=""
-                    className="w-[5rem] h-[5rem] rounded-[50%]"
-                  />
-                )}
+            
+          <div className="flex flex-col justify-around mt-[1rem] h-full bg-white rounded-lg p-4 ">
+            <div className="flex flex-row justify-center">
+              {item.clientProfileImagePath === "" ? (
+                <AccountCircleIcon
+                  sx={{
+                    fontSize: "5rem",
+                    color: `${isDark ? "#29325B" : "#9FA9D8"}`,
+                  }}
+                />
+              ) : (
+                <img
+                  src={item.clientProfileImagePath}
+                  alt=""
+                  className="w-[5rem] h-[5rem] rounded-[50%]"
+                />
+              )}
+            </div>
+            <div className="flex flex-row justify-center self-evenly gap-4 mt-3 mb-2">
+              <div className="text-[1rem] font-bold">{item.clientName}</div>
+              <div className="text-[1rem] text-gray-400">
+                ({item.clientNickname})
               </div>
-              <div className="flex flex-row justify-center gap-2 mt-3 mb-5">
-                <div className="text-[1rem] font-bold">{item.clientName}</div>
-                <div className="text-[1rem] text-gray-400">
-                  ({item.clientNickname})
-                </div>
+            </div>
+            <div className="flex flex-col justify-end self-center text-[0.8rem] mt-[0.5rem] ml-2">
+              <div className="flex flex-row justify-between mb-2">
+                <div className="font-semibold">이메일:</div>
+                <div className="truncate">{item.clientEmail}</div>
               </div>
-              <div className="flex flex-row gap-6 justify-center ml-2">
-                <div className="flex text-[0.8rem] flex-col gap-1">
-                  <div>이메일</div>
-                  <div>연락처</div>
-                  <div>주소</div>
-                  <div>최근 활동</div>
-                </div>
-                <div className="flex flex-col text-[0.8rem]  gap-1 font-bold w-[170px]">
-                  <div className="truncate">: {item.clientEmail}</div>
-                  <div className="truncate">: {item.clientPhone}</div>
-                  <div className="truncate">: {item.clientAddress}</div>
-                  <div className="truncate">
-                    : {item.lastPostingDate.split("T")[0]}
-                  </div>
+              <div className="flex flex-row justify-between mb-2">
+                <div className="font-semibold">연락처:</div>
+                <div className="truncate">{item.clientPhone}</div>
+              </div>
+              <div className="flex flex-row justify-between mb-2">
+                <div className="font-semibold">주소:</div>
+                <div className="truncate">{item.clientAddress}</div>
+              </div>
+              <div className="flex flex-row justify-between">
+                <div className="font-semibold">최근 활동:</div>
+                <div className="truncate">
+                  {item.lastPostingDate.split("T")[0]}
                 </div>
               </div>
             </div>
-            <button
-              className="flex flex-row gap-3 absolute bottom-2 right-2"
-              title="설정"
-              onClick={() => {
-                setUserId(item.clientId);
-                openModal();
-              }}
-            >
-              <ManageAccountsIcon
-                className="text-LightMain hover:text-[45px] dark:text-DarkMain"
-                sx={{ fontSize: "40px" }}
-              />
-            </button>
+          </div>
             <Modal open={modalOpen} close={closeModal} header="회원 정보 수정">
               <ModifyForm setModalOpen={setModalOpen} />
             </Modal>

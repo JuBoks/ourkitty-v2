@@ -294,7 +294,7 @@ export default function Regist() {
   }, [dish]);
 
   return (
-    <div className="flex flex-col w-full h-[full] relative">
+    <div className="flex flex-col w-full h-full relative">
       <h1 className="text-[1.3rem] font-bold">기기 등록</h1>
       {!isRegist ? (
         <>
@@ -326,9 +326,9 @@ export default function Regist() {
           </div>
         </>
       )}
-      <div className="relative flex flex-row w-full h-[85vh] justify-center mt-4 mr-4 ml-4 gap-2">
-        <div className="flex flex-col w-[95%] gap-3 text-[1rem] font-bold  mt-6 overflow-auto">
-          <div className="h-12 flex flex-row gap-4 ">
+      <div className="relative flex flex-row w-full h-[100%] justify-center mt-4 mr-4 ml-4 gap-2">
+        <div className="flex flex-col justify-around w-[95%]  h-[90%]  gap-3 text-[1rem] font-bold  mt-6 overflow-auto">
+          <div className="h-12 mt-10 flex flex-row gap-4 ">
             <div className="w-[20%] h-12 border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
               시리얼 번호
             </div>

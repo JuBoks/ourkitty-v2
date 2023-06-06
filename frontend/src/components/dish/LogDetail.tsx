@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import Swal from "sweetalert2";
 import SendIcon from "@mui/icons-material/Send";
@@ -203,6 +203,8 @@ export default function LogDetail({
     queryFn: () => getManagementItem(manageId),
   });
 
+  useEffect(()=>{console.log(data , 'hihi') },[])
+
   if (isLoading || data === undefined) return null;
 
   return (
@@ -229,15 +231,7 @@ export default function LogDetail({
           <div className="w-5 h-5 mt-4 rounded-[50%] bg-State4"></div>
         )}
       </div>
-      <div className="flex flex-row text-[number.2rem] gap-2 ml-5 relative">
-        <div className="">{data.data.data.client.clientName}</div>
-        <div className="text-CancelBtn">
-          {data.data.data.client.clientEmail}
-        </div>
-        <div className="absolute text-CancelBtn right-20">
-          {data.data.data.updatedDate.split("T")[0]}
-        </div>
-      </div>
+      
       <div className="flex flex-col gap-2 mx-auto mt-8">
         {data.data.data.managementImageList.length === 0 ? null : (
           <div className="w-[600px] h-[400px] m-auto">
@@ -255,10 +249,33 @@ export default function LogDetail({
             </Carousel>
           </div>
         )}
-        <div className="w-[600px] mt-8 bg-LightGray px-2 py-4 rounded-xl dark:bg-DarkBackground2">
+
+        <div className="flex flex-row w-[600px] mx-auto mt-[2rem] justify-between text-[number.2rem] gap-2 relative">
+          <div className="flex items-center">
+            {data.data.data.client.clientProfileImagePath ?
+              <img
+              className="w-16 h-16 rounded-[50%]"
+              src={data.data.data.client.clientProfileImagePath}
+              alt=""
+              /> :
+              <img
+                  className="w-16 h-16 rounded-[50%]"
+                  src={Profile}
+                  alt=""
+                />
+            }
+            <div className="ml-4 text-[2rem] font-bold">{data.data.data.client.clientNickname}</div>
+          </div>
+          <div className="text-CancelBtn self-center">
+            {data.data.data.updatedDate.split("T")[0]}
+          </div>
+        </div>
+        <div className="w-[600px] mx-auto mt-[2rem] mb-[2rem]">
           {data.data.data.managementContent}
         </div>
-        <div className="w-[600px] bg-LightGray px-2 py-4 flex flex-col gap-5 rounded-xl dark:bg-DarkBackground2">
+        
+      
+        <div className="w-[600px] bg-LightGray px-2 py-4 flex flex-col gap-[3rem] rounded-xl dark:bg-DarkBackground2">
           {data.data.data.managementCommentList.length === 0 ? (
             <div className="ml-3 mt-2">등록된 댓글이 없습니다.</div>
           ) : (
@@ -267,30 +284,27 @@ export default function LogDetail({
                 key={item.managementCommentId}
                 className="flex flex-col gap-5 relative"
               >
-                <div className="flex flex-row gap-3">
-                  <img
-                    className="w-16 h-16 rounded-[50%]"
-                    src={Profile}
-                    alt=""
-                  />
-                  <div className="flex flex-col mt-1">
-                    <div className="flex flex-row gap-3">
-                      <div className="text-[1.2rem] font-bold">
-                        {item.client.clientName}
-                      </div>
-                      <div className="text-CancelBtn mt-[2px]">
-                        {item.client.clientEmail}
-                      </div>
-                    </div>
-                    <div className="text-CancelBtn">
-                      {item.client.clientAddress}
-                    </div>
+                <div className="flex flex-row  justify-between ">
+                  <div className="flex items-center">
+                    {item.client.clientProfileImagePath ?
+                      <img
+                      className="w-16 h-16 rounded-[50%]"
+                      src={item.client.clientProfileImagePath}
+                      alt=""
+                      /> :
+                      <img
+                          className="w-16 h-16 rounded-[50%]"
+                          src={Profile}
+                          alt=""
+                        />
+                    }
+                    <div className="ml-4">{item.client.clientNickname}</div>
+                  </div>
+                  <div className="text-CancelBtn self-center">
+                    {data.data.data.updatedDate.split("T")[0]}
                   </div>
                 </div>
                 <div className="mx-16">{item.managementCommentContent}</div>
-                <div className="absolute right-5 text-CancelBtn mt-[2px]">
-                  {item.updatedDate.split("T")[0]}
-                </div>
                 <div
                   className="absolute bottom-0 right-0"
                   onClick={() => handleDeleteComment(item.managementCommentId)}
