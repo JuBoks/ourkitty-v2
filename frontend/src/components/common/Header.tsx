@@ -155,13 +155,13 @@ export default function Header() {
           <div className="w-[100%] h-[100px] bg-LightHeader2 flex flex-row absolute bottom-0 dark:bg-DarkHeader2">
             <div
               title="로그아웃"
-              className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
+              className="basis-1/2 flex justify-center items-center w-[50%] h-full py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
               onClick={handleLogout}
             >
               <Logout sx={{ fontSize: "50px", color: "#FFFFFF" }} />
             </div>
             <div
-              className="basis-1/2 w-full h-full px-[50px] py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
+              className="basis-1/2 flex justify-center items-center w-[50%] h-full py-[25px] cursor-pointer hover:bg-LightHeader1 dark:hover:bg-DarkHeader1"
               onClick={() => setIsDark((cur: boolean) => !cur)}
             >
               {isDark ? (
