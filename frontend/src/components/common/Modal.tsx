@@ -4,7 +4,7 @@ export default function Modal(props: any) {
   return (
     <div className={open ? "openModal modal relative" : "modal relative"}>
       {open ? (
-        <section className="w-[1000px] h-[800px] flex flex-col">
+        <section className="w-[50%] h-[90%] flex flex-col">
           <header className="h-[50px] text-[1.5rem] dark:bg-DarkMain flex items-center">
             {header}
             <button className="close" onClick={close}>
