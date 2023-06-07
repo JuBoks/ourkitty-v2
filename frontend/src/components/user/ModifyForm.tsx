@@ -348,18 +348,20 @@ export default function ModifyForm({ setModalOpen }: any) {
 
   return (
     <div className="w-full h-full flex flex-col relative">
-      <button
-        className="absolute right-32 px-4 py-2 rounded-lg text-[1.5rem] text-white bg-LightMainHover hover:bg-LightMain dark:bg-DarkMainHover dark:hover:bg-DarkMain"
-        onClick={handleregistRequestClient}
-      >
-        수정
-      </button>
-      <button
-        className="absolute right-10 px-4 py-2 rounded-lg text-[1.5rem] text-white bg-State3Hover hover:bg-State3"
-        onClick={handleDeleteClient}
-      >
-        삭제
-      </button>
+      <div className="flex flex-row justify-end">
+        <button
+          className=" mr-4 px-4 py-2 rounded-lg text-[0.5rem] text-white bg-LightMainHover hover:bg-LightMain dark:bg-DarkMainHover dark:hover:bg-DarkMain"
+          onClick={handleregistRequestClient}
+        >
+          수정
+        </button>
+        <button
+          className=" right-10 px-4 py-2 rounded-lg text-[0.5rem] text-white bg-State3Hover hover:bg-State3"
+          onClick={handleDeleteClient}
+        >
+          삭제
+        </button>
+      </div>
       <div className="flex justify-center">
         {data.data.data.clientProfileImagePath === "" ? (
           <AccountCircleIcon
@@ -373,8 +375,8 @@ export default function ModifyForm({ setModalOpen }: any) {
           />
         )}
       </div>
-      <div className="flex flex-row justify-center gap-28 mt-5">
-        <div className="flex flex-col gap-7 text-[1.3rem] mt-2">
+      <div className="flex flex-row justify-center gap-[3rem] mt-10">
+        <div className="flex flex-col justify-between gap-7 text-[1rem] mt-2">
           <div>이름</div>
           <div>연락처</div>
           <div>이메일</div>
@@ -382,7 +384,7 @@ export default function ModifyForm({ setModalOpen }: any) {
           <div>주소</div>
           <div>담당 냥그릇</div>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col justify-between gap-7 text-[1rem]">
           <input
             type="text"
             className="w-[300px] h-[40px] pl-2 bg-LightInput rounded-lg outline-none dark:bg-DarkInput"
