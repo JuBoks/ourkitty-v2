@@ -223,7 +223,7 @@ export default function ActivateUserItem({
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-[74rem] h-full px-4 flex flex-row gap-8 overflow-auto">
+    <div className="w-[70rem] h-full px-4 flex flex-row gap-8 overflow-auto">
       {data.data.activeList.map((item: UserInfo) => (
         <div key={item.clientId}
           onClick={() => {
