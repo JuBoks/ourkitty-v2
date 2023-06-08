@@ -381,7 +381,7 @@ export default function Regist() {
               사진 등록
             </div>
             <div
-              className="w-[70%] h-[15rem] bg-LightInput relative rounded-lg dark:bg-DarkInput"
+              className="w-[70%] h-[12rem] bg-LightInput relative rounded-lg dark:bg-DarkInput"
               onClick={() => file.current.click()}
             >
               {image ? (
@@ -419,7 +419,7 @@ export default function Regist() {
             <div className="w-[20%] border-b-LightMain border-b-[0.2rem] flex flex-wrap content-center dark:border-b-DarkMain">
               위치 설정
             </div>
-            <div className="w-[70%] h-[15rem] bg-LightInput rounded-lg dark:bg-DarkInput">
+            <div className="w-[70%] h-[12rem] bg-LightInput rounded-lg dark:bg-DarkInput">
               <RegistKakaoMap
                 dishPosition={dishPosition}
                 setDishPosition={setDishPosition}

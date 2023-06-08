@@ -166,7 +166,7 @@ export default function LogTable() {
               ))}
             </tbody>
           </table>
-          <div className="flex flex-row justify-center ">
+          <div className="flex flex-row mt-auto justify-center ">
             <Pagination
               count={totalPage}
               sx={{ color: "#9FA9D8" }}
