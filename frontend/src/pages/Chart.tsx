@@ -3,13 +3,16 @@ import DishWeight from "../components/chart/DishWeight";
 import HeatMapChart from "../components/chart/HeatMapChart";
 import CatButton from "../components/chart/CatButton";
 import MainChart from './../components/chart/MainChart';
+import ChartCalendar from './../components/chart/ChartCalendar';
 import Battery from './../components/chart/Battery';
 import { selectedButtonState } from "../recoil/chart";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import Loading from "../components/common/LoadingHeatMap";
-
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css'; 
+import "../css/Calendar.css";
 
 export default function Chart() {
 
@@ -23,6 +26,8 @@ export default function Chart() {
     queryKey: ["getCatNum", selectedButton],
     queryFn: () => getCatNum(selectedButton),
   });
+
+  const [value, onChange] = useState(new Date());
 
   useEffect(() => {
     if (data !== undefined) {
@@ -44,8 +49,8 @@ export default function Chart() {
       </div>
       <div className="w-[42%] h-full flex flex-col gap-2">
         <div className="w-full h-[33%] flex flex-row gap-2">
-          <div className="w-[60%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            캘린더
+          <div className="w-[60%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <Calendar className="custom-calendar" value={value} />
           </div>
           <div className="w-[40%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
             정보
@@ -53,6 +58,9 @@ export default function Chart() {
         </div>
         <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           촬영된 고양이
+          <button className="check">
+              x
+          </button>
         </div>
         <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <MainChart catCountList={catCountList} noTnrCountList={noTnrCountList}/>
