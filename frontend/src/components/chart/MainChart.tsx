@@ -85,7 +85,7 @@ export default function MainChart({ catCountList, noTnrCountList }: { catCountLi
 
   return (
     <div className="w-full h-full gap-1">
-      <h1 className="text-[1.3rem] font-bold" >개체 수 / 중성화 수 (마리)</h1>
+      <h1 className="text-[1rem] font-bold" >개체 수 / 중성화 수 (마리)</h1>
       <div className="h-[90%] w-full">
         <Chart height="100%" options={options} type="line" series={series} />
       </div>

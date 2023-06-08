@@ -43,14 +43,19 @@ export default function Chart() {
         </div>
       </div>
       <div className="w-[42%] h-full flex flex-col gap-2">
+        <div className="w-full h-[33%] flex flex-row gap-2">
+          <div className="w-[60%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+            캘린더
+          </div>
+          <div className="w-[40%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+            정보
+          </div>
+        </div>
+        <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          촬영된 고양이
+        </div>
         <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <MainChart catCountList={catCountList} noTnrCountList={noTnrCountList}/>
-        </div>
-        <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <DishWeight foodAmountList={foodAmountList} />
-        </div>
-        <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <Battery batteryAmountList={batteryAmountList} />
         </div>
       </div>
       <div className="w-[42%] h-full flex flex-col gap-2">
