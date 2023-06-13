@@ -36,7 +36,7 @@ export default function TnrPercent({ catCountList, noTnrCountList }: { catCountL
         },
       },
       fill: {
-        colors: ['#e5e7eb'], 
+        colors: ['#9FA9D8'], 
       },
       labels: ['중성화율 (%)'],
   };

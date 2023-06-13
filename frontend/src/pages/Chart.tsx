@@ -4,7 +4,8 @@ import HeatMapChart from "../components/chart/HeatMapChart";
 import CatButton from "../components/chart/CatButton";
 import MainChart from './../components/chart/MainChart';
 import ChartCalendar from './../components/chart/ChartCalendar';
-import Battery from './../components/chart/Battery';
+import DishInfo from './../components/chart/DishInfo';
+
 import { selectedButtonState } from "../recoil/chart";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
@@ -53,14 +54,24 @@ export default function Chart() {
           <Calendar className="custom-calendar" value={value} />
           </div>
           <div className="w-[40%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            정보
+            <DishInfo/>
           </div>
         </div>
         <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          촬영된 고양이
-          <button className="check">
-              x
-          </button>
+          <div className="flex flex-row justify-between">
+            <div className="font-bold">
+              촬영된 고양이
+            </div>
+            <div>
+              <button className="mr-[1rem] text-[0.8rem] text-gray-400">
+                  다시하기
+              </button>
+              <button className="finish text-[0.8rem] text-gray-400">
+                  검수완료
+              </button>
+            </div>
+          </div>
+          
         </div>
         <div className="w-full h-[33%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <MainChart catCountList={catCountList} noTnrCountList={noTnrCountList}/>
