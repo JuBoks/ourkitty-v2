@@ -64,7 +64,7 @@ export default function DashBoard() {
           </div>
         </div>
         <div className="w-full h-[40%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <div className="w-full h-full flex flex-col gap-2">
+          <div className="w-full h-full flex flex-col">
             <DishInfoCard/>
           </div>
         </div>

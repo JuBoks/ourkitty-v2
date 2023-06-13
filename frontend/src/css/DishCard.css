@@ -1,9 +1,9 @@
-.user-card {
-    min-width: 13rem;
-    max-width: 13rem;
+.dish-card {
+    min-width: 15rem;
+    max-width: 15rem;
     min-height: 98%;
     max-height: 98%;
-    width: 13rem;
+    width: 15rem;
     height:98%;
     padding: 5px;
     position: relative;
