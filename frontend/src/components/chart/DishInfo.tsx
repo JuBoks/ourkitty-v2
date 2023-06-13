@@ -8,7 +8,7 @@ export default function DishInfo() {
 
 
   return (
-    <div className="w-full h-full gap-1 p-1 text-[0.8rem] flex flex-col justify-between">
+    <div className="w-full h-full gap-1 p-1 text-[0.7rem] flex flex-col justify-between">
       <div>담당캣맘 : <span className="font-bold">박정호</span></div>
       <div>최초 설치일 : <br/><span className="font-bold">2023-02-19</span></div>
       <div>중성화율 : <br/><span className="font-bold">20%</span></div>

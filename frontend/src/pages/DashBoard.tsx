@@ -11,6 +11,8 @@ import { dishInfo } from "../recoil/dish";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
+import DishInfoCard from "components/dish/DishInfoCard";
+
 
 export default function DashBoard() {
   const selectedButton = useRecoilState(dishInfo)[0];
@@ -30,7 +32,6 @@ export default function DashBoard() {
       setBatteryAmountList(data["batteryAmountList"]);
       setCatCountList(data["catCountList"]);
       setNoTnrCountList(data["noTnrCountList"]);
-      console.log(data,'datadata')
     }
   }, [data, selectedButton]);
 
@@ -46,15 +47,15 @@ export default function DashBoard() {
       </div>
 
       <div className="w-[50%] h-full flex flex-col gap-2">
-        <div className="w-full h-[30%] flex flex-row gap-2">
+        <div className="w-full h-[20%] flex flex-row gap-2">
           <div className="w-[50%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white flex flex-col ">
             관할 급식소
-            <div className="w-full text-center text-[7rem] font-bold" style={{ fontFamily: 'Roboto' }}>
+            <div className="w-full text-center text-[5rem] font-bold" style={{ fontFamily: 'Roboto' }}>
               <span className="mr-2">3</span>
               <span className="text-2xl">개</span>
             </div>          
           </div>
-          <div className="w-[50%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+          <div className="w-[50%] h-full bg-white rounded-lg dark:bg-DarkBackground2 dark:text-white">
             중성화율
             <TnrPercent
               catCountList={catCountList}
@@ -62,11 +63,9 @@ export default function DashBoard() {
             />
           </div>
         </div>
-        <div className="w-full h-[30%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
+        <div className="w-full h-[40%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <div className="w-full h-full flex flex-col gap-2">
-            <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-              급식소 목록
-            </div>
+            <DishInfoCard/>
           </div>
         </div>
         <div className="w-full h-[40%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
