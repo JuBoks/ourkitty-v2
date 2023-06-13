@@ -43,7 +43,7 @@ export default function DishInfoCard() {
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-full h-full p-1 flex flex-row gap-4 overflow-auto">
+    <div className="w-full h-full p-1 flex flex-row gap-2 overflow-auto">
       {data.data.length === 0 ? (
         <div>등록된 급식소가 없습니다</div>
       ) : (
@@ -58,13 +58,13 @@ export default function DishInfoCard() {
                       <img
                         src={item.dishProfileImagePath}
                         alt=""
-                        className="h-full w-[90%] rounded-lg"
+                        className="h-full w-full rounded-lg"
                       />
                     )}
                   </div>
-                  <div className="flex flex-col h-[15%]" />
+                  <div className="flex flex-col h-[10%]" />
 
-                  <div className="flex flex-col h-[35%] mt-[2rem] flex flex-col justify-between text-[0.5rem]">
+                  <div className="flex flex-col h-[40%] mt-[1.5rem] flex flex-col justify-between text-[0.5rem]">
                     <div className="flex flex-row justify-between mb-2">
                       <div className="font-semibold">이름:</div>
                       <div className="truncate">{item.dishName}</div>

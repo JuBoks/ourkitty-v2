@@ -27,7 +27,7 @@ export default function TnrPercent({ catCountList, noTnrCountList }: { catCountL
               show: false,
             },
             value: {
-              fontSize: '3rem',
+              fontSize: '2.5rem',
               fontWeight: 'bold',
               color: isDark ? '#FFFFFF' : '#000000',
             }

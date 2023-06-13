@@ -14,6 +14,7 @@ import Loading from "../components/common/LoadingHeatMap";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; 
 import "../css/Calendar.css";
+import Modal from "components/common/Modal";
 
 export default function Chart() {
 
@@ -22,6 +23,17 @@ export default function Chart() {
   const [batteryAmountList, setBatteryAmountList] = useState([])
   const [catCountList, setCatCountList] = useState([])
   const [noTnrCountList, setNoTnrCountList] = useState([])
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setModalOpen(false);
+  };
+  const [modalOpen2, setModalOpen2] = useState(false);
+  const closeModal2 = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setModalOpen2(false);
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["getCatNum", selectedButton],
@@ -63,12 +75,18 @@ export default function Chart() {
               촬영된 고양이
             </div>
             <div>
-              <button className="mr-[1rem] text-[0.8rem] text-gray-400">
+              <button className="mr-[1rem] text-[0.8rem] text-gray-400" onClick={() => setModalOpen(true)}>
                   다시하기
               </button>
-              <button className="finish text-[0.8rem] text-gray-400">
+              <Modal open={modalOpen} close={closeModal} header="다시하기">
+                <h1 className="text-[1.3rem] font-bold p-3" >다시 하시겠습니까?</h1>
+              </Modal>
+              <button className="finish text-[0.8rem] text-gray-400" onClick={() => setModalOpen2(true)}>
                   검수완료
               </button>
+              <Modal open={modalOpen2} close={closeModal2} header="이용 고객 사진">
+                <h1 className="text-[1.3rem] font-bold p-3" >확인 완료</h1>
+              </Modal>
             </div>
           </div>
           <div className="w-full h-[90%] p-1 flex flex-row gap-4 overflow-auto">
