@@ -7,7 +7,6 @@ import HeatMapChart from "../components/chart/HeatMapChart";
 import CatButton from "../components/chart/CatButton";
 import MainChart from "./../components/chart/MainChart";
 import TnrPercent from "./../components/chart/TnrPercent";
-import Battery from "./../components/chart/Battery";
 import { dishInfo } from "../recoil/dish";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
