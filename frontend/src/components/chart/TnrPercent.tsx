@@ -13,12 +13,11 @@ export default function TnrPercent({ catCountList, noTnrCountList }: { catCountL
       zoom: {
         enabled: false,
       },
-      width: "100%",
     },
     plotOptions: {
         radialBar: {
           hollow: {
-            size: '70%',
+            size: '60%',
           },
           track: {
             background: 'gray',
@@ -44,8 +43,8 @@ export default function TnrPercent({ catCountList, noTnrCountList }: { catCountL
   const series = [70]
 
   return (
-    <div className="w-full h-full gap-1">
-        <Chart  options={options} type="radialBar" series={series}  />
+    <div className="w-[80%] h-[80%] ml-[1rem] flex items-center justify-center">
+        <Chart options={options} type="radialBar" series={series} />
     </div>
   );
 }

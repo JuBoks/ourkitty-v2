@@ -51,7 +51,7 @@ export default function Chart() {
       <div className="w-[42%] h-full flex flex-col gap-2">
         <div className="w-full h-[33%] flex flex-row gap-2">
           <div className="w-[60%] h-full bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-          <Calendar className="custom-calendar" value={value} />
+            <Calendar className="custom-calendar h-[90%]" value={value} />
           </div>
           <div className="w-[40%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
             <DishInfo/>
@@ -70,6 +70,11 @@ export default function Chart() {
                   검수완료
               </button>
             </div>
+          </div>
+          <div className="w-full h-[90%] p-1 flex flex-row gap-4 overflow-auto">
+            <img src={'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/jeongho/317106d4-57d0-4034-aae9-5778929403cb.jpg'}  className="w-full h-full" />
+            <img src={'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/jeongho/707804a3-75ce-40aa-94f9-0d8eb7de02d4.jpg'}  className="w-full h-full" />
+            <img src={'https://nyang-s3.s3.ap-northeast-2.amazonaws.com/jeongho/4c0d29e4-b06d-4932-8aa6-209e06a23c23.jpg'}  className="w-full h-full" />
           </div>
           
         </div>
