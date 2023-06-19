@@ -5,7 +5,7 @@
     android:layout_margin="10dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/card"
+    android:background="@drawable/card_pink_line"
     android:elevation="10dp"
     android:id="@+id/detailDiv"
     android:orientation="vertical">
@@ -36,7 +36,7 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
         <ImageView
-            android:src="@drawable/addressepin"
+            android:src="@drawable/ic_addressepin"
             android:layout_width="wrap_content"
             android:layout_height="15sp" />
         <TextView

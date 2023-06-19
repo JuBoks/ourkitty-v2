@@ -20,13 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.meyou.app.MainActivity
 import com.meyou.app.R
-import com.meyou.app.detailDish.tap1.DetailDIshInfo
-import com.meyou.app.network.RetrofitInstance
-import com.meyou.app.network.management.Data
-import com.meyou.app.network.management.ManagementDetailResponse
-import com.meyou.app.network.management.UploadImageData
+import com.meyou.app.network_API.RetrofitInstance
+import com.meyou.app.network_API.management.Data
+import com.meyou.app.network_API.management.ManagementDetailResponse
+import com.meyou.app.network_API.management.UploadImageData
 import com.meyou.app.user.ContentsUserInfo
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import retrofit2.Call

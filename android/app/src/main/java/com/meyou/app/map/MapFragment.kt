@@ -2,7 +2,6 @@ package com.meyou.app.map
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
 import com.meyou.app.main.ContentsMyDishList
 import com.meyou.app.main.Dish
-import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network_API.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

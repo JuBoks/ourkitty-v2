@@ -13,7 +13,7 @@ import com.meyou.app.detailDish.tap1.DetailActivity
 import com.meyou.app.detailDish.tap2.DIshCat
 import com.meyou.app.main.DishImagesResponse
 import com.meyou.app.main.VisiteCatInfo
-import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network_API.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

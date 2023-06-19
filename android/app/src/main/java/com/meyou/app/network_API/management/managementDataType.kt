@@ -1,4 +1,4 @@
-package com.meyou.app.network.management
+package com.meyou.app.network_API.management
 
 data class ManagementResponse(
     val data: List<Data>,

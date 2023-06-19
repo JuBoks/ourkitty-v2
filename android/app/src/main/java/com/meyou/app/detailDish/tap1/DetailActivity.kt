@@ -10,12 +10,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
-import com.meyou.app.detailDish.ReportActivity
 import com.meyou.app.detailDish.tap2.DIshCat
 import com.meyou.app.detailDish.tap3.VisiteCatActivity
 import com.meyou.app.main.ContentsDetailDishList
 import com.meyou.app.main.Dish
-import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network_API.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

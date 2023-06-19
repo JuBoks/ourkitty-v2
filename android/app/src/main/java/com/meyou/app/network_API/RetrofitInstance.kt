@@ -1,16 +1,15 @@
-package com.meyou.app.network
+package com.meyou.app.network_API
 
-import com.meyou.app.network.Dish.DetailDishGetService
-import com.meyou.app.network.Dish.DishAiApiService
-import com.meyou.app.network.Dish.DishListGetService
-import com.meyou.app.network.Dish.GetDishImageService
-import com.meyou.app.network.Login.LoginApiService
-import com.meyou.app.network.Login.LoginGetToken
-import com.meyou.app.network.User.UserDeleteService
-import com.meyou.app.network.User.UserListGetService
-import com.meyou.app.network.User.UserProfileModifyService
-import com.meyou.app.network.User.UserProfileService
-import com.meyou.app.network.management.*
+import com.meyou.app.network_API.Dish.DetailDishGetService
+import com.meyou.app.network_API.Dish.DishListGetService
+import com.meyou.app.network_API.Dish.GetDishImageService
+import com.meyou.app.network_API.Login.LoginApiService
+import com.meyou.app.network_API.Login.LoginGetToken
+import com.meyou.app.network_API.User.UserDeleteService
+import com.meyou.app.network_API.User.UserListGetService
+import com.meyou.app.network_API.User.UserProfileModifyService
+import com.meyou.app.network_API.User.UserProfileService
+import com.meyou.app.network_API.management.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

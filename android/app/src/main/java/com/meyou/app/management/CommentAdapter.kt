@@ -15,9 +15,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
-import com.meyou.app.network.RetrofitInstance
-import com.meyou.app.network.management.ManagementComment
-import com.meyou.app.network.management.UploadImageData
+import com.meyou.app.network_API.RetrofitInstance
+import com.meyou.app.network_API.management.ManagementComment
+import com.meyou.app.network_API.management.UploadImageData
 import com.meyou.app.user.ContentsUserInfo
 import retrofit2.Call
 import retrofit2.Callback

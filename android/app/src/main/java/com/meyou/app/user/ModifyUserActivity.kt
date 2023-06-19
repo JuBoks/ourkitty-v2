@@ -22,7 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.meyou.app.R
-import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network_API.RetrofitInstance
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

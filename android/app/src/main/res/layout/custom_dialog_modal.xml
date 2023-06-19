@@ -4,7 +4,7 @@
     android:padding="40dp"
     android:gravity="center"
     android:elevation="10dp"
-    android:background="@drawable/dishcard"
+    android:background="@drawable/card_border_ori"
     android:orientation="vertical">
 
     <TextView
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:layout_below="@id/dialogMessage"
             android:layout_marginStart="8dp"
-            android:background="@drawable/button"
+            android:background="@drawable/button_pink"
             android:fontFamily="@font/yeonsung"
             android:text="예"
             android:textColor="@android:color/white"
@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:layout_below="@id/dialogMessage"
             android:layout_toEndOf="@id/dialogConfirmButton"
-            android:background="@drawable/graybutton"
+            android:background="@drawable/button_gray"
             android:fontFamily="@font/yeonsung"
             android:text="아니오"
             android:textColor="@color/hotPink"

@@ -1,4 +1,4 @@
-package com.meyou.app.network.management
+package com.meyou.app.network_API.management
 
 import okhttp3.MultipartBody
 import retrofit2.Call

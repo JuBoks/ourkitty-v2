@@ -3,7 +3,7 @@
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="10dp"
-    android:background="@drawable/dishcard"
+    android:background="@drawable/card_border_ori"
     android:elevation="10dp"
      android:layout_margin="20dp">
     <LinearLayout

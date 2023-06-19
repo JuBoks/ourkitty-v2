@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.meyou.app.R
-import com.meyou.app.network.management.Data
+import com.meyou.app.network_API.management.Data
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 class ManagementAdapter(val context: Context, val list: MutableList<Data>) :

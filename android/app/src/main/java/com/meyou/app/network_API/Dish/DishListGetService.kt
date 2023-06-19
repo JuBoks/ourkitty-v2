@@ -1,12 +1,9 @@
-package com.meyou.app.network.Dish
+package com.meyou.app.network_API.Dish
 
 import com.meyou.app.main.ContentsDetailDishList
 import com.meyou.app.main.ContentsMyDishList
-import com.meyou.app.main.DishDayPhotoData
 import com.meyou.app.main.DishImagesResponse
-import com.meyou.app.network.management.ManagementResponse
 import retrofit2.Call
-import com.meyou.app.user.ContentsUserInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

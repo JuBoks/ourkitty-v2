@@ -1,4 +1,4 @@
-package com.meyou.app.network.User
+package com.meyou.app.network_API.User
 
 import com.meyou.app.user.ContentsUserInfo
 import com.meyou.app.user.ResultData

@@ -2,7 +2,6 @@ package com.meyou.app.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
-import com.meyou.app.network.RetrofitInstance
+import com.meyou.app.network_API.RetrofitInstance
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
@@ -20,7 +19,6 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -119,9 +117,9 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         TedNaverClustering.with<Dish>(mContext, naverMap).customMarker {
             Marker().apply {
                 icon = when {
-                    it.dishWeight < 30 -> OverlayImage.fromResource(R.drawable.red_marker)
-                    it.dishWeight < 70 -> OverlayImage.fromResource(R.drawable.yellow_marker)
-                    else -> OverlayImage.fromResource(R.drawable.blue_marker)
+                    it.dishWeight < 30 -> OverlayImage.fromResource(R.drawable.map_marker_rad)
+                    it.dishWeight < 70 -> OverlayImage.fromResource(R.drawable.map_marker_yellow)
+                    else -> OverlayImage.fromResource(R.drawable.map_marker_blue)
                 }
                 width = 150
                 height = 150

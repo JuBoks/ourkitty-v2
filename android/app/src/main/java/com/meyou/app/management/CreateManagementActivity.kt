@@ -20,10 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meyou.app.R
-import com.meyou.app.network.RetrofitInstance
-import com.meyou.app.network.management.ManagementDetailResponse
-import com.meyou.app.network.management.ManagementResponse
-import com.meyou.app.network.management.UploadImageData
+import com.meyou.app.network_API.RetrofitInstance
+import com.meyou.app.network_API.management.ManagementDetailResponse
+import com.meyou.app.network_API.management.UploadImageData
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

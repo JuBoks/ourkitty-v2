@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meyou.app.R
 import com.meyou.app.detailDish.tap1.DetailActivity
 import com.meyou.app.detailDish.tap3.VisiteCatActivity
 import com.meyou.app.main.DishDayPhotoData
-import com.meyou.app.network.Dish.DishAiApiService
+import com.meyou.app.network_API.Dish.DishAiApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
