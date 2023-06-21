@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('checkout SCM') {
       steps {
-        git changelog: false, credentialsId: 'joboks-github', poll: false, url: 'https://github.com/JuBoks/ourkitty-v2.git'
-      }
+      	git changelog: false, credentialsId: 'juboks-github', poll: false, url: 'https://github.com/JuBoks/ourkitty-v2.git'
+	}
     }
     
     stage('Remove') {
