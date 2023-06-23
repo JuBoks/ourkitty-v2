@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Set the height of the parent container */
+  height: 30rem; /* Set the height of the parent container */
 }
 
 .loading-container {

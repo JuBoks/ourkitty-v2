@@ -46,7 +46,7 @@ export default function DishInfoCard() {
           {data.data.map((item: detailData) => (
             <div key={item.dishId}>
               <DishCard> 
-                <div className="flex flex-col justify-around h-full bg-white rounded-lg p-4 ">
+                <div className="flex flex-col justify-around h-full dark:bg-DarkBackground2 dark:text-white bg-white rounded-lg p-4 ">
                   <div className="flex flex-row justify-center h-[50%]">
                     {item.dishProfileImagePath !== "" && 
                     (
