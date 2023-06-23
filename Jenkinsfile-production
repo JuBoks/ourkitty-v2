@@ -1,0 +1,35 @@
+pipeline { 
+  agent any
+  
+  stages {
+    stage('checkout SCM') {
+      steps {
+      	git changelog: false, credentialsId: 'juboks-github', poll: false, url: 'https://github.com/JuBoks/ourkitty-v2.git'
+	}
+    }
+    
+    stage('Remove') {
+      steps {
+        sh(returnStdout: false, script: "docker-compose -f docker-compose-prod.yml down --rmi all")
+      }
+    }
+
+    stage('Build Backend Project') {
+      steps {
+        dir("ourkitty"){
+          sh 'chmod +x gradlew'
+          sh  './gradlew clean bootjar'
+        }
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        // 운영서버
+        sh 'docker-compose -f docker-compose-prod.yml up -d'
+      }
+    }
+
+  }
+
+}
