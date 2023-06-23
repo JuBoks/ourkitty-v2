@@ -34,11 +34,6 @@ export default function DishInfoCard() {
     queryFn: () => getDishList(),
   });
 
-  useEffect(() => {
-    if (data !== undefined) {
-      console.log(data, ':dishData')
-    }
-  }, [data]);
 
   if (isLoading || data === undefined) return null;
 
@@ -62,9 +57,9 @@ export default function DishInfoCard() {
                       />
                     )}
                   </div>
-                  <div className="flex flex-col h-[10%]" />
+                  <div className="flex flex-col h-[1rem]" />
 
-                  <div className="flex flex-col h-[40%] mt-[1.5rem] flex flex-col justify-between text-[0.5rem]">
+                  <div className="flex flex-col h-[40%] mt-[1.5rem] flex flex-col justify-between text-[0.7rem]">
                     <div className="flex flex-row justify-between mb-2">
                       <div className="font-semibold">이름:</div>
                       <div className="truncate">{item.dishName}</div>
