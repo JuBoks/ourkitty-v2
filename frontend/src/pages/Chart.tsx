@@ -6,6 +6,7 @@ import MainChart from './../components/chart/MainChart';
 import ChartCalendar from './../components/chart/ChartCalendar';
 import DishInfo from './../components/chart/DishInfo';
 
+import { darkState } from "../recoil/page";
 import { selectedButtonState } from "../recoil/chart";
 import { getCatNum } from "../apis/api/chart";
 import { useQuery } from "react-query";
@@ -30,6 +31,8 @@ export default function Chart() {
     "https://nyang-s3.s3.ap-northeast-2.amazonaws.com/jeongho/4c0d29e4-b06d-4932-8aa6-209e06a23c23.jpg"
   ])
 
+  const isDark = useRecoilState(darkState)[0];
+
   
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -48,6 +51,7 @@ export default function Chart() {
     setModalOpen2(false);
   };
 
+  
   const { data, isLoading } = useQuery({
     queryKey: ["getCatNum", selectedButton],
     queryFn: () => getCatNum(selectedButton),
@@ -64,7 +68,7 @@ export default function Chart() {
     }
   }, [data, selectedButton]);
 
-  if (isLoading || data === undefined) return (<div><Loading/></div>);
+  if (isLoading || data === undefined) return (<div className="loading-parent"><Loading/></div>);
 
   return (
     <div className="w-full h-full flex flex-row gap-[15px] p-2">
