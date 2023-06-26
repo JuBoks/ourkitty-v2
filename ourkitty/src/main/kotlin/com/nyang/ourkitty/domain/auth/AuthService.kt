@@ -2,6 +2,7 @@ package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.common.UserState
 import com.nyang.ourkitty.domain.auth.dto.LoginErrorResponseDto
+import com.nyang.ourkitty.domain.auth.dto.LoginPhoneRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
 import com.nyang.ourkitty.domain.client.repository.BlockQuerydslRepository
@@ -56,8 +57,8 @@ class AuthService(
         )
     }
 
-    fun signInWithPhone(clientPhone: String): LoginResultDto<Any> {
-        val client = clientQuerydslRepository.getClientByPhone(clientPhone) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    fun signInWithPhone(loginPhoneRequestDto: LoginPhoneRequestDto): LoginResultDto<Any> {
+        val client = clientQuerydslRepository.getClientByPhone(loginPhoneRequestDto.clientPhone) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
 
         if (client.userState == UserState.비활성화.code) {
             val block = blockQuerydslRepository.getBlockByClient(client)
@@ -77,6 +78,9 @@ class AuthService(
             )
         }
 
+        if (!passwordEncoder.matches(loginPhoneRequestDto.clientPassword, client.clientPassword)) {
+            throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
+        }
         return LoginResultDto(
             code = "0",
             data = tokenProvider.createToken(client),
