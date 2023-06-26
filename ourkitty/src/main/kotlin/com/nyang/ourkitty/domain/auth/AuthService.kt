@@ -56,8 +56,8 @@ class AuthService(
         )
     }
 
-    fun signInWithPhone(clientPhone: String): LoginResultDto<Any> {
-        val client = clientQuerydslRepository.getClientByPhone(clientPhone) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
+    fun signInWithPhone(loginRequestDto: LoginRequestDto): LoginResultDto<Any> {
+        val client = clientQuerydslRepository.getClientByPhone(loginRequestDto.clientEmail) ?: throw CustomException(ErrorCode.NOT_FOUND_CLIENT)
 
         if (client.userState == UserState.비활성화.code) {
             val block = blockQuerydslRepository.getBlockByClient(client)
@@ -75,6 +75,10 @@ class AuthService(
                     clientDescription = client.clientDescription,
                 )
             )
+        }
+
+        if (!passwordEncoder.matches(loginRequestDto.clientPassword, client.clientPassword)) {
+            throw CustomException(ErrorCode.BAD_REQUEST_EXCEPTION)
         }
 
         return LoginResultDto(
