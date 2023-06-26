@@ -5,3 +5,8 @@ data class LoginRequestDto(
     val clientPassword: String = "",
 ) {
 }
+
+data class LoginPhoneRequestDto(
+        val clientPhone: String = "",
+        val clientPassword: String = "",
+)
