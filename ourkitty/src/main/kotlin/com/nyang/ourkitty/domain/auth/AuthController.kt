@@ -1,7 +1,6 @@
 package com.nyang.ourkitty.domain.auth
 
 import com.nyang.ourkitty.common.dto.ResultDto
-import com.nyang.ourkitty.domain.auth.dto.LoginPhoneRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginRequestDto
 import com.nyang.ourkitty.domain.auth.dto.LoginResultDto
 import com.nyang.ourkitty.domain.client.ClientService
@@ -37,8 +36,8 @@ class AuthController(
 
     @ApiOperation(value = "캣맘 로그인")
     @PostMapping("/login/phone")
-    fun signInWithPhone(loginPhoneRequestDto: LoginPhoneRequestDto): ResponseEntity<LoginResultDto<Any>> {
-        return ResponseEntity.ok(authService.signInWithPhone(loginPhoneRequestDto))
+    fun signInWithPhone(clientPhone: String): ResponseEntity<LoginResultDto<Any>> {
+        return ResponseEntity.ok(authService.signInWithPhone(clientPhone))
     }
 
     /**
