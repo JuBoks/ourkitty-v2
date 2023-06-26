@@ -36,8 +36,8 @@ class AuthController(
 
     @ApiOperation(value = "캣맘 로그인")
     @PostMapping("/login/phone")
-    fun signInWithPhone(clientPhone: String): ResponseEntity<LoginResultDto<Any>> {
-        return ResponseEntity.ok(authService.signInWithPhone(clientPhone))
+    fun signInWithPhone(loginRequestDto: LoginRequestDto): ResponseEntity<LoginResultDto<Any>> {
+        return ResponseEntity.ok(authService.signInWithPhone(loginRequestDto))
     }
 
     /**
