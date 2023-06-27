@@ -50,10 +50,10 @@ async def face_detection(serial_number, date):
         img_info = get_files(serial_number, date, file_path)
 
         # 2. 다운로드 받은 사진들에 대해서 detection 진행하기
-        detection(file_path)
+        # detection(file_path)
 
         # 3. cluster 진행
-        result = cluster_images()
+        result = cluster_images(serial_number)
 
         # 4. tnr판별
         result_tnr, tnrCount = detect_tnr()
