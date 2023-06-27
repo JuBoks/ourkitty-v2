@@ -68,6 +68,24 @@ export default function Chart() {
     }
   }, [data, selectedButton]);
 
+  const test1: { [key: string]: number } = {
+    "2023-06-01": 1,
+    "2023-06-02": -1,
+    "2023-06-03": -1,
+    "2023-06-26": 1,
+  };
+
+  const tileContent = ({ date, view }: { date: Date; view: string }) => {
+    const dateString = date.toISOString().split('T')[0];
+    if (test1[dateString] === 1) {
+        return <div className="dot green "> </div>
+    }else if(test1[dateString] === -1) {
+        return <div className="dot red"></div>
+      }
+    return null
+    };
+  
+
   if (isLoading || data === undefined) return (<div className="loading-parent"><Loading/></div>);
 
   return (
@@ -80,7 +98,12 @@ export default function Chart() {
       <div className="w-[42%] h-full flex flex-col gap-2">
         <div className="w-full h-[33%] flex flex-row gap-2">
           <div className="w-[60%] h-full bg-white p-0.5 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-            <Calendar className="custom-calendar h-[100%]" value={selectedDate} onClickDay={(value) => alert(value.toLocaleDateString())} />
+            <Calendar
+              className="custom-calendar h-[100%]" 
+              value={selectedDate}
+              onClickDay={(value) => alert(value.toLocaleDateString())} 
+              tileContent={tileContent} 
+            />
           </div>
           <div className="w-[40%] h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
             <DishInfo/>
