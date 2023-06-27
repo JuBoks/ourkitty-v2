@@ -1,12 +1,11 @@
 from typing import List, Union
 from beanie import PydanticObjectId
 from models.detect import Detect
-
-detect_collection = Detect
+from view.detect import DetectRepresentativeView, DetectStatusView
 
 
 async def retrieve_detects() -> List[Detect]:
-    detects = await detect_collection.all().to_list()
+    detects = await Detect.all().to_list()
     return detects
 
 
@@ -16,15 +15,37 @@ async def add_detect(new_detect: Detect) -> Detect:
 
 
 async def retrieve_detect(serial_number: str, date: str) -> Detect:
-    detect = await detect_collection.find_one(
-        {"serial_number": serial_number, "date": date}
+    detect = await Detect.find_one(
+        Detect.serial_number == serial_number, Detect.date == date
     )
     if detect:
         return detect
 
 
+async def retrieve_detect_representatives(
+    serial_number: str,
+) -> List[DetectRepresentativeView]:
+    detect = (
+        await Detect.find(Detect.serial_number == serial_number)
+        .project(DetectRepresentativeView)
+        .to_list()
+    )
+    return detect
+
+
+async def retrieve_detect_status(
+    serial_number: str,
+) -> List[DetectStatusView]:
+    detect = (
+        await Detect.find(Detect.serial_number == serial_number)
+        .project(DetectStatusView)
+        .to_list()
+    )
+    return detect
+
+
 async def delete_detect(id: PydanticObjectId) -> bool:
-    detect = await detect_collection.get(id)
+    detect = await Detect.get(id)
     if detect:
         await detect.delete()
         return True
@@ -33,7 +54,7 @@ async def delete_detect(id: PydanticObjectId) -> bool:
 async def update_detect_data(id: PydanticObjectId, data: dict) -> Union[bool, Detect]:
     des_body = {k: v for k, v in data.items() if v is not None}
     update_query = {"$set": {field: value for field, value in des_body.items()}}
-    detect = await detect_collection.get(id)
+    detect = await Detect.get(id)
     if detect:
         await detect.update(update_query)
         return detect

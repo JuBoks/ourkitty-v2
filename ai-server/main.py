@@ -110,7 +110,7 @@ async def upload_google_model_yolo_detr(
         # ]
 
         # results = await asyncio.gather(*tasks)
-        result = await upload_s3(serial_number, imageFile)
+        result = upload_s3(serial_number, imageFile)
 
         if result:
             # if results[0]:  # and results[1]:
@@ -125,7 +125,7 @@ async def upload_google_model_yolo_detr(
 
 
 # @app.post("/upload-s3/{serial_number}")
-async def upload_s3(serial_number, imageFile: UploadFile or None = None):
+def upload_s3(serial_number, imageFile: UploadFile or None = None):
     try:
         imagePath = upload_image(serial_number, imageFile)
     except Exception as e:
