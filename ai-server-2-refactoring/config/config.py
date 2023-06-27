@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     DATABASE_URL: Optional[str] = None
 
     class Config:
-        env_file = ".env"
+        env_file = ".env.dev"
         orm_mode = True
 
 

@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from utils.common import resize_img, empty_directory
 
 img_size = 224
-base_path = os.path.abspath("datasets/2_crop")
+base_path = "datasets/0_files"
 tnr_image_path = os.path.abspath("datasets/3_tnr/input")
 
 
@@ -32,8 +32,8 @@ def extract_features(directory):
     features = []
     for img_name in os.listdir(directory):
         # Check if the file is a valid image file
-        if img_name.split(".")[-1].lower() not in (".jpg"):
-            continue
+        # if img_name.split(".")[-1].lower() in (".jpg"):
+        #     continue
 
         # Load the image and preprocess it
         img_path = os.path.join(directory, img_name)
@@ -86,17 +86,22 @@ def calculate_num_of_cluster(features):
     return num_of_cluster
 
 
-def copy_images(representative_images):
+def copy_images(representative_images, serial_number):
     empty_directory(f"{tnr_image_path}/*")
+    # 시리얼번호에 따른 경로 찾기
+    folder_name = os.environ[f"{serial_number}"]
+    directory = os.path.abspath(f"{base_path}/{folder_name}")
 
     for el in representative_images:
         img = el[1]
-        shutil.copy(f"{base_path}/{img}", f"{tnr_image_path}/{img}")
+        shutil.copy(f"{directory}/{img}", f"{tnr_image_path}/{img}")
 
 
 # 특징을 기반으로 클러스터 수 계산하는 함수
-def cluster_images():
-    directory = base_path
+def cluster_images(serial_number):
+    # 시리얼번호에 따른 경로 찾기
+    folder_name = os.environ[f"{serial_number}"]
+    directory = os.path.abspath(f"{base_path}/{folder_name}")
     # 이미지 속 특징 추출
     print("extract_features is processing ...")
     features = extract_features(directory)
@@ -135,7 +140,7 @@ def cluster_images():
             representative_images[closest_centroid] = [closest_centroid, img_name]
 
     # Save representative images for tnr model
-    copy_images(representative_images)
+    copy_images(representative_images, serial_number)
 
     # # Print the representative images for each cluster
     # for i in range(num_clusters):
