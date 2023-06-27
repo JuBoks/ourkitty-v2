@@ -74,28 +74,8 @@ async def face_detection(serial_number, date):
         result["date"] = date
 
         status_code = 200
-        # 6. 데이터(result) 저장
-        # file_name = f'{date}_{serial_number}'
-        # await save_json_file(result, file_name)
 
-        # # 7. Back서버에 개체 수와 tnr 수 update하기
-        # isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, result['num_clusters'], tnrCount)
-
-        # # 응답 처리
-        # if isSuccess == False:
-        #     return {'status': 500, 'message': "send cluster information is failed." }
     except:
-        # file_name = f'{date}_{serial_number}'
         result = {"status": -1, "serial_number": serial_number, "date": date}
-        # await save_json_file(result, file_name)
-
-        # # 7. Back서버에 개체 수와 tnr 수 update하기
-        # isSuccess = send_cat_tnr_info(BACK_AI_URL, serial_number, date, 0, 0)
-
-        # # 응답 처리
-        # if isSuccess == False:
-        #     return {'status': 500, 'message': "send cluster information is failed." }
-
-        # return {'status': 500, 'message': "Internal Server Error, status: -1" }
 
     return {"status_code": status_code, "content": result}

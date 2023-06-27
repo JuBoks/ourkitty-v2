@@ -13,7 +13,7 @@ BACK_AI_URL = os.environ["BACK_AI_URL"]
 
 @router.post(
     "/detection",
-    response_description="[Batch]CPU-Bound Detection",
+    response_description="[Batch]CPU-Bound Detection (takes about 30sec)",
     response_model=Response,
 )
 async def batch_result(serial_number: str, date: str):
@@ -80,6 +80,32 @@ async def get_batch_results(
             return Response(status_code=status.HTTP_200_OK, content=updated_detect)
 
     raise HTTPException(status_code=404, detail=f"Student {id} not found")
+
+
+@router.get("/representatives", response_description="대표이미지 조회")
+async def get_representatives(serial_number: str):
+    # 파일 읽어오기
+    json_file = await retrieve_detect_representatives(serial_number)
+
+    # '날짜': [] 형태로 result 만들기
+    result = {}
+    for el in json_file:
+        result[el.date] = el.representative_images
+
+    return result
+
+
+@router.get("/info/status", response_description="분석 결과 status 조회")
+async def get_info_status(serial_number: str):
+    # 파일 읽어오기
+    json_file = await retrieve_detect_status(serial_number)
+
+    # '날짜': int 형태로 result 만들기
+    result = {}
+    for el in json_file:
+        result[el.date] = el.status
+
+    return result
 
 
 # @router.get(
