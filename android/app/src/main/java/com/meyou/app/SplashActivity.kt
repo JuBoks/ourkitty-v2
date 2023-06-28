@@ -40,6 +40,8 @@ class SplashActivity : AppCompatActivity() {
                             throw Exception("Response is not successful")
                         }
                     } catch (e: Exception) {
+//                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
                         // Log exception e
                         startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     }
@@ -47,6 +49,7 @@ class SplashActivity : AppCompatActivity() {
 
                 // 요청이 실패했을 때
                 override fun onFailure(call: Call<ContentsMyDishList>, t: Throwable) {
+//                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 }
             })

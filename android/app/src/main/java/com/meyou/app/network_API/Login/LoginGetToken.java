@@ -8,5 +8,6 @@ import retrofit2.http.POST;
 public interface LoginGetToken {
     @FormUrlEncoded
     @POST("auth/login/phone")
-    Call<TokenResponse> getToken(@Field("clientPhone") String tokenRequest);
+    Call<TokenResponse> getToken(@Field("clientPhone") String clientPhone,
+                                 @Field("clientPassword") String clientPassword);
 }

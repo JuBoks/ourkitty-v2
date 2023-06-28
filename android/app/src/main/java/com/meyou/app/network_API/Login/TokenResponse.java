@@ -21,7 +21,6 @@ public class TokenResponse {
     }
 
     public static class Data {
-
         private String accessToken;
         private String refreshToken;
 
