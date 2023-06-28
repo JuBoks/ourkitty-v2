@@ -3,10 +3,27 @@ import { ApexOptions } from 'apexcharts';
 import Chart from 'react-apexcharts';
 import { useRecoilState } from "recoil";
 import { darkState } from "../../recoil/page";
+import { useQuery } from "react-query";
+import { selectedButtonState } from "recoil/chart";
+import { getCatNum } from "apis/api/chart";
 
-export default function MainChart({ catCountList, noTnrCountList }: { catCountList: number[], noTnrCountList: number[] }) {
-
+export default function MainChart() {
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  const [catCountList, setCatCountList] = useState([]);
+  const [noTnrCountList, setNoTnrCountList] = useState([]);
   const isDark = useRecoilState(darkState)[0];
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["getCatNum", selectedButton],
+    queryFn: () => getCatNum(selectedButton),
+  });
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setCatCountList(data["catCountList"])
+      setNoTnrCountList(data["noTnrCountList"])
+    }
+  }, [data]);
 
   // Create a new Date object with today's date
   const today = new Date(); 

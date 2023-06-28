@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, KeyboardEvent } from "react";
 import Swal from "sweetalert2";
 import DashBoard from "./DashBoard";
 import User from "./User";
@@ -82,6 +82,11 @@ export default function Main() {
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserPw(e.target.value);
   };
+  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
   return (
     <div className="w-full h-full">
@@ -110,12 +115,14 @@ export default function Main() {
                 type="text"
                 value={userId}
                 onChange={handleId}
+                onKeyUp={handleKeyUp}
                 className="pl-2 rounded-lg py-2 outline-none w-[15rem]"
               />
               <input
                 type="password"
                 value={userPw}
                 onChange={handlePassword}
+                onKeyUp={handleKeyUp}
                 className="pl-2 rounded-lg py-2 outline-none w-[15rem]"
               />
             </div>
