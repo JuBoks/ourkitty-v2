@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ChartIoTImage from "./ChartIoTImage";
-import { selectedDateState, selectedSerialNumberState } from "recoil/chart";
+import { selectedClusterOriginalState, selectedDateState, selectedSerialNumberState } from "recoil/chart";
 import { useRecoilState } from "recoil";
 import { useQuery } from "react-query";
 import { getClusterInfo } from "apis/api/cluster";
 
 export default function ChartIoTImageList() {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(
-    selectedSerialNumberState
-  );
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
+  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(selectedClusterOriginalState);
   const [imageList, setImageList] = useState([]);
 
   const { data, isLoading } = useQuery({
@@ -23,6 +22,7 @@ export default function ChartIoTImageList() {
       return;
     }
 
+    setSelectedClusterOriginal(data.content);
     setImageList(data.content.representative_images);
   }, [data]);
 
