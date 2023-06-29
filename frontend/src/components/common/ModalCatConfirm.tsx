@@ -1,39 +1,16 @@
-import React, { useState, useEffect } from "react";
 import tnrImage from "assets/TNR_IMAGE.png";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { selectedIotImageState, selectedTnrState } from "recoil/chart";
 import { darkState } from "recoil/page";
-import { selectedClusterOriginalState, selectedDateState, selectedSerialNumberState } from "recoil/chart";
-import { MutationFunction, useMutation } from "react-query";
-import { ClusterModifyRequest } from "types/Clusters";
-import { modifyClusterInfo } from "apis/api/cluster";
+import Swal from "sweetalert2";
 
 export default function ModalCatConfirm(props: any) {
   const isDark = useRecoilState(darkState)[0];
-  const { open, close, header, imageUrl } = props;
-  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(selectedClusterOriginalState);
-  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
+  const { open, close, header, tnrInfo } = props;
+  const [selectedTnr, setSelectedTnr] = useRecoilState(selectedTnrState);
+  const [selectedIotImage, setSelectedIotImage] = useRecoilState(selectedIotImageState);
   const [neutered, setNeutered] = useState(false);
-
-  const mutationFunction: MutationFunction<any, [string, string, ClusterModifyRequest]> = async (args) => {
-    const [selectedSerialNumber, selectedDate, body] = args;
-    return modifyClusterInfo(selectedSerialNumber, selectedDate, body);
-  };
-
-  const modifyCluster = useMutation(["modifyClusterInfo"], mutationFunction, {
-    onSuccess: async () => {
-      // get cluster info
-      // const response = await getClusterInfo(
-      //   selectedSerialNumber,
-      //   selectedButton
-      // );
-      // setSelectedClusterOriginal(response.original);
-      // setSelectedCluster(response.refined);
-      // const response_status = await getClusterStatus(selectedSerialNumber);
-      // setStatusInfo(response_status);
-    },
-  });
 
   const Toast = Swal.mixin({
     toast: true, // 토스트 형식
@@ -45,52 +22,47 @@ export default function ModalCatConfirm(props: any) {
     color: isDark ? "white" : "black",
   });
 
+  useEffect(() => {
+    setNeutered(tnrInfo.is_tnr);
+  }, [selectedIotImage]);
+
   const handleNeuteredChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNeutered(event.target.value === "yes");
   };
 
-  useEffect(() => {
-    console.log("?", selectedClusterOriginal);
-  }, []);
+  const removeRepresentative = () => {
+    const image = selectedIotImage.img;
+    let _selectedTnr = JSON.parse(JSON.stringify(selectedTnr));
 
-  const removeRepresentative = async (image: string) => {
-    // let _selectedOriginal = JSON.parse(JSON.stringify(selectedClusterOriginal));
-    // // 1) status: 1
-    // _selectedOriginal.status = 1;
-    // // 2) tnr_info에서 tnr여부 확인
-    // let isTnr = false;
-    // const newTnrInfo = _selectedOriginal.tnr_info.filter((el: any) => {
-    //   if (el[0] === image) {
-    //     if (el[1]) {
-    //       isTnr = true;
-    //     }
-    //   }
-    //   return el[0] !== image;
-    // });
-    // _selectedOriginal.tnr_info = newTnrInfo;
-    // // 3) tnr이면 tnr 감소시키기
-    // isTnr && _selectedOriginal.tnr_count--;
-    // // 4) representatives 제거
-    // const newRepresentatives = _selectedOriginal.representative_images.filter((el: any) => {
-    //   return el[1] !== image;
-    // });
-    // _selectedOriginal.representative_images = newRepresentatives;
-    // // 5) 개체 수 제거
-    // _selectedOriginal.num_clusters--;
-    // // 6) file feature info에서 해당 이미지 cls를 white(10)
-    // for (let el of _selectedOriginal.file_feature_info) {
-    //   if (el[0] === image) {
-    //     el[1] = 10;
-    //     break;
-    //   }
-    // }
-    // 저장하기
-    const body: ClusterModifyRequest = {
-      serial_number: selectedSerialNumber,
-      date: selectedDate,
-      status: 1,
-    };
-    modifyCluster.mutate([selectedSerialNumber, selectedDate, body]);
+    // 대표이미지의 중성화 여부 확인
+    let isTnr = false;
+    for (let el of _selectedTnr.tnr_info) {
+      const img = el[0];
+      if (img === image) {
+        isTnr = el[1];
+        break;
+      }
+    }
+
+    // 중성화된 고양이라면 tnr_count 감소하기
+    if (isTnr && _selectedTnr.tnr_count > 0) _selectedTnr.tnr_count--;
+
+    // 클러스터 개수 감소하기
+    if (_selectedTnr.num_clusters > 0) _selectedTnr.num_clusters--;
+
+    // 대표이미지에서 제거하기
+    _selectedTnr.representative_images = _selectedTnr.representative_images.filter((el: any) => {
+      return el[1] !== image;
+    });
+
+    // tnr_info에서 제거하기
+    _selectedTnr.tnr_info = _selectedTnr.tnr_info.filter((el: any) => {
+      return el[0] !== image;
+    });
+
+    // 반영하기
+    _selectedTnr.status = 1;
+    setSelectedTnr(_selectedTnr);
   };
 
   const handleRemoveClick = () => {
@@ -105,18 +77,48 @@ export default function ModalCatConfirm(props: any) {
       confirmButtonText: "확인",
       cancelButtonText: "취소",
       reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // 대표 고양이 사진으로 추가하는 로직
-        let isSuccess = removeRepresentative(imageUrl);
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          // 대표 고양이 사진으로 추가하는 로직
+          removeRepresentative();
 
-        // Okay
-        Toast.fire({
-          icon: "success",
-          title: "해당 대표 고양이를 삭제하였습니다.",
-        });
-      }
-    });
+          // Okay
+          Toast.fire({
+            icon: "success",
+            title: "해당 대표 고양이를 삭제하였습니다.",
+          });
+        }
+      })
+      .finally(close);
+  };
+
+  const handleOkClick = () => {
+    const image = selectedIotImage.img;
+    let _selectedTnr = JSON.parse(JSON.stringify(selectedTnr));
+
+    // tnr_info 변경하기
+    let isDiff = false;
+    for (let el of _selectedTnr.tnr_info) {
+      if (el[0] !== image) continue;
+
+      // 변경사항이 있는지
+      if (el[1] !== neutered) isDiff = true;
+      el[1] = neutered;
+      break;
+    }
+
+    // 중성화 개체수 증가 및 감소하기
+    if (isDiff) {
+      let count = _selectedTnr.tnr_count;
+      _selectedTnr.tnr_count = neutered ? count + 1 : count > 0 ? count - 1 : 0;
+    }
+
+    // 반영하기
+    _selectedTnr.status = 1;
+    setSelectedTnr(_selectedTnr);
+
+    close();
   };
 
   return (
@@ -131,7 +133,7 @@ export default function ModalCatConfirm(props: any) {
           </header>
           <main className="flex flex-row flex-grow dark:text-white">
             <div className="w-[60%] h-[90%]  p-4">
-              <img src={imageUrl} className="w-full h-full" alt="cat" />
+              <img src={tnrInfo.img} className="w-full h-full" alt="cat" />
             </div>
             <div className="flex flex-col justify-center px-4 gap-4 ml-8">
               <div className="text-[2rem] font-medium mb-2">중성화 됐나요?</div>
@@ -146,7 +148,7 @@ export default function ModalCatConfirm(props: any) {
                 </label>
               </div>
               <div>
-                <img src={tnrImage} />
+                <img src={tnrImage} width="250px" height="250px" alt="cat" />
               </div>
             </div>
           </main>
@@ -159,7 +161,7 @@ export default function ModalCatConfirm(props: any) {
             </button>
             <button
               className="w-[80px] h-[50px] close bg-LightMain opacity-70 hover:opacity-100 dark:bg-DarkMain"
-              onClick={close}
+              onClick={handleOkClick}
             >
               완료
             </button>

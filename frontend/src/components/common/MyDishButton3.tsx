@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { getDishList } from "../../apis/api/dish";
+import { getDishList } from "apis/api/dish";
 import { useRecoilState } from "recoil";
-import {
-  selectedButtonState,
-  selectedSerialNumberState,
-} from "../../recoil/chart";
+import { selectedButtonState, selectedSerialNumberState } from "recoil/chart";
 
 interface detailData {
   createdData: string;
@@ -25,27 +22,22 @@ interface detailData {
 }
 
 export default function MyDishButtons() {
+  const [button, setButton] = useState<detailData[]>([]);
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
+
   const { data, isLoading } = useQuery({
     queryKey: "getDishList",
     queryFn: () => getDishList(),
   });
 
-  const [button, setButton] = useState<detailData[]>([]);
-  const [selectedButton, setSelectedButton] =
-    useRecoilState(selectedButtonState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(
-    selectedSerialNumberState
-  );
-
   useEffect(() => {
     if (data !== undefined) {
-      const newButtons = data.data.map(
-        (item: { dishId: any; dishName: any; dishSerialNum: any }) => ({
-          dishId: item.dishId,
-          dishName: item.dishName,
-          dishSerialNum: item.dishSerialNum,
-        })
-      );
+      const newButtons = data.data.map((item: { dishId: any; dishName: any; dishSerialNum: any }) => ({
+        dishId: item.dishId,
+        dishName: item.dishName,
+        dishSerialNum: item.dishSerialNum,
+      }));
       setButton(newButtons);
       setSelectedSerialNumber(data.data[0].dishSerialNum);
     }

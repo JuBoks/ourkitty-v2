@@ -5,20 +5,14 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // css import
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import {
-  selectedButtonState,
-  selectedDateState,
-  selectedSerialNumberState,
-} from "recoil/chart";
+import { selectedButtonState, selectedDateState, selectedSerialNumberState, selectedTnrState } from "recoil/chart";
 
 export default function ChartCalendar() {
-  const [selectedButton, setSelectedButton] =
-    useRecoilState(selectedButtonState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(
-    selectedSerialNumberState
-  );
+  const [selectedButton, setSelectedButton] = useRecoilState(selectedButtonState);
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [selectedDateObj, setSelectedDateObj] = useState<Date>();
+  const [selectedTnr, setSelectedTnr] = useRecoilState(selectedTnrState);
 
   // useEffect
   useEffect(() => {
@@ -29,9 +23,9 @@ export default function ChartCalendar() {
     setSelectedDateObj(date_obj);
   }, [selectedButton]);
 
-  // get Data
+  // Get Calendar Status Data
   const { data, isLoading } = useQuery({
-    queryKey: ["getClusterStatus", selectedSerialNumber],
+    queryKey: ["getClusterStatus", selectedSerialNumber, selectedTnr],
     queryFn: () => getClusterStatus(selectedSerialNumber),
   });
 
@@ -41,8 +35,8 @@ export default function ChartCalendar() {
     setSelectedDate(date_str);
   };
 
-  const tileContent = ({ date, view }: { date: Date; view: string }) => {
-    if (data === undefined) return null;
+  const tileContent = ({ date }: { date: Date }) => {
+    if (data === undefined) return <div className="dot white"></div>;
 
     const { date_str } = getKRTime(date);
     if (data[date_str] === 1) {
@@ -51,7 +45,7 @@ export default function ChartCalendar() {
       return <div className="dot red"></div>;
     }
 
-    return null;
+    return <div className="dot white"></div>;
   };
 
   return (

@@ -35,3 +35,16 @@ export type ClusterRepresentative = {
   cls: number;
   image: string;
 };
+
+export type ClusterTnrInfo = {
+  status: number;
+  num_clusters: number;
+  representative_images: [];
+  tnr_info: [];
+  tnr_count: number;
+};
+
+export type ClusterIotImage = {
+  img: string;
+  is_tnr: boolean;
+};
