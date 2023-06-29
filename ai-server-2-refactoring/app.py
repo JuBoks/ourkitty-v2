@@ -7,6 +7,8 @@ load_dotenv(os.path.abspath(".env.dev"))
 
 from config.config import initiate_database
 from routes.detect import router as DetectRouter
+from routes.info import router as InfoRouter
+from routes.temp import router as TempRouter
 
 
 app = FastAPI()
@@ -34,3 +36,5 @@ async def read_root():
 
 
 app.include_router(DetectRouter, tags=["Detects"])
+app.include_router(InfoRouter, tags=["Infos"])
+app.include_router(TempRouter, tags=["Temps"])
