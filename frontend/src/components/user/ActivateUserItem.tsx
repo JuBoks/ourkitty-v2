@@ -201,7 +201,7 @@ export default function ActivateUserItem({ dishId, searchKey, searchWord }: any)
   if (isLoading || data === undefined) return null;
 
   return (
-    <div className="w-[70rem] h-full px-4 flex flex-row gap-8 overflow-auto">
+    <div className="w-[72rem] h-full px-4 flex flex-row gap-8 overflow-y-hidden">
       {data.data.activeList.map((item: UserInfo) => (
         <div
           key={item.clientId}

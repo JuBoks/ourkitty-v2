@@ -9,7 +9,7 @@ export default function Report() {
   const detailId = useRecoilState(reportDetailId)[0];
 
   return (
-    <div className="w-full h-full flex flex-row gap-[15px] p-3">
+    <div className="w-[1240px] h-full flex flex-row gap-[15px] p-3">
       {detailId === 0 ? (
         <>
           <div className="w-[50%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">

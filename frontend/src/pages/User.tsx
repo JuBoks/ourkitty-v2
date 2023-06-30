@@ -5,7 +5,7 @@ import DeletedUser from "../components/user/DeletedUser";
 
 export default function User() {
   return (
-    <div className="w-full h-full flex flex-row gap-[15px] p-3">
+    <div className="w-w-[1240px] h-full flex flex-row gap-[15px] p-3">
       <div className="w-full h-full flex flex-col gap-2">
         <div className="w-[100%] h-[55%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <ActivateUser />

@@ -36,7 +36,7 @@ export default function DashBoard() {
   }, [data, selectedButton]);
 
   return (
-    <div className="w-full h-full flex flex-row gap-[15px] p-3">
+    <div className="w-[1240px] h-full flex flex-row gap-[15px] p-3">
       <div className="w-[50%] h-full flex flex-col gap-2">
         <div className="w-full h-[50%] bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <MyDish />
