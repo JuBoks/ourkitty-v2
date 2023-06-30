@@ -39,11 +39,7 @@ interface UserInfo {
   userState: string;
 }
 
-export default function ActivateUserItem({
-  dishId,
-  searchKey,
-  searchWord,
-}: any) {
+export default function ActivateUserItem({ dishId, searchKey, searchWord }: any) {
   const isDark = useRecoilState(darkState)[0];
   const [userId, setUserId] = useRecoilState(selectedUserState);
   const [isChange, setIsChange] = useRecoilState(isUserStateChange);
@@ -60,11 +56,7 @@ export default function ActivateUserItem({
   };
 
   const IOSSwitch = styled((props: SwitchProps) => (
-    <Switch
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      {...props}
-    />
+    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
   ))(({ theme }) => ({
     width: 42,
     height: 26,
@@ -77,12 +69,7 @@ export default function ActivateUserItem({
         transform: "translateX(16px)",
         color: "#fff",
         "& + .MuiSwitch-track": {
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? "#2ECA45"
-              : isDark
-              ? "#29325B"
-              : "#9FA9D8",
+          backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : isDark ? "#29325B" : "#9FA9D8",
           opacity: 1,
           border: 0,
         },
@@ -95,10 +82,7 @@ export default function ActivateUserItem({
         border: "6px solid #fff",
       },
       "&.Mui-disabled .MuiSwitch-thumb": {
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
+        color: theme.palette.mode === "light" ? theme.palette.grey[100] : theme.palette.grey[600],
       },
       "&.Mui-disabled + .MuiSwitch-track": {
         opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
@@ -120,29 +104,25 @@ export default function ActivateUserItem({
   }));
 
   // 비활성화 요청
-  const inactivate = useMutation(
-    ["modifyClientState"],
-    (formData: FormData) => modifyClientState(clientId, formData),
-    {
-      onSuccess: () => {
-        setIsChange((cur: boolean) => !cur);
-        const Toast = Swal.mixin({
-          toast: true, // 토스트 형식
-          position: "bottom-end", // 알림 위치
-          showConfirmButton: false, // 확인버튼 생성 유무
-          timer: 1500, // 지속 시간
-          timerProgressBar: true, // 지속시간바 생성 여부
-          background: isDark ? "#262D33" : "white",
-          color: isDark ? "white" : "black",
-        });
+  const inactivate = useMutation(["modifyClientState"], (formData: FormData) => modifyClientState(clientId, formData), {
+    onSuccess: () => {
+      setIsChange((cur: boolean) => !cur);
+      const Toast = Swal.mixin({
+        toast: true, // 토스트 형식
+        position: "bottom-end", // 알림 위치
+        showConfirmButton: false, // 확인버튼 생성 유무
+        timer: 1500, // 지속 시간
+        timerProgressBar: true, // 지속시간바 생성 여부
+        background: isDark ? "#262D33" : "white",
+        color: isDark ? "white" : "black",
+      });
 
-        Toast.fire({
-          icon: "success",
-          title: "임시차단되었습니다.",
-        });
-      },
-    }
-  );
+      Toast.fire({
+        icon: "success",
+        title: "임시차단되었습니다.",
+      });
+    },
+  });
   // 사용자 활성화 & 비활성화
   const handleUserActivate = (name: string) => {
     Swal.fire({
@@ -181,11 +161,9 @@ export default function ActivateUserItem({
         const minute = endDate.getMinutes();
         const second = endDate.getSeconds();
 
-        const releaseDate = `${year}-${month < 10 ? "0" + month : month}-${
-          day < 10 ? "0" + day : day
-        }T${hour < 10 ? "0" + hour : hour}:${
-          minute < 10 ? "0" + minute : minute
-        }:${second < 10 ? "0" + second : second}`;
+        const releaseDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day}T${
+          hour < 10 ? "0" + hour : hour
+        }:${minute < 10 ? "0" + minute : minute}:${second < 10 ? "0" + second : second}`;
 
         Swal.fire({
           title: `차단 사유를 입력해주세요`,
@@ -225,11 +203,13 @@ export default function ActivateUserItem({
   return (
     <div className="w-[70rem] h-full px-4 flex flex-row gap-8 overflow-auto">
       {data.data.activeList.map((item: UserInfo) => (
-        <div key={item.clientId}
+        <div
+          key={item.clientId}
           onClick={() => {
             setUserId(item.clientId);
             openModal();
-          }}>
+          }}
+        >
           <UserCard>
             <button
               className="absolute top-2 right-[-12px]"
@@ -238,63 +218,51 @@ export default function ActivateUserItem({
                 handleUserActivate(item.clientName);
               }}
             >
-              <FormControlLabel
-                control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                label=""
-              />
+              <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} label="" />
             </button>
 
-            
-          <div className="flex flex-col justify-around mt-[1rem] h-full bg-white rounded-lg p-4 ">
-            <div className="flex flex-row justify-center">
-              {item.clientProfileImagePath === "" ? (
-                <AccountCircleIcon
-                  sx={{
-                    fontSize: "5rem",
-                    color: `${isDark ? "#29325B" : "#9FA9D8"}`,
-                  }}
-                />
-              ) : (
-                <img
-                  src={item.clientProfileImagePath}
-                  alt=""
-                  className="w-[5rem] h-[5rem] rounded-[50%]"
-                />
-              )}
-            </div>
-            <div className="flex flex-row justify-center self-evenly gap-4 mt-3 mb-2">
-              <div className="text-[1rem] font-bold">{item.clientName}</div>
-              <div className="text-[1rem] text-gray-400">
-                ({item.clientNickname})
+            <div className="flex flex-col justify-around mt-[1rem] h-full bg-white rounded-lg p-4 ">
+              <div className="flex flex-row justify-center">
+                {item.clientProfileImagePath === "" ? (
+                  <AccountCircleIcon
+                    sx={{
+                      fontSize: "5rem",
+                      color: `${isDark ? "#29325B" : "#9FA9D8"}`,
+                    }}
+                  />
+                ) : (
+                  <img src={item.clientProfileImagePath} alt="" className="w-[5rem] h-[5rem] rounded-[50%]" />
+                )}
               </div>
-            </div>
-            <div className="flex flex-col justify-end self-center text-[0.8rem] mt-[0.5rem] ml-2">
-              <div className="flex flex-row justify-between mb-2">
-                <div className="font-semibold">이메일:</div>
-                <div className="truncate">{item.clientEmail}</div>
+              <div className="flex flex-row justify-center self-evenly gap-4 mt-3 mb-2">
+                <div className="text-[1rem] font-bold">{item.clientName}</div>
+                <div className="text-[1rem] text-gray-400">({item.clientNickname})</div>
               </div>
-              <div className="flex flex-row justify-between mb-2">
-                <div className="font-semibold">연락처:</div>
-                <div className="truncate">{item.clientPhone}</div>
-              </div>
-              <div className="flex flex-row justify-between mb-2">
-                <div className="font-semibold">주소:</div>
-                <div className="truncate">{item.clientAddress}</div>
-              </div>
-              <div className="flex flex-row justify-between">
-                <div className="font-semibold">최근 활동:</div>
-                <div className="truncate">
-                  {item.lastPostingDate.split("T")[0]}
+              <div className="flex flex-col justify-end self-center text-[0.8rem] mt-[0.5rem] ml-2">
+                <div className="flex flex-row justify-between mb-2">
+                  <div className="font-semibold">이메일:</div>
+                  <div className="truncate">{item.clientEmail}</div>
+                </div>
+                <div className="flex flex-row justify-between mb-2">
+                  <div className="font-semibold">연락처:</div>
+                  <div className="truncate">{item.clientPhone}</div>
+                </div>
+                <div className="flex flex-row justify-between mb-2">
+                  <div className="font-semibold">주소:</div>
+                  <div className="truncate">{item.clientAddress}</div>
+                </div>
+                <div className="flex flex-row justify-between">
+                  <div className="font-semibold">최근 활동:</div>
+                  <div className="truncate">{item.lastPostingDate.split("T")[0]}</div>
                 </div>
               </div>
             </div>
-          </div>
-            <Modal open={modalOpen} close={closeModal} header="회원 정보 수정">
-              <ModifyForm setModalOpen={setModalOpen} />
-            </Modal>
           </UserCard>
         </div>
       ))}
+      <Modal open={modalOpen} close={closeModal} header="회원 정보 수정">
+        <ModifyForm setModalOpen={setModalOpen} />
+      </Modal>
     </div>
   );
 }
