@@ -36,19 +36,24 @@ class ChartService(
 
     fun getCatCountData(dishId: Long): DishCountResultDto {
         val data = chartQuerydslRepository.getCatCountData(dishId)
-        val startDate = LocalDate.now().minusDays(6)
+        val now = LocalDate.now()
+        val dayList: List<Int> = (1..7).map { now.minusDays(it.toLong()).dayOfMonth }.reversed()
 
         val batteryAmountList: MutableList<Int> = MutableList(7) { 0 }
         val foodAmountList: MutableList<Int> = MutableList(7) { 0 }
         val catCountList: MutableList<Int> = MutableList(7) { 0 }
         val noTnrCountList: MutableList<Int> = MutableList(7) { 0 }
 
-        for (x in 0..6) {
-            data.firstOrNull { it.date.isEqual(startDate.plusDays(x.toLong())) }.let {
-                batteryAmountList[x] = it?.batteryAmount ?: 0
-                foodAmountList[x] = it?.foodAmount ?: 0
-                catCountList[x] = it?.catCount ?: 0
-                noTnrCountList[x] = it?.noTnrCount ?: 0
+        for (x in dayList.indices) {
+            val day = dayList[x]
+            for (it in data) {
+                if (it.date == day) {
+                    batteryAmountList[x] = it?.batteryAmount ?: 0
+                    foodAmountList[x] = it?.foodAmount ?: 0
+                    catCountList[x] = it?.catCount ?: 0
+                    noTnrCountList[x] = it?.noTnrCount ?: 0
+                    break
+                }
             }
         }
 
