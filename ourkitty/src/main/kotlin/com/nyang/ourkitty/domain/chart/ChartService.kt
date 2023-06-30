@@ -44,7 +44,7 @@ class ChartService(
         val noTnrCountList: MutableList<Int> = MutableList(7) { 0 }
 
         for (x in 0..6) {
-            data.firstOrNull { it.date == startDate + x }.let {
+            data.firstOrNull { it.date == startDate.plusDays(x.toLong()) }.let {
                 batteryAmountList[x] = it?.batteryAmount ?: 0
                 foodAmountList[x] = it?.foodAmount ?: 0
                 catCountList[x] = it?.catCount ?: 0
