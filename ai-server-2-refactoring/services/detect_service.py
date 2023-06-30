@@ -11,11 +11,20 @@ from models.original import Original
 # dao
 import database.detect as detect_dao
 import database.original as original_dao
+# service
+import services.original_service as original_service
 
 FILE_SAVE_PATH = os.path.abspath("datasets/0_files")
 
 BACK_URL = os.environ["BACK_URL"]
 BACK_AI_URL = os.environ["BACK_AI_URL"]
+
+async def create_detect(serial_number: str, date: str, data:dict) -> Response:
+    # 같은 시리얼 번호, date는 삭제하기
+    await delete_detect(serial_number, date)
+
+    result = await detect_dao.add_detect(data)
+    return Response(status_code=status.HTTP_200_OK, content=result)
 
 async def retrieve_detect(serial_number: str, date: str) -> Response:
     results = await detect_dao.retrieve_detect(serial_number, date)
@@ -82,9 +91,11 @@ async def face_detection(serial_number: str, date: str) -> Response:
 
         # 6. mongoDB에 저장
         content_detect = Detect(**content)
-        new_content = await detect_dao.add_detect(content_detect)
+        response = await create_detect(serial_number, date, content_detect)
+        new_content = response.content
+
         content_original = Original(**content)
-        await original_dao.add_original(content_original)
+        response = await original_service.create_original(serial_number, date, content_original)
 
         # 7. Back서버에 개체 수와 tnr 수 update하기
         isSuccess = send_cat_tnr_info(serial_number, date, content_detect.num_clusters, content_detect.tnr_count)
@@ -127,3 +138,16 @@ async def update_detect_undo(serial_number: str, date: str):
         raise HTTPException(status_code=404, detail=f"Original is not found")
     
     return await update_detect(serial_number, date, original.dict())
+
+async def delete_detect(serial_number: str, date: str):
+    # id 찾기
+    detect = await detect_dao.retrieve_detect(serial_number, date)
+    if detect is None:
+        return Response(status_code=status.HTTP_404_NOT_FOUND, content="There is no result")
+    
+    # 삭제하기
+    isDeleted = await detect_dao.delete_detect(detect.id)
+    if isDeleted is None:
+        raise HTTPException(status_code=500, detail=f"Deleting Detect is failed")
+
+    return Response(status_code=status.HTTP_200_OK, content="success")
