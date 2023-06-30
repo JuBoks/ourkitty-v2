@@ -14,18 +14,20 @@ class ChartService(
 ) {
 
     fun getCatVisitData(dishId: Long): List<List<DishImageListResponseDto>> {
-        val today = LocalDate.now().dayOfMonth
+        val now = LocalDate.now()
+        val dayList: List<Int> = (1..7).map { now.minusDays(it.toLong()).dayOfMonth }.reversed()
         val result: MutableList<MutableList<DishImageListResponseDto>> = MutableList(24) { MutableList(7) { DishImageListResponseDto() } }
 
         val data = chartQuerydslRepository.getVisitCountHeatMapData(dishId)
 
         for (x in 0..23) {
             val map = data[x]?.groupBy { it.createdDate.dayOfMonth } ?: continue
-            for (y in (today - 7)..(today - 1)) {
-                result[x][y - (today - 7)] = map[y]?.let { it ->
+            for (y in dayList) {
+                val index = dayList.indexOf(y)
+                result[x][index] = map[y]?.let { it ->
                     DishImageListResponseDto(
-                        size = it.size,
-                        imageList = it.map { it.imagePath },
+                            size = it.size,
+                            imageList = it.map { it.imagePath },
                     )
                 } ?: DishImageListResponseDto()
             }
