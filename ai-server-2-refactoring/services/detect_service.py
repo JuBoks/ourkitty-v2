@@ -114,7 +114,7 @@ async def update_detect(serial_number: str, date: str, data: dict):
         raise HTTPException(status_code=500, detail=f"Updating Detect is failed")
 
     # Back서버에 tnr관련 update하기
-    send_cat_tnr_info(serial_number, date, detect.num_clusters, detect.tnr_count)
+    send_cat_tnr_info(serial_number, date, updated_detect.num_clusters, updated_detect.tnr_count)
 
     return Response(status_code=status.HTTP_200_OK, content=updated_detect)
 
