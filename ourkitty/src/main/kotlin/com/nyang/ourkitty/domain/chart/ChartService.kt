@@ -36,7 +36,7 @@ class ChartService(
 
     fun getCatCountData(dishId: Long): DishCountResultDto {
         val data = chartQuerydslRepository.getCatCountData(dishId)
-        val startDate = LocalDate.now().dayOfMonth - 7
+        val startDate = LocalDate.now().minusDays(6)
 
         val batteryAmountList: MutableList<Int> = MutableList(7) { 0 }
         val foodAmountList: MutableList<Int> = MutableList(7) { 0 }
