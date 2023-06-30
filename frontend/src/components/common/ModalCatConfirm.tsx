@@ -61,7 +61,6 @@ export default function ModalCatConfirm(props: any) {
     });
 
     // 반영하기
-    _selectedTnr.status = 1;
     setSelectedTnr(_selectedTnr);
   };
 
@@ -115,7 +114,6 @@ export default function ModalCatConfirm(props: any) {
     }
 
     // 반영하기
-    _selectedTnr.status = 1;
     setSelectedTnr(_selectedTnr);
 
     close();

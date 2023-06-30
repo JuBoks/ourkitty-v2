@@ -104,7 +104,7 @@ export default function ChartIoTImageList() {
     }).then((result) => {
       if (result.isConfirmed) {
         // 저장하기
-        modifyCluster.mutate([selectedSerialNumber, selectedDate, selectedTnr]);
+        modifyCluster.mutate([selectedSerialNumber, selectedDate, { ...selectedTnr, status: 1 }]);
 
         // Okay
         Toast.fire({

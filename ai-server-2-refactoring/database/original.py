@@ -19,7 +19,7 @@ async def retrieve_original(serial_number: str, date: str) -> Original:
     if original:
         return original
 
-async def delete_original(id: PydanticObjectId) -> bool:
+async def delete_original(id: PydanticObjectId) -> Union[bool, None]:
     original = await Original.get(id)
     if original:
         await original.delete()

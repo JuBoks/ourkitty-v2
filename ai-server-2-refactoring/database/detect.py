@@ -47,7 +47,7 @@ async def retrieve_detect_tnr(serial_number: str, date: str) -> DetectTnrView:
     return detect
 
 
-async def delete_detect(id: PydanticObjectId) -> bool:
+async def delete_detect(id: PydanticObjectId) -> Union[None, bool]:
     detect = await Detect.get(id)
     if detect:
         await detect.delete()
