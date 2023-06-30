@@ -76,7 +76,7 @@ export default function Header() {
   };
 
   return (
-    <div className="w-[100%] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
+    <div className="w-[300px] h-full bg-LightHeader1 flex flex-col relative dark:bg-DarkHeader1">
       <div className="w-full h-[6rem] bg-LightMain flex flex-row dark:bg-DarkMain">
         {isDark ? (
           <img className="w-[100px] h-[100px]" src={DarkLogo} alt="" />

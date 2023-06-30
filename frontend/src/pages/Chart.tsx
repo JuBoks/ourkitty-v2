@@ -89,7 +89,7 @@ export default function Chart() {
   if (isLoading || data === undefined) return (<div className="loading-parent"><Loading/></div>);
 
   return (
-    <div className="w-full h-full flex flex-row gap-[15px] p-2">
+    <div className="w-[1240px] h-full flex flex-row gap-[15px] p-2">
       <div className="w-[16%] h-full flex flex-col gap-2">
         <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <CatButton/>
