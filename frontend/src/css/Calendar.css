@@ -66,15 +66,13 @@ abbr[title] {
   overflow: auto;
 }
 
-
-
 .dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background-color: var(--dot-color, red);
   position: relative;
-  top: 50%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -85,4 +83,8 @@ abbr[title] {
 
 .red {
   --dot-color: red;
+}
+
+.white {
+  --dot-color: white;
 }

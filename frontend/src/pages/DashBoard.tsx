@@ -71,10 +71,7 @@ export default function DashBoard() {
         <div className="w-full h-[40%] bg-white p-1 rounded-lg dark:bg-DarkBackground2 dark:text-white">
           <div className="w-full h-full flex flex-col gap-2">
             <div className="w-full h-full bg-white p-3 rounded-lg dark:bg-DarkBackground2 dark:text-white">
-              <MainChart
-                catCountList={catCountList}
-                noTnrCountList={noTnrCountList}
-              />
+              <MainChart />
             </div>
           </div>
         </div>

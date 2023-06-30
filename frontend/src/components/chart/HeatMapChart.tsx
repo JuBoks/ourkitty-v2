@@ -178,8 +178,8 @@ export default function HeatMapChart() {
           width={"100%"}
           height={"100%"}
         ></ApexCharts>
-        <Modal open={modalOpen} close={closeModal} header="이용 고객 사진">
-          <h1 className="text-[1.3rem] font-bold p-3" >{day} {time}시 촬영된 고객들</h1>
+        <Modal open={modalOpen} close={closeModal} header="이용 고양이 사진">
+          <h1 className="text-[1.3rem] font-bold p-3" >{day} {time}시 촬영된 고양이들</h1>
           <CatImages images={images} />
         </Modal>
       </div>

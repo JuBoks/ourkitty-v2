@@ -16,11 +16,7 @@ import {
   statusInfoState,
 } from "recoil/chart";
 import { useMutation } from "react-query";
-import {
-  getClusterInfo,
-  getClusterStatus,
-  modifyClusterInfo,
-} from "apis/api/cluster";
+import { getClusterInfo, getClusterStatus, modifyClusterInfo } from "apis/api/cluster";
 
 type Props = {
   data?: Cluster;
@@ -31,15 +27,10 @@ export default function ClusteringChart({ data }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState<ClusterFeature>();
   const [tnrRadioValue, setTnrRadioValue] = useState("no-tnr");
-  const [selectedCluster, setSelectedCluster] =
-    useRecoilState(selectedClusterState);
-  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(
-    selectedClusterOriginalState
-  );
+  const [selectedCluster, setSelectedCluster] = useRecoilState(selectedClusterState);
+  const [selectedClusterOriginal, setSelectedClusterOriginal] = useRecoilState(selectedClusterOriginalState);
   const [selectedButton, setSelectedButton] = useRecoilState(selectedDateState);
-  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(
-    selectedSerialNumberState
-  );
+  const [selectedSerialNumber, setSelectedSerialNumber] = useRecoilState(selectedSerialNumberState);
   const [statusInfo, setStatusInfo] = useRecoilState(statusInfoState);
   const isDark = useRecoilState(darkState)[0];
 
@@ -99,24 +90,24 @@ export default function ClusteringChart({ data }: Props) {
       });
   };
 
-  const modifyCluster = useMutation(
-    ["modifyClusterInfo"],
-    (body: ClusterModifyRequest) => modifyClusterInfo(body),
-    {
-      onSuccess: async () => {
-        // 4. get cluster info
-        const response = await getClusterInfo(
-          selectedSerialNumber,
-          selectedButton
-        );
-        setSelectedClusterOriginal(response.original);
-        setSelectedCluster(response.refined);
+  // const modifyCluster = useMutation(
+  //   ["modifyClusterInfo"],
+  //   (body: ClusterModifyRequest) => modifyClusterInfo(body),
+  //   {
+  //     onSuccess: async () => {
+  //       // 4. get cluster info
+  //       const response = await getClusterInfo(
+  //         selectedSerialNumber,
+  //         selectedButton
+  //       );
+  //       setSelectedClusterOriginal(response.original);
+  //       setSelectedCluster(response.refined);
 
-        const response_status = await getClusterStatus(selectedSerialNumber);
-        setStatusInfo(response_status);
-      },
-    }
-  );
+  //       const response_status = await getClusterStatus(selectedSerialNumber);
+  //       setStatusInfo(response_status);
+  //     },
+  //   }
+  // );
 
   const addRepresentative = async () => {
     // 1. 해당 이미지의 url이 이미 추가된 url인지 확인
@@ -155,10 +146,7 @@ export default function ClusteringChart({ data }: Props) {
         _selectedOriginal.tnr_count++;
       }
       // 4) representative_images
-      _selectedOriginal.representative_images.push([
-        _selectedOriginal.num_clusters,
-        selectedImg.image,
-      ]);
+      _selectedOriginal.representative_images.push([_selectedOriginal.num_clusters, selectedImg.image]);
       // 5) file_feature_info
       for (let el of _selectedOriginal.file_feature_info) {
         if (el[0] === selectedImg.image) {
@@ -169,12 +157,12 @@ export default function ClusteringChart({ data }: Props) {
       // 6) num_clusters++
       _selectedOriginal.num_clusters++;
 
-      const body: ClusterModifyRequest = {
-        serial_number: selectedSerialNumber,
-        date: selectedButton,
-        result: _selectedOriginal,
-      };
-      modifyCluster.mutate(body);
+      // const body: ClusterModifyRequest = {
+      //   serial_number: selectedSerialNumber,
+      //   date: selectedButton,
+      //   result: _selectedOriginal,
+      // };
+      //modifyCluster.mutate(body);
     }
 
     return true;
@@ -200,11 +188,7 @@ export default function ClusteringChart({ data }: Props) {
         .range([height - 120, 0]);
 
       // scatter plot 생성
-      const svg = d3
-        .select(resultRef.current)
-        .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%");
+      const svg = d3.select(resultRef.current).append("svg").attr("width", "100%").attr("height", "100%");
 
       // 데이터 점 생성
 
@@ -269,17 +253,10 @@ export default function ClusteringChart({ data }: Props) {
   return (
     <div className="w-full h-full gap-1">
       <div className="w-full h-full">
-        <h1 className="text-[1.2rem] mb-4 font-bold">
-          클러스터링 결과: {data?.clusters}마리
-        </h1>
+        <h1 className="text-[1.2rem] mb-4 font-bold">클러스터링 결과: {data?.clusters}마리</h1>
         <div className="w-full h-[calc(100%-30px)]" ref={resultRef}></div>
       </div>
-      <ClusteringChartModal
-        okay={modalOkay}
-        open={modalOpen}
-        close={closeModal}
-        header="대표 고양이 추가"
-      >
+      <ClusteringChartModal okay={modalOkay} open={modalOpen} close={closeModal} header="대표 고양이 추가">
         <ClusteringChartImage selectedImg={selectedImg} />
         <div className="flex flex-row">
           <div className="w-[50%] flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">

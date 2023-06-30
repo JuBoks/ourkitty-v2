@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { Cluster } from "types";
-import { ClusterOriginal } from "types/Clusters";
+import { ClusterIotImage, ClusterOriginal, ClusterTnrInfo } from "types/Clusters";
 
 const _original: ClusterOriginal = {
   closest_images: [],
@@ -19,6 +19,17 @@ const _cluster: Cluster = {
   features: [],
   clusters: 0,
   represetatives: [],
+};
+export const tnrInfoInit: ClusterTnrInfo = {
+  status: -1,
+  num_clusters: 0,
+  representative_images: [],
+  tnr_info: [],
+  tnr_count: 0,
+};
+const _iotImage: ClusterIotImage = {
+  img: "",
+  is_tnr: false,
 };
 
 export const selectedButtonState = atom({
@@ -54,4 +65,14 @@ export const selectedClusterOriginalState = atom<ClusterOriginal>({
 export const statusInfoState = atom({
   key: "statusInfoState",
   default: {},
+});
+
+export const selectedTnrState = atom<ClusterTnrInfo>({
+  key: "selectedTnrInfo",
+  default: tnrInfoInit,
+});
+
+export const selectedIotImageState = atom<ClusterIotImage>({
+  key: "selectedIotImage",
+  default: _iotImage,
 });
