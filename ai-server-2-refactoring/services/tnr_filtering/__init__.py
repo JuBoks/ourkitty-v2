@@ -85,11 +85,15 @@ def is_tnr(img_name):
 def analyze_results():
     result = []
     tnrCount = 0
-    for img_txt_name in os.listdir(tnr_output_result_path):
+    inputs = os.listdir(tnr_output_result_path)
+    print('inputs', inputs)
+    for img_txt_name in inputs:
         img_name = f'{img_txt_name.split(".")[0]}.jpg'
+        print('img_name', img_name)
         isTnr = is_tnr(img_txt_name)
         if isTnr:
             tnrCount += 1
         result.append([img_name, isTnr])
 
+    print('result', result)
     return result, tnrCount
